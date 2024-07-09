@@ -1,0 +1,20 @@
+const API_URL = "";
+
+export type getHashtagsType = (content: string) => Promise<number[]>;
+
+export const getHashtags: getHashtagsType = async (content: string) => {
+    const response = await fetch(API_URL, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ content: content })
+    });
+
+    if (response.status === 200) {
+        const data = await response.json();
+        return data["hashtags"];
+    } else {
+        return [];
+    }
+}

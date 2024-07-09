@@ -3,7 +3,7 @@
 export type Diary = {
     diaryId: number,
     content: string,
-    hashtags: string[], // TODO: hashtag에 대한 type 정의가 필요해 보임
+    hashtags: number[], // TODO: hashtag에 대한 type 정의가 필요해 보임
     weather: string // TODO: weather에 대한 type 정의가 필요해 보임
     // TODO...
 }

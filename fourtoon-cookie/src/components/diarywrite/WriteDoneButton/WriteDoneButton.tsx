@@ -10,8 +10,8 @@ const WriteDoneButton = (props: WriteDoneButtonProps) => {
     const { onPress } = props;
     
     return (
-        <TouchableOpacity onPress={onPress}>
-            <Text>Done</Text>
+        <TouchableOpacity style={S.styles.writeDoneButton} onPress={onPress}>
+            <Text style={S.styles.writeDoneButtonText}>📝</Text>
         </TouchableOpacity>
     );
 };
