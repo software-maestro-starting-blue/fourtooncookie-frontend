@@ -138,7 +138,9 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
                 text={content}
                 onTextChange={handleInputTextChange}
             />
-            <HashtagLayer />
+            <HashtagLayer 
+                hashtagIds={hashtags}
+            />
         </SafeAreaView>
     );
 }
