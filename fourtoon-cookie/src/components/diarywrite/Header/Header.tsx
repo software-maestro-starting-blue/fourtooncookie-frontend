@@ -8,13 +8,13 @@ import DateInfo from "../DateInfo/DateInfo";
 export interface HeaderProps {
     date: Date;
     onBackPress: () => void;
-    onDatePress: (date: Date) => void;
-    onDonePress: () => void;
+    onDateChange: (date: Date) => void;
     onCharacterChoosePress: () => void;
+    onDonePress: () => void;
 }
 
 const Header = (props: HeaderProps) => {
-    const { date, onBackPress, onDatePress, onDonePress, onCharacterChoosePress } = props;
+    const { date, onBackPress, onDateChange, onCharacterChoosePress, onDonePress } = props;
 
     const character = "cookie"; // TODO: 로컬의 정보를 통해 캐릭터의 정보를 가지고 옵니다.
 
@@ -22,7 +22,7 @@ const Header = (props: HeaderProps) => {
     return (
         <View style={S.styles.header}>
             
-            <DateInfo date={date} onPress={onDatePress}/>
+            <DateInfo date={date} onDateChange={onDateChange}/>
             <CharacterChooseButton onPress={onCharacterChoosePress} character={character}/>
             <WriteDoneButton onPress={onDonePress}/>
         </View>

@@ -1,19 +1,25 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import * as S from "./DateInfo.styled";
 
 export interface DateInfoProps {
     date: Date;
-    onPress: (date: Date) => void;
+    onDateChange: (date: Date) => void;
 }
 
 const DateInfo = (props: DateInfoProps) => {
-    const { date, onPress } = props;
+    const { date, onDateChange } = props;
+
+    const handlePress = () => {
+        // TODO: Date 변화에 대해 handling 후 onDateChange 호출
+    }
 
     return (
-        <View style={{ flexDirection: 'row' }}>
-            <Text style={S.styles.date}>{date.toDateString()}</Text>
-        </View>
+        <TouchableOpacity onPress={handlePress}>
+            <View style={{ flexDirection: 'row' }}>
+                <Text style={S.styles.date}>{date.toDateString()}</Text>
+            </View>
+        </TouchableOpacity>
     );
 };
 
