@@ -1,10 +1,25 @@
-import { View } from "react-native";
+import { TextInput, View } from "react-native";
 
+import * as S from "./TextInput.styled";
 
-const TextInputLayer = () => {
+export interface TextInputLayerProps {
+    text: string,
+    onTextChange: (value: string) => void,
+}
+
+const TextInputLayer = (props: TextInputLayerProps) => {
+    const { text, onTextChange, ...rest } = props;
     
     return (
-        <View></View>
+        <View style={S.styles.content}>
+            <TextInput
+                style={S.styles.diaryInput}
+                multiline={true}
+                placeholder=""
+                value={text}
+                onChangeText={onTextChange}
+            />
+        </View>
     );
 }
 

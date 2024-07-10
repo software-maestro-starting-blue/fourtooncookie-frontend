@@ -117,7 +117,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
         console.log('diary write');
     }
 
-    const handleTextInputChange = (text: string) => {
+    const handleInputTextChange = (text: string) => {
         if (isWorking) return;
 
         setContent(text);
@@ -134,7 +134,10 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
                 onCharacterChoosePress={handleCharacterChooseButtonPress}
                 onDonePress={handleWriteDoneButtonPress} 
                 />
-            <TextInputLayer />
+            <TextInputLayer 
+                text={content}
+                onTextChange={handleInputTextChange}
+            />
             <HashtagLayer />
         </SafeAreaView>
     );
