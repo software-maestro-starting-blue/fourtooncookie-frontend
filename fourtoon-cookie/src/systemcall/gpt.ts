@@ -26,9 +26,7 @@ const androidGpsPermissionValidation = async () => {
     return true;
 }
 
-export type getGpsPositionType = () => Promise<Position>;
-
-export const getGpsPosition: getGpsPositionType = async () => {
+export const getGpsPosition = async (): Promise<Position> => {
     let gpsPos: Position = { latitude: -1, longitude: -1 };
     
     if (Platform.OS === 'android' && ! await androidGpsPermissionValidation()) // 안드로이드에서만 위치 정보 권한을 요청

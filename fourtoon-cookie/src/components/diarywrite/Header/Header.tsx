@@ -16,14 +16,12 @@ export interface HeaderProps {
 const Header = (props: HeaderProps) => {
     const { date, onBackPress, onDateChange, onCharacterChoosePress, onDonePress } = props;
 
-    const character = "cookie"; // TODO: 로컬의 정보를 통해 캐릭터의 정보를 가지고 옵니다.
-
     // TODO: Add BackButton
     return (
         <View style={S.styles.header}>
             
             <DateInfo date={date} onDateChange={onDateChange}/>
-            <CharacterChooseButton onPress={onCharacterChoosePress} character={character}/>
+            <CharacterChooseButton onPress={onCharacterChoosePress}/>
             <WriteDoneButton onPress={onDonePress}/>
         </View>
     );

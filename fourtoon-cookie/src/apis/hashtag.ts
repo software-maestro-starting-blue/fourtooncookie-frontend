@@ -1,6 +1,6 @@
 const API_URL = "";
 
-export const getHashtags = async (content: string) => {
+export const getHashtags = async (content: string): Promise<number[]> => {
     const response = await fetch(API_URL, {
         method: 'GET',
         headers: {

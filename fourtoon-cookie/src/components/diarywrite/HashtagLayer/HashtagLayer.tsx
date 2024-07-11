@@ -11,7 +11,7 @@ const HashtagLayer = (props: HashtagLayerProps) => {
     // TODO: hashtag 이미지들 나열시키기
     return (
         <View style={S.styles.tags}>
-
+            
         </View>
     );
 }

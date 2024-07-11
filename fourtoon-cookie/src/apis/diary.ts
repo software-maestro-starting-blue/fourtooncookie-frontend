@@ -10,7 +10,7 @@ export const postDiary = async (date: Date, content: string, hashtagIds: number[
         content: content,
         thumbnailUrl: "",
         hashtagIds: hashtagIds
-    }; // TODO
+    }; // TODO: 캐릭터 아이디를 가지고 와야함.
 
     const response = await fetch(`${API_URL}/diary`, {
         method: 'POST',
@@ -31,7 +31,7 @@ export const postDiary = async (date: Date, content: string, hashtagIds: number[
 
 export const putDiary = async (diaryId: number, content: string, hashtagIds: number[]) => {
     
-    const requestBody = null; // TODO
+    const requestBody = null; // TODO: 캐릭터 아이디를 가지고 와야함.
 
     const response = await fetch(`${API_URL}/diary`, {
         method: 'PUT',

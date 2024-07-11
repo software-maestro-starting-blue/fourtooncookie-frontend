@@ -39,7 +39,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     
     // 이펙트 관리
     useEffect(() => {
-        if (weather) return; // 이미 weather 정보가 있는 것
+        if (weather) return;
 
         const fetchWeatherData = async () => {
             try {
@@ -80,7 +80,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     
 
     // 핸들러 관리
-    const handleBackButtonPress = () => { // TODO: 뒤로가기 버튼 눌렀을 때
+    const handleBackButtonPress = () => {
         if (isWorking) return;
 
         navigation.goBack();
@@ -92,8 +92,6 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
     const handleCharacterChooseButtonPress = () => {
         if (isWorking) return;
-
-        // TODO: state props를 만들어서 보내준다. (다시 돌아왔을 때 state로 그대로 적용할 수 있도록 해야한다.)
 
         // navigation.navigate('CharacterSelectPage', { CharacterSelectPage: { diary: newDiary } }); TODO: 이동할 페이지 확인
     }
