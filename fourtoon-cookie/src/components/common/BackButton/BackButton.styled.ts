@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     button: {
         position: 'absolute',
         padding: 10,
@@ -10,5 +10,3 @@ const styles = StyleSheet.create({
         color: '#007AFF',
     },
 });
-
-export default styles;

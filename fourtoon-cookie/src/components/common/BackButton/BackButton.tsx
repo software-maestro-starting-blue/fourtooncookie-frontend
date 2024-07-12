@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text, GestureResponderEvent, StyleProp, ViewStyle } from 'react-native';
-import styles from './BackButtonStyles';
+import * as S from './BackButton.styled';
 import {useNavigation} from "@react-navigation/native";
 
 export interface BackButtonProps {
@@ -16,8 +16,8 @@ const BackButton = (props: BackButtonProps) => {
     }
 
     return (
-        <TouchableOpacity style={[styles.button, style]} onPress={handleOnPress}>
-            <Text style={styles.buttonText}>{'<'}</Text>
+        <TouchableOpacity style={[S.styles.button, style]} onPress={handleOnPress}>
+            <Text style={S.styles.buttonText}>{'<'}</Text>
         </TouchableOpacity>
     );
 };
