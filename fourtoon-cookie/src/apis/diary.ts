@@ -1,4 +1,4 @@
-import type { DiarySaveRequest } from "../types/dto";
+import type { DiarySaveRequest } from "../types/dto/diary";
 
 const API_URL = "";
 

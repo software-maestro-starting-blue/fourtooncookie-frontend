@@ -1,6 +1,6 @@
 import { TextInput, View } from "react-native";
 
-import * as S from "./TextInput.styled";
+import * as S from "./TextInputLayer.styled";
 
 export interface TextInputLayerProps {
     text: string,

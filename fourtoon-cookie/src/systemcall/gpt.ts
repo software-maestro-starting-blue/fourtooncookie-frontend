@@ -1,5 +1,5 @@
 import { PermissionsAndroid, Platform } from "react-native";
-import Geolocation from 'react-native-geolocation-service';
+import Geolocation, { GeoPosition } from 'react-native-geolocation-service';
 import { Position } from "../types/gps";
 
 const iosGpsPermissionValidation = async () => {
@@ -36,13 +36,13 @@ export const getGpsPosition = async (): Promise<Position> => {
         return gpsPos;
 
     Geolocation.getCurrentPosition(
-        (position) => {
+        (position: GeoPosition) => {
             gpsPos = {
                 latitude: position.coords.latitude, 
                 longitude: position.coords.longitude 
             };
         },
-        (error) => {
+        () => {
             // TODO: 팝업으로 위치 정보를 가져오는데 실패했다는 것을 알려주는 것이 좋을 듯
         },
         { enableHighAccuracy: false, timeout: 15000, maximumAge: 10000 }
