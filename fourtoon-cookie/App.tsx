@@ -1,12 +1,18 @@
-import { StatusBar } from 'expo-status-bar';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, View } from 'react-native';
+import { RootStackParamList } from './src/constants/routing';
+import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
+import DiaryWritePage from './src/pages/DiaryWritePage/DiaryWritePage';
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="DiaryWritePage">
+        <Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

@@ -5,22 +5,16 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 16,
+        marginLeft: 15,
+        marginRight: 5,
+        height: 60
     },
-    backButton: {
-        padding: 8,
+    leftContainer: {
+      flexDirection: 'row', // 수평으로 배치
+      alignItems: 'center', // 수직 가운데 정렬
     },
-    backButtonText: {
-        fontSize: 18,
+    rightContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
     },
-    date: {
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    writeButton: {
-        padding: 8,
-    },
-    writeButtonText: {
-        fontSize: 18,
-    }
 });

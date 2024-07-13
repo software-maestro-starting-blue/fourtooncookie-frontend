@@ -1,5 +1,3 @@
-
-
 export interface DiarySaveRequest {
     memberId: number,
     characterId: number,

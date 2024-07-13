@@ -11,7 +11,7 @@ const WriteDoneButton = (props: WriteDoneButtonProps) => {
     
     return (
         <TouchableOpacity style={S.styles.writeDoneButton} onPress={onPress}>
-            <Text style={S.styles.writeDoneButtonText}>📝</Text>
+            <Text style={S.styles.writeDoneButtonText}> 작성 완료 </Text>
         </TouchableOpacity>
     );
 };

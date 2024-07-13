@@ -1,5 +1,5 @@
-import { SafeAreaView } from "react-native";
-import { Header } from "react-native/Libraries/NewAppScreen";
+import { SafeAreaView, Text, View } from "react-native";
+import Header from "../../components/diarywrite/Header/Header";
 import TextInputLayer from "../../components/diarywrite/TextInputLayer/TextInputLayer";
 import HashtagLayer from "../../components/diarywrite/HashtagLayer/HashtagLayer";
 import { useEffect, useRef, useState } from "react";
@@ -12,28 +12,21 @@ import { Position } from "../../types/gps";
 import { getWeather } from "../../apis/weather";
 import { getHashtags } from "../../apis/hashtag";
 import { postDiary, putDiary } from "../../apis/diary";
+import { RootStackParamList } from "../../constants/routing";
 
 // 컴포넌트 인자 관리
-export type DiaryWritePageParam = {
-    DiaryWritePage : {
-        originDate: Date,
-        diary: Diary | null,
-        isEdit: boolean,
-    }
-}
-
-export type DiaryWritePageProp = NativeStackScreenProps<DiaryWritePageParam, 'DiaryWritePage'>;
+export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
 
 
 const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
-    const { originDate, diary, isEdit } = route.params;
+    const { date, originDiaryId, isEdit } = route.params;
 
     // 상태 관리
     const hashtagIntervalRef = useRef<NodeJS.Timeout | null>(null);
-    const [date, setDate] = useState<Date>(originDate);
-    const [content, setContent] = useState<string>(diary ? diary.content : "");
-    const [hashtags, setHashtags] = useState<number[]>(diary ? diary.hashtags : []); // TODO: Hashtag type 구현 필요
-    const [weather, setWeather] = useState<string | null>(diary ? diary.weather : null); // TODO: Weather type 구현 필요
+    const [diaryDate, setDiaryDate] = useState<Date>(date);
+    const [content, setContent] = useState<string>("");
+    const [hashtags, setHashtags] = useState<number[]>([]); // TODO: Hashtag type 구현 필요
+    const [weather, setWeather] = useState<string | null>(null); // TODO: Weather type 구현 필요
     const [isWorking, setIsWorking] = useState<boolean>(false);
     
     
@@ -53,7 +46,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
         fetchWeatherData();
 
-    }, [date, isEdit]);
+    }, [date, weather]);
 
     useEffect(() => {
         const fetchHashtags = async () => {
@@ -72,7 +65,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     }, [hashtagIntervalRef, content]);
 
     // validation check
-    if (isEdit && ! diary){
+    if (isEdit && ! originDiaryId){
         // TODO: alert that application logic is wrong
         navigation.goBack();
         return null;
@@ -87,7 +80,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     }
 
     const handleDateChange = (newDate: Date) => {
-        setDate(newDate);
+        setDiaryDate(newDate);
     }
 
     const handleCharacterChooseButtonPress = () => {
@@ -96,21 +89,24 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
         // navigation.navigate('CharacterSelectPage', { CharacterSelectPage: { diary: newDiary } }); TODO: 이동할 페이지 확인
     }
 
-    const handleWriteDoneButtonPress = () => {
+    const handleWriteDoneButtonPress = async () => {
         if (isWorking) return;
 
         setIsWorking(true);
-
-        const fetchData = async () => {
-            if (! isEdit || ! diary) {
+        try {
+            if (! isEdit) {
                 await postDiary(date, content, hashtags);
+            } else if (originDiaryId) {
+                await putDiary(originDiaryId, content, hashtags)
             } else {
-                await putDiary(diary.diaryId, content, hashtags)
+                throw Error("수정 상태임에도 originDiaryId가 존재하지 않습니다.");
             }
+        } catch (error) {
+            console.error("Error", error);
+        } finally {
             setIsWorking(false);
         }
-        
-        fetchData();
+
         // TODO: navigate to DiaryTimelinePage
         console.log('diary write');
     }
@@ -135,7 +131,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
             <TextInputLayer 
                 text={content}
                 onTextChange={handleInputTextChange}
-            />
+            /> 
             <HashtagLayer 
                 hashtagIds={hashtags}
             />

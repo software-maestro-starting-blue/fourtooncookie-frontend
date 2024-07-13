@@ -1,8 +1,8 @@
 import { View } from "react-native";
 import * as S from "./Header.styled";
-import CharacterChooseButton from "../../diarywriteheader/CharacterChooseButton/CharacterChooseButton";
-import WriteDoneButton from "../../diarywriteheader/WriteDoneButton/WriteDoneButton";
-import DateInfo from "../../diarywriteheader/DateInfo/DateInfo";
+import CharacterChooseButton from "../header-components/CharacterChooseButton/CharacterChooseButton";
+import WriteDoneButton from "../header-components/WriteDoneButton/WriteDoneButton";
+import DateInfo from "../header-components/DateInfo/DateInfo";
 
 
 export interface HeaderProps {
@@ -19,10 +19,13 @@ const Header = (props: HeaderProps) => {
     // TODO: Add BackButton
     return (
         <View style={S.styles.header}>
-            
-            <DateInfo date={date} onDateChange={onDateChange}/>
-            <CharacterChooseButton onPress={onCharacterChoosePress}/>
-            <WriteDoneButton onPress={onDonePress}/>
+            <View style={S.styles.leftContainer}>
+                <DateInfo date={date} onDateChange={onDateChange}/>
+            </View>
+            <View style={S.styles.rightContainer}>
+                <CharacterChooseButton onPress={onCharacterChoosePress}/>
+                <WriteDoneButton onPress={onDonePress}/>
+            </View>
         </View>
     );
 }

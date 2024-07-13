@@ -1,6 +1,6 @@
+import { API_URL } from "../constants/api";
 import { Position } from "../types/gps";
 
-const API_URL = "";
 
 export const getWeather = async (date: Date, gpsPos: Position): Promise<string> => {
 
@@ -14,11 +14,11 @@ export const getWeather = async (date: Date, gpsPos: Position): Promise<string> 
 
     const queryString = new URLSearchParams(query).toString();
     
-    const response = await fetch(`${API_URL}/diary?` + queryString, {
+    const response = await fetch(`${API_URL}/weather?` + queryString, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            ' Authorization': `Bearer ${localStorage.getItem('accessToken')}` // TODO: accessToken 관리에 대한 논의가 필요합니다..!
+            //' Authorization': `Bearer ${localStorage.getItem('accessToken')}` // TODO: accessToken 관리에 대한 논의가 필요합니다..!
         }
     });
 

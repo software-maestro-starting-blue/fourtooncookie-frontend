@@ -14,9 +14,10 @@ const TextInputLayer = (props: TextInputLayerProps) => {
         <View style={S.styles.content}>
             <TextInput
                 style={S.styles.diaryInput}
-                multiline={true}
-                placeholder=""
+                placeholder="일기를 작성하세요"
                 value={text}
+                multiline={true}
+                scrollEnabled={false}
                 onChangeText={onTextChange}
             />
         </View>

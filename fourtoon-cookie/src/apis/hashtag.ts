@@ -1,4 +1,4 @@
-const API_URL = "";
+import { API_URL } from "../constants/api";
 
 export const getHashtags = async (content: string): Promise<number[]> => {
     const response = await fetch(API_URL, {

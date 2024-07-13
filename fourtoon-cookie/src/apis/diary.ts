@@ -1,6 +1,5 @@
+import { API_URL } from "../constants/api";
 import type { DiarySaveRequest } from "../types/dto/diary";
-
-const API_URL = "";
 
 export const postDiary = async (date: Date, content: string, hashtagIds: number[]) => {
 

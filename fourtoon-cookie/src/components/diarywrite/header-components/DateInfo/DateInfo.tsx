@@ -14,10 +14,12 @@ const DateInfo = (props: DateInfoProps) => {
         // TODO: Date 변화에 대해 handling 후 onDateChange 호출
     }
 
+    const dateString = date.getFullYear() + "." + date.getMonth() + "." + date.getDate();
+
     return (
         <TouchableOpacity onPress={handlePress}>
             <View style={{ flexDirection: 'row' }}>
-                <Text style={S.styles.date}>{date.toDateString()}</Text>
+                <Text style={S.styles.date}>{dateString}</Text>
             </View>
         </TouchableOpacity>
     );
