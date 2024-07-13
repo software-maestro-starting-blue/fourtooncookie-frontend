@@ -1,12 +1,17 @@
 import { API_URL } from "../constants/api";
 
 export const getHashtags = async (content: string): Promise<number[]> => {
-    const response = await fetch(API_URL, {
+    const query = {
+        content: content
+    };
+
+    const queryString = new URLSearchParams(query).toString();
+
+    const response = await fetch(API_URL + "/lambda/hashtags?" + queryString, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ content: content })
+        }
     });
 
     if (response.status === 200) {

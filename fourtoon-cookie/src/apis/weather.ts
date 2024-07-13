@@ -14,7 +14,7 @@ export const getWeather = async (date: Date, gpsPos: Position): Promise<string> 
 
     const queryString = new URLSearchParams(query).toString();
     
-    const response = await fetch(`${API_URL}/weather?` + queryString, {
+    const response = await fetch(`${API_URL}/lambda/weather?` + queryString, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
