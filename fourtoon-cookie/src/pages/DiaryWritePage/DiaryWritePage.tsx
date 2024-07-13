@@ -23,6 +23,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
     // 상태 관리
     const hashtagIntervalRef = useRef<NodeJS.Timeout | null>(null);
+    const isWeatherUpdated = useRef<boolean>(false);
     const [diaryDate, setDiaryDate] = useState<Date>(date);
     const [content, setContent] = useState<string>("");
     const [hashtags, setHashtags] = useState<number[]>([]); // TODO: Hashtag type 구현 필요
@@ -32,21 +33,23 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     
     // 이펙트 관리
     useEffect(() => {
-        if (weather) return;
+        if (isWeatherUpdated.current) return;
 
         const fetchWeatherData = async () => {
             try {
                 const gpsPos: Position = await getGpsPosition();
-                const newWeather: string = await getWeather(date, gpsPos);
+                const newWeather: string = await getWeather(diaryDate, gpsPos);
                 setWeather(newWeather);
             } catch (error) {
                 console.error(error);
+            } finally {
+                isWeatherUpdated.current = true;
             }
         }
 
         fetchWeatherData();
 
-    }, [date, weather]);
+    }, [diaryDate, isWeatherUpdated]);
 
     useEffect(() => {
         const fetchHashtags = async () => {
@@ -95,7 +98,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
         setIsWorking(true);
         try {
             if (! isEdit) {
-                await postDiary(date, content, hashtags);
+                await postDiary(diaryDate, content, hashtags);
             } else if (originDiaryId) {
                 await putDiary(originDiaryId, content, hashtags)
             } else {
@@ -122,7 +125,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     return (
         <SafeAreaView style={S.styles.container}>
             <Header 
-                date={date} 
+                date={diaryDate} 
                 onBackPress={handleBackButtonPress} 
                 onDateChange={handleDateChange}
                 onCharacterChoosePress={handleCharacterChooseButtonPress}
