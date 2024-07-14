@@ -31,9 +31,9 @@ const DateInfo = (props: DateInfoProps) => {
     const dateString = date.getFullYear() + "." + date.getMonth() + "." + date.getDate();
 
     return (
-        <View>
+        <View style={S.styles.view}>
             <TouchableOpacity onPress={handleOpenPress}>
-                <View style={{ flexDirection: 'row' }}>
+                <View>
                     <Text style={S.styles.date}>{dateString}</Text>
                 </View>
             </TouchableOpacity>

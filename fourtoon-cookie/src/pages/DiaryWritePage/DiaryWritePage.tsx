@@ -77,12 +77,6 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     
 
     // 핸들러 관리
-    const handleBackButtonPress = () => {
-        if (isWorking) return;
-
-        navigation.goBack();
-    }
-
     const handleDateChange = (newDate: Date) => {
         setDiaryDate(newDate);
     }
@@ -127,7 +121,6 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
         <SafeAreaView style={S.styles.container}>
             <Header 
                 date={diaryDate} 
-                onBackPress={handleBackButtonPress} 
                 onDateChange={handleDateChange}
                 onCharacterChoosePress={handleCharacterChooseButtonPress}
                 onDonePress={handleWriteDoneButtonPress} 
