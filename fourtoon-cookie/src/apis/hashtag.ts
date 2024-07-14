@@ -1,5 +1,5 @@
 import { API_URL } from "../constants/api";
-import { HashtagFromContentResponse } from "../types/dto/hashtags";
+import type { HashtagFromContentResponse } from "../types/dto/hashtags";
 
 export const getHashtag = async (content: string): Promise<number[] | null> => {
     const query = {

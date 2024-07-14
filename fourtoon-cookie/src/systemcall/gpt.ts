@@ -1,5 +1,5 @@
 import * as Location from 'expo-location';
-import { Position } from "../types/gps";
+import type { Position } from "../types/gps";
 
 export const getGpsPosition = async (): Promise<Position | null> => {
 

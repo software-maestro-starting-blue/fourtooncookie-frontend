@@ -1,5 +1,5 @@
 import { API_URL } from "../constants/api";
-import { Diary } from "../types/diary";
+import type { Diary } from "../types/diary";
 import type { DiarySaveRequest, DiarySavedResponse, DiaryUpdateRequest } from "../types/dto/diary";
 
 export const getDiary = async (diaryId: number): Promise<Diary | null> => {

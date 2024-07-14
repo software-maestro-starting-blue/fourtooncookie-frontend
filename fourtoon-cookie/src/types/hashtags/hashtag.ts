@@ -1,6 +1,5 @@
 import { ImageRequireSource } from "react-native";
 
-
 export interface Hashtag {
     id: number,
     image: ImageRequireSource,

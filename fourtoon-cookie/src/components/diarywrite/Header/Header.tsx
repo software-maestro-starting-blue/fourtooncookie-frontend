@@ -14,7 +14,7 @@ export interface HeaderProps {
 }
 
 const Header = (props: HeaderProps) => {
-    const { date, onDateChange, onCharacterChoosePress, onDonePress } = props;
+    const { date, onDateChange, onCharacterChoosePress, onDonePress, ...rest } = props;
 
     
     return (

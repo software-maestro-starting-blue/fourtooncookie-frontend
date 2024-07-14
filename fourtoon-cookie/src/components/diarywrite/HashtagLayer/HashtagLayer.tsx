@@ -10,6 +10,7 @@ export interface HashtagLayerProps {
 const HashtagLayer = (props: HashtagLayerProps) => {
     const {hashtagIds, ...rest} = props;
 
+    
     return (
         <View style={[S.styles.tags]}>
             {hashtagIds.map((id) => (

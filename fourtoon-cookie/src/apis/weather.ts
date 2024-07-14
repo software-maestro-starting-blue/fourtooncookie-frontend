@@ -1,7 +1,6 @@
 import { API_URL } from "../constants/api";
-import { WeatherFromGpsResponse } from "../types/dto/weather";
-import { Position } from "../types/gps";
-
+import type { WeatherFromGpsResponse } from "../types/dto/weather";
+import type { Position } from "../types/gps";
 
 export const getWeather = async (date: Date, gpsPos: Position): Promise<number | null> => {
 

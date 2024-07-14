@@ -8,8 +8,9 @@ export interface WriteDoneButtonProps {
 }
 
 const WriteDoneButton = (props: WriteDoneButtonProps) => {
-    const { onPress } = props;
+    const { onPress, ...rest } = props;
     
+
     return (
         <TouchableOpacity style={S.styles.writeDoneButton} onPress={onPress}>
             <Text style={S.styles.writeDoneButtonText}> ✏️ </Text>

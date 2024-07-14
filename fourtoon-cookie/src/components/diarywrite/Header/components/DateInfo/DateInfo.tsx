@@ -10,9 +10,13 @@ export interface DateInfoProps {
 }
 
 const DateInfo = (props: DateInfoProps) => {
-    const { date, onDateChange } = props;
+    const { date, onDateChange, ...rest } = props;
+
+    const dateString: string = date.getFullYear() + "." + date.getMonth() + "." + date.getDate();
+
 
     const [isDatePickerVisible, setDatePickerVisible] = useState<boolean>(false);
+
 
     const handleOpenPress = () => {
         setDatePickerVisible(true);
@@ -27,9 +31,6 @@ const DateInfo = (props: DateInfoProps) => {
         setDatePickerVisible(false);
     }
 
-
-
-    const dateString = date.getFullYear() + "." + date.getMonth() + "." + date.getDate();
 
     return (
         <View style={S.styles.view}>

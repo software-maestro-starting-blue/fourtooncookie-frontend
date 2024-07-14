@@ -8,13 +8,14 @@ export interface HashtagProps {
     hashtagId: number
 }
 
-
 const Hashtag = (props: HashtagProps) => {
-    const { hashtagId } = props;
+    const { hashtagId, ...rest } = props;
 
     const hashtag = hashtags[hashtagId]
 
+
     if (! hashtag) return null;
+
 
     return (
         <Image source={hashtag.image} style={S.styles.image} />

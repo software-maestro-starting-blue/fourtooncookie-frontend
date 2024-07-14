@@ -1,17 +1,18 @@
 import { SafeAreaView, Text, View } from "react-native";
-import Header from "../../components/diarywrite/Header/Header";
-import TextInputLayer from "../../components/diarywrite/TextInputLayer/TextInputLayer";
-import HashtagLayer from "../../components/diarywrite/HashtagLayer/HashtagLayer";
 import { useEffect, useRef, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
+import Header from "../../components/diarywrite/Header/Header";
+import TextInputLayer from "../../components/diarywrite/TextInputLayer/TextInputLayer";
+import HashtagLayer from "../../components/diarywrite/HashtagLayer/HashtagLayer";
+
 import { getGpsPosition } from "../../systemcall/gpt";
-import { Position } from "../../types/gps";
 import { getWeather } from "../../apis/weather";
 import { getHashtag } from "../../apis/hashtag";
 import { postDiary, patchDiary, getDiary } from "../../apis/diary";
 import { RootStackParamList } from "../../constants/routing";
-import { Diary } from "../../types/diary";
+import type { Position } from "../../types/gps";
+import type { Diary } from "../../types/diary";
 
 import * as S from "./DiaryWritePage.styled";
 
@@ -19,7 +20,7 @@ import * as S from "./DiaryWritePage.styled";
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
 
 const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
-    const { date, originDiaryId, isEdit } = route.params || { isEdit: false };
+    const { date, originDiaryId, isEdit, ...rest } = route.params || { isEdit: false };
 
     // 상태 관리
     const hashtagIntervalRef = useRef<NodeJS.Timeout | null>(null);
