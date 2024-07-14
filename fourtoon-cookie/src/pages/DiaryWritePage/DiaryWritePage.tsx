@@ -16,14 +16,13 @@ import { RootStackParamList } from "../../constants/routing";
 // 컴포넌트 인자 관리
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
 
-
 const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
-    const { date, originDiaryId, isEdit } = route.params;
+    const { date, originDiaryId, isEdit } = route.params || { isEdit: false };
 
     // 상태 관리
     const hashtagIntervalRef = useRef<NodeJS.Timeout | null>(null);
     const isWeatherUpdated = useRef<boolean>(false);
-    const [diaryDate, setDiaryDate] = useState<Date>(date);
+    const [diaryDate, setDiaryDate] = useState<Date>(date || new Date());
     const [content, setContent] = useState<string>("");
     const [hashtags, setHashtags] = useState<number[]>([]); // TODO: Hashtag type 구현 필요
     const [weather, setWeather] = useState<number | null>(null); // TODO: Weather type 구현 필요
