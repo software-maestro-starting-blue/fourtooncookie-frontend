@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import Hashtag from "./components/Hashtag/Hashtag";
 
 import * as S from "./HashtagLayer.styled";
@@ -10,7 +10,7 @@ export interface HashtagLayerProps {
 const HashtagLayer = (props: HashtagLayerProps) => {
     const {hashtagIds, ...rest} = props;
 
-    
+
     return (
         <View style={[S.styles.tags]}>
             {hashtagIds.map((id) => (

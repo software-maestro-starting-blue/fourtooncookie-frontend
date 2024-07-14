@@ -35,9 +35,7 @@ const DateInfo = (props: DateInfoProps) => {
     return (
         <View style={S.styles.view}>
             <TouchableOpacity onPress={handleOpenPress}>
-                <View>
-                    <Text style={S.styles.date}>{dateString}</Text>
-                </View>
+                <Text style={S.styles.date}>{dateString}</Text>
             </TouchableOpacity>
             <DateTimePickerModal 
                 isVisible={isDatePickerVisible}
