@@ -95,11 +95,14 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
         if (isWorking) return;
 
         setIsWorking(true);
+        
+        let result: boolean = false;
+
         try {
             if (! isEdit) {
-                await postDiary(diaryDate, content, hashtags);
+                result = await postDiary(diaryDate, content, hashtags);
             } else if (originDiaryId) {
-                await patchDiary(originDiaryId, content, hashtags)
+                result = await patchDiary(originDiaryId, content, hashtags)
             } else {
                 throw Error("수정 상태임에도 originDiaryId가 존재하지 않습니다.");
             }
@@ -108,6 +111,8 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
         } finally {
             setIsWorking(false);
         }
+
+        if (! result) return;
 
         // TODO: navigate to DiaryTimelinePage
         console.log('diary write');
