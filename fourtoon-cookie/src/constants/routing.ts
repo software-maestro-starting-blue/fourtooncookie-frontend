@@ -1,4 +1,3 @@
-import { Diary } from "../types/diary"
 
 export type RootStackParamList = {
     App: {
