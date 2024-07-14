@@ -10,8 +10,9 @@ import { getGpsPosition } from "../../systemcall/gpt";
 import { Position } from "../../types/gps";
 import { getWeather } from "../../apis/weather";
 import { getHashtag } from "../../apis/hashtag";
-import { postDiary, patchDiary } from "../../apis/diary";
+import { postDiary, patchDiary, getDiary } from "../../apis/diary";
 import { RootStackParamList } from "../../constants/routing";
+import { Diary } from "../../types/diary";
 
 // 컴포넌트 인자 관리
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
@@ -32,6 +33,28 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     
     
     // 이펙트 관리
+    useEffect(() => {
+        if (! isEdit) return;
+
+        if (! originDiaryId) return;
+
+        const fetchDiaryData = async () => {
+            const diary: Diary | null = await getDiary(originDiaryId);
+
+            if (! diary) {
+                // TODO: 다이어리 내용을 못 가지고 왔다는 토스트(Toast) 보내기
+                return;
+            }
+            
+            setDiaryDate(diary.date);
+            setContent(diary.content);
+            setHashtags(diary.hashtagIds);
+            // TODO: 다이어리 내용을 반영하였다는 토스트(Toast) 보내기
+        }
+
+        fetchDiaryData();
+    }, [isEdit]);
+
     useEffect(() => {
         if (isWeatherUpdated.current) return;
 
@@ -75,7 +98,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
     // validation check
     if (isEdit && ! originDiaryId){
-        // TODO: alert that application logic is wrong
+        // TODO: 이 상황이 잘못되었다는 토스트(Toast) 보내기
         navigation.goBack();
         return null;
     }

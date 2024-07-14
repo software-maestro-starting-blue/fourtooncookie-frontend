@@ -10,3 +10,13 @@ export interface DiaryUpdateRequest {
     hashtagIds: number[],
     characterId: number
 }
+
+export interface DiarySavedResponse {
+    diaryId: number,
+    content: string,
+    isFavorite: boolean,
+    date: Date,
+    paintingImageUrls: string[],
+    hashtagIds: number[],
+    characterId: number
+}
