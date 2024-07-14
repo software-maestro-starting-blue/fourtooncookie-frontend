@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import * as S from "./DateInfo.styled";
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 export interface DateInfoProps {
     date: Date;
@@ -10,18 +11,39 @@ export interface DateInfoProps {
 const DateInfo = (props: DateInfoProps) => {
     const { date, onDateChange } = props;
 
-    const handlePress = () => {
-        // TODO: Date 변화에 대해 handling 후 onDateChange 호출
+    const [isDatePickerVisible, setDatePickerVisible] = useState<boolean>(false);
+
+    const handleOpenPress = () => {
+        setDatePickerVisible(true);
     }
+
+    const handleCancle = () => {
+        setDatePickerVisible(false);
+    }
+
+    const handleConfirm = (date: Date) => {
+        onDateChange(date);
+        setDatePickerVisible(false);
+    }
+
+
 
     const dateString = date.getFullYear() + "." + date.getMonth() + "." + date.getDate();
 
     return (
-        <TouchableOpacity onPress={handlePress}>
-            <View style={{ flexDirection: 'row' }}>
-                <Text style={S.styles.date}>{dateString}</Text>
-            </View>
-        </TouchableOpacity>
+        <View>
+            <TouchableOpacity onPress={handleOpenPress}>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={S.styles.date}>{dateString}</Text>
+                </View>
+            </TouchableOpacity>
+            <DateTimePickerModal 
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={handleConfirm}
+                onCancel={handleCancle}
+            />
+        </View>
     );
 };
 

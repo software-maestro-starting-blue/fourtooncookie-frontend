@@ -18,13 +18,7 @@ export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'Dia
 
 
 const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
-    //const { date, originDiaryId, isEdit } = route.params;
-    const date: Date = new Date();
-    date.setFullYear(2024);
-    date.setMonth(1);
-    date.setDate(1);
-    const originDiaryId = undefined;
-    const isEdit = false;
+    const { date, originDiaryId, isEdit } = route.params;
 
     // 상태 관리
     const hashtagIntervalRef = useRef<NodeJS.Timeout | null>(null);
