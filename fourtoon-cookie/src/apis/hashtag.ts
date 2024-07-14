@@ -1,4 +1,5 @@
 import { API_URL } from "../constants/api";
+import { HashtagFromContentResponse } from "../types/dto/hashtags";
 
 export const getHashtag = async (content: string): Promise<number[] | null> => {
     const query = {
@@ -15,8 +16,8 @@ export const getHashtag = async (content: string): Promise<number[] | null> => {
             }
         });
         if (response.status === 200) {
-            const data = await response.json();
-            return data["hashtags"];
+            const data: HashtagFromContentResponse = await response.json();
+            return data.hashtags;
         }
     } catch (error) {
         console.error("getHashtag : ", error);

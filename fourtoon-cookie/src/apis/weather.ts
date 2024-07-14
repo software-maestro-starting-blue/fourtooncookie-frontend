@@ -1,4 +1,5 @@
 import { API_URL } from "../constants/api";
+import { WeatherFromGpsResponse } from "../types/dto/weather";
 import { Position } from "../types/gps";
 
 
@@ -24,8 +25,8 @@ export const getWeather = async (date: Date, gpsPos: Position): Promise<number |
         });
 
         if (response.status === 200) {
-            const data = await response.json();
-            return Number(data["weather-id"]);
+            const data: WeatherFromGpsResponse = await response.json();
+            return data.weatherId;
         }
     } catch (error) {
         console.error("getWeather : ", error)
