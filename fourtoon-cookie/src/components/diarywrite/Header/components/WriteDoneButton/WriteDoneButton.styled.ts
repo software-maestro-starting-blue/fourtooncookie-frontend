@@ -5,6 +5,6 @@ export const styles = StyleSheet.create({
         padding: 8,
     },
     writeDoneButtonText: {
-        fontSize: 10,
+        fontSize: 25,
     },
 });

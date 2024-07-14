@@ -28,6 +28,8 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     const [hashtags, setHashtags] = useState<number[]>([]); // TODO: Hashtag type 구현 필요
     const [weather, setWeather] = useState<number | null>(null); // TODO: Weather type 구현 필요
     const [isWorking, setIsWorking] = useState<boolean>(false);
+
+    const hashtagsContainWeather: number[] = (weather) ? [weather, ...hashtags] : hashtags
     
     
     // 이펙트 관리
@@ -100,9 +102,9 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
         try {
             if (! isEdit) {
-                result = await postDiary(diaryDate, content, hashtags);
+                result = await postDiary(diaryDate, content, hashtagsContainWeather);
             } else if (originDiaryId) {
-                result = await patchDiary(originDiaryId, content, hashtags)
+                result = await patchDiary(originDiaryId, content, hashtagsContainWeather)
             } else {
                 throw Error("수정 상태임에도 originDiaryId가 존재하지 않습니다.");
             }
@@ -139,7 +141,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
                 onTextChange={handleInputTextChange}
             /> 
             <HashtagLayer 
-                hashtagIds={hashtags}
+                hashtagIds={hashtagsContainWeather}
             />
         </SafeAreaView>
     );

@@ -20,7 +20,7 @@ export const postDiary = async (date: Date, content: string, hashtagIds: number[
             body: JSON.stringify(requestBody)
         });
         
-        if (response.status === 200) { // TODO
+        if (response.status === 200) {
             return true;
         } 
     } catch (error) {
@@ -44,7 +44,7 @@ export const patchDiary = async (diaryId: number, content: string, hashtagIds: n
             body: JSON.stringify(requestBody)
         });
         
-        if (response.status === 200) { // TODO
+        if (response.status === 200) {
             return true;
         } 
     } catch (error) {
