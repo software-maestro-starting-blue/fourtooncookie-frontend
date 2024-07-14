@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import * as S from "./DateInfo.styled";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+
+import * as S from "./DateInfo.styled";
 
 export interface DateInfoProps {
     date: Date;

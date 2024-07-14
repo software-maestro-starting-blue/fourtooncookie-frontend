@@ -1,7 +1,8 @@
 import React from 'react';
 import { Image } from "react-native";
-import * as S from "./Hashtag.styled";
 import { hashtags } from '../../../../../types/hashtags/hashtag';
+
+import * as S from "./Hashtag.styled";
 
 export interface HashtagProps {
     hashtagId: number

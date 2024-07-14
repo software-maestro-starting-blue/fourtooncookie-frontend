@@ -5,7 +5,6 @@ import HashtagLayer from "../../components/diarywrite/HashtagLayer/HashtagLayer"
 import { useEffect, useRef, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import * as S from "./DiaryWritePage.styled";
 import { getGpsPosition } from "../../systemcall/gpt";
 import { Position } from "../../types/gps";
 import { getWeather } from "../../apis/weather";
@@ -13,6 +12,8 @@ import { getHashtag } from "../../apis/hashtag";
 import { postDiary, patchDiary, getDiary } from "../../apis/diary";
 import { RootStackParamList } from "../../constants/routing";
 import { Diary } from "../../types/diary";
+
+import * as S from "./DiaryWritePage.styled";
 
 // 컴포넌트 인자 관리
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;

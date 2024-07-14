@@ -1,10 +1,10 @@
 import { View } from "react-native";
-import * as S from "./Header.styled";
 import CharacterChooseButton from "./components/CharacterChooseButton/CharacterChooseButton";
 import WriteDoneButton from "./components/WriteDoneButton/WriteDoneButton";
 import DateInfo from "./components/DateInfo/DateInfo";
 import BackButton from "../../common/BackButton/BackButton";
 
+import * as S from "./Header.styled";
 
 export interface HeaderProps {
     date: Date;
