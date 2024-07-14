@@ -9,7 +9,7 @@ import * as S from "./DiaryWritePage.styled";
 import { getGpsPosition } from "../../systemcall/gpt";
 import { Position } from "../../types/gps";
 import { getWeather } from "../../apis/weather";
-import { getHashtags } from "../../apis/hashtag";
+import { getHashtag } from "../../apis/hashtag";
 import { postDiary, patchDiary } from "../../apis/diary";
 import { RootStackParamList } from "../../constants/routing";
 
@@ -34,17 +34,18 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     useEffect(() => {
         if (isWeatherUpdated.current) return;
 
+        isWeatherUpdated.current = true;
+
         const fetchWeatherData = async () => {
-            try {
-                const gpsPos: Position = await getGpsPosition();
-                const newWeather: number = await getWeather(diaryDate, gpsPos);
-                setWeather(newWeather);
-                console.log("날씨 업데이트");
-            } catch (error) {
-                console.error(error);
-            } finally {
-                isWeatherUpdated.current = true;
-            }
+            const gpsPos: Position | null = await getGpsPosition();
+
+            if (gpsPos == null) return;
+
+            const newWeather: number | null = await getWeather(diaryDate, gpsPos);
+
+            if (newWeather == null) return;
+
+            setWeather(newWeather);
         }
 
         fetchWeatherData();
@@ -53,7 +54,10 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
     useEffect(() => {
         const fetchHashtags = async () => {
-            const newHashtags = await getHashtags(content);
+            const newHashtags: number[] | null = await getHashtag(content);
+            
+            if (newHashtags == null) return;
+
             // TODO: hashtag들을 정렬하기
             setHashtags(newHashtags);
             console.log("해시태그 업데이트");

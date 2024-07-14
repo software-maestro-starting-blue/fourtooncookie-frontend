@@ -2,7 +2,7 @@ import { API_URL } from "../constants/api";
 import { Position } from "../types/gps";
 
 
-export const getWeather = async (date: Date, gpsPos: Position): Promise<number> => {
+export const getWeather = async (date: Date, gpsPos: Position): Promise<number | null> => {
 
     const query = {
         year: date.getFullYear().toString(),
@@ -14,18 +14,22 @@ export const getWeather = async (date: Date, gpsPos: Position): Promise<number> 
 
     const queryString = new URLSearchParams(query).toString();
     
-    const response = await fetch(`${API_URL}/weather?` + queryString, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            //' Authorization': `Bearer ${localStorage.getItem('accessToken')}` // TODO: accessToken 관리에 대한 논의가 필요합니다..!
-        }
-    });
+    try {
+        const response = await fetch(`${API_URL}/weather?` + queryString, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                //' Authorization': `Bearer ${localStorage.getItem('accessToken')}` // TODO: accessToken 관리에 대한 논의가 필요합니다..!
+            }
+        });
 
-    if (response.status === 200) {
-        const data = await response.json();
-        return Number(data["weather-id"]);
-    } else {
-        return -1;
+        if (response.status === 200) {
+            const data = await response.json();
+            return Number(data["weather-id"]);
+        }
+    } catch (error) {
+        console.error("getWeather : ", error)
     }
+
+    return null;
 }
