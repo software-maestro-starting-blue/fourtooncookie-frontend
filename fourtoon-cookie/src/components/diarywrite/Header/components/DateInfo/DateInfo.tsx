@@ -17,7 +17,7 @@ const DateInfo = (props: DateInfoProps) => {
         setDatePickerVisible(true);
     }
 
-    const handleCancle = () => {
+    const handleCancel = () => {
         setDatePickerVisible(false);
     }
 
@@ -40,8 +40,10 @@ const DateInfo = (props: DateInfoProps) => {
             <DateTimePickerModal 
                 isVisible={isDatePickerVisible}
                 mode="date"
+                date={date}
                 onConfirm={handleConfirm}
-                onCancel={handleCancle}
+                onCancel={handleCancel}
+                style={S.styles.dateModal}
             />
         </View>
     );

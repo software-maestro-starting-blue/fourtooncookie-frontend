@@ -7,4 +7,7 @@ export const styles = StyleSheet.create({
     date: {
         fontSize: 18,
     },
+    dateModal: {
+        position: "absolute"
+    }
 });
