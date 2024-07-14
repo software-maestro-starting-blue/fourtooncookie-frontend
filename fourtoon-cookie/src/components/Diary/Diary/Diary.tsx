@@ -8,20 +8,38 @@ import UnLikeIcon from "../../../icon/unlike.png";
 import * as S from './Diary.styled';
 
 export interface DiaryProps {
+    diaryId: number;
     content: string;
     isFavorite: boolean;
     diaryDate: string;
     paintingImageUrls: string[];
     hastagIds: number[];
     characterId: number;
-}
+} 
 
 const Diary = (props: DiaryProps) => {
-    const { content, isFavorite: initialFavorite, diaryDate, paintingImageUrls, hastagIds, characterId } = props;
+    const { diaryId, content, isFavorite: initialFavorite, diaryDate, paintingImageUrls, hastagIds, characterId } = props;
     const [isFavorite, setIsFavorite] = useState(initialFavorite);
 
-    const toggleFavorite = () => {
-        setIsFavorite(!isFavorite);
+    const toggleFavorite = async () => {
+        console.log(diaryId);
+        try {
+            const response = await fetch(`http://localhost:8080/diary/favorite/${diaryId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(!isFavorite),
+            });
+
+            if (response.status === 200) {
+                setIsFavorite(!isFavorite);
+            } else {
+                console.log("Failed to update favorite status");
+            }
+        } catch (error) {
+            console.log("Error updating favorite status: ", error);
+        }
     };
 
     return (
@@ -43,6 +61,7 @@ const Diary = (props: DiaryProps) => {
             </View>
             <View style={S.styles.contents}>
                 <Text>{content}</Text>
+
                 <Button title="더 보기" onPress={() => { console.log("더 보기 버튼") }} style={S.styles.more} textStyle={S.styles.moreText} />
             </View>
             <View style={S.styles.date}>

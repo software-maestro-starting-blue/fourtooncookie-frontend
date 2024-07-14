@@ -7,6 +7,7 @@ import Header from "../../components/common/Header/Header";
 import * as S from './DiaryTimelinePage.styled';
 
 export interface DiarySavedResponse {
+    diaryId: number,
     content: string,
     isFavorite: boolean,
     diaryDate: string,
@@ -34,14 +35,12 @@ const DiaryTimelinePage = () => {
         try {
             const response = await fetch('http://localhost:8080/diary/timeline/1'); // Adjust the URL based on your actual endpoint
             const data: DiarySavedResponse[] = await response.json();
-            console.log(data);
             const updatedData = data.map(diary => {
                 if (diary.paintingImageUrls.length === 0) {
                     diary.paintingImageUrls = defaultImages;
                 }
                 return diary;
             });
-            console.log(updatedData);
             setDiaryData(updatedData);
         } catch (error) {
             console.error("Failed to fetch diaries", error);

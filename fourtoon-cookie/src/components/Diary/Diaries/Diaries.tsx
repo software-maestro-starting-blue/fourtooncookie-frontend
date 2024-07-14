@@ -14,6 +14,7 @@ const Diaries = ({ diaries }: DiariesProps) => {
             {diaries && diaries.map((diary, index) => (
                 <Diary
                     key={index}
+                    diaryId={diary.diaryId}
                     content={diary.content}
                     isFavorite={diary.isFavorite}
                     diaryDate={diary.diaryDate}
