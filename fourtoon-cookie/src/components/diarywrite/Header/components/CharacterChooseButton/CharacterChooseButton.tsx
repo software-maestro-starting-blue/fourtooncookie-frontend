@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, Text, Image } from 'react-native';
 import * as S from "./CharacterChooseButton.styled";
 
-interface CharacterChooseButtonProps {
+export interface CharacterChooseButtonProps {
     onPress: () => void;
 }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import * as S from "./WriteDoneButton.styled";
 
-interface WriteDoneButtonProps {
+export interface WriteDoneButtonProps {
     onPress: () => void;
 }
 
