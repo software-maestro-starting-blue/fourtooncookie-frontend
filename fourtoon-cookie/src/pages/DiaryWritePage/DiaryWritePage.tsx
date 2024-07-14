@@ -26,7 +26,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     const [diaryDate, setDiaryDate] = useState<Date>(date);
     const [content, setContent] = useState<string>("");
     const [hashtags, setHashtags] = useState<number[]>([]); // TODO: Hashtag type 구현 필요
-    const [weather, setWeather] = useState<string | null>(null); // TODO: Weather type 구현 필요
+    const [weather, setWeather] = useState<number | null>(null); // TODO: Weather type 구현 필요
     const [isWorking, setIsWorking] = useState<boolean>(false);
     
     
@@ -37,7 +37,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
         const fetchWeatherData = async () => {
             try {
                 const gpsPos: Position = await getGpsPosition();
-                const newWeather: string = await getWeather(diaryDate, gpsPos);
+                const newWeather: number = await getWeather(diaryDate, gpsPos);
                 setWeather(newWeather);
                 console.log("날씨 업데이트");
             } catch (error) {

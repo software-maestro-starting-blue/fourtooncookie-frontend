@@ -2,7 +2,7 @@ import { API_URL } from "../constants/api";
 import { Position } from "../types/gps";
 
 
-export const getWeather = async (date: Date, gpsPos: Position): Promise<string> => {
+export const getWeather = async (date: Date, gpsPos: Position): Promise<number> => {
 
     const query = {
         year: date.getFullYear().toString(),
@@ -14,7 +14,7 @@ export const getWeather = async (date: Date, gpsPos: Position): Promise<string> 
 
     const queryString = new URLSearchParams(query).toString();
     
-    const response = await fetch(`${API_URL}/lambda/weather?` + queryString, {
+    const response = await fetch(`${API_URL}/weather?` + queryString, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -22,7 +22,10 @@ export const getWeather = async (date: Date, gpsPos: Position): Promise<string> 
         }
     });
 
-    const data = await response.json();
-
-    return data["weather-id"];
+    if (response.status === 200) {
+        const data = await response.json();
+        return Number(data["weather-id"]);
+    } else {
+        return -1;
+    }
 }
