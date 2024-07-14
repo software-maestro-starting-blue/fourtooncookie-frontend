@@ -6,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import * as S from "./DiaryWritePage.styled";
-import type { Diary } from "../../types/diary";
 import { getGpsPosition } from "../../systemcall/gpt";
 import { Position } from "../../types/gps";
 import { getWeather } from "../../apis/weather";

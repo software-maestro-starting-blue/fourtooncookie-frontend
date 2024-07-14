@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 import * as S from "./HashtagLayer.styled";
-import Hashtag from "../hashtaglayer-components/Hashtag/Hashtag";
+import Hashtag from "./components/Hashtag/Hashtag";
 
 export interface HashtagLayerProps {
     hashtagIds: number[]

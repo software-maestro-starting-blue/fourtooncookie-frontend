@@ -1,4 +1,3 @@
-import { PermissionsAndroid, Platform } from "react-native";
 import * as Location from 'expo-location';
 import { Position } from "../types/gps";
 

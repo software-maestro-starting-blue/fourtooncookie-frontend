@@ -1,8 +1,8 @@
 import { View } from "react-native";
 import * as S from "./Header.styled";
-import CharacterChooseButton from "../header-components/CharacterChooseButton/CharacterChooseButton";
-import WriteDoneButton from "../header-components/WriteDoneButton/WriteDoneButton";
-import DateInfo from "../header-components/DateInfo/DateInfo";
+import CharacterChooseButton from "./components/CharacterChooseButton/CharacterChooseButton";
+import WriteDoneButton from "./components/WriteDoneButton/WriteDoneButton";
+import DateInfo from "./components/DateInfo/DateInfo";
 
 
 export interface HeaderProps {
