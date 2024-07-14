@@ -1,7 +1,12 @@
 export interface DiarySaveRequest {
-    memberId: number,
-    characterId: number,
     content: string,
-    thumbnailUrl: string,
-    hashtagIds: number[]
+    hashtagIds: number[],
+    diaryDate: Date,
+    characterId: number
+}
+
+export interface DiaryUpdateRequest {
+    content: string,
+    hashtagIds: number[],
+    characterId: number
 }

@@ -10,7 +10,7 @@ import { getGpsPosition } from "../../systemcall/gpt";
 import { Position } from "../../types/gps";
 import { getWeather } from "../../apis/weather";
 import { getHashtags } from "../../apis/hashtag";
-import { postDiary, putDiary } from "../../apis/diary";
+import { postDiary, patchDiary } from "../../apis/diary";
 import { RootStackParamList } from "../../constants/routing";
 
 // 컴포넌트 인자 관리
@@ -18,7 +18,13 @@ export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'Dia
 
 
 const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
-    const { date, originDiaryId, isEdit } = route.params;
+    //const { date, originDiaryId, isEdit } = route.params;
+    const date: Date = new Date();
+    date.setFullYear(2024);
+    date.setMonth(1);
+    date.setDate(1);
+    const originDiaryId = undefined;
+    const isEdit = false;
 
     // 상태 관리
     const hashtagIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -39,6 +45,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
                 const gpsPos: Position = await getGpsPosition();
                 const newWeather: string = await getWeather(diaryDate, gpsPos);
                 setWeather(newWeather);
+                console.log("날씨 업데이트");
             } catch (error) {
                 console.error(error);
             } finally {
@@ -55,6 +62,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
             const newHashtags = await getHashtags(content);
             // TODO: hashtag들을 정렬하기
             setHashtags(newHashtags);
+            console.log("해시태그 업데이트");
         }
 
         hashtagIntervalRef.current = setInterval(fetchHashtags, 3000);
@@ -99,7 +107,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
             if (! isEdit) {
                 await postDiary(diaryDate, content, hashtags);
             } else if (originDiaryId) {
-                await putDiary(originDiaryId, content, hashtags)
+                await patchDiary(originDiaryId, content, hashtags)
             } else {
                 throw Error("수정 상태임에도 originDiaryId가 존재하지 않습니다.");
             }

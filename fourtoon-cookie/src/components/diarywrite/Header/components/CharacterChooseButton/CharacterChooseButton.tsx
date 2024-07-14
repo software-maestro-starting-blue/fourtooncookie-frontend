@@ -13,7 +13,7 @@ const CharacterChooseButton = (props: CharacterChooseButtonProps) => {
 
     return (
         <TouchableOpacity onPress={onPress} style={S.styles.button}>
-            <Image source={require(`../../../../../assets/${character}.png`)} style={S.styles.image}/>
+            <Image source={require(`../../../../../../assets/${character}.png`)} style={S.styles.image}/>
         </TouchableOpacity>
     );
 }

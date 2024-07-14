@@ -7,7 +7,7 @@ export const getHashtags = async (content: string): Promise<number[]> => {
 
     const queryString = new URLSearchParams(query).toString();
 
-    const response = await fetch(API_URL + "/lambda/hashtags?" + queryString, {
+    const response = await fetch(API_URL + "/hashtag?" + queryString, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
