@@ -1,15 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        borderWidth: 1,
-        borderColor: 'gray',
-        borderRadius: 10,
-        marginBottom: 10,
-        padding: 10,
-        width: '100%',
-    },
     contents: {
         flexDirection: 'column',
         marginBottom: 10,
@@ -20,14 +11,14 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 10,
     },
-    likeImage: {
+    favoriteImage: {
         width: 30,
         height: 30,
     },
-    footerLikeButton: {
+    favoriteButton: {
         flex: 1,
     },
-    settingButtons: {
+    actionButtons: {
         flex: 3,
         flexDirection: 'row',
         justifyContent: 'flex-end',

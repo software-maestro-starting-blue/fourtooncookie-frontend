@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import DiaryPaintingImages from "../DiaryPaintingImage/DiaryPaintingImages";
-import IconButton from "../../common/IconButton/IconButton";
-import Button from "../../common/Button/Button";
-
-import FavoriteIcon from "../../../../assets/icon/favorite.png";
-import UnFavoriteIcon from "../../../../assets/icon/unFavorite.png";
+import DiaryActions from "../DiaryActions/DiaryActions";
+import Contents from "..//DiaryContent/DiaryContent";
+import DiaryDate from "../DiaryDate/DiaryDate";
 import { LocalDateTime } from '@js-joda/core';
 import * as S from './Diary.styled';
 
@@ -20,9 +18,8 @@ export interface DiaryProps {
 } 
 
 const Diary = (props: DiaryProps) => {
-    const { diaryId, content, isFavorite: initialFavorite, diaryDate, paintingImageUrls, hashtagIds, characterId } = props;
+    const { diaryId, content, isFavorite: initialFavorite, diaryDate, paintingImageUrls } = props;
     const [isFavorite, setIsFavorite] = useState(initialFavorite);
-
 
     const toggleFavorite = async () => {
         try {
@@ -44,31 +41,35 @@ const Diary = (props: DiaryProps) => {
         }
     };
 
+    const handleDownload = () => {
+        console.log("다운 버튼");
+    };
+
+    const handleShare = () => {
+        console.log("공유 버튼");
+    };
+
+    const handleEdit = () => {
+        console.log("일기 수정 버튼");
+    };
+
+    const handleDelete = () => {
+        console.log("일기 삭제 버튼");
+    };
+
     return (
         <View style={S.styles.container}>
             <DiaryPaintingImages imageUrls={paintingImageUrls} />
-            <View style={S.styles.footer}>
-                <View style={S.styles.footerLikeButton}>
-                    <IconButton
-                        imageSource={isFavorite ? FavoriteIcon : UnFavoriteIcon}
-                        onPress={toggleFavorite}
-                        imageStyle={S.styles.likeImage}
-                    />
-                </View>
-                <View style={S.styles.settingButtons}>
-                    <Button title="다운" onPress={() => { console.log("다운 버튼") }} style={S.styles.button} />
-                    <Button title="공유" onPress={() => { console.log("공유 버튼") }} style={S.styles.button} />
-                    <Button title="⋯" onPress={() => { console.log("일기 설정 버튼") }} style={S.styles.button} />
-                </View>
-            </View>
-            <View style={S.styles.contents}>
-                <Text>{content}</Text>
-
-                <Button title="더 보기" onPress={() => { console.log("더 보기 버튼") }} style={S.styles.more} textStyle={S.styles.moreText} />
-            </View>
-            <View style={S.styles.date}>
-                <Text>{diaryDate.toString().slice(0, 10)}</Text>
-            </View>
+            <DiaryActions
+                isFavorite={isFavorite}
+                toggleFavorite={toggleFavorite}
+                onDownload={handleDownload}
+                onShare={handleShare}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+            />
+            <Contents content={content} />
+            <DiaryDate diaryDate={diaryDate} />
         </View>
     );
 };
