@@ -6,11 +6,12 @@ import * as S from "./DateInfo.styled";
 
 export interface DateInfoProps {
     date: Date;
+    isChangeable: boolean;
     onDateChange: (date: Date) => void;
 }
 
 const DateInfo = (props: DateInfoProps) => {
-    const { date, onDateChange, ...rest } = props;
+    const { date, isChangeable, onDateChange, ...rest } = props;
 
     const dateString: string = date.getFullYear() + "." + date.getMonth() + "." + date.getDate();
 
@@ -19,6 +20,7 @@ const DateInfo = (props: DateInfoProps) => {
 
 
     const handleOpenPress = () => {
+        if (! isChangeable) return;
         setDatePickerVisible(true);
     }
 

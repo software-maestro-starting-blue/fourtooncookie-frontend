@@ -154,6 +154,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
         <SafeAreaView style={S.styles.container}>
             <Header 
                 date={diaryDate} 
+                isDateChangeable={! isEdit}
                 onDateChange={handleDateChange}
                 onCharacterChoosePress={handleCharacterChooseButtonPress}
                 onDonePress={handleWriteDoneButtonPress} 
