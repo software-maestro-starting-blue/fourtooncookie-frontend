@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, GestureResponderEvent, ViewStyle, TextStyle } from 'react-native';
+import { TouchableOpacity, Text, GestureResponderEvent, ViewStyle, TextStyle } from 'react-native';
 import * as S from './Button.styled';
 
 export interface ButtonProps {

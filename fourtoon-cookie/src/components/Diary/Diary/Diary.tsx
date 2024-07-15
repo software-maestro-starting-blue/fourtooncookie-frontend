@@ -3,26 +3,28 @@ import { View, Text } from "react-native";
 import DiaryPaintingImages from "../DiaryPaintingImage/DiaryPaintingImages";
 import IconButton from "../../common/IconButton/IconButton";
 import Button from "../../common/Button/Button";
-import LikeIcon from "../../../icon/like.png";
-import UnLikeIcon from "../../../icon/unlike.png";
+
+import FavoriteIcon from "../../../../assets/icon/favorite.png";
+import UnFavoriteIcon from "../../../../assets/icon/unFavorite.png";
+import { LocalDateTime } from '@js-joda/core';
 import * as S from './Diary.styled';
 
 export interface DiaryProps {
-    diaryId: number;
-    content: string;
-    isFavorite: boolean;
-    diaryDate: string;
-    paintingImageUrls: string[];
-    hastagIds: number[];
-    characterId: number;
+    diaryId: number,
+    content: string,
+    isFavorite: boolean,
+    diaryDate: LocalDateTime,
+    paintingImageUrls: string[],
+    hashtagIds: number[],
+    characterId: number
 } 
 
 const Diary = (props: DiaryProps) => {
-    const { diaryId, content, isFavorite: initialFavorite, diaryDate, paintingImageUrls, hastagIds, characterId } = props;
+    const { diaryId, content, isFavorite: initialFavorite, diaryDate, paintingImageUrls, hashtagIds, characterId } = props;
     const [isFavorite, setIsFavorite] = useState(initialFavorite);
 
+
     const toggleFavorite = async () => {
-        console.log(diaryId);
         try {
             const response = await fetch(`http://localhost:8080/diary/favorite/${diaryId}`, {
                 method: 'POST',
@@ -48,7 +50,7 @@ const Diary = (props: DiaryProps) => {
             <View style={S.styles.footer}>
                 <View style={S.styles.footerLikeButton}>
                     <IconButton
-                        imageSource={isFavorite ? LikeIcon : UnLikeIcon}
+                        imageSource={isFavorite ? FavoriteIcon : UnFavoriteIcon}
                         onPress={toggleFavorite}
                         imageStyle={S.styles.likeImage}
                     />
@@ -65,7 +67,7 @@ const Diary = (props: DiaryProps) => {
                 <Button title="더 보기" onPress={() => { console.log("더 보기 버튼") }} style={S.styles.more} textStyle={S.styles.moreText} />
             </View>
             <View style={S.styles.date}>
-                <Text>{diaryDate}</Text>
+                <Text>{diaryDate.toString().slice(0, 10)}</Text>
             </View>
         </View>
     );

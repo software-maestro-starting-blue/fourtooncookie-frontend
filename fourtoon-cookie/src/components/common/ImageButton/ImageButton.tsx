@@ -1,8 +1,8 @@
 import React from 'react';
-import { TouchableOpacity, Image, StyleSheet, ViewStyle, ImageStyle } from 'react-native';
+import { TouchableOpacity, Image, ViewStyle, ImageStyle } from 'react-native';
 import * as S from './ImageButton.styled';
 
-interface ImageButtonProps {
+export interface ImageButtonProps {
     imageUrl: string;
     onPress: () => void;
     style?: ViewStyle;

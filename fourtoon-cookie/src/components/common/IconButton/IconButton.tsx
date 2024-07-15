@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, Image, StyleSheet, ViewStyle, ImageStyle, ImageSourcePropType } from 'react-native';
 import * as S from './IconButton.styled';
 
-interface IconButtonProps {
+export interface IconButtonProps {
     imageSource: ImageSourcePropType;
     onPress: () => void;
     style?: ViewStyle;

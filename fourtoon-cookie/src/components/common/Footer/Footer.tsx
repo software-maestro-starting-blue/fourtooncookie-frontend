@@ -1,23 +1,35 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-import TimelineIcon from"../../../icon/timeline.png";
-import SettingIcon from"../../../icon/setting.png";
-import WriteIcon from"../../../icon/write.png";
-import SearchIcon from"../../../icon/search.png";
 import IconButton from "../IconButton/IconButton";
+import TimelineIcon from"../../../../assets/icon/timeline.png";
+import SettingIcon from"../../../../assets/icon/setting.png";
+import WriteIcon from"../../../../assets/icon/write.png";
+import SearchIcon from"../../../../assets/icon/search.png";
+
 import * as S from './Footer.styled';
 
 const Footer = () => {
     const navigation = useNavigation();
 
+    const icons = [
+        { source: TimelineIcon, pageName: 'DiaryTimelinePage' },
+        { source: SearchIcon, pageName: 'DiarySearchPage' },
+        { source: WriteIcon, pageName: 'DiaryWritePage' },
+        { source: SettingIcon, pageName: 'SettingsPage' },
+    ];
+        
     return (
         <View style={S.styles.container}>
-            <IconButton imageSource={TimelineIcon} onPress={() => navigation.navigate('DiaryTimelinePage' as never)} />
-            <IconButton imageSource={SearchIcon} onPress={() => navigation.navigate('DiarySearchPage' as never)} />
-            <IconButton imageSource={WriteIcon} onPress={() => navigation.navigate('DiaryWritePage' as never)} />
-            <IconButton imageSource={SettingIcon} onPress={() => navigation.navigate('SettingsPage' as never)} />
+        {icons.map((icon, index) => (
+        <IconButton
+            key={index}
+            imageSource={icon.source}
+            onPress={() => navigation.navigate(icon.pageName as never)}
+        />
+        ))}
         </View>
+        
     );
 }
 

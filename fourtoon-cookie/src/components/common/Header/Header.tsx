@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
-import FortuneCookieIcon from "../../../icon/fourtune_cookie.png"
+import FortuneCookieIcon from "../../../../assets/icon/fourtune_cookie.png"
 import * as S from './Header.styled';
 
 const Header = () => {
