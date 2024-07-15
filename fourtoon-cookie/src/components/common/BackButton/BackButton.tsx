@@ -11,12 +11,12 @@ const BackButton = (props: BackButtonProps) => {
     const {style, ...rest} = props;
     const navigation = useNavigation();
 
-    function handleOnPress() {
-        return () => navigation.goBack();
+    const handlePress = () => {
+        navigation.goBack();
     }
 
     return (
-        <TouchableOpacity style={[S.styles.button, style]} onPress={handleOnPress}>
+        <TouchableOpacity style={[S.styles.button, style]} onPress={handlePress}>
             <Text style={S.styles.buttonText}>{'<'}</Text>
         </TouchableOpacity>
     );
