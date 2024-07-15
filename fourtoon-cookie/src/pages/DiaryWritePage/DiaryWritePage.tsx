@@ -36,9 +36,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     
     // 이펙트 관리
     useEffect(() => {
-        if (! isEdit) return;
-
-        if (! originDiaryId) return;
+        if (! isEdit || ! originDiaryId) return;
 
         const fetchDiaryData = async () => {
             const diary: Diary | null = await getDiary(originDiaryId);
