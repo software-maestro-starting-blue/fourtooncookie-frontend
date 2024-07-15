@@ -24,7 +24,7 @@ const Diary = (props: DiaryProps) => {
     const toggleFavorite = async () => {
         try {
             const response = await fetch(`http://localhost:8080/diary/favorite/${diaryId}`, {
-                method: 'POST',
+                method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
                 },
