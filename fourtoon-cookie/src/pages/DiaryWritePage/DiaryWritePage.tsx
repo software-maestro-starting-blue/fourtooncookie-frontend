@@ -44,7 +44,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
                 return;
             }
             
-            setDiaryDate(diary.date);
+            setDiaryDate(diary.diaryDate);
             setContent(diary.content);
             setHashtags(diary.hashtagIds);
             // TODO: 다이어리 내용을 반영하였다는 토스트(Toast) 보내기
@@ -99,7 +99,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     
 
     // 핸들러 관리
-    const handleDateChange = (newDate: Date) => {
+    const handleDiaryDateChange = (newDate: Date) => {
         setDiaryDate(newDate);
     }
 
@@ -149,7 +149,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
             <Header 
                 date={diaryDate} 
                 isDateChangeable={! isEdit}
-                onDateChange={handleDateChange}
+                onDateChange={handleDiaryDateChange}
                 onCharacterChoosePress={handleCharacterChooseButtonPress}
                 onDonePress={handleWriteDoneButtonPress} 
                 />

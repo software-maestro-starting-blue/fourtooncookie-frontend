@@ -2,7 +2,7 @@ export interface Diary {
     diaryId: number,
     content: string,
     isFavorite: boolean,
-    date: Date,
+    diaryDate: Date,
     paintingImageUrls: string[],
     hashtagIds: number[],
     characterId: number
