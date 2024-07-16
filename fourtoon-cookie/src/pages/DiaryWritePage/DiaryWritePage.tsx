@@ -23,8 +23,6 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     const { date, originDiaryId, isEdit, ...rest } = route.params || { isEdit: false };
 
     // 상태 관리
-    const hashtagIntervalRef = useRef<NodeJS.Timeout | null>(null);
-    const isWeatherUpdated = useRef<boolean>(false);
     const [diaryDate, setDiaryDate] = useState<Date>(date || new Date());
     const [content, setContent] = useState<string>("");
     const [hashtags, setHashtags] = useState<number[]>([]); // TODO: Hashtag type 구현 필요
@@ -56,9 +54,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     }, [isEdit]);
 
     useEffect(() => {
-        if (isWeatherUpdated.current) return;
-
-        isWeatherUpdated.current = true;
+        if (weather != null) return;
 
         const fetchWeatherData = async () => {
             const gpsPos: Position | null = await getGpsPosition();
@@ -67,14 +63,12 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
             const newWeather: number | null = await getWeather(diaryDate, gpsPos);
 
-            if (newWeather == null) return;
-
             setWeather(newWeather);
         }
 
         fetchWeatherData();
 
-    }, [diaryDate, isWeatherUpdated]);
+    }, [diaryDate, weather]);
 
     useEffect(() => {
         const fetchHashtags = async () => {
@@ -87,14 +81,14 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
             console.log("해시태그 업데이트");
         }
 
-        hashtagIntervalRef.current = setInterval(fetchHashtags, 3000);
+        const hashtagInterval = setInterval(fetchHashtags, 3000);
 
         return () => {
-            if (hashtagIntervalRef.current)
-                clearInterval(hashtagIntervalRef.current);
+            if (hashtagInterval)
+                clearInterval(hashtagInterval);
         }
 
-    }, [hashtagIntervalRef, content]);
+    }, [content]);
 
     // validation check
     if (isEdit && ! originDiaryId){

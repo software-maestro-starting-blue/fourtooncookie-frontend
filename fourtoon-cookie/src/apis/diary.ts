@@ -16,7 +16,7 @@ export const getDiary = async (diaryId: number): Promise<Diary | null> => {
         if (response.status === 200) {
             const diaryResponse: DiarySavedResponse = await response.json();
             return { ...diaryResponse };
-        } 
+        }
     } catch (error) {
         console.error("getDiary : ", error);
     }
@@ -45,7 +45,7 @@ export const postDiary = async (date: Date, content: string, hashtagIds: number[
         
         if (response.status === 200) {
             return true;
-        } 
+        }
     } catch (error) {
         console.error("postDiary : ", error);
     }
