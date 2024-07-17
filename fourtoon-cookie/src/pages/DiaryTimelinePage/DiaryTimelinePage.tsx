@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, Text } from "react-native";
+import { FlatList } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { debounce } from 'lodash';
 import Diary from "../../components/Diary/Diary/Diary";
@@ -8,7 +8,7 @@ import Header from "../../components/common/Header/Header";
 import DiaryEmpty from "../../components/Diary/DiaryEmpty/DiaryEmpty";
 import * as S from './DiaryTimelinePage.styled';
 import { LocalDateTime } from "@js-joda/core";
-import fetchDiaries from '../../apis/fetchDiaries';
+import { getDiaries, deleteDiary, toggleDiaryFavorite } from '../../apis/diaryApi';
 
 export interface DiarySavedResponse {
     diaryId: number,
@@ -30,7 +30,7 @@ const DiaryTimelinePage = () => {
         const loadDiaries = async () => {
             if (!isLoadingMore && hasMore) {
                 setIsLoadingMore(true);
-                const result = await fetchDiaries(page);
+                const result = await getDiaries(page);
                 if (result === null) {
                     setHasMore(false);
                 } else {
@@ -48,11 +48,15 @@ const DiaryTimelinePage = () => {
         }
     }, 300); // 300ms 디바운스 타임
 
+    const handleDelete = (diaryId: number) => {
+        setDiaries(prevDiaries => prevDiaries.filter(diary => diary.diaryId !== diaryId));
+    };
+
     return (
         <SafeAreaView style={S.styles.container}>
             <FlatList
                 data={diaries}
-                renderItem={({ item }) => <Diary {...item} />}
+                renderItem={({ item }) => <Diary {...item} onDelete={handleDelete} />}
                 ListHeaderComponent={<Header />}
                 onEndReached={loadMoreData}
                 onEndReachedThreshold={0.5}

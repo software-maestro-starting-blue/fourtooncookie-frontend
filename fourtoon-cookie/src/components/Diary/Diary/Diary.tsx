@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { View } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 import DiaryPaintingImages from "../DiaryPaintingImage/DiaryPaintingImages";
 import DiaryActions from "../DiaryActions/DiaryActions";
-import Contents from "..//DiaryContent/DiaryContent";
+import Contents from "../DiaryContent/DiaryContent";
 import DiaryDate from "../DiaryDate/DiaryDate";
+import ConfirmationModal from "../../common/Modal/ConfirmationModal/ConfirmationModal";
+import { deleteDiary as apiDeleteDiary, toggleDiaryFavorite as apiToggleFavorite } from '../../../apis/diaryApi';
 import { LocalDateTime } from '@js-joda/core';
 import * as S from './Diary.styled';
 
@@ -14,30 +17,20 @@ export interface DiaryProps {
     diaryDate: LocalDateTime,
     paintingImageUrls: string[],
     hashtagIds: number[],
-    characterId: number
-} 
+    characterId: number,
+    onDelete: (diaryId: number) => void
+}
 
 const Diary = (props: DiaryProps) => {
-    const { diaryId, content, isFavorite: initialFavorite, diaryDate, paintingImageUrls } = props;
+    const { diaryId, content, isFavorite: initialFavorite, diaryDate, paintingImageUrls, onDelete } = props;
     const [isFavorite, setIsFavorite] = useState(initialFavorite);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const navigation = useNavigation();
 
     const toggleFavorite = async () => {
-        try {
-            const response = await fetch(`http://localhost:8080/diary/favorite/${diaryId}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(!isFavorite),
-            });
-
-            if (response.status === 200) {
-                setIsFavorite(!isFavorite);
-            } else {
-                console.log("Failed to update favorite status");
-            }
-        } catch (error) {
-            console.log("Error updating favorite status: ", error);
+        const success = await apiToggleFavorite(diaryId, isFavorite);
+        if (success) {
+            setIsFavorite(!isFavorite);
         }
     };
 
@@ -51,10 +44,19 @@ const Diary = (props: DiaryProps) => {
 
     const handleEdit = () => {
         console.log("일기 수정 버튼");
+        navigation.navigate('DiaryWritePage', { diaryProps: props });
     };
 
     const handleDelete = () => {
-        console.log("일기 삭제 버튼");
+        setIsModalVisible(true);
+    };
+
+    const confirmDelete = async () => {
+        const success = await apiDeleteDiary(diaryId);
+        if (success) {
+            setIsModalVisible(false);
+            onDelete(diaryId); // Call onDelete prop
+        }
     };
 
     return (
@@ -70,6 +72,13 @@ const Diary = (props: DiaryProps) => {
             />
             <Contents content={content} />
             <DiaryDate diaryDate={diaryDate} />
+            
+            <ConfirmationModal
+                visible={isModalVisible}
+                onClose={() => setIsModalVisible(false)}
+                onConfirm={confirmDelete}
+                message="정말 삭제하시겠습니까?"
+            />
         </View>
     );
 };
