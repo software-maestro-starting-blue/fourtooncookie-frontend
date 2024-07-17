@@ -128,3 +128,17 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# prebuild
+/fourtoon-cookie/android
+/fourtoon-cookie/ios
+/fourtoon-cookie/my-app
+
+/.idea
+
+google-services.json
+GoogleService-Info.plist
+
+*.apk
+
+app.json
