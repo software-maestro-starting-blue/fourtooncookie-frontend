@@ -16,13 +16,13 @@ import type { Diary } from "../../types/diary";
 
 import * as S from "./DiaryWritePage.styled";
 
-// 컴포넌트 인자 관리
+
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
 
 const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     const { date, originDiaryId, isEdit, ...rest } = route.params || { isEdit: false };
 
-    // 상태 관리
+    
     const [diaryDate, setDiaryDate] = useState<Date>(date || new Date());
     const [content, setContent] = useState<string>("");
     const [hashtags, setHashtags] = useState<number[]>([]); // TODO: Hashtag type 구현 필요
@@ -32,7 +32,6 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     const hashtagsContainWeather: number[] = (weather) ? [weather, ...hashtags] : hashtags
     
     
-    // 이펙트 관리
     useEffect(() => {
         if (! isEdit || ! originDiaryId) return;
 
@@ -89,15 +88,14 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
     }, [content]);
 
-    // validation check
+
     if (isEdit && ! originDiaryId){
         // TODO: 이 상황이 잘못되었다는 토스트(Toast) 보내기
         navigation.goBack();
         return null;
     }
-    
 
-    // 핸들러 관리
+
     const handleDiaryDateChange = (newDate: Date) => {
         setDiaryDate(newDate);
     }
@@ -141,7 +139,6 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     }
 
 
-    // 하위 컴포넌트 구성 정립
     return (
         <SafeAreaView style={S.styles.container}>
             <Header 
