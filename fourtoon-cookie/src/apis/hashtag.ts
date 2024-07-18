@@ -1,7 +1,7 @@
 import { API_URL } from "@env";
 import type { HashtagFromContentResponse } from "../types/dto/hashtags";
 
-export const getHashtag = async (content: string): Promise<number[] | null> => {
+export const getHashtag = async (content: string): Promise<number[]> => {
     const query = {
         content: content
     };
@@ -23,5 +23,5 @@ export const getHashtag = async (content: string): Promise<number[] | null> => {
         console.error("getHashtag : ", error);
     }
 
-    return null;
+    throw new Error("getHashtag error");
 }

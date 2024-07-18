@@ -2,7 +2,7 @@ import { API_URL } from "@env";
 import type { WeatherFromGpsResponse } from "../types/dto/weather";
 import type { Position } from "../types/gps";
 
-export const getWeather = async (date: Date, gpsPos: Position): Promise<number | null> => {
+export const getWeather = async (date: Date, gpsPos: Position): Promise<number> => {
 
     const query = {
         year: date.getFullYear().toString(),
@@ -31,5 +31,5 @@ export const getWeather = async (date: Date, gpsPos: Position): Promise<number |
         console.error("getWeather : ", error)
     }
 
-    return null;
+    throw new Error("getWeather error");
 }

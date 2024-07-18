@@ -2,7 +2,7 @@ import { API_URL } from "@env";
 import type { Diary } from "../types/diary";
 import type { DiarySaveRequest, DiarySavedResponse, DiaryUpdateRequest } from "../types/dto/diary";
 
-export const getDiary = async (diaryId: number): Promise<Diary | null> => {
+export const getDiary = async (diaryId: number): Promise<Diary> => {
 
     try {
         const response = await fetch(`${API_URL}/diary/${diaryId}`, {
@@ -21,10 +21,10 @@ export const getDiary = async (diaryId: number): Promise<Diary | null> => {
         console.error("getDiary : ", error);
     }
 
-    return null;
+    throw new Error("getDiary error");
 }
 
-export const postDiary = async (date: Date, content: string, hashtagIds: number[]): Promise<boolean> => {
+export const postDiary = async (date: Date, content: string, hashtagIds: number[]) => {
 
     const requestBody: DiarySaveRequest = {
         characterId: -1,
@@ -44,16 +44,16 @@ export const postDiary = async (date: Date, content: string, hashtagIds: number[
         });
         
         if (response.status === 200) {
-            return true;
+            return;
         }
     } catch (error) {
         console.error("postDiary : ", error);
     }
 
-    return false;
+    throw new Error("postDiary error");
 }
 
-export const patchDiary = async (diaryId: number, content: string, hashtagIds: number[]): Promise<boolean> => {
+export const patchDiary = async (diaryId: number, content: string, hashtagIds: number[]) => {
     
     const requestBody: DiaryUpdateRequest = {
         content: content,
@@ -72,11 +72,11 @@ export const patchDiary = async (diaryId: number, content: string, hashtagIds: n
         });
         
         if (response.status === 200) {
-            return true;
+            return;
         } 
     } catch (error) {
         console.error("patchDiary : ", error);
     }
 
-    return false;
+    throw new Error("patchDiary error");
 }

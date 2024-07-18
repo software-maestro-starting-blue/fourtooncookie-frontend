@@ -36,17 +36,16 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
         if (! isEdit || ! originDiaryId) return;
 
         const fetchDiaryData = async () => {
-            const diary: Diary | null = await getDiary(originDiaryId);
-
-            if (! diary) {
-                // TODO: 다이어리 내용을 못 가지고 왔다는 토스트(Toast) 보내기
-                return;
+            try {
+                const diary: Diary = await getDiary(originDiaryId);
+                setDiaryDate(diary.diaryDate);
+                setContent(diary.content);
+                setHashtags(diary.hashtagIds);
+                // TODO: 다이어리 내용을 반영하였다는 토스트(Toast) 보내기
+            } catch (e) {
+                console.error(e);
+                // TODO: 이전 다이어리 내용을 반영하지 못 했다는 토스트(Toast) 보내기
             }
-            
-            setDiaryDate(diary.diaryDate);
-            setContent(diary.content);
-            setHashtags(diary.hashtagIds);
-            // TODO: 다이어리 내용을 반영하였다는 토스트(Toast) 보내기
         }
 
         fetchDiaryData();
@@ -56,13 +55,16 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
         if (weather != null) return;
 
         const fetchWeatherData = async () => {
-            const gpsPos: Position | null = await getGpsPosition();
+            try {
+                const gpsPos: Position = await getGpsPosition();
 
-            if (gpsPos == null) return;
+                const newWeather: number = await getWeather(diaryDate, gpsPos);
 
-            const newWeather: number | null = await getWeather(diaryDate, gpsPos);
-
-            setWeather(newWeather);
+                setWeather(newWeather);
+            } catch (e) {
+                console.error(e);
+                // TODO: 날씨 정보를 가져오지 못했다는 토스트(Toast) 보내기
+            }
         }
 
         fetchWeatherData();
@@ -71,12 +73,15 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
     useEffect(() => {
         const fetchHashtags = async () => {
-            const newHashtags: number[] | null = await getHashtag(content);
-            
-            if (newHashtags == null) return;
+            try {
+                const newHashtags: number[] = await getHashtag(content);
 
-            // TODO: hashtag들을 정렬하기
-            setHashtags(newHashtags);
+                // TODO: hashtag들을 정렬하기
+                setHashtags(newHashtags);
+            } catch (e) {
+                console.error(e);
+                // TODO: 해시태그 정보를 가져오지 못했다는 토스트(Toast) 보내기
+            }
         }
 
         const hashtagInterval = setInterval(fetchHashtags, 3000);
@@ -103,33 +108,30 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     const handleCharacterChooseButtonPress = () => {
         if (isWorking) return;
 
-        // navigation.navigate('CharacterSelectPage', { CharacterSelectPage: { diary: newDiary } }); TODO: 이동할 페이지 확인
+        // TODO: navigate to CharacterChoosePage
     }
 
     const handleWriteDoneButtonPress = async () => {
         if (isWorking) return;
 
         setIsWorking(true);
-        
-        let result: boolean = false;
 
         try {
             if (! isEdit) {
-                result = await postDiary(diaryDate, content, hashtagsContainWeather);
+                await postDiary(diaryDate, content, hashtagsContainWeather);
             } else if (originDiaryId) {
-                result = await patchDiary(originDiaryId, content, hashtagsContainWeather)
+                await patchDiary(originDiaryId, content, hashtagsContainWeather)
             } else {
                 throw Error("수정 상태임에도 originDiaryId가 존재하지 않습니다.");
             }
+
+            // TODO: navigate to DiaryTimelinePage
         } catch (error) {
             console.error("Error", error);
+            // TODO: 에러 발생 시 토스트(Toast) 보내기
         } finally {
             setIsWorking(false);
         }
-
-        if (! result) return;
-
-        // TODO: navigate to DiaryTimelinePage
     }
 
     const handleInputTextChange = (text: string) => {
