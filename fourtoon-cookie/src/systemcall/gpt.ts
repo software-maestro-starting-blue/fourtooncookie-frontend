@@ -6,7 +6,6 @@ export const getGpsPosition = async (): Promise<Position | null> => {
     const { status } = await Location.requestForegroundPermissionsAsync();
 
     if (status !== 'granted') {
-        console.log("위치 권한 설정 거부");
         return null;
     }
 
@@ -16,8 +15,6 @@ export const getGpsPosition = async (): Promise<Position | null> => {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude
     }
-
-    console.log(gpsPos);
 
     return gpsPos;
 }
