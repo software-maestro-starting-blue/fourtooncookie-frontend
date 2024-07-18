@@ -78,7 +78,6 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
             // TODO: hashtag들을 정렬하기
             setHashtags(newHashtags);
-            console.log("해시태그 업데이트");
         }
 
         const hashtagInterval = setInterval(fetchHashtags, 3000);
@@ -133,7 +132,6 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
         if (! result) return;
 
         // TODO: navigate to DiaryTimelinePage
-        console.log('diary write');
     }
 
     const handleInputTextChange = (text: string) => {
