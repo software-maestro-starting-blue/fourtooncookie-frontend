@@ -1,10 +1,163 @@
-import { View, Text } from "react-native";
+import { SafeAreaView } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-const DiaryWritePage = () => {
+import Header from "../../components/diarywrite/Header/Header";
+import TextInputLayer from "../../components/diarywrite/TextInputLayer/TextInputLayer";
+import HashtagLayer from "../../components/diarywrite/HashtagLayer/HashtagLayer";
+
+import { getGpsPosition } from "../../systemcall/gpt";
+import { getWeather } from "../../apis/weather";
+import { getHashtag } from "../../apis/hashtag";
+import { postDiary, patchDiary, getDiary } from "../../apis/diary";
+import { RootStackParamList } from "../../constants/routing";
+import type { Position } from "../../types/gps";
+import type { Diary } from "../../types/diary";
+
+import * as S from "./DiaryWritePage.styled";
+
+
+export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
+
+const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
+    const { date, originDiaryId, isEdit, ...rest } = route.params || { isEdit: false };
+
+    
+    const [diaryDate, setDiaryDate] = useState<Date>(date || new Date());
+    const [content, setContent] = useState<string>("");
+    const [hashtags, setHashtags] = useState<number[]>([]); // TODO: Hashtag type 구현 필요
+    const [weather, setWeather] = useState<number | null>(null); // TODO: Weather type 구현 필요
+    const [isWorking, setIsWorking] = useState<boolean>(false);
+
+    const hashtagsContainWeather: number[] = (weather) ? [weather, ...hashtags] : hashtags
+    
+    
+    useEffect(() => {
+        if (! isEdit || ! originDiaryId) return;
+
+        const fetchDiaryData = async () => {
+            try {
+                const diary: Diary = await getDiary(originDiaryId);
+                setDiaryDate(diary.diaryDate);
+                setContent(diary.content);
+                setHashtags(diary.hashtagIds);
+                // TODO: 다이어리 내용을 반영하였다는 토스트(Toast) 보내기
+            } catch (e) {
+                console.error(e);
+                // TODO: 이전 다이어리 내용을 반영하지 못 했다는 토스트(Toast) 보내기
+            }
+        }
+
+        fetchDiaryData();
+    }, [isEdit]);
+
+    useEffect(() => {
+        if (weather != null) return;
+
+        const fetchWeatherData = async () => {
+            try {
+                const gpsPos: Position = await getGpsPosition();
+
+                const newWeather: number = await getWeather(diaryDate, gpsPos);
+
+                setWeather(newWeather);
+            } catch (e) {
+                console.error(e);
+                // TODO: 날씨 정보를 가져오지 못했다는 토스트(Toast) 보내기
+            }
+        }
+
+        fetchWeatherData();
+
+    }, [diaryDate, weather]);
+
+    useEffect(() => {
+        const fetchHashtags = async () => {
+            try {
+                const newHashtags: number[] = await getHashtag(content);
+
+                // TODO: hashtag들을 정렬하기
+                setHashtags(newHashtags);
+            } catch (e) {
+                console.error(e);
+                // TODO: 해시태그 정보를 가져오지 못했다는 토스트(Toast) 보내기
+            }
+        }
+
+        const hashtagInterval = setInterval(fetchHashtags, 3000);
+
+        return () => {
+            if (hashtagInterval)
+                clearInterval(hashtagInterval);
+        }
+
+    }, [content]);
+
+
+    if (isEdit && ! originDiaryId){
+        // TODO: 이 상황이 잘못되었다는 토스트(Toast) 보내기
+        navigation.goBack();
+        return null;
+    }
+
+
+    const handleDiaryDateChange = (newDate: Date) => {
+        setDiaryDate(newDate);
+    }
+
+    const handleCharacterChooseButtonPress = () => {
+        if (isWorking) return;
+
+        // TODO: navigate to CharacterChoosePage
+    }
+
+    const handleWriteDoneButtonPress = async () => {
+        if (isWorking) return;
+
+        setIsWorking(true);
+
+        try {
+            if (! isEdit) {
+                await postDiary(diaryDate, content, hashtagsContainWeather);
+            } else if (originDiaryId) {
+                await patchDiary(originDiaryId, content, hashtagsContainWeather)
+            } else {
+                throw Error("수정 상태임에도 originDiaryId가 존재하지 않습니다.");
+            }
+
+            // TODO: navigate to DiaryTimelinePage
+        } catch (error) {
+            console.error("Error", error);
+            // TODO: 에러 발생 시 토스트(Toast) 보내기
+        } finally {
+            setIsWorking(false);
+        }
+    }
+
+    const handleInputTextChange = (text: string) => {
+        if (isWorking) return;
+
+        setContent(text);
+    }
+
+
     return (
-        <View>
-            <Text>Diary Write Page</Text>
-        </View>
+        <SafeAreaView style={S.styles.container}>
+            <Header 
+                date={diaryDate} 
+                isDateChangeable={! isEdit}
+                onDateChange={handleDiaryDateChange}
+                onCharacterChoosePress={handleCharacterChooseButtonPress}
+                onDonePress={handleWriteDoneButtonPress} 
+                />
+            <TextInputLayer 
+                text={content}
+                onTextChange={handleInputTextChange}
+            /> 
+            <HashtagLayer 
+                hashtagIds={hashtagsContainWeather}
+            />
+        </SafeAreaView>
     );
 }
 
