@@ -1,4 +1,4 @@
-import { API_URL } from "../constants/api";
+import { API_URL } from "@env";
 import type { Diary } from "../types/diary";
 import type { DiarySaveRequest, DiarySavedResponse, DiaryUpdateRequest } from "../types/dto/diary";
 

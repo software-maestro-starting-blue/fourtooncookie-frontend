@@ -1,4 +1,4 @@
-import { API_URL } from "../constants/api";
+import { API_URL } from "@env";
 import type { WeatherFromGpsResponse } from "../types/dto/weather";
 import type { Position } from "../types/gps";
 
