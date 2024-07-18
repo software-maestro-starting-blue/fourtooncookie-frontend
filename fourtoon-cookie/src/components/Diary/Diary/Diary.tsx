@@ -9,6 +9,7 @@ import ConfirmationModal from "../../common/Modal/ConfirmationModal/Confirmation
 import { deleteDiary as apiDeleteDiary, toggleDiaryFavorite as apiToggleFavorite } from '../../../apis/diaryApi';
 import { LocalDateTime } from '@js-joda/core';
 import * as S from './Diary.styled';
+import DiaryHashtag from "../DiaryHashtag/DiaryHashtag";
 
 export interface DiaryProps {
     diaryId: number,
@@ -22,7 +23,7 @@ export interface DiaryProps {
 }
 
 const Diary = (props: DiaryProps) => {
-    const { diaryId, content, isFavorite: initialFavorite, diaryDate, paintingImageUrls, onDelete, ...rest } = props;
+    const { diaryId, content, isFavorite: initialFavorite, diaryDate, paintingImageUrls, hashtagIds, onDelete, ...rest } = props;
     const [isFavorite, setIsFavorite] = useState(initialFavorite);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const navigation = useNavigation();
@@ -72,9 +73,9 @@ const Diary = (props: DiaryProps) => {
                 onEdit={handleEdit}
                 onDelete={handleDelete}
             />
-            <Contents content={content} />
+            <DiaryHashtag hashtagIds={hashtagIds}/>
+            <Contents content={content}/>
             <DiaryDate diaryDate={diaryDate} />
-            
             <ConfirmationModal
                 visible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
