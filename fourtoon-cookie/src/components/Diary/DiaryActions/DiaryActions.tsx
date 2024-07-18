@@ -16,7 +16,7 @@ interface DiaryActionsProps {
 }
 
 const DiaryActions = (props: DiaryActionsProps) => {
-    const {isFavorite, toggleFavorite, onDownload, onShare, onEdit, onDelete} = props;
+    const {isFavorite, toggleFavorite, onDownload, onShare, onEdit, onDelete, ...rest} = props;
 
     return (
         <View style={S.styles.footer}>

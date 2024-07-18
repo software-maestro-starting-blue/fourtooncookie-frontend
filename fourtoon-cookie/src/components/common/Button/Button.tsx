@@ -10,7 +10,7 @@ export interface ButtonProps {
 }
 
 const Button = (props: ButtonProps) => {
-    const { title, onPress, style, textStyle} = props;
+    const { title, onPress, style, textStyle, ...rest} = props;
     return (
         <TouchableOpacity style={[S.styles.button, style]} onPress={onPress}>
             <Text style={[S.styles.buttonText, textStyle]}>{title}</Text>

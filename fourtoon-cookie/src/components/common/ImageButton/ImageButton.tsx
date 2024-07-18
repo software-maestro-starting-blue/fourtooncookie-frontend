@@ -10,7 +10,7 @@ export interface ImageButtonProps {
 }
 
 const ImageButton = (props: ImageButtonProps) => {
-    const { imageUrl, onPress, style, imageStyle } = props;
+    const { imageUrl, onPress, style, imageStyle, ...rest } = props;
     return (
         <TouchableOpacity onPress={onPress} style={[S.styles.button, style]}>
             <Image source={{ uri: imageUrl }} style={[S.styles.image, imageStyle]} />

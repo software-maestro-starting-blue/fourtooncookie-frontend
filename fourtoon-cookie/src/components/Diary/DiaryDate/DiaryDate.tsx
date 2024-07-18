@@ -8,7 +8,7 @@ interface DiaryDateProps {
 }
 
 const Date = (props: DiaryDateProps) => {
-    const {diaryDate} = props;
+    const {diaryDate, ...rest} = props;
 
     return (
         <View style={S.styles.date}>

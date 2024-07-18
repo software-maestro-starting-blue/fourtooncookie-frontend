@@ -22,28 +22,27 @@ export interface DiaryProps {
 }
 
 const Diary = (props: DiaryProps) => {
-    const { diaryId, content, isFavorite: initialFavorite, diaryDate, paintingImageUrls, onDelete } = props;
+    const { diaryId, content, isFavorite: initialFavorite, diaryDate, paintingImageUrls, onDelete, ...rest } = props;
     const [isFavorite, setIsFavorite] = useState(initialFavorite);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const navigation = useNavigation();
 
     const toggleFavorite = async () => {
-        const success = await apiToggleFavorite(diaryId, isFavorite);
-        if (success) {
+        try {
+            await apiToggleFavorite(diaryId, isFavorite);
             setIsFavorite(!isFavorite);
+        } catch (error) {
+            console.error("An error occurred while deleting the diary: ", error);
         }
     };
 
     const handleDownload = () => {
-        console.log("다운 버튼");
     };
 
     const handleShare = () => {
-        console.log("공유 버튼");
     };
 
     const handleEdit = () => {
-        console.log("일기 수정 버튼");
         navigation.navigate('DiaryWritePage', { diaryProps: props });
     };
 
@@ -52,11 +51,14 @@ const Diary = (props: DiaryProps) => {
     };
 
     const confirmDelete = async () => {
-        const success = await apiDeleteDiary(diaryId);
-        if (success) {
+        try {
+            await apiDeleteDiary(diaryId);
             setIsModalVisible(false);
-            onDelete(diaryId); // Call onDelete prop
+            onDelete(diaryId);
+        } catch (error) {
+            console.error("An error occurred while deleting the diary: ", error);
         }
+        
     };
 
     return (

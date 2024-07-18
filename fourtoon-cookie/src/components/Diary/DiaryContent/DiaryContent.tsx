@@ -8,7 +8,7 @@ export interface DiaryContentProps {
 }
 
 const DiaryContent = (props: DiaryContentProps) => {
-    const { content } = props;
+    const { content, ...rest } = props;
     const [isExpanded, setIsExpanded] = useState(false);
 
     const previewWordCount = 50;

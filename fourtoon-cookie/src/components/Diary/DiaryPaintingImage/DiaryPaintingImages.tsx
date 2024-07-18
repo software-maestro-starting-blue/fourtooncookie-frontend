@@ -8,7 +8,7 @@ export interface DiaryPaintingImagesProps {
 }
 
 const DiaryPaintingImages = (props: DiaryPaintingImagesProps) => {
-    const { imageUrls } = props;
+    const { imageUrls, ...rest } = props;
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
