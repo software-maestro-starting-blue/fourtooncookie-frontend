@@ -1,10 +1,9 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { LocalDateTime } from "@js-joda/core";
 import * as S from './DiaryDate.styld';
 
 interface DiaryDateProps {
-    diaryDate: LocalDateTime;
+    diaryDate: Date;
 }
 
 const Date = (props: DiaryDateProps) => {
@@ -12,7 +11,7 @@ const Date = (props: DiaryDateProps) => {
 
     return (
         <View style={S.styles.date}>
-            <Text>{diaryDate.toString().slice(0, 10)}</Text>
+            <Text>{diaryDate.toString()}</Text>
         </View>
     );
 };

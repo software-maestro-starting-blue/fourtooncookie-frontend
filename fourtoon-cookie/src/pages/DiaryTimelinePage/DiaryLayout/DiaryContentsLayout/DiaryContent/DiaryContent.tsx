@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text } from "react-native";
-import Button from "../../common/Button/Button";
+import Button from "../../../../../components/common/Button/Button";
 import * as S from './DiaryContent.styled';
 
 export interface DiaryContentProps {

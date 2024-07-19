@@ -1,8 +1,8 @@
 import { View } from "react-native";
-import CharacterChooseButton from "./components/CharacterChooseButton/CharacterChooseButton";
-import WriteDoneButton from "./components/WriteDoneButton/WriteDoneButton";
-import DateInfo from "./components/DateInfo/DateInfo";
-import BackButton from "../../common/BackButton/BackButton";
+import CharacterChooseButton from "./CharacterChooseButton/CharacterChooseButton";
+import WriteDoneButton from "./WriteDoneButton/WriteDoneButton";
+import DateInfo from "./DateInfo/DateInfo";
+import BackButton from "../../../components/common/BackButton/BackButton";
 
 import * as S from "./Header.styled";
 

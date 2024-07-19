@@ -1,12 +1,12 @@
 import React from "react";
 import { View } from "react-native";
-import IconButton from "../../common/IconButton/IconButton";
-import Button from "../../common/Button/Button";
-import FavoriteIcon from "../../../../assets/icon/favorite.png";
-import UnFavoriteIcon from "../../../../assets/icon/unFavorite.png";
-import * as S from './DiaryActions.styled';
+import IconButton from "../../../../components/common/IconButton/IconButton";
+import Button from "../../../../components/common/Button/Button";
+import FavoriteIcon from "../../../../../assets/icon/favorite.png";
+import UnFavoriteIcon from "../../../../../assets/icon/unFavorite.png";
+import * as S from './DiaryActionsLayout.styled';
 
-interface DiaryActionsProps {
+interface DiaryActionsLayoutProps {
     isFavorite: boolean;
     toggleFavorite: () => void;
     onDownload: () => void;
@@ -15,7 +15,7 @@ interface DiaryActionsProps {
     onDelete: () => void;
 }
 
-const DiaryActions = (props: DiaryActionsProps) => {
+const DiaryActionsLayout = (props: DiaryActionsLayoutProps) => {
     const {isFavorite, toggleFavorite, onDownload, onShare, onEdit, onDelete, ...rest} = props;
 
     return (
@@ -37,4 +37,4 @@ const DiaryActions = (props: DiaryActionsProps) => {
     );
 };
 
-export default DiaryActions;
+export default DiaryActionsLayout;

@@ -3,13 +3,15 @@ import { StyleSheet, Text, View } from 'react-native';
 import { RootStackParamList } from './src/constants/routing';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import DiaryWritePage from './src/pages/DiaryWritePage/DiaryWritePage';
+import DiaryTimelinePage from './src/pages/DiaryTimelinePage/DiaryTimelinePage';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="DiaryWritePage">
+      <Stack.Navigator initialRouteName="DiaryTimelinePage" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} />
         <Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
       </Stack.Navigator>
     </NavigationContainer>
