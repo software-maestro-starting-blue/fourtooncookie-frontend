@@ -2,26 +2,16 @@ import React, { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { debounce } from 'lodash';
-import Diary from "../../components/Diary/Diary/Diary";
+import DiaryLayout from "./DiaryLayout/DiaryLayout";
 import Footer from "../../components/common/Footer/Footer";
 import Header from "../../components/common/Header/Header";
-import DiaryEmpty from "../../components/Diary/DiaryEmpty/DiaryEmpty";
+import DiaryEmpty from "./DiaryEmpty/DiaryEmpty";
 import * as S from './DiaryTimelinePage.styled';
-import { LocalDateTime } from "@js-joda/core";
-import { getDiaries, deleteDiary, toggleDiaryFavorite } from '../../apis/diaryApi';
-
-export interface DiarySavedResponse {
-    diaryId: number,
-    content: string,
-    isFavorite: boolean,
-    diaryDate: LocalDateTime,
-    paintingImageUrls: string[],
-    hashtagIds: number[],
-    characterId: number
-}
+import { getDiaries } from '../../apis/diary';
+import type { Diary } from "../../types/diary";
 
 const DiaryTimelinePage = () => {
-    const [diaries, setDiaries] = useState<DiarySavedResponse[]>([]);
+    const [diaries, setDiaries] = useState<Diary[]>([]);
     const [page, setPage] = useState(0);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
     const [hasMore, setHasMore] = useState(true);
@@ -30,11 +20,16 @@ const DiaryTimelinePage = () => {
         const loadDiaries = async () => {
             if (!isLoadingMore && hasMore) {
                 setIsLoadingMore(true);
-                const result = await getDiaries(page, 1); // TODO 1대신 멤버 ID 
+                const result = await getDiaries(page, ""); // TODO 1대신 멤버 ID 
                 if (result === null) {
                     setHasMore(false);
                 } else {
-                    setDiaries(prev => [...prev, ...result]);
+                    setDiaries(prev => 
+                        [...prev, ...result.map(diary => ({
+                            ...diary,
+                            paintingImageUrls: 
+                                diary.paintingImageUrls.length ? diary.paintingImageUrls : diaryDefaultImages
+                    }))]);
                 }
                 setIsLoadingMore(false);
             }
@@ -56,7 +51,7 @@ const DiaryTimelinePage = () => {
         <SafeAreaView style={S.styles.container}>
             <FlatList
                 data={diaries}
-                renderItem={({ item }) => <Diary {...item} onDelete={handleDelete} />}
+                renderItem={({ item }) => <DiaryLayout diary={item} onDelete={handleDelete} />}
                 ListHeaderComponent={<Header />}
                 onEndReached={loadMoreData}
                 onEndReachedThreshold={0.5}

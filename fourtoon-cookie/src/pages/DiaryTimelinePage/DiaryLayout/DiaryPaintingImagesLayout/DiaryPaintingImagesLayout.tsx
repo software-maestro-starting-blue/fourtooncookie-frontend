@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { View, Modal, Image, TouchableOpacity, Text } from "react-native";
-import ImageButton from "../../common/ImageButton/ImageButton";
-import * as S from './DiaryPaintingImages.styled';
+import ImageButton from "../../../../components/common/ImageButton/ImageButton";
+import * as S from './DiaryPaintingImagesLayout.styled';
 
-export interface DiaryPaintingImagesProps {
+export interface DiaryPaintingImagesLayoutProps {
     imageUrls: string[];
 }
 
-const DiaryPaintingImages = (props: DiaryPaintingImagesProps) => {
+const DiaryPaintingImagesLayout = (props: DiaryPaintingImagesLayoutProps) => {
     const { imageUrls, ...rest } = props;
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -60,4 +60,4 @@ const DiaryPaintingImages = (props: DiaryPaintingImagesProps) => {
     );
 };
 
-export default DiaryPaintingImages;
+export default DiaryPaintingImagesLayout;

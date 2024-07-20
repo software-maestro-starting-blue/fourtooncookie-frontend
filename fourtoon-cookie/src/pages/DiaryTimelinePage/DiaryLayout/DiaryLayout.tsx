@@ -1,29 +1,24 @@
 import React, { useState } from "react";
 import { View } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-import DiaryPaintingImages from "../DiaryPaintingImage/DiaryPaintingImages";
-import DiaryActions from "../DiaryActions/DiaryActions";
-import Contents from "../DiaryContent/DiaryContent";
-import DiaryDate from "../DiaryDate/DiaryDate";
-import ConfirmationModal from "../../common/Modal/ConfirmationModal/ConfirmationModal";
-import { deleteDiary as apiDeleteDiary, toggleDiaryFavorite as apiToggleFavorite } from '../../../apis/diaryApi';
+import ConfirmationModal from "../../../components/common/Modal/ConfirmationModal/ConfirmationModal";
+import { deleteDiary as apiDeleteDiary, patchDiaryFavorite as apiToggleFavorite } from '../../../apis/diary';
 import { LocalDateTime } from '@js-joda/core';
-import * as S from './Diary.styled';
-import DiaryHashtag from "../DiaryHashtag/DiaryHashtag";
+import * as S from './DiaryLayout.styled';
+import { Diary } from "../../../types/diary";
+import DiaryContentsLayout from "./DiaryContentsLayout/DiaryContentsLayout";
+import DiaryActionsLayout from "./DiaryActionLayout/DiaryActionsLayout";
+import DiaryPaintingImagesLayout from "./DiaryPaintingImagesLayout/DiaryPaintingImagesLayout";
+import DiaryWritePage from "../../DiaryWritePage/DiaryWritePage";
 
 export interface DiaryProps {
-    diaryId: number,
-    content: string,
-    isFavorite: boolean,
-    diaryDate: LocalDateTime,
-    paintingImageUrls: string[],
-    hashtagIds: number[],
-    characterId: number,
+    diary: Diary,
     onDelete: (diaryId: number) => void
 }
 
-const Diary = (props: DiaryProps) => {
-    const { diaryId, content, isFavorite: initialFavorite, diaryDate, paintingImageUrls, hashtagIds, onDelete, ...rest } = props;
+const DiaryComponent = (props: DiaryProps) => {
+    const { diary, onDelete, ...rest } = props;
+    const { diaryId, content, isFavorite: initialFavorite, diaryDate, paintingImageUrls, hashtagIds } = diary;
     const [isFavorite, setIsFavorite] = useState(initialFavorite);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const navigation = useNavigation();
@@ -44,7 +39,7 @@ const Diary = (props: DiaryProps) => {
     };
 
     const handleEdit = () => {
-        navigation.navigate('DiaryWritePage', { diaryProps: props });
+        navigation.navigate('DiaryWritePage', { diary: diary, isEdit: true });
     };
 
     const handleDelete = () => {
@@ -64,8 +59,8 @@ const Diary = (props: DiaryProps) => {
 
     return (
         <View style={S.styles.container}>
-            <DiaryPaintingImages imageUrls={paintingImageUrls} />
-            <DiaryActions
+            <DiaryPaintingImagesLayout imageUrls={paintingImageUrls} />
+            <DiaryActionsLayout
                 isFavorite={isFavorite}
                 toggleFavorite={toggleFavorite}
                 onDownload={handleDownload}
@@ -73,9 +68,11 @@ const Diary = (props: DiaryProps) => {
                 onEdit={handleEdit}
                 onDelete={handleDelete}
             />
-            <DiaryHashtag hashtagIds={hashtagIds}/>
-            <Contents content={content}/>
-            <DiaryDate diaryDate={diaryDate} />
+            <DiaryContentsLayout
+                content={content}
+                hashtagIds={hashtagIds} 
+                diaryDate={diaryDate}            
+            />
             <ConfirmationModal
                 visible={isModalVisible}
                 onClose={() => setIsModalVisible(false)}
@@ -86,4 +83,4 @@ const Diary = (props: DiaryProps) => {
     );
 };
 
-export default Diary;
+export default DiaryComponent;
