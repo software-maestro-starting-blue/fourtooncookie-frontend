@@ -8,7 +8,7 @@ import { CLIENT_ID } from '@env'
 
 const GoogleAuthButton = () => {
     GoogleSignin.configure({
-        scopes: ['https://www.googleapis.com/auth/userinfo.profile'],
+        scopes: [],
         webClientId: CLIENT_ID,
     })
 
@@ -27,18 +27,21 @@ const GoogleAuthButton = () => {
                             token: userInfo.idToken,
                         })
                         //TODO: 토큰 사용
-                        console.log(error, data)
                     } else {
                         throw new Error('no ID token present!')
                     }
                 } catch (error: any) {
                     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+                        //TODO: 예외처리
                         // user cancelled the login flow
                     } else if (error.code === statusCodes.IN_PROGRESS) {
+                        //TODO: 예외처리
                         // operation (e.g. sign in) is in progress already
                     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+                        //TODO: 예외처리
                         // play services not available or outdated
                     } else {
+                        //TODO: 예외처리
                         // some other error happened
                     }
                 }
