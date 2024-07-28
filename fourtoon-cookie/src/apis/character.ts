@@ -3,27 +3,20 @@ import type { Character } from "../types/character";
 import type { CharacterSavedResponse } from "../types/dto/character";
 
 export const getCharacters = async (): Promise<Character[]> => {
-
     try {
         const response = await fetch(`${API_URL}/character`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                // ' Authorization': `Bearer ${localStorage.getItem('accessToken')}` // TODO: accessToken 관리에 대한 논의가 필요
+                // 'Authorization': `Bearer ${localStorage.getItem('accessToken')}` // TODO: accessToken 관리에 대한 논의가 필요
             }
         });
         
         if (response.status === 200) {
             const data = await response.json();
             const characterResponses: CharacterSavedResponse[] = data.characterResponses;
-            return characterResponses.map(character => ({
-                id: character.id,
-                characterVisionType: character.characterVisionType,
-                artworkTitle: character.artworkTitle,
-                artworkThumnailUrl: character.artworkThumnailUrl,
-                name: character.name,
-                selectionThumbnailUrl: character.selectionThumbnailUrl
-            }));
+            return [...characterResponses];
+            
         } else if (response.status === 204) {
             return [];
         } else {
@@ -31,7 +24,6 @@ export const getCharacters = async (): Promise<Character[]> => {
         }
     } catch (error) {
         console.error("getCharacters : ", error);
+        throw new Error("getCharacters error");
     }
-
-    throw new Error("getCharacters error");
-}
+};

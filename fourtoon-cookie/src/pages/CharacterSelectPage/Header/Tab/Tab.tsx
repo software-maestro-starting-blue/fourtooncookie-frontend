@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import * as S from './Tab.styled';
 
-interface TabProps {
+export interface TabProps {
     isActive: boolean;
     label: string;
     onPress: () => void;

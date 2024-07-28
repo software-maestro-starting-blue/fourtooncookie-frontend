@@ -4,7 +4,7 @@ import Tab from './Tab/Tab';
 import * as S from './Header.styled';
 import { FREE, PAID, FREE_KOR, PAID_KOR, CharacterCategory } from '../../../constants/character';
 
-interface HeaderProps {
+export interface HeaderProps {
     selectedCategory: CharacterCategory;
     setSelectedCategory: (category: CharacterCategory) => void;
 }

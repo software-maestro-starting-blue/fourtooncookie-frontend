@@ -1,24 +1,14 @@
-import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { Character } from '../types/character';
+import { GlobalSelectionCharacterStateContext } from './GlobalSelectionCharacterStateContext';
+import type { Character } from '../../types/character';
 
-interface GlobalSelectionCharacterStateContextProps {
-  selectedCharacter: Character | null;
-  setSelectedCharacter: (character: Character | null) => void;
-}
-
-const defaultValue: GlobalSelectionCharacterStateContextProps = {
-  selectedCharacter: null,
-  setSelectedCharacter: () => {},
-};
-
-export const GlobalSelectionCharacterStateContext = createContext<GlobalSelectionCharacterStateContextProps>(defaultValue);
-
-interface GlobalSelectionCharacterStateProviderProps {
+export interface GlobalSelectionCharacterStateProviderProps {
   children: ReactNode;
 }
 
-export const GlobalSelectionCharacterStateProvider: React.FC<GlobalSelectionCharacterStateProviderProps> = ({ children }) => {
+const GlobalSelectionCharacterStateProvider = ( props: GlobalSelectionCharacterStateProviderProps) => {
+    const { children } = props;
   const [selectedCharacter, setSelectedCharacterState] = useState<Character | null>(null);
 
   useEffect(() => {
@@ -29,7 +19,7 @@ export const GlobalSelectionCharacterStateProvider: React.FC<GlobalSelectionChar
           setSelectedCharacterState(JSON.parse(savedCharacter));
         }
       } catch (e) {
-        console.error('Failed to load the selected character from storage', e);
+        console.error('Failed to load the selected character from storage:', e);
       }
     };
 
@@ -45,7 +35,7 @@ export const GlobalSelectionCharacterStateProvider: React.FC<GlobalSelectionChar
       }
       setSelectedCharacterState(character);
     } catch (e) {
-      console.error('Failed to save the selected character to storage', e);
+      console.error('Failed to save the selected character to storage:', e);
     }
   };
 
@@ -55,3 +45,5 @@ export const GlobalSelectionCharacterStateProvider: React.FC<GlobalSelectionChar
     </GlobalSelectionCharacterStateContext.Provider>
   );
 };
+
+export default GlobalSelectionCharacterStateProvider;

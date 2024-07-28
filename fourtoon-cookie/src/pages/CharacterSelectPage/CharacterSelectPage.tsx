@@ -3,19 +3,20 @@ import { FlatList, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getCharacters } from '../../apis/character';
 import BackButton from '../../components/common/BackButton/BackButton';
-import CharacterItem from './CharacterItem/CharacterItem';
+import ArtworkList from '../../components/character/ArtworkList/ArtworkList';
 import Header from './Header/Hader';
-import { FREE_CHARACTER_VISION_TYPES, PAID_CHARACTER_VISION_TYPES, FREE, PAID, CharacterCategory } from '../../constants/character';
-import { GlobalSelectionCharacterStateContext } from '../../global/GlobalSelectionCharacterStateContext';
+import { FREE_CHARACTER_VISION_TYPES, PAID_CHARACTER_VISION_TYPES, FREE, PAID } from '../../constants/character';
+import { CharacterCategory } from '../../types/character';
+import GlobalSelectionCharacterStateContext from '../../components/global/GlobalSelectionCharacterStateContext';
 import type { Character } from '../../types/character';
 import { styles } from './CharacterSelectPage.styled';
 
 const CharacterSelectPage = () => {
   const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
-  const [characters, setCharacters] = useState<Character[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<CharacterCategory>(FREE);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [ characters, setCharacters ] = useState<Character[]>([]);
+  const [ selectedCategory, setSelectedCategory ] = useState<CharacterCategory>(FREE);
+  const [ loading, setLoading ] = useState<boolean>(true);
+  const [ error, setError ] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCharacters = async () => {
@@ -55,30 +56,6 @@ const CharacterSelectPage = () => {
     setSelectedCharacter(character);
   };
 
-  const renderCharacter = ({ item }: { item: Character }) => (
-    <CharacterItem
-      character={item}
-      isSelected={selectedCharacter?.id === item.id}
-      onPress={() => handleCharacterPress(item)}
-    />
-  );
-
-  const renderCategory = (groupedCharacters: Record<string, Character[]>) => {
-    return Object.keys(groupedCharacters).map(artworkTitle => (
-      <View key={artworkTitle}>
-        <Text style={styles.artworkTitle}>{artworkTitle}</Text>
-        <FlatList
-          data={groupedCharacters[artworkTitle]}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderCharacter}
-          numColumns={3}
-          columnWrapperStyle={styles.row}
-          contentContainerStyle={styles.flatListContent}
-        />
-      </View>
-    ));
-  };
-
   if (loading) {
     return (
       <SafeAreaView style={styles.container}>
@@ -113,8 +90,16 @@ const CharacterSelectPage = () => {
         renderItem={() => (
           <View>
             {selectedCategory === FREE
-              ? renderCategory(groupedFreeCharacters)
-              : renderCategory(groupedPaidCharacters)}
+              ? <ArtworkList
+                  groupedCharacters={groupedFreeCharacters}
+                  selectedCharacter={selectedCharacter}
+                  handleCharacterPress={handleCharacterPress}
+                />
+              : <ArtworkList
+                  groupedCharacters={groupedPaidCharacters}
+                  selectedCharacter={selectedCharacter}
+                  handleCharacterPress={handleCharacterPress}
+                />}
           </View>
         )}
       />
