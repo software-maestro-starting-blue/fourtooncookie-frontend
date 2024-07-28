@@ -16,11 +16,13 @@ export default {
                 "foregroundImage": "./assets/adaptive-icon.png",
                 "backgroundColor": "#ffffff"
             },
-            package: process.env.ANDROID_PACKAGE
+            package: process.env.ANDROID_PACKAGE,
+            googleServicesFile: process.env.ANDROID_GOOGLE_SERVICES_FILE
         },
-        "ios": {
+        ios: {
             "supportsTablet": true,
             "bundleIdentifier": process.env.BUNDLE_IDENTIFIER,
+            googleServicesFile: process.env.IOS_GOOGLE_SERVICES_FILE,
             "infoPlist": {
                 "CFBundleURLTypes": [
                     {
