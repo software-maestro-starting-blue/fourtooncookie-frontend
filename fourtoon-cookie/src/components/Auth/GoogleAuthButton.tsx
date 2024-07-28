@@ -3,7 +3,7 @@ import {
     GoogleSigninButton,
     statusCodes,
 } from '@react-native-google-signin/google-signin'
-import { supabase } from './utils/supabase'
+import { supabase } from '../../utils/supabase'
 import { CLIENT_ID } from '@env'
 
 const GoogleAuthButton = () => {
