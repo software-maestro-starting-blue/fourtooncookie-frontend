@@ -143,3 +143,6 @@ GoogleService-Info.plist
 *.apk
 app.json
 eas.json
+
+*.app
+*.tar.gz
