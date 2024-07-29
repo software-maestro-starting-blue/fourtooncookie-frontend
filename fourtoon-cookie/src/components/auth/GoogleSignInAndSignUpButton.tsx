@@ -4,7 +4,7 @@ import {
 } from '@react-native-google-signin/google-signin'
 import {CLIENT_ID} from '@env'
 import {supabaseSignInAndSignUpWithIdToken} from "../../apis/supabaseSignInAndSignUpWithIdToken";
-import {Session} from "../../types/session";
+import type {Session} from "../../types/session";
 
 const GoogleSignInAndSignUpButton = () => {
     GoogleSignin.configure({

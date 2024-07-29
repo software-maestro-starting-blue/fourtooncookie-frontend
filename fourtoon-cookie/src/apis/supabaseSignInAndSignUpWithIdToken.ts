@@ -1,5 +1,5 @@
 import {supabase} from "../utils/supabase";
-import {Session} from "../types/session";
+import type {Session} from "../types/session";
 
 export const supabaseSignInAndSignUpWithIdToken = async (provider: string, idToken: string): Promise<Session> => {
     try {
@@ -20,6 +20,6 @@ export const supabaseSignInAndSignUpWithIdToken = async (provider: string, idTok
             expires_in: data.session.expires_in,
         }
     } catch (error) {
-        throw new Error(''+error);
+        throw new Error('' + error);
     }
 };
