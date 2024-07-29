@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { Character } from '../../../types/character';
 import * as S from './ArtworkList.styeld';
-import CharacterList from '../CharacterList/CharacterList';
+import CharacterList from '../../../components/character/CharacterList/CharacterList';
 
 export interface ArtworkListProps {
   groupedCharacters: Record<string, Character[]>;
@@ -20,6 +20,7 @@ const ArtworkList = (props : ArtworkListProps) => {
           characters={groupedCharacters[artworkTitle]}
           selectedCharacter={selectedCharacter}
           handleCharacterPress={handleCharacterPress}
+          numColumns={3}
         />
       </View>
     ));

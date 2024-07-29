@@ -1,12 +1,15 @@
-import { FREE, PAID } from "../constants/character";
-
 export interface Character {
     id: number,
-    characterVisionType: string,
+    paymentType: CharacterPaymentType,
     artworkTitle: string,
     artworkThumbnailUrl: string,
     name: string,
     selectionThumbnailUrl: string 
 }
 
-export type CharacterCategory = typeof FREE | typeof PAID;
+export enum CharacterPaymentType {
+    FREE = 'FREE',
+    PAID = 'PAID',
+    FREE_KOR = '무료',
+    PAID_KOR = '유료'
+};

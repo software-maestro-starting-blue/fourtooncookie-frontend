@@ -1,8 +1,8 @@
 import React from 'react';
 import { FlatList, View } from 'react-native';
-import CharacterItem from '../CharacterItem/CharacterItem';
+import CharacterItem from '../../../components/character/CharacterItem/CharacterItem';
 import { Character } from '../../../types/character';
-import * as S from './CharacterList.styled';
+import * as S from './ChacterList.styled';
 
 export interface CharacterListProps {
   characters: Character[];

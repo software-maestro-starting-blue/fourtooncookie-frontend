@@ -8,9 +8,9 @@ export interface GlobalSelectionCharacterStateContextProps {
 
 export const defaultValue: GlobalSelectionCharacterStateContextProps = {
   selectedCharacter: null,
-  setSelectedCharacter: () => {},
+  setSelectedCharacter: () => { },
 };
 
-export const GlobalSelectionCharacterStateContext = createContext<GlobalSelectionCharacterStateContextProps>(defaultValue);
+const GlobalSelectionCharacterStateContext = createContext<GlobalSelectionCharacterStateContextProps>(defaultValue);
 
 export default GlobalSelectionCharacterStateContext;

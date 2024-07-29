@@ -1,6 +1,8 @@
+import { CharacterPaymentType } from "../character";
+
 export interface CharacterSavedResponse {
     id: number,
-    characterVisionType: string,
+    paymentType: CharacterPaymentType,
     artworkTitle: string,
     artworkThumbnailUrl: string,
     name: string,
