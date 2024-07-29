@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { Character } from '../../../types/character';
+import type { Character } from '../../../types/character';
 import * as S from './ArtworkList.styeld';
 import CharacterList from '../../../components/character/CharacterList/CharacterList';
 
@@ -11,7 +11,7 @@ export interface ArtworkListProps {
 }
 
 const ArtworkList = (props : ArtworkListProps) => {
-    const { groupedCharacters, selectedCharacter, handleCharacterPress } = props;
+    const { groupedCharacters, selectedCharacter, handleCharacterPress, ...rest } = props;
     
     return Object.keys(groupedCharacters).map(artworkTitle => (
       <View key={artworkTitle}>

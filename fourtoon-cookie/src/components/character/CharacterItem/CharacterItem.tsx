@@ -10,10 +10,10 @@ export interface CharacterItemProps {
 }
 
 const CharacterItem = (props:CharacterItemProps) => {
-    const { character, isSelected, onPress } = props;
+    const { character, isSelected, onPress, ...rest } = props;
 
     const handleError = () => {
-        console.log('Image failed to load:', character.selectionThumbnailUrl);
+        throw new Error('Image failed to load:' + character.selectionThumbnailUrl);
     }
                 
     return (

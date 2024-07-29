@@ -10,7 +10,7 @@ export interface HeaderProps {
 }
 
 const Header = (props: HeaderProps) => {
-    const { selectedPaymentType, setSelectedPaymentType } = props;
+    const { selectedPaymentType, setSelectedPaymentType, ...rest } = props;
     
     return (
         <View style={S.styles.headersContainer}>

@@ -9,7 +9,7 @@ export interface TabProps {
 }
 
 const Tab = (props: TabProps) => {
-    const { isActive, label, onPress } = props;
+    const { isActive, label, onPress, ...rest } = props;
 
     return (
         <TouchableOpacity onPress={onPress} style={S.styles.tab}>

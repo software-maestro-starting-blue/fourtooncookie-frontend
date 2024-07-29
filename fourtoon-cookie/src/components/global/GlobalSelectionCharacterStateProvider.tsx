@@ -35,7 +35,7 @@ const GlobalSelectionCharacterStateProvider = (props: GlobalSelectionCharacterSt
             }
             setSelectedCharacterState(character);
         } catch (e) {
-            console.error('Failed to save the selected character to storage:', e);
+            throw new Error('Failed to save the selected character to storage: ' + e)
         }
     };
 

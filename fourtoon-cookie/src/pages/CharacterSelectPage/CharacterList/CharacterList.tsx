@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList, View } from 'react-native';
 import CharacterItem from '../../../components/character/CharacterItem/CharacterItem';
-import { Character } from '../../../types/character';
+import type { Character } from '../../../types/character';
 import * as S from './ChacterList.styled';
 
 export interface CharacterListProps {
@@ -12,7 +12,7 @@ export interface CharacterListProps {
 }
 
 const CharacterList = (props: CharacterListProps) => {
-    const { characters, selectedCharacter, handleCharacterPress, numColumns } = props;
+    const { characters, selectedCharacter, handleCharacterPress, numColumns, ...rest } = props;
 
     return (
         <FlatList
