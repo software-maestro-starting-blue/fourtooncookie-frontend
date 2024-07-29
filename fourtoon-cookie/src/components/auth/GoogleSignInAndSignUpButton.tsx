@@ -6,6 +6,7 @@ import {CLIENT_ID} from '@env'
 import {supabaseSignInAndSignUpWithIdToken} from "../../apis/supabase";
 import type {Session} from "../../types/session";
 import {OAuthProvider} from "../../types/OAuthProvider";
+import {getGoogleIdTokenWithNativeLogin} from "../../apis/googleSignInAndSignUp";
 
 const GoogleSignInAndSignUpButton = () => {
     GoogleSignin.configure({
@@ -14,12 +15,11 @@ const GoogleSignInAndSignUpButton = () => {
     })
 
     const handleOnPress = async () => {
-        await GoogleSignin.hasPlayServices();
-        const userInfo = await GoogleSignin.signIn();
-        if (userInfo.idToken) {
-            const session: Session = await supabaseSignInAndSignUpWithIdToken(OAuthProvider.GOOGLE, userInfo.idToken);
-            console.log(session)
+        const idToken = await getGoogleIdTokenWithNativeLogin();
+        if (idToken) {
+            const session: Session = await supabaseSignInAndSignUpWithIdToken(OAuthProvider.GOOGLE, idToken);
         }
+        throw new Error('로그인 실패')
     }
 
     return (
