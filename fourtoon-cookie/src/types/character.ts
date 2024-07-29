@@ -10,6 +10,4 @@ export interface Character {
 export enum CharacterPaymentType {
     FREE = 'FREE',
     PAID = 'PAID',
-    FREE_KOR = '무료',
-    PAID_KOR = '유료'
 };

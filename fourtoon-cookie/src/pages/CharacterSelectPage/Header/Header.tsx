@@ -2,6 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import Tab from './Tab/Tab';
 import * as S from './Header.styled';
+import { FREE_KOR, PAID_KOR } from '../../../constants/character';
 import { CharacterPaymentType } from '../../../types/character';
 
 export interface HeaderProps {
@@ -16,12 +17,12 @@ const Header = (props: HeaderProps) => {
         <View style={S.styles.headersContainer}>
             <Tab 
                 isActive={selectedPaymentType === CharacterPaymentType.FREE} 
-                label={CharacterPaymentType.FREE_KOR}
+                label={FREE_KOR}
                 onPress={() => setSelectedPaymentType(CharacterPaymentType.FREE)} 
             />
             <Tab 
                 isActive={selectedPaymentType === CharacterPaymentType.PAID} 
-                label={CharacterPaymentType.PAID_KOR}
+                label={PAID_KOR}
                 onPress={() => setSelectedPaymentType(CharacterPaymentType.PAID)} 
             />
         </View>

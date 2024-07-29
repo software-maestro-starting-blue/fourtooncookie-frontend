@@ -1,13 +1,15 @@
 import React, { useEffect, useState, useMemo, useContext } from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getCharacters } from '../../apis/character';
+import {useNavigation} from "@react-navigation/native";
 import BackButton from '../../components/common/BackButton/BackButton';
 import ArtworkList from './ArtworkList/ArtworkList';
 import Header from './Header/Header';
 import GlobalSelectionCharacterStateContext from '../../components/global/GlobalSelectionCharacterStateContext';
 import { Character, CharacterPaymentType } from '../../types/character';
-import { styles } from './CharacterSelectPage.styled';
+import * as S from './CharacterSelectPage.styled';
+import { FREE_KOR, PAID_KOR } from '../../constants/character';
 
 const CharacterSelectPage = () => {
     const [ selectedPaymentType, setSelectedPaymentType ] = useState<CharacterPaymentType>(CharacterPaymentType.FREE);
@@ -15,6 +17,7 @@ const CharacterSelectPage = () => {
     const [ characters, setCharacters ] = useState<Character[]>([]);
     const [ loading, setLoading ] = useState<boolean>(true);
     const [ error, setError ] = useState<string | null>(null);
+    const navigation = useNavigation();
 
     useEffect(() => {
       const fetchCharacters = async () => {
@@ -31,6 +34,12 @@ const CharacterSelectPage = () => {
 
       fetchCharacters();
     }, []);
+
+    useEffect(() => {
+        if (error) {
+            navigation.goBack();
+        }
+    }, [error, navigation]);
 
     const groupByArtworkTitle = (characters: Character[]) => {
       return characters.reduce((acc, character) => {
@@ -58,53 +67,40 @@ const CharacterSelectPage = () => {
     };
 
     if (loading) {
-      return (
-        <SafeAreaView style={styles.container}>
-          <Text>Loading...</Text>
-        </SafeAreaView>
-      );
-    }
-
-    if (error) {
-      return (
-        <SafeAreaView style={styles.container}>
-          <Text>{error}</Text>
-        </SafeAreaView>
-      );
+        return (
+            <SafeAreaView style={S.styles.container}>
+                <Text>Loading...</Text>
+            </SafeAreaView>
+        );
     }
 
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
-          <BackButton style={{ justifyContent: 'flex-start' }} />
-        </View>
-
-        <Header
-          selectedPaymentType={selectedPaymentType}
-          setSelectedPaymentType={setSelectedPaymentType}
-        />
-
-        <FlatList
-          data={[selectedPaymentType]}
-          key={selectedPaymentType}
-          keyExtractor={(item) => item}
-          renderItem={() => (
-            <View>
-              {selectedPaymentType === CharacterPaymentType.FREE
-                ? <ArtworkList
-                    groupedCharacters={groupedFreeCharacters}
-                    selectedCharacter={selectedCharacter}
-                    handleCharacterPress={handleCharacterPress}
-                  />
-                : <ArtworkList
-                    groupedCharacters={groupedPaidCharacters}
-                    selectedCharacter={selectedCharacter}
-                    handleCharacterPress={handleCharacterPress}
-                  />}
+        <SafeAreaView style={S.styles.container}>
+            <View style={S.styles.header}>
+                <BackButton style={{ justifyContent: 'flex-start' }} />
             </View>
-          )}
-        />
-      </SafeAreaView>
+
+            <Header
+                selectedPaymentType={selectedPaymentType}
+                setSelectedPaymentType={setSelectedPaymentType}
+            />
+
+            <View>
+                {selectedPaymentType === CharacterPaymentType.FREE ? (
+                    <ArtworkList
+                        groupedCharacters={groupedFreeCharacters}
+                        selectedCharacter={selectedCharacter}
+                        handleCharacterPress={handleCharacterPress}
+                    />
+                ) : (
+                    <ArtworkList
+                        groupedCharacters={groupedPaidCharacters}
+                        selectedCharacter={selectedCharacter}
+                        handleCharacterPress={handleCharacterPress}
+                    />
+                )}
+            </View>
+        </SafeAreaView>
     );
 };
 
