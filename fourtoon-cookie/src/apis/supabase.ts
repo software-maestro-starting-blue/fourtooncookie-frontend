@@ -1,7 +1,11 @@
-import {supabase} from "../utils/supabase";
 import type {Session} from "../types/session";
+import { createClient } from '@supabase/supabase-js';
+import { SUPABASE_API_URL, SUPABASE_API_KEY } from '@env'
+import {OAuthProvider} from "../types/OAuthProvider";
 
-export const supabaseSignInAndSignUpWithIdToken = async (provider: string, idToken: string): Promise<Session> => {
+const supabase = createClient(SUPABASE_API_URL, SUPABASE_API_KEY);
+
+export const supabaseSignInAndSignUpWithIdToken = async (provider: OAuthProvider, idToken: string): Promise<Session> => {
     try {
         const {data, error} = await supabase.auth.signInWithIdToken({
             provider: provider,
