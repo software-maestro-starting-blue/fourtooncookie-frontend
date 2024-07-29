@@ -5,6 +5,7 @@ import {
 import {CLIENT_ID} from '@env'
 import {supabaseSignInAndSignUpWithIdToken} from "../../apis/supabaseSignInAndSignUpWithIdToken";
 import type {Session} from "../../types/session";
+import {OAuthProvider} from "../../types/OAuthProvider";
 
 const GoogleSignInAndSignUpButton = () => {
     GoogleSignin.configure({
@@ -16,7 +17,7 @@ const GoogleSignInAndSignUpButton = () => {
         await GoogleSignin.hasPlayServices();
         const userInfo = await GoogleSignin.signIn();
         if (userInfo.idToken) {
-            const session: Session = await supabaseSignInAndSignUpWithIdToken('google', userInfo.idToken);
+            const session: Session = await supabaseSignInAndSignUpWithIdToken(OAuthProvider.GOOGLE, userInfo.idToken);
             console.log(session)
         }
     }
