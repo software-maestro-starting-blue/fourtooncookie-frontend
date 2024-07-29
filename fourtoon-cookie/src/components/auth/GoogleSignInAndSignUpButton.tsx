@@ -6,7 +6,7 @@ import {
 import { supabase } from '../../utils/supabase'
 import { CLIENT_ID } from '@env'
 
-const GoogleAuthButton = () => {
+const GoogleSignInAndSignUpButton = () => {
     GoogleSignin.configure({
         scopes: [],
         webClientId: CLIENT_ID,
@@ -54,4 +54,4 @@ const GoogleAuthButton = () => {
     )
 }
 
-export default GoogleAuthButton;
+export default GoogleSignInAndSignUpButton;
