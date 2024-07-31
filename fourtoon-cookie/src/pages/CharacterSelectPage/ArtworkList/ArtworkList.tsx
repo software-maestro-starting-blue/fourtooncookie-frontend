@@ -1,9 +1,8 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, FlatList, ListRenderItem } from 'react-native';
 import type { Character } from '../../../types/character';
 import * as S from './ArtworkList.styeld';
 import CharacterList from '../../../components/character/CharacterList/CharacterList';
-import { FlatList, ListRenderItem } from 'react-native';
 
 export interface ArtworkListProps {
   groupedCharacters: Record<string, Character[]>;
@@ -15,15 +14,12 @@ const ArtworkList = (props: ArtworkListProps) => {
   const { groupedCharacters, selectedCharacter, handleCharacterPress } = props;
 
   const renderItem: ListRenderItem<string> = ({ item }) => (
-    <View key={item}>
-      <Text style={S.styles.artworkTitle}>{item}</Text>
-      <CharacterList
-        characters={groupedCharacters[item]}
-        selectedCharacter={selectedCharacter}
-        handleCharacterPress={handleCharacterPress}
-        numColumns={3}
-      />
-    </View>
+    <ArtworkItem
+      artworkName={item}
+      artworkCharacters={groupedCharacters[item]}
+      selectedCharacter={selectedCharacter}
+      handleCharacterPress={handleCharacterPress}
+    />
   );
 
   return (
@@ -33,6 +29,28 @@ const ArtworkList = (props: ArtworkListProps) => {
       renderItem={renderItem}
     />
   );
+};
+
+interface ArtworkItemProps {
+    artworkName: string;
+    artworkCharacters: Character[];
+    selectedCharacter: Character | null;
+    handleCharacterPress: (character: Character) => void;
+}
+  
+const ArtworkItem = (props: ArtworkItemProps) => {
+    const { artworkName, artworkCharacters, selectedCharacter, handleCharacterPress } = props;
+    return (
+        <View key={artworkName}>
+        <Text style={S.styles.artworkTitle}>{artworkName}</Text>
+        <CharacterList
+            characters={artworkCharacters}
+            selectedCharacter={selectedCharacter}
+            handleCharacterPress={handleCharacterPress}
+            numColumns={3}
+        />
+        </View>
+    );
 };
 
 export default ArtworkList;
