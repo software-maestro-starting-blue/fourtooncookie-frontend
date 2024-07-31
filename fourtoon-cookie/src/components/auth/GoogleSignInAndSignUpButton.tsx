@@ -5,7 +5,7 @@ import {
 import {CLIENT_ID} from '@env'
 import {supabaseSignInAndSignUpWithIdToken} from "../../apis/supabase";
 import type {Session} from "../../types/session";
-import { OAuthProvider } from "../../types/OAuthProvider";
+import { OAuthProvider } from "../../types/oauth";
 import {getGoogleIdTokenWithNativeLogin} from "../../apis/googleOAuth";
 
 const GoogleSignInAndSignUpButton = () => {

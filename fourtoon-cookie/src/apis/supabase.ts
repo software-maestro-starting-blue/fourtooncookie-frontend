@@ -1,7 +1,7 @@
 import type {Session} from "../types/session";
 import { createClient } from '@supabase/supabase-js';
 import { SUPABASE_API_URL, SUPABASE_API_KEY } from '@env'
-import {OAuthProvider} from "../types/OAuthProvider";
+import {OAuthProvider} from "../types/oauth";
 
 const supabase = createClient(SUPABASE_API_URL, SUPABASE_API_KEY);
 
