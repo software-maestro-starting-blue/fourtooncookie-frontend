@@ -19,7 +19,7 @@ const DateInfo = (props: DateInfoProps) => {
     const [isDatePickerVisible, setDatePickerVisible] = useState<boolean>(false);
 
 
-    const handleOpenPress = () => {
+    const handleDatePress = () => {
         if (! isChangeable) return;
         setDatePickerVisible(true);
     }
@@ -36,7 +36,7 @@ const DateInfo = (props: DateInfoProps) => {
 
     return (
         <View style={S.styles.view}>
-            <TouchableOpacity onPress={handleOpenPress}>
+            <TouchableOpacity onPress={handleDatePress}>
                 <Text style={S.styles.date}>{dateString}</Text>
             </TouchableOpacity>
             <DateTimePickerModal 

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import Header from "./Header/Header";
-import TextInputLayer from "./TextInputLayer/TextInputLayer";
+import TextInputLayout from "./TextInputLayout/TextInputLayout";
 import HashtagLayout from "./HashtagLayout/HashtagLayout";
 
 import { getGpsPosition } from "../../systemcall/gpt";
@@ -131,7 +131,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
                 onCharacterChoosePress={handleCharacterChooseButtonPress}
                 onDonePress={handleWriteDoneButtonPress} 
                 />
-            <TextInputLayer 
+            <TextInputLayout
                 text={content}
                 onTextChange={handleInputTextChange}
             /> 
