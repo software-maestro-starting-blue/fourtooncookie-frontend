@@ -20,7 +20,7 @@ const DiaryTimelinePage = () => {
         const loadDiaries = async () => {
             if (!isLoadingMore && hasMore) {
                 setIsLoadingMore(true);
-                const result = await getDiaries(page, ""); // TODO 1대신 멤버 ID 
+                const result = await getDiaries(page, "1"); // TODO 1대신 멤버 ID 
                 if (result === null) {
                     setHasMore(false);
                 } else {
