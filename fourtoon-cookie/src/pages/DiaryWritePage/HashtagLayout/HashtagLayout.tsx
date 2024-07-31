@@ -3,11 +3,11 @@ import Hashtag from "./Hashtag/Hashtag";
 
 import * as S from "./HashtagLayout.styled";
 
-export interface HashtagLayerProps {
+export interface HashtagLayoutProps {
     hashtagIds: number[]
 }
 
-const HashtagLayout = (props: HashtagLayerProps) => {
+const HashtagLayout = (props: HashtagLayoutProps) => {
     const {hashtagIds, ...rest} = props;
 
 
