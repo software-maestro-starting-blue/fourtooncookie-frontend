@@ -8,7 +8,7 @@ import * as S from './DiaryActionsLayout.styled';
 
 interface DiaryActionsLayoutProps {
     isFavorite: boolean;
-    toggleFavorite: () => void;
+    onToggleFavorite: () => void;
     onDownload: () => void;
     onShare: () => void;
     onEdit: () => void;
@@ -16,14 +16,14 @@ interface DiaryActionsLayoutProps {
 }
 
 const DiaryActionsLayout = (props: DiaryActionsLayoutProps) => {
-    const {isFavorite, toggleFavorite, onDownload, onShare, onEdit, onDelete, ...rest} = props;
+    const {isFavorite, onToggleFavorite, onDownload, onShare, onEdit, onDelete, ...rest} = props;
 
     return (
         <View style={S.styles.footer}>
             <View style={S.styles.favoriteButton}>
                 <IconButton
                     imageSource={isFavorite ? FavoriteIcon : UnFavoriteIcon}
-                    onPress={toggleFavorite}
+                    onPress={onToggleFavorite}
                     imageStyle={S.styles.favoriteImage}
                 />
             </View>
