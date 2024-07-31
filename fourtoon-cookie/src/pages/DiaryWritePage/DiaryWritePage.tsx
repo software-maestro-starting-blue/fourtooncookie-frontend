@@ -1,10 +1,10 @@
 import { SafeAreaView } from "react-native";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import Header from "./Header/Header";
 import TextInputLayer from "./TextInputLayer/TextInputLayer";
-import HashtagLayer from "./HashtagLayer/HashtagLayer";
+import HashtagLayout from "./HashtagLayout/HashtagLayout";
 
 import { getGpsPosition } from "../../systemcall/gpt";
 import { getWeather } from "../../apis/weather";
@@ -135,7 +135,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
                 text={content}
                 onTextChange={handleInputTextChange}
             /> 
-            <HashtagLayer 
+            <HashtagLayout 
                 hashtagIds={hashtagsContainWeather}
             />
         </SafeAreaView>

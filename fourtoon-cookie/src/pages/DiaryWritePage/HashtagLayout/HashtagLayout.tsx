@@ -1,13 +1,13 @@
 import { View } from "react-native";
-import Hashtag from "./components/Hashtag/Hashtag";
+import Hashtag from "./Hashtag/Hashtag";
 
-import * as S from "./HashtagLayer.styled";
+import * as S from "./HashtagLayout.styled";
 
 export interface HashtagLayerProps {
     hashtagIds: number[]
 }
 
-const HashtagLayer = (props: HashtagLayerProps) => {
+const HashtagLayout = (props: HashtagLayerProps) => {
     const {hashtagIds, ...rest} = props;
 
 
@@ -20,4 +20,4 @@ const HashtagLayer = (props: HashtagLayerProps) => {
     );
 }
 
-export default HashtagLayer;
+export default HashtagLayout;
