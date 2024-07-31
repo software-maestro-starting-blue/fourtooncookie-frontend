@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { debounce } from 'lodash';
-import DiaryLayout from "./DiaryLayout/DiaryComponent";
+import DiaryLayout from "./DiaryComponent/DiaryComponent";
 import Footer from "../../components/common/Footer/Footer";
 import Header from "../../components/common/Header/Header";
 import DiaryEmpty from "./DiaryEmpty/DiaryEmpty";
