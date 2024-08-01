@@ -89,7 +89,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     const handleCharacterChooseButtonPress = () => {
         if (isWorking) return;
 
-        // TODO: navigate to CharacterChoosePage
+        navigation.navigate('CharacterSelectPage');
     }
 
     const handleWriteDoneButtonPress = async () => {

@@ -1,10 +1,14 @@
 import { View } from "react-native";
-import CharacterChooseButton from "./CharacterChooseButton/CharacterChooseButton";
 import WriteDoneButton from "./WriteDoneButton/WriteDoneButton";
 import DateInfo from "./DateInfo/DateInfo";
 import BackButton from "../../../components/common/BackButton/BackButton";
 
 import * as S from "./Header.styled";
+import CharacterItem from "../../../components/character/CharacterItem/CharacterItem";
+import { useContext } from "react";
+import GlobalSelectionCharacterStateContext from "../../../components/global/GlobalSelectionCharacterStateContext";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../../constants/routing";
 
 export interface HeaderProps {
     date: Date;
@@ -17,7 +21,16 @@ export interface HeaderProps {
 const Header = (props: HeaderProps) => {
     const { date, isDateChangeable, onDateChange, onCharacterChoosePress, onDonePress, ...rest } = props;
 
-    
+    const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+    if (! selectedCharacter){
+
+
+        navigation.navigate('CharacterSelectPage');
+        return null;
+    }
+
     return (
         <View style={S.styles.header}>
             <View style={S.styles.leftContainer}>
@@ -25,7 +38,11 @@ const Header = (props: HeaderProps) => {
                 <DateInfo date={date} isChangeable={isDateChangeable} onDateChange={onDateChange}/>
             </View>
             <View style={S.styles.rightContainer}>
-                <CharacterChooseButton onPress={onCharacterChoosePress}/>
+                <CharacterItem
+                    character={selectedCharacter}
+                    isSelected={false}
+                    onPress={onCharacterChoosePress}
+                />
                 <WriteDoneButton onPress={onDonePress}/>
             </View>
         </View>
