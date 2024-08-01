@@ -19,7 +19,7 @@ import * as S from "./DiaryWritePage.styled";
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
 
 const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
-    const { diary, isEdit, ...rest } = route.params || { isEdit: false };
+    const { diary, isEdit, ...rest } = route.params || { diary: undefined, isEdit: false };
 
     
     const [diaryDate, setDiaryDate] = useState<Date>(diary ? diary.diaryDate : new Date());

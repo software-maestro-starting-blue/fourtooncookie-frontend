@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { View } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import ConfirmationModal from "../../../components/common/Modal/ConfirmationModal/ConfirmationModal";
 import { patchDiaryFavorite } from '../../../apis/diary';
 import { Diary } from "../../../types/diary";
 import DiaryContentsLayout from "./DiaryContentsLayout/DiaryContentsLayout";
 import DiaryActionsLayout from "./DiaryActionLayout/DiaryActionsLayout";
 import DiaryPaintingImagesLayout from "./DiaryPaintingImagesLayout/DiaryPaintingImagesLayout";
-import DiaryWritePage from "../../DiaryWritePage/DiaryWritePage";
 import * as S from './DiaryComponent.styled';
+import { RootStackParamList } from "../../../constants/routing";
 
 export interface DiaryProps {
     diary: Diary,
@@ -21,7 +21,7 @@ const DiaryComponent = (props: DiaryProps) => {
     
     const [isFavorite, setIsFavorite] = useState(initialFavorite);
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const navigation = useNavigation();
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     const handleToggleFavorite = async () => {
         try {
@@ -41,7 +41,7 @@ const DiaryComponent = (props: DiaryProps) => {
     };
 
     const handleEdit = () => {
-        navigation.navigate(DiaryWritePage, { diary: diary, isEdit: true });
+        navigation.navigate("DiaryWritePage", { diary: diary, isEdit: true });
     };
 
     const handleDelete = () => {
