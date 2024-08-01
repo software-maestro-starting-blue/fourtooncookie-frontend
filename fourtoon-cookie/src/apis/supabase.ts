@@ -1,11 +1,11 @@
-import type {Session} from "../types/jwt";
+import type {JWTToken} from "../types/jwt";
 import { createClient } from '@supabase/supabase-js';
 import { SUPABASE_API_URL, SUPABASE_API_KEY } from '@env'
 import {OAuthProvider} from "../types/oauth";
 
 const supabase = createClient(SUPABASE_API_URL, SUPABASE_API_KEY);
 
-export const supabaseSignInAndSignUpWithIdToken = async (provider: OAuthProvider, idToken: string): Promise<Session> => {
+export const supabaseSignInAndSignUpWithIdToken = async (provider: OAuthProvider, idToken: string): Promise<JWTToken> => {
     try {
         const {data, error} = await supabase.auth.signInWithIdToken({
             provider: provider,
