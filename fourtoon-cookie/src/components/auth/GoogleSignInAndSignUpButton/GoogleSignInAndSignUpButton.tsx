@@ -1,9 +1,9 @@
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin'
 import {CLIENT_ID} from '@env'
-import {supabaseSignInAndSignUpWithIdToken} from "../../apis/supabase";
-import type {JWTToken} from "../../types/jwt";
-import { OAuthProvider } from "../../types/oauth";
-import {getGoogleIdTokenWithNativeLogin} from "../../apis/googleOAuth";
+import {supabaseSignInAndSignUpWithIdToken} from "../../../apis/supabase";
+import type {JWTToken} from "../../../types/jwt";
+import { OAuthProvider } from "../../../types/oauth";
+import {getGoogleIdTokenWithNativeLogin} from "../../../apis/googleOAuth";
 
 export interface GoogleSignInAndSignUpButtonProps {
     onPress: (token: JWTToken) => void;
