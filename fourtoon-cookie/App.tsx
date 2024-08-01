@@ -15,7 +15,7 @@ export default function App() {
   return (
     <GlobalSelectionCharacterStateProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="DiaryWritePage" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="DiaryTimelinePage" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} />
           <Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
           <Stack.Screen name="CharacterSelectPage" component={CharacterSelectPage} />
