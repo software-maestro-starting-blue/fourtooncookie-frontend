@@ -1,4 +1,4 @@
-export interface Session {
+export interface JWTToken {
     accessToken: string;
     refreshToken: string;
     tokenType: string;

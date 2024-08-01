@@ -1,4 +1,4 @@
-import type {Session} from "../types/session";
+import type {Session} from "../types/jwt";
 import { createClient } from '@supabase/supabase-js';
 import { SUPABASE_API_URL, SUPABASE_API_KEY } from '@env'
 import {OAuthProvider} from "../types/oauth";
