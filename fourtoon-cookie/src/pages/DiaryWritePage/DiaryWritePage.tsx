@@ -31,6 +31,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     const hashtagsContainWeather: number[] = (weather) ? [weather, ...hashtags] : hashtags
 
     // TODO: hashtagIds에서 weather 추출하기
+    /** TODO 실제 릴리즈 버전에서 활용 예정
 
     useEffect(() => {
         if (weather != null) return;
@@ -72,7 +73,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
                 clearInterval(hashtagInterval);
         }
 
-    }, [content]);
+    }, [content]); **/
 
 
     if (isEdit && ! diary){
