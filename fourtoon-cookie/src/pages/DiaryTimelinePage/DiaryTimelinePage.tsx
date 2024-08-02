@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FlatList } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { debounce } from 'lodash';
@@ -10,12 +10,15 @@ import * as S from './DiaryTimelinePage.styled';
 import { deleteDiary, getDiaries } from '../../apis/diary';
 import type { Diary } from "../../types/diary";
 import { diaryDefaultImages } from "../../constants/diary";
+import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 
 const DiaryTimelinePage = () => {
     const [diaries, setDiaries] = useState<Diary[]>([]);
     const [page, setPage] = useState(0);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
     const [hasMore, setHasMore] = useState(true);
+
+    const jwtContext = useContext(GlobalJwtTokenStateContext);
 
     useEffect(() => {
         const loadDiaries = async () => {
@@ -25,7 +28,7 @@ const DiaryTimelinePage = () => {
             setIsLoadingMore(true);
             let result: Diary[];
             try {
-                result = await getDiaries(page, "1"); // TODO 1대신 멤버 ID 
+                result = await getDiaries(page, "1", jwtContext); // TODO 1대신 멤버 ID 
             } catch (error) {
                 result = [];
             }
@@ -56,7 +59,7 @@ const DiaryTimelinePage = () => {
 
     const handleDelete = async (diaryId: number) => {
         try {
-            await deleteDiary(diaryId);
+            await deleteDiary(diaryId, jwtContext);
             setDiaries(prevDiaries => prevDiaries.filter(diary => diary.diaryId !== diaryId));
         } catch (error) {
             console.error("An error occurred while deleting the diary: ", error);

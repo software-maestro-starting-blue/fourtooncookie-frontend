@@ -10,10 +10,12 @@ import Header from './Header/Header';
 import { Character, CharacterPaymentType } from '../../types/character';
 import * as S from './CharacterSelectPage.styled';
 import { RootStackParamList } from '../../constants/routing';
+import GlobalJwtTokenStateContext from '../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext';
 
 const CharacterSelectPage = () => {
     const [ selectedPaymentType, setSelectedPaymentType ] = useState<CharacterPaymentType>(CharacterPaymentType.FREE);
     const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
+    const jwtContext = useContext(GlobalJwtTokenStateContext);
     const [ characters, setCharacters ] = useState<Character[]>([]);
     const [ loading, setLoading ] = useState<boolean>(true);
     const [ error, setError ] = useState<string | null>(null);
@@ -22,7 +24,7 @@ const CharacterSelectPage = () => {
     useEffect(() => {
       const fetchCharacters = async () => {
         try {
-          const characters = await getCharacters();
+          const characters = await getCharacters(jwtContext);
           setCharacters(characters);
         } catch (e) {
           console.error(e);
