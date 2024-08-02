@@ -20,6 +20,7 @@ export const requestApi = async (url: string, method: string, jwtContext: Global
             setJwtToken(newToken);
             return newToken;
         } catch (error) {
+            setJwtToken(null);
             throw new Error('jwtToken refresh error');
         }
     };
