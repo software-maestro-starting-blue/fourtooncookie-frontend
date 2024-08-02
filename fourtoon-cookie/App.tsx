@@ -7,7 +7,7 @@ import { RootStackParamList } from './src/constants/routing';
 import CharacterSelectPage from './src/pages/CharacterSelectPage/CharacterSelectPage';
 import DiaryWritePage from './src/pages/DiaryWritePage/DiaryWritePage';
 import DiaryTimelinePage from './src/pages/DiaryTimelinePage/DiaryTimelinePage';
-import GlobalSelectionCharacterStateProvider from './src/components/global/GlobalSelectionCharacterStateProvider';
+import GlobalSelectionCharacterStateProvider from './src/components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateProvider';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

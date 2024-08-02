@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {NavigationProp, useNavigation} from "@react-navigation/native";
 import { getCharacters } from '../../apis/character';
 import BackButton from '../../components/common/BackButton/BackButton';
-import GlobalSelectionCharacterStateContext from '../../components/global/GlobalSelectionCharacterStateContext';
+import GlobalSelectionCharacterStateContext from '../../components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateContext';
 import ArtworkList from './ArtworkList/ArtworkList';
 import Header from './Header/Header';
 import { Character, CharacterPaymentType } from '../../types/character';
