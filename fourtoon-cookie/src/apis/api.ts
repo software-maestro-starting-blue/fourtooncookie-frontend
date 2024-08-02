@@ -14,34 +14,47 @@ export const requestApi = async (url: string, method: string, jwtContext: Global
         throw new Error('jwtToken.expires_at is null');
     }
 
-    if (jwtToken.expires_at <= Date.now()) {
+    const refreshJwtToken = async () => {
         try {
-            setJwtToken(await supabaseRefreshToken(jwtToken.refreshToken));
+            const newToken = await supabaseRefreshToken(jwtToken.refreshToken);
+            setJwtToken(newToken);
+            return newToken;
         } catch (error) {
             throw new Error('jwtToken refresh error');
         }
-    }
+    };
 
-    try {
-        const response = await fetch(url, {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${jwtToken.accessToken}`
-            },
-            body: body ? JSON.stringify(body) : undefined,
-        });
+    const getValidJwtToken = async () => {
+        if (!jwtToken.expires_at || jwtToken.expires_at <= Date.now()) {
+            return await refreshJwtToken();
+        }
+        return jwtToken;
+    };
 
-        if (response.status <= 299) {
-            return response;
-        } else if (response.status === 401) {
-            setJwtToken(await supabaseRefreshToken(jwtToken.refreshToken));
-            return requestApi(url, method, jwtContext, body);
-        } else {
+    const makeRequest = async (token: JWTToken) => {
+        try {
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token.accessToken}`
+                },
+                body: body ? JSON.stringify(body) : undefined,
+            });
+
+            if (response.status <= 299) {
+                return response;
+            } else if (response.status === 401) {
+                const newToken = await refreshJwtToken();
+                return makeRequest(newToken);
+            } else {
+                throw new Error(`[${method}] ${url} error`);
+            }
+        } catch (error) {
             throw new Error(`[${method}] ${url} error`);
         }
-    } catch (error) {
-        console.error(`${method} : `, error);
-        throw new Error(`${method} error`);
-    }
+    };
+
+    const validToken = await getValidJwtToken();
+    return makeRequest(validToken);
 }
