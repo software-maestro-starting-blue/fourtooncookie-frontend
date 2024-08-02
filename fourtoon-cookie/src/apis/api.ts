@@ -32,7 +32,7 @@ export const requestApi = async (url: string, method: string, jwtContext: Global
             body: body ? JSON.stringify(body) : undefined,
         });
 
-        if (response.status === 200) {
+        if (response.status <= 299) {
             return response;
         } else if (response.status === 401) {
             setJwtToken(await supabaseRefreshToken(jwtToken.refreshToken));
