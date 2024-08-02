@@ -8,20 +8,23 @@ import CharacterSelectPage from './src/pages/CharacterSelectPage/CharacterSelect
 import DiaryWritePage from './src/pages/DiaryWritePage/DiaryWritePage';
 import DiaryTimelinePage from './src/pages/DiaryTimelinePage/DiaryTimelinePage';
 import GlobalSelectionCharacterStateProvider from './src/components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateProvider';
+import GlobalJwtTokenStateProvider from './src/components/global/GlobalJwtToken/GlobalJwtTokenStateProvider';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <GlobalSelectionCharacterStateProvider>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="DiaryTimelinePage" screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} />
-          <Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
-          <Stack.Screen name="CharacterSelectPage" component={CharacterSelectPage} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </GlobalSelectionCharacterStateProvider>
+    <GlobalJwtTokenStateProvider>
+      <GlobalSelectionCharacterStateProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="DiaryTimelinePage" screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} />
+            <Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
+            <Stack.Screen name="CharacterSelectPage" component={CharacterSelectPage} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </GlobalSelectionCharacterStateProvider>
+    </GlobalJwtTokenStateProvider>
   );
 }
 

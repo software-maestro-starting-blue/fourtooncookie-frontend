@@ -46,3 +46,5 @@ const GlobalJwtTokenStateProvider = (props: GlobalJwtTokenStateProviderProps) =>
         </GlobalJwtTokenStateContext.Provider>
     );
 }
+
+export default GlobalJwtTokenStateProvider;
