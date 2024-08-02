@@ -7,7 +7,7 @@ import { RootStackParamList } from './src/constants/routing';
 import CharacterSelectPage from './src/pages/CharacterSelectPage/CharacterSelectPage';
 import DiaryWritePage from './src/pages/DiaryWritePage/DiaryWritePage';
 import DiaryTimelinePage from './src/pages/DiaryTimelinePage/DiaryTimelinePage';
-import GlobalSelectionCharacterStateProvider from './src/components/global/GlobalSelectionCharacterStateProvider';
+import GlobalSelectionCharacterStateProvider from './src/components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateProvider';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -15,7 +15,7 @@ export default function App() {
   return (
     <GlobalSelectionCharacterStateProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="CharacterSelectPage" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="DiaryTimelinePage" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} />
           <Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
           <Stack.Screen name="CharacterSelectPage" component={CharacterSelectPage} />

@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useMemo, useContext } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import {NavigationProp, useNavigation} from "@react-navigation/native";
 import { getCharacters } from '../../apis/character';
-import {useNavigation} from "@react-navigation/native";
 import BackButton from '../../components/common/BackButton/BackButton';
+import GlobalSelectionCharacterStateContext from '../../components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateContext';
 import ArtworkList from './ArtworkList/ArtworkList';
 import Header from './Header/Header';
-import GlobalSelectionCharacterStateContext from '../../components/global/GlobalSelectionCharacterStateContext';
 import { Character, CharacterPaymentType } from '../../types/character';
 import * as S from './CharacterSelectPage.styled';
-import { FREE_KOR, PAID_KOR } from '../../constants/character';
+import { RootStackParamList } from '../../constants/routing';
 
 const CharacterSelectPage = () => {
     const [ selectedPaymentType, setSelectedPaymentType ] = useState<CharacterPaymentType>(CharacterPaymentType.FREE);
@@ -17,7 +17,7 @@ const CharacterSelectPage = () => {
     const [ characters, setCharacters ] = useState<Character[]>([]);
     const [ loading, setLoading ] = useState<boolean>(true);
     const [ error, setError ] = useState<string | null>(null);
-    const navigation = useNavigation();
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     useEffect(() => {
       const fetchCharacters = async () => {

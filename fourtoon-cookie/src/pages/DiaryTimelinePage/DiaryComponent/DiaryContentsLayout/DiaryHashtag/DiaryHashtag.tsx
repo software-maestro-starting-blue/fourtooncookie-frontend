@@ -27,7 +27,7 @@ const DiaryHashtag = (props: DiaryHashtagProps) => {
             {hashtagIds.map(id => (
                 <View key={id} style={S.styles.hashtagContainer}>
                     {/* <Image source={hashtagImages[id]} style={S.styles.image} /> */}
-                <Text>{hashtagTexts[id]}</Text>
+                    <Text>{hashtagTexts[id]}</Text>
                 </View>
             ))}
         </View>

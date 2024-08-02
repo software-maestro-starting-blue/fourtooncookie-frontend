@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, View, FlatList, ListRenderItem } from 'react-native';
 import type { Character } from '../../../types/character';
-import * as S from './ArtworkList.styeld';
 import CharacterList from '../../../components/character/CharacterList/CharacterList';
+import * as S from './ArtworkList.styeld';
 
 export interface ArtworkListProps {
   groupedCharacters: Record<string, Character[]>;

@@ -1,10 +1,10 @@
 import { SafeAreaView } from "react-native";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import Header from "./Header/Header";
-import TextInputLayer from "./TextInputLayer/TextInputLayer";
-import HashtagLayer from "./HashtagLayer/HashtagLayer";
+import TextInputLayout from "./TextInputLayout/TextInputLayout";
+import HashtagLayout from "./HashtagLayout/HashtagLayout";
 
 import { getGpsPosition } from "../../systemcall/gpt";
 import { getWeather } from "../../apis/weather";
@@ -19,7 +19,7 @@ import * as S from "./DiaryWritePage.styled";
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
 
 const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
-    const { diary, isEdit, ...rest } = route.params || { isEdit: false };
+    const { diary, isEdit, ...rest } = route.params || { diary: undefined, isEdit: false };
 
     
     const [diaryDate, setDiaryDate] = useState<Date>(diary ? diary.diaryDate : new Date());
@@ -31,6 +31,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     const hashtagsContainWeather: number[] = (weather) ? [weather, ...hashtags] : hashtags
 
     // TODO: hashtagIds에서 weather 추출하기
+    /** TODO 실제 릴리즈 버전에서 활용 예정
 
     useEffect(() => {
         if (weather != null) return;
@@ -72,7 +73,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
                 clearInterval(hashtagInterval);
         }
 
-    }, [content]);
+    }, [content]); **/
 
 
     if (isEdit && ! diary){
@@ -89,7 +90,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     const handleCharacterChooseButtonPress = () => {
         if (isWorking) return;
 
-        // TODO: navigate to CharacterChoosePage
+        navigation.navigate('CharacterSelectPage');
     }
 
     const handleWriteDoneButtonPress = async () => {
@@ -131,11 +132,11 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
                 onCharacterChoosePress={handleCharacterChooseButtonPress}
                 onDonePress={handleWriteDoneButtonPress} 
                 />
-            <TextInputLayer 
+            <TextInputLayout
                 text={content}
                 onTextChange={handleInputTextChange}
             /> 
-            <HashtagLayer 
+            <HashtagLayout 
                 hashtagIds={hashtagsContainWeather}
             />
         </SafeAreaView>

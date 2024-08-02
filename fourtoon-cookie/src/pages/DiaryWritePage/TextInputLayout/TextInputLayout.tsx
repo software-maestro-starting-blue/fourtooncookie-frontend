@@ -1,13 +1,13 @@
 import { TextInput, View } from "react-native";
 
-import * as S from "./TextInputLayer.styled";
+import * as S from "./TextInputLayout.styled";
 
-export interface TextInputLayerProps {
+export interface TextInputLayoutProps {
     text: string,
     onTextChange: (value: string) => void,
 }
 
-const TextInputLayer = (props: TextInputLayerProps) => {
+const TextInputLayout = (props: TextInputLayoutProps) => {
     const { text, onTextChange, ...rest } = props;
     
     return (
@@ -24,4 +24,4 @@ const TextInputLayer = (props: TextInputLayerProps) => {
     );
 }
 
-export default TextInputLayer;
+export default TextInputLayout;

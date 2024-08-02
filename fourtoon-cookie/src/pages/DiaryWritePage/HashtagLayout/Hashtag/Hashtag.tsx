@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image } from "react-native";
-import { hashtags } from '../../../../../types/hashtags/hashtag';
+import { hashtags } from '../../../../types/hashtags/hashtag';
 
 import * as S from "./Hashtag.styled";
 
@@ -13,9 +13,7 @@ const Hashtag = (props: HashtagProps) => {
 
     const hashtag = hashtags[hashtagId]
 
-
     if (! hashtag) return null;
-
 
     return (
         <Image source={hashtag.image} style={S.styles.image} />

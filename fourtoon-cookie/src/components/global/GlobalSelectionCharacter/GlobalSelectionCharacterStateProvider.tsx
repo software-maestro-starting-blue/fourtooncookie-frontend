@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import GlobalSelectionCharacterStateContext from './GlobalSelectionCharacterStateContext';
-import type { Character } from '../../types/character';
+import type { Character } from '../../../types/character';
 
 export interface GlobalSelectionCharacterStateProviderProps {
     children: ReactNode,
