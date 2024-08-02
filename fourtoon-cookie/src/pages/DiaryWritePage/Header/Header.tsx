@@ -5,7 +5,7 @@ import BackButton from "../../../components/common/BackButton/BackButton";
 
 import * as S from "./Header.styled";
 import CharacterItem from "../../../components/character/CharacterItem/CharacterItem";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import GlobalSelectionCharacterStateContext from "../../../components/global/GlobalSelectionCharacterStateContext";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../constants/routing";
@@ -24,10 +24,13 @@ const Header = (props: HeaderProps) => {
     const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
+    useEffect(() => {
+        if (! selectedCharacter){
+            navigation.navigate("CharacterSelectPage");
+        }
+    }, [navigation, selectedCharacter]);
+
     if (! selectedCharacter){
-
-
-        navigation.navigate('CharacterSelectPage');
         return null;
     }
 
