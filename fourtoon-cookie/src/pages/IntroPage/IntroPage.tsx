@@ -15,34 +15,34 @@ const IntroPage = () => {
     const { jwtToken, setJwtToken } = useContext(GlobalJwtTokenStateContext);
 
     useEffect(() => {
-        if (jwtToken) {
-            if (!jwtToken.expires_at || jwtToken.expires_at < Date.now()) {
-                const refreshToken = async () => {
-                    try {
-                        const newToken = await supabaseRefreshToken(jwtToken.refreshToken);
-                        setJwtToken(newToken);
-                    } catch (e) {
-                        setJwtToken(null);
-                    }
-                }
+        if (!jwtToken) return;
 
-                refreshToken();
+        if (!jwtToken.expires_at || jwtToken.expires_at < Date.now()) {
+            const refreshToken = async () => {
+                try {
+                    const newToken = await supabaseRefreshToken(jwtToken.refreshToken);
+                    setJwtToken(newToken);
+                } catch (e) {
+                    setJwtToken(null);
+                }
+            }
+
+            refreshToken();
+            return;
+        }
+
+        const checkIsFirstTime = async () => {
+            const member: Member = await getMember({jwtToken, setJwtToken});
+            if (member.name == null) {
+                navigation.navigate('SignUpPage');
+                return;
+            } else {
+                navigation.navigate('DiaryTimelinePage');
                 return;
             }
-
-            const checkIsFirstTime = async () => {
-                const member: Member = await getMember({jwtToken, setJwtToken});
-                if (member.name == null) {
-                    navigation.navigate('SignUpPage');
-                    return;
-                } else {
-                    navigation.navigate('DiaryTimelinePage');
-                    return;
-                }
-            }
-
-            checkIsFirstTime();
         }
+
+        checkIsFirstTime();
     }, [jwtToken, setJwtToken, navigation]);
 
     if (jwtToken) {
@@ -56,7 +56,7 @@ const IntroPage = () => {
     return (
         <View style={S.styles.container}>
             <View style={S.styles.logoContainer}>
-                <Image source={require('./assets/image.png')} style={S.styles.logo} />
+                <Image source={require('../../../assets/icon.png')} style={S.styles.logo} />
             </View>
             <Text style={S.styles.description}>나의 하루를 그림일기로 표현해보세요</Text>
             <View style={S.styles.buttons}>
