@@ -32,7 +32,7 @@ export const requestApi = async (url: string, method: string, jwtContext: Global
         return jwtToken;
     };
 
-    const makeRequest = async (token: JWTToken) => {
+    const makeRequest = async (token: JWTToken, isRetry: boolean = false) => {
         try {
             const response = await fetch(url, {
                 method: method,
@@ -45,9 +45,9 @@ export const requestApi = async (url: string, method: string, jwtContext: Global
 
             if (response.status <= 299) {
                 return response;
-            } else if (response.status === 401) {
+            } else if (response.status === 401 && !isRetry) {
                 const newToken = await refreshJwtToken();
-                return makeRequest(newToken);
+                return makeRequest(newToken, true);
             } else {
                 throw new Error(`[${method}] ${url} error`);
             }
