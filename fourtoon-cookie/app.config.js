@@ -1,7 +1,8 @@
 export default {
     expo: {
-        "name": "fourtoon-cookie",
-        "slug": "fourtoon-cookie",
+        owner: "startingblue",
+        "name": process.env.PROJECT_NAME,
+        "slug": process.env.SLUG,
         "version": "1.0.0",
         "orientation": "portrait",
         "icon": "./assets/icon.png",
@@ -20,6 +21,7 @@ export default {
         },
         ios: {
             "supportsTablet": true,
+            "usesAppleSignIn": true,
             "bundleIdentifier": process.env.BUNDLE_IDENTIFIER,
             "infoPlist": {
                 "CFBundleURLTypes": [
