@@ -21,6 +21,7 @@ const GlobalJwtTokenStateProvider = (props: GlobalJwtTokenStateProviderProps) =>
                 }
             } catch (e) {
                 console.error('Failed to load the jwt token from storage:', e);
+                throw Error('Failed to load the jwt token from storage' + e);
             }
         };
 
