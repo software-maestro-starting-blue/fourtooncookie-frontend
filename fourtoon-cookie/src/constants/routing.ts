@@ -7,5 +7,6 @@ export type RootStackParamList = {
         isEdit?: boolean,
     },
     CharacterSelectPage: undefined,
+    IntroPage: undefined,
     SignUpPage: undefined,
 }
