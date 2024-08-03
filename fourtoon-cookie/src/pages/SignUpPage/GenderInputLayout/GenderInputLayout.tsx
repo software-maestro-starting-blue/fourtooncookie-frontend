@@ -10,9 +10,7 @@ export interface GenderInputLayoutProps {
 const GenderInputLayout = (props: GenderInputLayoutProps) => {
     const { gender, onGenderChange } = props;
 
-    return (
-        <View>
-            {[Gender.MALE, Gender.FEMALE].map(genderItem => 
+    return [Gender.MALE, Gender.FEMALE].map(genderItem => 
             <View key={genderItem} >
                 <GenderComponent
                     gender={genderItem}
@@ -20,9 +18,7 @@ const GenderInputLayout = (props: GenderInputLayoutProps) => {
                     onPress={() => onGenderChange(genderItem)}
                 />
             </View>
-            )}
-        </View>
-    )
+        );
 }
 
 interface GenderComponentProps {
