@@ -6,12 +6,12 @@ import { OAuthProvider } from "../../../types/oauth";
 import {getGoogleIdTokenWithNativeLogin} from "../../../apis/googleOAuth";
 
 export interface GoogleSignInAndSignUpButtonProps {
-    onPress: (token: JWTToken) => void;
+    onSuccess: (token: JWTToken) => void;
 }
 
 
 const GoogleSignInAndSignUpButton = (props: GoogleSignInAndSignUpButtonProps) => {
-    const { onPress, ...rest } = props;
+    const { onSuccess, ...rest } = props;
 
     GoogleSignin.configure({
         scopes: [],
@@ -22,7 +22,7 @@ const GoogleSignInAndSignUpButton = (props: GoogleSignInAndSignUpButtonProps) =>
         const idToken = await getGoogleIdTokenWithNativeLogin();
         if (idToken) {
             const token: JWTToken = await supabaseSignInAndSignUpWithIdToken(OAuthProvider.GOOGLE, idToken);
-            onPress(token);
+            onSuccess(token);
         }
         // TODO: 다른 방식으로 에러 핸들링
     }

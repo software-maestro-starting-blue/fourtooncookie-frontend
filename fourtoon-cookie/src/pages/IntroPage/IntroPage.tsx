@@ -17,7 +17,7 @@ const IntroPage = () => {
             <Text style={S.styles.description}>나의 하루를 그림일기로 표현해보세요</Text>
             <View style={S.styles.buttons}>
                 <View style={S.styles.buttonGoogle}>
-                    <GoogleSignInAndSignUpButton onPress={handleSignInButtonPress} />
+                    <GoogleSignInAndSignUpButton onSuccess={handleSignInButtonPress} />
                 </View>
                 <View style={S.styles.buttonApple}>
                     
