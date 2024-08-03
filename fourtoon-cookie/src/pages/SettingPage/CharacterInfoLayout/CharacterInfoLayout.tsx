@@ -16,7 +16,6 @@ const CharacterInfoLayout = () => {
         <View style={S.styles.character}>
             <Image
                 style={S.styles.characterCircle}
-                source={require('./naruto.png')}
             />
             <TouchableOpacity style={S.styles.changeButton} onPress={onCharacterChangeButtonPress}>
                 <Text style={S.styles.changeButtonText}>캐릭터 변경</Text>
