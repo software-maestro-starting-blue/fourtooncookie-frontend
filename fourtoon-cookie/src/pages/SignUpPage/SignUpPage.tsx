@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Gender } from "../../types/gender";
 import ProgressBar from "../../components/common/ProgressBar/ProgressBar";
 import { KeyboardAvoidingView, Platform, SafeAreaView, Text, View } from "react-native";
@@ -10,6 +10,8 @@ import BirthInputLayout from "./BirthInputLayout/BirthInputLayout";
 import GenderInputLayout from "./GenderInputLayout/GenderInputLayout";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../constants/routing";
+import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
+import { patchMember } from "../../apis/member";
 
 
 enum SignUpProgres {
@@ -26,6 +28,7 @@ const SignUpPage = () => {
     const [ signUpProgress, setSignUpProgress ] = useState<SignUpProgres>(SignUpProgres.NAME);
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+    const jwtContext = useContext(GlobalJwtTokenStateContext);
 
     const isNextButtonAvailabe: boolean = 
         (signUpProgress == SignUpProgres.NAME && name.length > 0)
@@ -56,7 +59,15 @@ const SignUpPage = () => {
         if (signUpProgress < SignUpProgres.GENDER){
             setSignUpProgress(signUpProgress + 1);
         } else {
-            // TODO 회원가입 요청
+            if (! gender) return;
+
+            try {
+                patchMember(name, birth, gender, jwtContext);
+            } catch (e) {
+                console.error("patchMember error : ", e);
+                throw Error("등록에 실패했습니다.");
+            }
+            
             navigation.navigate('DiaryTimelinePage');
         }
     }
