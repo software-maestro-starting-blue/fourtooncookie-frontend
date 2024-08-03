@@ -8,6 +8,8 @@ import Button from "../../components/common/Button/Button";
 import NameInputLayout from "./NameInputLayout/NameInputLayout";
 import BirthInputLayout from "./BirthInputLayout/BirthInputLayout";
 import GenderInputLayout from "./GenderInputLayout/GenderInputLayout";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../constants/routing";
 
 
 enum SignUpProgres {
@@ -22,6 +24,8 @@ const SignUpPage = () => {
     const [ gender, setGender ] = useState<Gender | null>(null);
 
     const [ signUpProgress, setSignUpProgress ] = useState<SignUpProgres>(SignUpProgres.NAME);
+
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     const isNextButtonAvailabe: boolean = 
         (signUpProgress == SignUpProgres.NAME && name.length > 0)
@@ -53,7 +57,7 @@ const SignUpPage = () => {
             setSignUpProgress(signUpProgress + 1);
         } else {
             // TODO 회원가입 요청
-            // TODO 페이지 이동
+            navigation.navigate('DiaryTimelinePage');
         }
     }
 
