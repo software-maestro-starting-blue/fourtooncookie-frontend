@@ -1,6 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import * as S from "./SignUpPage.styled";
 import { Gender } from "../../types/gender";
+import ProgressBar from "../../components/common/ProgressBar/ProgressBar";
+import { KeyboardAvoidingView, Platform, View } from "react-native";
+import * as S from "./SignUpPage.styled";
+import Header from "./Header/Header";
+import Button from "../../components/common/Button/Button";
+import NameInputLayout from "./NameInputLayout/NameInputLayout";
+import BirthInputLayout from "./BirthInputLayout/BirthInputLayout";
+import GenderInputLayout from "./GenderInputLayout/GenderInputLayout";
+
 
 enum SignUpProgres {
     NAME = 0,
@@ -15,9 +23,10 @@ const SignUpPage = () => {
 
     const [ signUpProgress, setSignUpProgress ] = useState<SignUpProgres>(SignUpProgres.NAME);
 
-    useEffect(() => {
-        // TODO progress bar 애니메이션 구축
-    }, [signUpProgress]);
+    const isNextButtonAvailabe: boolean = 
+        (signUpProgress == SignUpProgres.NAME && name.length > 0)
+        || (signUpProgress == SignUpProgres.BIRTH && birth != null)
+        || (signUpProgress == SignUpProgres.GENDER && gender != null);
 
     const handleNameChange = (name: string) => {
         if (signUpProgress != SignUpProgres.NAME) return;
@@ -38,6 +47,8 @@ const SignUpPage = () => {
     }
 
     const handleNextButtonClick = () => {
+        if (! isNextButtonAvailabe) return;
+
         if (signUpProgress < SignUpProgres.GENDER){
             setSignUpProgress(signUpProgress + 1);
         } else {
@@ -46,7 +57,30 @@ const SignUpPage = () => {
         }
     }
 
-    return ();
+    return (
+        <KeyboardAvoidingView style={S.styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            <View style={S.styles.contentContainer}>
+                <Header />
+                {signUpProgress == SignUpProgres.NAME && <NameInputLayout name={name} onNameChange={handleNameChange} />}
+                {signUpProgress == SignUpProgres.BIRTH && <BirthInputLayout birth={birth} onBirthChange={handleBirthChange} />}
+                {signUpProgress == SignUpProgres.GENDER && <GenderInputLayout gender={gender} onGenderChange={handleGenderChange} />}
+            </View>
+            <View style={S.styles.footer}>
+                <ProgressBar
+                    progress={signUpProgress + 1}
+                    totalProgress={3}
+                    barWidth={250}
+                    isAnimated={true}
+                />
+                <Button
+                    title="다음"
+                    onPress={handleNextButtonClick}
+                    style={{...S.styles.nextButton, backgroundColor: isNextButtonAvailabe ? '#FFC426' : '#DDDDDD'}}
+                    textStyle={S.styles.nextButtonText}
+                />
+            </View>
+        </KeyboardAvoidingView>
+    );
 }
 
 export default SignUpPage;
