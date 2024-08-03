@@ -1,38 +1,23 @@
 import { API_URL } from "@env";
 import type { Diary } from "../types/diary";
 import type { DiarySaveRequest, DiarySavedResponse, DiaryUpdateRequest } from "../types/dto/diary";
+import { GlobalJwtTokenStateContextProps } from "../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
+import { requestApi } from "./api";
 
-export const getDiary = async (diaryId: number): Promise<Diary> => {
-
+export const getDiary = async (diaryId: number, jwtContext: GlobalJwtTokenStateContextProps): Promise<Diary> => {
     try {
-        const response = await fetch(`${API_URL}/diary/${diaryId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                ' Authorization': `Bearer ${localStorage.getItem('accessToken')}` // TODO: accessToken 관리에 대한 논의가 필요합니다..!
-            }
-        });
-        
-        if (response.status === 200) {
-            const diaryResponse: DiarySavedResponse = await response.json();
-            return { ...diaryResponse };
-        }
+        const response = await requestApi(`${API_URL}/diary/${diaryId}`, 'GET', jwtContext, undefined);
+        const diaryResponse: DiarySavedResponse = await response.json();
+        return { ...diaryResponse };
     } catch (error) {
         console.error("getDiary : ", error);
+        throw new Error("getDiary error");
     }
-
-    throw new Error("getDiary error");
 }
 
-export const getDiaries = async (pageNumber: number, memberId: string): Promise<Diary[]> => {
+export const getDiaries = async (pageNumber: number, memberId: string, jwtContext: GlobalJwtTokenStateContextProps): Promise<Diary[]> => {
     try {
-        const response = await fetch(`${API_URL}/diary/timeline?pageNumber=${pageNumber}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'memberId': memberId
-            }
-        });
+        const response = await requestApi(`${API_URL}/diary/timeline?pageNumber=${pageNumber}`, 'GET', jwtContext, undefined);
 
         if (response.status === 200) {
             const data: DiarySavedResponse[] = await response.json();
@@ -48,52 +33,37 @@ export const getDiaries = async (pageNumber: number, memberId: string): Promise<
     }
 }
 
-export const postDiary = async (date: Date, content: string, hashtagIds: number[]) => {
+export const postDiary = async (characterId: number, date: Date, content: string, hashtagIds: number[], jwtContext: GlobalJwtTokenStateContextProps) => {
 
     const requestBody: DiarySaveRequest = {
-        characterId: -1,
+        characterId: characterId,
         content: content,
         hashtagIds: hashtagIds,
         diaryDate: date,
     }; // TODO: 캐릭터 아이디를 가지고 와야함.
 
     try {
-        const response = await fetch(`${API_URL}/diary`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                ' Authorization': `Bearer ${localStorage.getItem('accessToken')}` // TODO: accessToken 관리에 대한 논의가 필요합니다..!
-            },
-            body: JSON.stringify(requestBody)
-        });
-        
+        const response = await requestApi(`${API_URL}/diary`, 'POST', jwtContext, requestBody);
         if (response.status === 200) {
             return;
+        } else {
+            throw new Error("[POST] postDiary error");
         }
     } catch (error) {
-        console.error("postDiary : ", error);
+        throw new Error("[POST] postDiary " + error);  
     }
-
-    throw new Error("postDiary error");
 }
 
-export const patchDiary = async (diaryId: number, content: string, hashtagIds: number[]) => {
+export const patchDiary = async (characterId: number, diaryId: number, content: string, hashtagIds: number[], jwtContext: GlobalJwtTokenStateContextProps) => {
     
     const requestBody: DiaryUpdateRequest = {
         content: content,
         hashtagIds: hashtagIds,
-        characterId: -1
-    }; // TODO: 캐릭터 아이디를 가지고 와야함.
+        characterId: characterId
+    }; 
 
     try {
-        const response = await fetch(`${API_URL}/diary/${diaryId}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                ' Authorization': `Bearer ${localStorage.getItem('accessToken')}` // TODO: accessToken 관리에 대한 논의가 필요합니다..!
-            },
-            body: JSON.stringify(requestBody)
-        });
+        const response = await requestApi(`${API_URL}/diary/${diaryId}`, 'PATCH', jwtContext, requestBody);
         
         if (response.status === 200) {
             return;
@@ -105,14 +75,9 @@ export const patchDiary = async (diaryId: number, content: string, hashtagIds: n
     throw new Error("patchDiary error");
 }
 
-export const deleteDiary = async (diaryId: number): Promise<void> => {
+export const deleteDiary = async (diaryId: number, jwtContext: GlobalJwtTokenStateContextProps): Promise<void> => {
     try {
-        const response = await fetch(`${API_URL}/diary/${diaryId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+        const response = await requestApi(`${API_URL}/diary/${diaryId}`, 'DELETE', jwtContext, undefined);
 
         if (response.status === 204) {
             return;
@@ -124,15 +89,9 @@ export const deleteDiary = async (diaryId: number): Promise<void> => {
     }
 };
 
-export const patchDiaryFavorite = async (diaryId: number, isFavorite: boolean): Promise<void> => {
+export const patchDiaryFavorite = async (diaryId: number, isFavorite: boolean, jwtContext: GlobalJwtTokenStateContextProps): Promise<void> => {
     try {
-        const response = await fetch(`${API_URL}/diary/favorite/${diaryId}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(!isFavorite),
-        });
+        const response = await requestApi(`${API_URL}/diary/favorite/${diaryId}`, 'PATCH', jwtContext, isFavorite);
 
         if (response.status === 200) {
             return;

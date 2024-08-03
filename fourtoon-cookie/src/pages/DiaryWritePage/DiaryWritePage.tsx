@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import Header from "./Header/Header";
@@ -14,6 +14,8 @@ import { RootStackParamList } from "../../constants/routing";
 import type { Position } from "../../types/gps";
 
 import * as S from "./DiaryWritePage.styled";
+import GlobalSelectionCharacterStateContext from "../../components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateContext";
+import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 
 
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
@@ -27,6 +29,9 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     const [hashtags, setHashtags] = useState<number[]>(diary ? diary.hashtagIds : []); // TODO: Hashtag type 구현 필요
     const [weather, setWeather] = useState<number | null>(null); // TODO: Weather type 구현 필요
     const [isWorking, setIsWorking] = useState<boolean>(false);
+
+    const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
+    const jwtContext = useContext(GlobalJwtTokenStateContext);
 
     const hashtagsContainWeather: number[] = (weather) ? [weather, ...hashtags] : hashtags
 
@@ -82,6 +87,11 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
         return null;
     }
 
+    if (! selectedCharacter) {
+        navigation.navigate('CharacterSelectPage');
+        return null;
+    }
+
 
     const handleDiaryDateChange = (newDate: Date) => {
         setDiaryDate(newDate);
@@ -100,9 +110,9 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
         try {
             if (! isEdit) {
-                await postDiary(diaryDate, content, hashtagsContainWeather);
+                await postDiary(selectedCharacter?.id, diaryDate, content, hashtagsContainWeather, jwtContext);
             } else if (diary) {
-                await patchDiary(diary.diaryId, content, hashtagsContainWeather)
+                await patchDiary(selectedCharacter?.id, diary.diaryId, content, hashtagsContainWeather, jwtContext);
             } else {
                 throw Error("수정 상태임에도 originDiaryId가 존재하지 않습니다.");
             }
