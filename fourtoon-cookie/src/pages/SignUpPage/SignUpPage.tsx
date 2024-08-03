@@ -11,9 +11,9 @@ import GenderInputLayout from "./GenderInputLayout/GenderInputLayout";
 
 
 enum SignUpProgres {
-    NAME = 0,
-    BIRTH = 1,
-    GENDER = 2
+    NAME = 1,
+    BIRTH = 2,
+    GENDER = 3
 }
 
 const SignUpPage = () => {
@@ -67,9 +67,8 @@ const SignUpPage = () => {
             </View>
             <View style={S.styles.footer}>
                 <ProgressBar
-                    progress={signUpProgress + 1}
+                    progress={signUpProgress}
                     totalProgress={3}
-                    barWidth={250}
                     isAnimated={true}
                 />
                 <Button
