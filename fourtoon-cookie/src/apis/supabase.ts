@@ -5,11 +5,12 @@ import {OAuthProvider} from "../types/oauth";
 
 const supabase = createClient(SUPABASE_API_URL, SUPABASE_API_KEY);
 
-export const supabaseSignInAndSignUpWithIdToken = async (provider: OAuthProvider, idToken: string): Promise<JWTToken> => {
+export const supabaseSignInAndSignUpWithIdToken = async (provider: OAuthProvider, idToken: string, nonce?: string): Promise<JWTToken> => {
     try {
         const {data, error} = await supabase.auth.signInWithIdToken({
             provider: provider,
             token: idToken,
+            nonce: nonce,
         })
 
         if (!data.session) {
@@ -24,7 +25,7 @@ export const supabaseSignInAndSignUpWithIdToken = async (provider: OAuthProvider
             expires_in: data.session.expires_in,
         }
     } catch (error) {
-        throw new Error('' + error);
+        throw error;
     }
 };
 
