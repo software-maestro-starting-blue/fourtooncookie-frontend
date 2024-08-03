@@ -34,6 +34,13 @@ const SignUpPage = () => {
         (signUpProgress == SignUpProgres.NAME && name.length > 0)
         || (signUpProgress == SignUpProgres.BIRTH && birth != null)
         || (signUpProgress == SignUpProgres.GENDER && gender != null);
+    
+    useEffect(() => {
+        if (! jwtContext.jwtToken) {
+            navigation.navigate('IntroPage');
+        }
+        
+    }, [jwtContext, navigation]);
 
     const handleNameChange = (name: string) => {
         if (signUpProgress != SignUpProgres.NAME) return;
@@ -67,7 +74,7 @@ const SignUpPage = () => {
                 console.error("patchMember error : ", e);
                 throw Error("등록에 실패했습니다.");
             }
-            
+
             navigation.navigate('DiaryTimelinePage');
         }
     }
