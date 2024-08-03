@@ -18,7 +18,7 @@ const IntroPage = () => {
         if (!jwtToken) return;
 
         if (!jwtToken.expires_at || jwtToken.expires_at < Date.now()) {
-            const refreshToken = async () => {
+            const refreshAccessToken = async () => {
                 try {
                     const newToken = await supabaseRefreshToken(jwtToken.refreshToken);
                     setJwtToken(newToken);
@@ -27,7 +27,7 @@ const IntroPage = () => {
                 }
             }
 
-            refreshToken();
+            refreshAccessToken();
             return;
         }
 
