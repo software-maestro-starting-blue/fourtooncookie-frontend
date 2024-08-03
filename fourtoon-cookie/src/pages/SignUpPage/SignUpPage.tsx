@@ -61,6 +61,7 @@ const SignUpPage = () => {
         <KeyboardAvoidingView style={S.styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <View style={S.styles.contentContainer}>
                 <Header />
+                <View style={S.styles.separator} />
                 {signUpProgress == SignUpProgres.NAME && <NameInputLayout name={name} onNameChange={handleNameChange} />}
                 {signUpProgress == SignUpProgres.BIRTH && <BirthInputLayout birth={birth} onBirthChange={handleBirthChange} />}
                 {signUpProgress == SignUpProgres.GENDER && <GenderInputLayout gender={gender} onGenderChange={handleGenderChange} />}

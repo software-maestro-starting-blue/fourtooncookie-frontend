@@ -2,17 +2,18 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
     header: {
-      flexDirection: 'row',
-      padding: 20,
-      width: '100%',
-      height: 64,
-      marginTop: 47,
+      position: 'static',
+      alignItems: 'flex-start',
+      paddingTop: 20,
+      width: '100%'
     },
     backButton: {
-      position: 'static'
+      position: 'static',
+      width: 24,
+      height: 24,
+      color: 'red'
     },
     headerText: {
-      marginLeft: 10,
       fontSize: 16,
       fontWeight: '500',
       color: '#AAAAAA',

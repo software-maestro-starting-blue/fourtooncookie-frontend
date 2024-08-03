@@ -3,9 +3,9 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
     content: {
+      flex: 1,
       width: '100%',
-      padding: 20,
-      marginTop: 72,
+      marginTop: 20,
     },
     title: {
       fontSize: 28,
