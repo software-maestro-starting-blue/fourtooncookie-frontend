@@ -2,27 +2,26 @@ import { StyleSheet } from "react-native";
 
 
 export const styles = StyleSheet.create({
-    content: {
-      flex: 1,
-      width: '100%',
-      marginTop: 20,
-    },
     title: {
       fontSize: 28,
       fontWeight: '700',
-      color: '#212121',
-      marginBottom: 20,
+      color: '#212121'
     },
     genderContainer: {
       flexDirection: 'row',
       justifyContent: 'space-around',
+      marginTop: 50,
+      marginBottom: 20,
     },
     genderOption: {
-      alignItems: 'center',
-      padding: 20,
+      width: 147,
+      height: 138,
+      padding: 10,
+      borderColor: '#EEEEEE',
       borderWidth: 1,
-      borderColor: '#CCCCCC',
       borderRadius: 16,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     selectedOption: {
       borderColor: '#FFC426',
@@ -33,8 +32,9 @@ export const styles = StyleSheet.create({
       marginBottom: 10,
     },
     genderText: {
-      fontSize: 18,
+      fontSize: 17,
       fontWeight: '600',
       color: '#212121',
+      marginTop: 10,
     },
   });

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Gender } from "../../types/gender";
 import ProgressBar from "../../components/common/ProgressBar/ProgressBar";
-import { KeyboardAvoidingView, Platform, View } from "react-native";
+import { KeyboardAvoidingView, Platform, SafeAreaView, Text, View } from "react-native";
 import * as S from "./SignUpPage.styled";
 import Header from "./Header/Header";
 import Button from "../../components/common/Button/Button";
@@ -62,28 +62,53 @@ const SignUpPage = () => {
     }
 
     return (
-        <KeyboardAvoidingView style={S.styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            <View style={S.styles.contentContainer}>
+        <SafeAreaView style={S.styles.safeArea}>
+            <View style={S.styles.container}>
                 <Header />
-                <View style={S.styles.separator} />
-                {signUpProgress == SignUpProgres.NAME && <NameInputLayout name={name} onNameChange={handleNameChange} />}
-                {signUpProgress == SignUpProgres.BIRTH && <BirthInputLayout birth={birth} onBirthChange={handleBirthChange} />}
-                {signUpProgress == SignUpProgres.GENDER && <GenderInputLayout gender={gender} onGenderChange={handleGenderChange} />}
+                {
+                    signUpProgress == SignUpProgres.NAME && 
+                    <NameInputLayout 
+                        name={name} 
+                        onNameChange={handleNameChange} 
+                        titleStyle={S.styles.title}
+                        containerStyle={S.styles.inputContainer}
+                    />
+                }
+                {
+                    signUpProgress == SignUpProgres.BIRTH && 
+                    <BirthInputLayout 
+                        birth={birth} 
+                        onBirthChange={handleBirthChange} 
+                        titleStyle={S.styles.title}
+                        containerStyle={S.styles.inputContainer}
+                    />
+                }
+                {
+                    signUpProgress == SignUpProgres.GENDER && 
+                    <GenderInputLayout 
+                        gender={gender} 
+                        onGenderChange={handleGenderChange} 
+                        titleStyle={S.styles.title}
+                        containerStyle={S.styles.inputContainer}
+                    />
+                }
+                <View style={S.styles.bottomContainer} >
+                    <View style={S.styles.progressContainer}>
+                        <ProgressBar
+                            progress={signUpProgress}
+                            totalProgress={3}
+                            isAnimated={true}
+                        />
+                    </View>
+                    <Button
+                        title="다음"
+                        onPress={handleNextButtonClick}
+                        style={{...S.styles.nextButton, backgroundColor: isNextButtonAvailabe ? '#FFC426' : '#DDDDDD'}}
+                        textStyle={S.styles.nextButtonText}
+                    />
+                </View>
             </View>
-            <View style={S.styles.footer}>
-                <ProgressBar
-                    progress={signUpProgress}
-                    totalProgress={3}
-                    isAnimated={true}
-                />
-                <Button
-                    title="다음"
-                    onPress={handleNextButtonClick}
-                    style={{...S.styles.nextButton, backgroundColor: isNextButtonAvailabe ? '#FFC426' : '#DDDDDD'}}
-                    textStyle={S.styles.nextButtonText}
-                />
-            </View>
-        </KeyboardAvoidingView>
+        </SafeAreaView>
     );
 }
 

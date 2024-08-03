@@ -1,19 +1,21 @@
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleProp, Text, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native";
 import { Gender } from "../../../types/gender";
 import * as S from "./GenderInputLayout.styled"
 
 export interface GenderInputLayoutProps {
     gender: Gender | null;
+    titleStyle: StyleProp<TextStyle>;
+    containerStyle: StyleProp<ViewStyle>;
     onGenderChange: (gender: Gender) => void;
 }
 
 const GenderInputLayout = (props: GenderInputLayoutProps) => {
-    const { gender, onGenderChange } = props;
+    const { gender, titleStyle, containerStyle, onGenderChange } = props;
 
     return (
-        <View style={S.styles.content}>
-            <Text style={S.styles.title}>당신의 성별을 알려주세요</Text>
-            <View style={S.styles.genderContainer}>
+        <View>
+            <Text style={titleStyle}>당신의 성별을 알려주세요</Text>
+            <View style={containerStyle}>
                 {[Gender.MALE, Gender.FEMALE].map(genderItem => 
                 <View key={genderItem} >
                     <GenderComponent
@@ -39,7 +41,7 @@ const GenderComponent = (props: GenderComponentProps) => {
 
     return (
         <TouchableOpacity 
-            style={[S.styles.genderContainer, isSelected && S.styles.selectedOption]}
+            style={[S.styles.genderOption, isSelected && S.styles.selectedOption]}
             onPress={onPress}
         >
             <Image style={S.styles.genderImage}/>

@@ -1,37 +1,44 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+    safeArea: {
+      flex: 1,
+      backgroundColor: '#FFFFFF',
+    },
     container: {
       flex: 1,
-      paddingTop: 0,
-      backgroundColor: '#FFFFFF'
+      padding: 20,
+      position: 'relative'
     },
-    contentContainer: {
-      flex: 1,
-      width: '100%',
-      paddingHorizontal: 20,
+    title: {
+      fontSize: 28,
+      fontWeight: '700',
+      color: '#212121'
     },
-    separator: {
-      height: 1,
-      backgroundColor: '#DDDDDD',
-      marginVertical: 10,
+    inputContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      marginTop: 50,
+      marginBottom: 20,
     },
-    footer: {
-      width: '100%',
-      paddingHorizontal: 20,
-      paddingBottom: 20,
+    bottomContainer: {
+      position: 'absolute',
+      bottom: 20,
+      left: 20,
+      right: 20,
+    },
+    progressContainer: {
+      marginBottom: 20,
     },
     nextButton: {
       width: '100%',
       height: 60,
       borderRadius: 16,
-      alignItems: 'center',
       justifyContent: 'center',
-      marginTop: 20,
+      alignItems: 'center',
     },
     nextButtonText: {
       fontSize: 17,
-      fontWeight: '700',
-      color: '#FFFFFF',
+      fontWeight: '600'
     }
 });
