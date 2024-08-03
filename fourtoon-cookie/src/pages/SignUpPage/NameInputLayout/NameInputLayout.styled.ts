@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-import * as S from "../SignUpPage.styled";
 
 
 export const styles = StyleSheet.create({
@@ -10,7 +9,6 @@ export const styles = StyleSheet.create({
       width: '100%',
       paddingVertical: 5,
     },
-    ...S.styles,
   });
 
   

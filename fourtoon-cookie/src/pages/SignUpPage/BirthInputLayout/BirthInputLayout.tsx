@@ -22,16 +22,13 @@ const BirthInputLayout = (props: BirthInputLayoutProps) => {
 
     return (
         <View>
-            <Text style={S.styles.title}>생년월일을 알려주세요</Text>
-            <View style={S.styles.inputContainer}>
-                <DateTimePicker
-                    value={new Date(birth.year(), birth.monthValue() - 1, birth.dayOfMonth())}
-                    mode="date"
-                    display="spinner"
-                    onChange={handleDateChange}
-                    style={S.styles.datePicker}
-                />
-            </View>
+            <DateTimePicker
+                value={new Date(birth.year(), birth.monthValue() - 1, birth.dayOfMonth())}
+                mode="date"
+                display="spinner"
+                onChange={handleDateChange}
+                style={S.styles.datePicker}
+            />
         </View>
     );
 }

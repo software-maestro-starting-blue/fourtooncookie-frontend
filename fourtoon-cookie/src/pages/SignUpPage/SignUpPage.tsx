@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { ReactNode, useContext, useEffect, useRef, useState } from "react";
 import { Gender } from "../../types/gender";
 import ProgressBar from "../../components/common/ProgressBar/ProgressBar";
 import { KeyboardAvoidingView, Platform, SafeAreaView, Text, View } from "react-native";
@@ -86,24 +86,30 @@ const SignUpPage = () => {
                 <Header />
                 {
                     signUpProgress == SignUpProgres.NAME && 
-                    <NameInputLayout 
-                        name={name} 
-                        onNameChange={handleNameChange} 
-                    />
+                    <Container title="당신의 이름을 알려주세요">
+                        <NameInputLayout 
+                            name={name} 
+                            onNameChange={handleNameChange} 
+                        />
+                    </Container>
                 }
                 {
                     signUpProgress == SignUpProgres.BIRTH && 
-                    <BirthInputLayout 
-                        birth={birth} 
-                        onBirthChange={handleBirthChange} 
-                    />
+                    <Container title="생년월일을 알려주세요">
+                        <BirthInputLayout 
+                            birth={birth} 
+                            onBirthChange={handleBirthChange} 
+                        />
+                    </Container>
                 }
                 {
                     signUpProgress == SignUpProgres.GENDER && 
-                    <GenderInputLayout 
-                        gender={gender} 
-                        onGenderChange={handleGenderChange} 
-                    />
+                    <Container title="당신의 성별을 알려주세요">
+                        <GenderInputLayout 
+                            gender={gender} 
+                            onGenderChange={handleGenderChange} 
+                        />
+                    </Container>
                 }
                 <View style={S.styles.bottomContainer} >
                     <View style={S.styles.progressContainer}>
@@ -116,7 +122,10 @@ const SignUpPage = () => {
                     <Button
                         title="다음"
                         onPress={handleNextButtonClick}
-                        style={{...S.styles.nextButton, backgroundColor: isNextButtonAvailabe ? '#FFC426' : '#DDDDDD'}}
+                        style={{
+                            ...S.styles.nextButton, 
+                            backgroundColor: isNextButtonAvailabe ? '#FFC426' : '#DDDDDD'
+                        }}
                         textStyle={S.styles.nextButtonText}
                     />
                 </View>
@@ -126,3 +135,21 @@ const SignUpPage = () => {
 }
 
 export default SignUpPage;
+
+interface ContainerProps {
+    title: string;
+    children: ReactNode;
+}
+
+const Container = (props: ContainerProps) => {
+    const { title, children } = props;
+
+    return (
+        <View>
+            <Text style={S.styles.title}>{title}</Text>
+            <View style={S.styles.inputContainer}>
+                {children}
+            </View>
+        </View>
+    );
+}

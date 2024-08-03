@@ -12,18 +12,15 @@ const GenderInputLayout = (props: GenderInputLayoutProps) => {
 
     return (
         <View>
-            <Text style={S.styles.title}>당신의 성별을 알려주세요</Text>
-            <View style={S.styles.inputContainer}>
-                {[Gender.MALE, Gender.FEMALE].map(genderItem => 
-                <View key={genderItem} >
-                    <GenderComponent
-                        gender={genderItem}
-                        isSelected={gender == genderItem}
-                        onPress={() => onGenderChange(genderItem)}
-                    />
-                </View>
-                )}
+            {[Gender.MALE, Gender.FEMALE].map(genderItem => 
+            <View key={genderItem} >
+                <GenderComponent
+                    gender={genderItem}
+                    isSelected={gender == genderItem}
+                    onPress={() => onGenderChange(genderItem)}
+                />
             </View>
+            )}
         </View>
     )
 }
