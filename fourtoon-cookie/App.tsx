@@ -19,7 +19,7 @@ export default function App() {
     <GlobalJwtTokenStateProvider>
       <GlobalSelectionCharacterStateProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="DiaryTimelinePage" screenOptions={{ headerShown: false }}>
+          <Stack.Navigator initialRouteName="IntroPage" screenOptions={{ headerShown: false }}>
             <Stack.Screen name="IntroPage" component={IntroPage} />
             <Stack.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} />
             <Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
