@@ -4,6 +4,7 @@ import { MemberSavedResponse, MemberUpdateRequest } from "../types/dto/member";
 import { Gender } from "../types/gender";
 import { requestApi } from "./api";
 import { Member } from "../types/member";
+import { LocalDate } from "@js-joda/core";
 
 export const getMember = async (jwtContext: GlobalJwtTokenStateContextProps): Promise<Member> => {
     try {
@@ -21,7 +22,7 @@ export const getMember = async (jwtContext: GlobalJwtTokenStateContextProps): Pr
 
 }
 
-export const patchMember = async (name: string, birth: Date, gender: Gender, jwtContext: GlobalJwtTokenStateContextProps) => {
+export const patchMember = async (name: string, birth: LocalDate, gender: Gender, jwtContext: GlobalJwtTokenStateContextProps) => {
     const requestBody: MemberUpdateRequest = {
         name: name,
         birth: birth,

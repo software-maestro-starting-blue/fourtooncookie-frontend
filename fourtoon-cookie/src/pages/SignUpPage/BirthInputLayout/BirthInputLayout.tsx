@@ -1,17 +1,23 @@
 import { StyleProp, Text, TextStyle, View, ViewStyle } from "react-native";
 import * as S from "./BirthInputLayout.styled";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import { LocalDate, LocalTime, nativeJs, ZoneId } from "@js-joda/core";
 
 export interface BirthInputLayoutProps {
-    birth: Date;
-    onBirthChange: (birth: Date) => void;
+    birth: LocalDate;
+    onBirthChange: (birth: LocalDate) => void;
 }
 
 const BirthInputLayout = (props: BirthInputLayoutProps) => {
     const { birth, onBirthChange } = props;
 
     const handleDateChange = (event: DateTimePickerEvent, date?: Date | undefined) => {
-        onBirthChange(date || new Date());
+        if (! date) {
+            onBirthChange(LocalDate.now());
+        } else {
+            const localDate: LocalDate = LocalDate.of(date.getFullYear(), date.getMonth() + 1, date.getDate());
+            onBirthChange(localDate);
+        }
     }
 
     return (
@@ -19,7 +25,7 @@ const BirthInputLayout = (props: BirthInputLayoutProps) => {
             <Text style={S.styles.title}>생년월일을 알려주세요</Text>
             <View style={S.styles.inputContainer}>
                 <DateTimePicker
-                    value={birth}
+                    value={new Date(birth.year(), birth.monthValue() - 1, birth.dayOfMonth())}
                     mode="date"
                     display="spinner"
                     onChange={handleDateChange}

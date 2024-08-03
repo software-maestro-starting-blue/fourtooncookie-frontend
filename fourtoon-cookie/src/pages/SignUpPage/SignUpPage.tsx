@@ -12,6 +12,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../constants/routing";
 import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 import { patchMember } from "../../apis/member";
+import { LocalDate } from "@js-joda/core";
 
 
 enum SignUpProgres {
@@ -22,7 +23,7 @@ enum SignUpProgres {
 
 const SignUpPage = () => {
     const [ name, setName ] = useState<string>('');
-    const [ birth, setBirth ] = useState<Date>(new Date());
+    const [ birth, setBirth ] = useState<LocalDate>(LocalDate.now());
     const [ gender, setGender ] = useState<Gender | null>(null);
 
     const [ signUpProgress, setSignUpProgress ] = useState<SignUpProgres>(SignUpProgres.NAME);
@@ -48,7 +49,7 @@ const SignUpPage = () => {
         setName(name);
     }
 
-    const handleBirthChange = (birth: Date) => {
+    const handleBirthChange = (birth: LocalDate) => {
         if (signUpProgress != SignUpProgres.BIRTH) return;
 
         setBirth(birth);
