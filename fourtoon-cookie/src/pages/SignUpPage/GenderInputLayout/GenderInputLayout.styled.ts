@@ -1,12 +1,8 @@
 import { StyleSheet } from "react-native";
+import * as S from "../SignUpPage.styled";
 
 
 export const styles = StyleSheet.create({
-    title: {
-      fontSize: 28,
-      fontWeight: '700',
-      color: '#212121'
-    },
     genderContainer: {
       flexDirection: 'row',
       justifyContent: 'space-around',
@@ -37,4 +33,5 @@ export const styles = StyleSheet.create({
       color: '#212121',
       marginTop: 10,
     },
+    ...S.styles,
   });

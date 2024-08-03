@@ -4,18 +4,16 @@ import * as S from "./GenderInputLayout.styled"
 
 export interface GenderInputLayoutProps {
     gender: Gender | null;
-    titleStyle: StyleProp<TextStyle>;
-    containerStyle: StyleProp<ViewStyle>;
     onGenderChange: (gender: Gender) => void;
 }
 
 const GenderInputLayout = (props: GenderInputLayoutProps) => {
-    const { gender, titleStyle, containerStyle, onGenderChange } = props;
+    const { gender, onGenderChange } = props;
 
     return (
         <View>
-            <Text style={titleStyle}>당신의 성별을 알려주세요</Text>
-            <View style={containerStyle}>
+            <Text style={S.styles.title}>당신의 성별을 알려주세요</Text>
+            <View style={S.styles.inputContainer}>
                 {[Gender.MALE, Gender.FEMALE].map(genderItem => 
                 <View key={genderItem} >
                     <GenderComponent

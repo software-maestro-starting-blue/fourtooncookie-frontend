@@ -4,13 +4,11 @@ import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/dat
 
 export interface BirthInputLayoutProps {
     birth: Date;
-    titleStyle: StyleProp<TextStyle>;
-    containerStyle: StyleProp<ViewStyle>;
     onBirthChange: (birth: Date) => void;
 }
 
 const BirthInputLayout = (props: BirthInputLayoutProps) => {
-    const { birth, titleStyle, containerStyle, onBirthChange } = props;
+    const { birth, onBirthChange } = props;
 
     const handleDateChange = (event: DateTimePickerEvent, date?: Date | undefined) => {
         onBirthChange(date || new Date());
@@ -18,8 +16,8 @@ const BirthInputLayout = (props: BirthInputLayoutProps) => {
 
     return (
         <View>
-            <Text style={titleStyle}>생년월일을 알려주세요</Text>
-            <View style={containerStyle}>
+            <Text style={S.styles.title}>생년월일을 알려주세요</Text>
+            <View style={S.styles.inputContainer}>
                 <DateTimePicker
                     value={birth}
                     mode="date"

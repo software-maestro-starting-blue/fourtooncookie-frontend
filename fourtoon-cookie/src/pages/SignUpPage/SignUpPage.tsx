@@ -39,7 +39,7 @@ const SignUpPage = () => {
         if (! jwtContext.jwtToken) {
             navigation.navigate('IntroPage');
         }
-        
+
     }, [jwtContext, navigation]);
 
     const handleNameChange = (name: string) => {
@@ -88,8 +88,6 @@ const SignUpPage = () => {
                     <NameInputLayout 
                         name={name} 
                         onNameChange={handleNameChange} 
-                        titleStyle={S.styles.title}
-                        containerStyle={S.styles.inputContainer}
                     />
                 }
                 {
@@ -97,8 +95,6 @@ const SignUpPage = () => {
                     <BirthInputLayout 
                         birth={birth} 
                         onBirthChange={handleBirthChange} 
-                        titleStyle={S.styles.title}
-                        containerStyle={S.styles.inputContainer}
                     />
                 }
                 {
@@ -106,8 +102,6 @@ const SignUpPage = () => {
                     <GenderInputLayout 
                         gender={gender} 
                         onGenderChange={handleGenderChange} 
-                        titleStyle={S.styles.title}
-                        containerStyle={S.styles.inputContainer}
                     />
                 }
                 <View style={S.styles.bottomContainer} >
