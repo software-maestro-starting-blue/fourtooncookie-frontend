@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as S from "./SignUpPage.styled";
 import { Gender } from "../../types/gender";
 
@@ -9,19 +9,37 @@ enum SignUpProgres {
 }
 
 const SignUpPage = () => {
-    const nameRef = useRef<string>('');
-    const birthRef = useRef<Date>(new Date());
-    const genderRef = useRef<Gender>(Gender.MALE);
+    const [ name, setName ] = useState<string>('');
+    const [ birth, setBirth ] = useState<Date>(new Date());
+    const [ gender, setGender ] = useState<Gender | null>(null);
 
-    const signUpProgressRef = useRef<SignUpProgres>(SignUpProgres.NAME);
+    const [ signUpProgress, setSignUpProgress ] = useState<SignUpProgres>(SignUpProgres.NAME);
 
     useEffect(() => {
         // TODO progress bar 애니메이션 구축
-    }, [signUpProgressRef]);
+    }, [signUpProgress]);
+
+    const handleNameChange = (name: string) => {
+        if (signUpProgress != SignUpProgres.NAME) return;
+
+        setName(name);
+    }
+
+    const handleBirthChange = (birth: Date) => {
+        if (signUpProgress != SignUpProgres.BIRTH) return;
+
+        setBirth(birth);
+    }
+
+    const handleGenderChange = (gender: Gender) => {
+        if (signUpProgress != SignUpProgres.GENDER) return;
+
+        setGender(gender);
+    }
 
     const handleNextButtonClick = () => {
-        if (signUpProgressRef.current < SignUpProgres.GENDER){
-            signUpProgressRef.current++;
+        if (signUpProgress < SignUpProgres.GENDER){
+            setSignUpProgress(signUpProgress + 1);
         } else {
             // TODO 회원가입 요청
             // TODO 페이지 이동
