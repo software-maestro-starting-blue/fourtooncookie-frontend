@@ -1,9 +1,9 @@
 import { API_URL } from "@env";
 import { GlobalJwtTokenStateContextProps } from "../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
-import { MemberSavedResponse, MemberUpdateRequest } from "../types/dto/member";
+import type { MemberSavedResponse, MemberUpdateRequest } from "../types/dto/member";
 import { Gender } from "../types/gender";
 import { requestApi } from "./api";
-import { Member } from "../types/member";
+import type { Member } from "../types/member";
 import { LocalDate } from "@js-joda/core";
 
 export const getMember = async (jwtContext: GlobalJwtTokenStateContextProps): Promise<Member> => {
