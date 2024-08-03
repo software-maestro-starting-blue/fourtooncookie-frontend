@@ -30,7 +30,7 @@ const ProgressBar = (props: ProgressBarProps) => {
     return (
         <View style={S.styles.progressContainer}>
             <Text style={S.styles.progressText}>{progress} / {totalProgress}</Text>
-            <View style={S.styles.progressBarBackground}>
+            <View style={[S.styles.progressBarBackground, {width: barWidth}]}>
                 <Animated.View style={[S.styles.progressBarForeground, { width: progressWidth }]} />
             </View>
         </View>
