@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleProp, TextStyle, ViewStyle } from "react-native";
+import { TextInput } from "react-native";
 import * as S from "./NameInputLayout.styled";
 
 export interface NameInputLayoutProps {

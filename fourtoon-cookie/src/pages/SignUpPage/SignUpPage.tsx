@@ -1,7 +1,7 @@
 import { ReactNode, useContext, useEffect, useRef, useState } from "react";
 import { Gender } from "../../types/gender";
 import ProgressBar from "../../components/common/ProgressBar/ProgressBar";
-import { KeyboardAvoidingView, Platform, SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import * as S from "./SignUpPage.styled";
 import Header from "./Header/Header";
 import Button from "../../components/common/Button/Button";

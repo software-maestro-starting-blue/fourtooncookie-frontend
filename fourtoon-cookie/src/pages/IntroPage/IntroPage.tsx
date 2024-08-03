@@ -1,13 +1,13 @@
 import { View, TouchableOpacity, Image, Text } from "react-native";
 import * as S from './IntroPage.styled';
 import GoogleSignInAndSignUpButton from "../../components/auth/GoogleSignInAndSignUpButton/GoogleSignInAndSignUpButton";
-import { JWTToken } from "../../types/jwt";
+import type { JWTToken } from "../../types/jwt";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../constants/routing";
 import { useContext, useEffect } from "react";
 import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 import { supabaseRefreshToken } from "../../apis/supabase";
-import { Member } from "../../types/member";
+import type { Member } from "../../types/member";
 import { getMember } from "../../apis/member";
 
 const IntroPage = () => {
