@@ -11,7 +11,7 @@ import CharacterInfoLayout from './CharacterInfoLayout/CharacterInfoLayout';
 import Footer from './Footer/Footer';
 
 const SettingPage = () => {
-	const [member, setMember] = useState<Member | null>(null);=
+	const [member, setMember] = useState<Member | null>(null);
 
   	useEffect(() => {
 		const fetchMember = async () => {
