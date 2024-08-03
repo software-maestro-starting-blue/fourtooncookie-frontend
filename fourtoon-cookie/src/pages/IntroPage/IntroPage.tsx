@@ -35,10 +35,8 @@ const IntroPage = () => {
             const member: Member = await getMember({jwtToken, setJwtToken});
             if (member.name == null) {
                 navigation.navigate('SignUpPage');
-                return;
             } else {
                 navigation.navigate('DiaryTimelinePage');
-                return;
             }
         }
 
