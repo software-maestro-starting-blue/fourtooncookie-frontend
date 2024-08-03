@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { JWTToken } from '../../../types/jwt';
+import type { JWTToken } from '../../../types/jwt';
 
 export interface GlobalJwtTokenStateContextProps {
 	jwtToken: JWTToken | null;

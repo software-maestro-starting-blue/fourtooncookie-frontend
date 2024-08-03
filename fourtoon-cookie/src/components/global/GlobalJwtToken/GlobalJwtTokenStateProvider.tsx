@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { JWTToken } from "../../../types/jwt";
+import type { JWTToken } from "../../../types/jwt";
 import GlobalJwtTokenStateContext from "./GlobalJwtTokenStateContext";
 
 

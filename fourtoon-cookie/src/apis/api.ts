@@ -1,5 +1,5 @@
 import { GlobalJwtTokenStateContextProps } from "../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
-import { JWTToken } from "../types/jwt";
+import type { JWTToken } from "../types/jwt";
 import { supabaseRefreshToken } from "./supabase";
 
 
