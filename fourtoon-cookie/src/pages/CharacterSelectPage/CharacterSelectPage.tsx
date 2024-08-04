@@ -34,7 +34,7 @@ const CharacterSelectPage = () => {
 			setErrorInfo({
 				type: GlobalErrorInfoType.MODAL,
 				message: '캐릭터 정보를 가져오는 중 오류가 발생했습니다.',
-				callback: () => navigation.goBack()
+				callback: () => navigation.navigate('DiaryTimelinePage')
 			});
         } finally {
           setLoading(false);
