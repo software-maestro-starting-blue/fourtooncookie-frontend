@@ -16,6 +16,8 @@ import GlobalErrorInfoStateContext from "../../components/global/GlobalError/Glo
 import { GlobalErrorInfoType } from "../../types/error";
 import { LocalDate } from "@js-joda/core";
 
+import { RuntimeError } from "../../error/RuntimeError";
+
 
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
 
@@ -39,15 +41,13 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
         if (isEdit && ! diary) {
             setErrorInfo({
                 type: GlobalErrorInfoType.MODAL,
-                message: "잘못된 형식입니다.",
-                callback: () => navigation.navigate('DiaryTimelinePage')
+                error: new RuntimeError("잘못된 형식입니다.")
             });
         }
         if (! selectedCharacter) {
             setErrorInfo({
                 type: GlobalErrorInfoType.MODAL,
-                message: "캐릭터를 선택해주세요.",
-                callback: () => navigation.navigate('CharacterSelectPage')
+                error: new RuntimeError("캐릭터가 선택되지 않았습니다.")
             });
         }
     }, [isEdit, diary, navigation]);
@@ -84,19 +84,19 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
             } else {
                 setErrorInfo({
                     type: GlobalErrorInfoType.MODAL,
-                    message: "잘못된 형식입니다.",
-                    callback: () => navigation.navigate('DiaryTimelinePage')
+                    error: new RuntimeError("잘못된 형식입니다.")
                 });
                 return;
             }
 
             navigation.navigate('DiaryTimelinePage');
         } catch (error) {
-            console.error("Error", error);
-            setErrorInfo({
-                type: GlobalErrorInfoType.MODAL,
-                message: "일기 작성 중 오류가 발생하였습니다."
-            });
+            if (error instanceof Error) {
+                setErrorInfo({
+                    type: GlobalErrorInfoType.MODAL,
+                    error: error
+                });
+            }
         } finally {
             setIsWorking(false);
         }
