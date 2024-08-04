@@ -12,25 +12,28 @@ import SignUpPage from './src/pages/SignUpPage/SignUpPage';
 import GlobalJwtTokenStateProvider from './src/components/global/GlobalJwtToken/GlobalJwtTokenStateProvider';
 import IntroPage from './src/pages/IntroPage/IntroPage';
 import SettingPage from './src/pages/SettingPage/SettingPage';
+import GlobalErrorInfoStateProvider from './src/components/global/GlobalError/GlobalErrorInfoStateProvider';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
-    <GlobalJwtTokenStateProvider>
-      <GlobalSelectionCharacterStateProvider>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="IntroPage" screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="IntroPage" component={IntroPage} />
-            <Stack.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} />
-            <Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
-            <Stack.Screen name="CharacterSelectPage" component={CharacterSelectPage} />
-            <Stack.Screen name="SignUpPage" component={SignUpPage} />
-            <Stack.Screen name="SettingPage" component={SettingPage}/>
-          </Stack.Navigator>
-        </NavigationContainer>
-      </GlobalSelectionCharacterStateProvider>
-    </GlobalJwtTokenStateProvider>
+    <GlobalErrorInfoStateProvider>
+      <GlobalJwtTokenStateProvider>
+        <GlobalSelectionCharacterStateProvider>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName="IntroPage" screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="IntroPage" component={IntroPage} />
+              <Stack.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} />
+              <Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
+              <Stack.Screen name="CharacterSelectPage" component={CharacterSelectPage} />
+              <Stack.Screen name="SignUpPage" component={SignUpPage} />
+              <Stack.Screen name="SettingPage" component={SettingPage} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </GlobalSelectionCharacterStateProvider>
+      </GlobalJwtTokenStateProvider>
+    </GlobalErrorInfoStateProvider>
   );
 }
 
