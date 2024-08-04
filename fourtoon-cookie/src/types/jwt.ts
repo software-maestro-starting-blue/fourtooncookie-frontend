@@ -2,6 +2,4 @@ export interface JWTToken {
     accessToken: string;
     refreshToken: string;
     tokenType: string;
-    expires_at?: number;
-    expires_in?: number;
 }

@@ -21,30 +21,21 @@ const IntroPage = () => {
     useEffect(() => {
         if (!jwtToken) return;
 
-        if (!jwtToken.expires_at || jwtToken.expires_at < Date.now()) {
-            const refreshAccessToken = async () => {
-                try {
-                    const newToken = await supabaseRefreshToken(jwtToken.refreshToken);
-                    setJwtToken(newToken);
-                } catch (e) {
-                    setJwtToken(null);
-                    setErrorInfo({
-                        type: GlobalErrorInfoType.MODAL,
-                        message: '로그인 정보가 만료되었습니다. 다시 로그인해주세요.'
-                    });
-                }
-            }
-
-            refreshAccessToken();
-            return;
-        }
-
         const checkIsFirstTime = async () => {
-            const member: Member = await getMember({jwtToken, setJwtToken});
-            if (member.name == null) {
-                navigation.navigate('SignUpPage');
-            } else {
-                navigation.navigate('DiaryTimelinePage');
+            try {
+                const member: Member = await getMember({jwtToken, setJwtToken});
+                if (member.name == null) {
+                    navigation.navigate('SignUpPage');
+                } else {
+                    navigation.navigate('DiaryTimelinePage');
+                }
+            } catch (e) {
+                console.error('checkIsFirstTime : ', e);
+                setErrorInfo({
+                    type: GlobalErrorInfoType.MODAL,
+                    message: '로그인 정보를 가져오는 중 오류가 발생했습니다.'
+                });
+                setJwtToken(null);
             }
         }
 

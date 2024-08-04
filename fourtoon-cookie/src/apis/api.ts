@@ -10,10 +10,6 @@ export const requestApi = async (url: string, method: string, jwtContext: Global
         throw new Error('jwtToken is null');
     }
 
-    if (!jwtToken.expires_at) {
-        throw new Error('jwtToken.expires_at is null');
-    }
-
     const refreshJwtToken = async () => {
         try {
             const newToken = await supabaseRefreshToken(jwtToken.refreshToken);
@@ -23,13 +19,6 @@ export const requestApi = async (url: string, method: string, jwtContext: Global
             setJwtToken(null);
             throw new Error('jwtToken refresh error');
         }
-    };
-
-    const getValidJwtToken = async () => {
-        if (!jwtToken.expires_at || jwtToken.expires_at <= Date.now()) {
-            return await refreshJwtToken();
-        }
-        return jwtToken;
     };
 
     const makeRequest = async (token: JWTToken, isRetry: boolean = false) => {
@@ -55,7 +44,6 @@ export const requestApi = async (url: string, method: string, jwtContext: Global
             throw new Error(`[${method}] ${url} error`);
         }
     };
-
-    const validToken = await getValidJwtToken();
-    return makeRequest(validToken);
+    
+    return makeRequest(jwtToken);
 }

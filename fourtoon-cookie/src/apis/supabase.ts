@@ -21,8 +21,6 @@ export const supabaseSignInAndSignUpWithIdToken = async (provider: OAuthProvider
             accessToken: data.session.access_token,
             refreshToken: data.session.refresh_token,
             tokenType: data.session.token_type,
-            expires_at: data.session.expires_at,
-            expires_in: data.session.expires_in,
         }
     } catch (error) {
         throw error;
@@ -45,8 +43,6 @@ export const supabaseRefreshToken = async (refreshToken: string): Promise<JWTTok
             accessToken: data.session.access_token,
             refreshToken: data.session.refresh_token,
             tokenType: data.session.token_type,
-            expires_at: data.session.expires_at,
-            expires_in: data.session.expires_in,
         }
     } catch (error) {
         throw new Error('' + error);
