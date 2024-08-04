@@ -6,16 +6,14 @@ import Header from "./Header/Header";
 import TextInputLayout from "./TextInputLayout/TextInputLayout";
 import HashtagLayout from "./HashtagLayout/HashtagLayout";
 
-import { getGpsPosition } from "../../systemcall/gpt";
-import { getWeather } from "../../apis/weather";
-import { getHashtag } from "../../apis/hashtag";
-import { postDiary, patchDiary, getDiary } from "../../apis/diary";
+import { postDiary, patchDiary } from "../../apis/diary";
 import { RootStackParamList } from "../../constants/routing";
-import type { Position } from "../../types/gps";
 
 import * as S from "./DiaryWritePage.styled";
 import GlobalSelectionCharacterStateContext from "../../components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateContext";
 import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
+import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
+import { GlobalErrorInfoType } from "../../types/error";
 
 
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
@@ -32,66 +30,35 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
     const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
     const jwtContext = useContext(GlobalJwtTokenStateContext);
+    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     const hashtagsContainWeather: number[] = (weather) ? [weather, ...hashtags] : hashtags
-
-    // TODO: hashtagIds에서 weather 추출하기
-    /** TODO 실제 릴리즈 버전에서 활용 예정
-
+    
     useEffect(() => {
-        if (weather != null) return;
-
-        const fetchWeatherData = async () => {
-            try {
-                const gpsPos: Position = await getGpsPosition();
-
-                const newWeather: number = await getWeather(diaryDate, gpsPos);
-
-                setWeather(newWeather);
-            } catch (e) {
-                console.error(e);
-                // TODO: 날씨 정보를 가져오지 못했다는 토스트(Toast) 보내기
-            }
+        if (isEdit && ! diary) {
+            setErrorInfo({
+                type: GlobalErrorInfoType.MODAL,
+                message: "잘못된 형식입니다.",
+                callback: () => navigation.navigate('DiaryTimelinePage')
+            });
         }
-
-        fetchWeatherData();
-
-    }, [diaryDate, weather]);
-
-    useEffect(() => {
-        const fetchHashtags = async () => {
-            try {
-                const newHashtags: number[] = await getHashtag(content);
-
-                // TODO: hashtag들을 정렬하기
-                setHashtags(newHashtags);
-            } catch (e) {
-                console.error(e);
-                // TODO: 해시태그 정보를 가져오지 못했다는 토스트(Toast) 보내기
-            }
+        if (! selectedCharacter) {
+            setErrorInfo({
+                type: GlobalErrorInfoType.MODAL,
+                message: "캐릭터를 선택해주세요.",
+                callback: () => navigation.navigate('CharacterSelectPage')
+            });
         }
-
-        const hashtagInterval = setInterval(fetchHashtags, 3000);
-
-        return () => {
-            if (hashtagInterval)
-                clearInterval(hashtagInterval);
-        }
-
-    }, [content]); **/
+    }, [isEdit, diary, navigation]);
 
 
     if (isEdit && ! diary){
-        // TODO: 이 상황이 잘못되었다는 토스트(Toast) 보내기
-        navigation.goBack();
         return null;
     }
 
     if (! selectedCharacter) {
-        navigation.navigate('CharacterSelectPage');
         return null;
     }
-
 
     const handleDiaryDateChange = (newDate: Date) => {
         setDiaryDate(newDate);
@@ -114,13 +81,21 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
             } else if (diary) {
                 await patchDiary(selectedCharacter?.id, diary.diaryId, content, hashtagsContainWeather, jwtContext);
             } else {
-                throw Error("수정 상태임에도 originDiaryId가 존재하지 않습니다.");
+                setErrorInfo({
+                    type: GlobalErrorInfoType.MODAL,
+                    message: "잘못된 형식입니다.",
+                    callback: () => navigation.navigate('DiaryTimelinePage')
+                });
+                return;
             }
 
-            // TODO: navigate to DiaryTimelinePage
+            navigation.navigate('DiaryTimelinePage');
         } catch (error) {
             console.error("Error", error);
-            // TODO: 에러 발생 시 토스트(Toast) 보내기
+            setErrorInfo({
+                type: GlobalErrorInfoType.MODAL,
+                message: "일기 작성 중 오류가 발생하였습니다."
+            });
         } finally {
             setIsWorking(false);
         }

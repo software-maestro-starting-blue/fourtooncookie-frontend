@@ -22,13 +22,6 @@ const Header = (props: HeaderProps) => {
     const { date, isDateChangeable, onDateChange, onCharacterChoosePress, onDonePress, ...rest } = props;
 
     const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
-    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
-    useEffect(() => {
-        if (! selectedCharacter){
-            navigation.navigate("CharacterSelectPage");
-        }
-    }, [navigation, selectedCharacter]);
 
     if (! selectedCharacter){
         return null;
