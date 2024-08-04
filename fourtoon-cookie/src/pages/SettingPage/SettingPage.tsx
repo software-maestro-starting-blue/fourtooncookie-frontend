@@ -52,7 +52,7 @@ const SettingPage = () => {
 			</View>
 
 			<InfoLayout />
-			<Footer />
+			<Footer isHomeActivate={false} isPersonActivate={true}/>
 
     	</SafeAreaView>
   	);

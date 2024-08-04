@@ -86,7 +86,7 @@ const DiaryTimelinePage = () => {
                 contentContainerStyle={{flexGrow: 1}}
                 ListEmptyComponent={<DiaryEmpty/>}
             />
-            <Footer />
+            <Footer isHomeActivate={true} isPersonActivate={false} />
         </SafeAreaView>
     );
 };
