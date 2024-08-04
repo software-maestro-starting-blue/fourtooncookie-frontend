@@ -13,11 +13,15 @@ export interface DiaryUpdateRequest {
     characterId: number
 }
 
+export interface DiaryPatchFavoriteRequest {
+    isFavorite: boolean
+}
+
 export interface DiarySavedResponse {
     diaryId: number,
     content: string,
     isFavorite: boolean,
-    diaryDate: LocalDate,
+    diaryDate: string,
     paintingImageUrls: string[],
     hashtagIds: number[],
     characterId: number

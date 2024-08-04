@@ -1,6 +1,6 @@
 import { API_URL } from "@env";
 import type { Diary } from "../types/diary";
-import type { DiarySaveRequest, DiarySavedResponse, DiaryUpdateRequest } from "../types/dto/diary";
+import type { DiaryPatchFavoriteRequest, DiarySaveRequest, DiarySavedResponse, DiaryUpdateRequest } from "../types/dto/diary";
 import { GlobalJwtTokenStateContextProps } from "../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 import { requestApi } from "./api";
 import { LocalDate } from "@js-joda/core";
@@ -9,7 +9,7 @@ import { ApiError } from "../error/ApiError";
 export const getDiary = async (diaryId: number, jwtContext: GlobalJwtTokenStateContextProps): Promise<Diary> => {
     const response = await requestApi(`/diary/${diaryId}`, 'GET', jwtContext, undefined);
     const diaryResponse: DiarySavedResponse = await response.json();
-    return { ...diaryResponse };
+    return { ...diaryResponse, diaryDate: LocalDate.parse(diaryResponse.diaryDate) };
 }
 
 export const getDiaries = async (pageNumber: number, jwtContext: GlobalJwtTokenStateContextProps): Promise<Diary[]> => {
@@ -17,7 +17,7 @@ export const getDiaries = async (pageNumber: number, jwtContext: GlobalJwtTokenS
 
     if (response.status === 200) {
         const data: DiarySavedResponse[] = await response.json();
-        return data.map(diary => ({...diary}));
+        return data.map(diary => ({...diary, diaryDate: LocalDate.parse(diary.diaryDate)}));
     } else if (response.status === 204) {
         return [];
     } else {
@@ -69,7 +69,11 @@ export const deleteDiary = async (diaryId: number, jwtContext: GlobalJwtTokenSta
 };
 
 export const patchDiaryFavorite = async (diaryId: number, isFavorite: boolean, jwtContext: GlobalJwtTokenStateContextProps): Promise<void> => {
-    const response = await requestApi(`/diary/favorite/${diaryId}`, 'PATCH', jwtContext, isFavorite);
+    const requestBody: DiaryPatchFavoriteRequest = {
+        isFavorite: isFavorite
+    }
+
+    const response = await requestApi(`/diary/${diaryId}/favorite`, 'PATCH', jwtContext, requestBody);
 
     if (response.status === 200) {
         return;

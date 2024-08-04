@@ -17,19 +17,15 @@ import { GlobalErrorInfoType } from "../../types/error";
 const DiaryTimelinePage = () => {
     const [diaries, setDiaries] = useState<Diary[]>([]);
     const [page, setPage] = useState(0);
-    const [isLoadingMore, setIsLoadingMore] = useState(false);
     const [hasMore, setHasMore] = useState(true);
 
     const jwtContext = useContext(GlobalJwtTokenStateContext);
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     useEffect(() => {
-        if (isLoadingMore) return;
         if (! hasMore) return;
 
         const loadDiaries = async () => {
-
-            setIsLoadingMore(true);
             let result: Diary[];
             try {
                 result = await getDiaries(page, jwtContext);
@@ -54,15 +50,13 @@ const DiaryTimelinePage = () => {
                 setDiaries(prev => 
                     [...prev, ...result]);
             }
-
-            setIsLoadingMore(false);
         };
 
         loadDiaries();
-    }, [isLoadingMore, hasMore, page, jwtContext]);
+    }, [hasMore, page, jwtContext]);
 
     const handleEndReached = debounce(() => {
-        if (hasMore && !isLoadingMore) {
+        if (hasMore) {
             setPage(prevPage => prevPage + 1);
         }
     }, 300); // 300ms 디바운스 타임

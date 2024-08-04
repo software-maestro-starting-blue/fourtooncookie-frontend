@@ -21,7 +21,7 @@ const CharacterSelectPage = () => {
 
     const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
     const jwtContext = useContext(GlobalJwtTokenStateContext);
-	const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
+	  const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     useEffect(() => {
       const fetchCharacters = async () => {

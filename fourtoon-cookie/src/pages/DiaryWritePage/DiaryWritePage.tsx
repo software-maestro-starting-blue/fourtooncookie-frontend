@@ -49,6 +49,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
                 type: GlobalErrorInfoType.MODAL,
                 error: new RuntimeError("캐릭터가 선택되지 않았습니다.")
             });
+            navigation.navigate('CharacterSelectPage');
         }
     }, [isEdit, diary, selectedCharacter]);
 

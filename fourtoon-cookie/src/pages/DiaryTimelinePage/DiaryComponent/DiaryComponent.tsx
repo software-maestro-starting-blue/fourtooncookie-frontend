@@ -30,7 +30,7 @@ const DiaryComponent = (props: DiaryProps) => {
 
     const handleToggleFavorite = async () => {
         try {
-            await patchDiaryFavorite(diaryId, isFavorite, jwtContext);
+            await patchDiaryFavorite(diaryId, !isFavorite, jwtContext);
             setIsFavorite(!isFavorite);
         } catch (error) {
             if (error instanceof Error) {
