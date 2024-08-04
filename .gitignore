@@ -140,6 +140,11 @@ dist
 google-services.json
 GoogleService-Info.plist
 
-*.apk
 app.json
 eas.json
+
+*.apk
+*.app
+*.tar.gz
+*.ipa
+*.aab

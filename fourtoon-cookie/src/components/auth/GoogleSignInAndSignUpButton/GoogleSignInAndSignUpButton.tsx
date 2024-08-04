@@ -1,5 +1,5 @@
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin'
-import {CLIENT_ID} from '@env'
+import {CLIENT_ID, IOS_CLIENT_ID} from '@env'
 import {supabaseSignInAndSignUpWithIdToken} from "../../../apis/supabase";
 import type {JWTToken} from "../../../types/jwt";
 import { OAuthProvider } from "../../../types/oauth";
@@ -9,13 +9,13 @@ export interface GoogleSignInAndSignUpButtonProps {
     onSuccess: (token: JWTToken) => void;
 }
 
-
 const GoogleSignInAndSignUpButton = (props: GoogleSignInAndSignUpButtonProps) => {
     const { onSuccess, ...rest } = props;
 
     GoogleSignin.configure({
         scopes: [],
         webClientId: CLIENT_ID,
+        iosClientId: IOS_CLIENT_ID
     })
 
     const handlePress = async () => {
