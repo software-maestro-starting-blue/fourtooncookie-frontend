@@ -17,9 +17,8 @@ const GlobalErrorInfoComponent = () => {
     if (errorInfo === null) {
         return null;
     }
-
-    if (errorInfo.type == GlobalErrorInfoType.MODAL)
-    return ( 
+    
+    return ( (errorInfo.type == GlobalErrorInfoType.MODAL) &&
             <AlertModal
                 visible={errorInfo.type == GlobalErrorInfoType.MODAL}
                 onClose={handleCloseErrorInfoModal}

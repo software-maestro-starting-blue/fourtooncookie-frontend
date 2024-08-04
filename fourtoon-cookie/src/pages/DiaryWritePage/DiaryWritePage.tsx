@@ -50,7 +50,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
                 error: new RuntimeError("캐릭터가 선택되지 않았습니다.")
             });
         }
-    }, [isEdit, diary, navigation]);
+    }, [isEdit, diary, selectedCharacter]);
 
 
     if (isEdit && ! diary){

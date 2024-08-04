@@ -24,14 +24,15 @@ const DiaryTimelinePage = () => {
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     useEffect(() => {
+        if (isLoadingMore) return;
+        if (! hasMore) return;
+
         const loadDiaries = async () => {
-            if (isLoadingMore) return;
-            if (! hasMore) return;
 
             setIsLoadingMore(true);
             let result: Diary[];
             try {
-                result = await getDiaries(page, jwtContext); // TODO 1대신 멤버 ID 
+                result = await getDiaries(page, jwtContext);
             } catch (error) {
                 result = [];
                 if (error instanceof Error) {
@@ -42,7 +43,7 @@ const DiaryTimelinePage = () => {
                 }
             }
 
-            if (result.length === 0) {
+            if (result.length == 0) {
                 setHasMore(false);
             } else {
                 result = result.map(diary => ({
@@ -58,7 +59,7 @@ const DiaryTimelinePage = () => {
         };
 
         loadDiaries();
-    }, [page]);
+    }, [isLoadingMore, hasMore, page, jwtContext]);
 
     const handleEndReached = debounce(() => {
         if (hasMore && !isLoadingMore) {

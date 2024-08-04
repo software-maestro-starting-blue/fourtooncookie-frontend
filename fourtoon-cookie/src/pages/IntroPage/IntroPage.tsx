@@ -35,11 +35,12 @@ const IntroPage = () => {
                         error: error
                     });
                 }
+                setJwtToken(null);
             }
         }
 
         checkIsFirstTime();
-    }, [jwtToken, setJwtToken, navigation]);
+    }, [jwtToken, navigation]);
 
     if (jwtToken) {
         return null;

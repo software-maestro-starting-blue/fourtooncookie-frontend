@@ -41,9 +41,10 @@ const GlobalJwtTokenStateProvider = (props: GlobalJwtTokenStateProviderProps) =>
     }, []);
 
     useEffect(() => {
-        if (! (errorInfo instanceof JwtError)) return;
+        if (!errorInfo || ! (errorInfo.error instanceof JwtError)) return;
 
         navigation.navigate('IntroPage');
+        setJwtToken(null);
 
     }, [errorInfo, navigation]);
     
