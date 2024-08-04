@@ -1,11 +1,12 @@
 import React from 'react';
-import {Platform, View} from 'react-native';
-import {appleAuthAndroid, AppleButton} from '@invertase/react-native-apple-authentication';
+import {Image, Platform, Text, TouchableOpacity, View} from 'react-native';
+import {appleAuthAndroid} from '@invertase/react-native-apple-authentication';
 import {getAppleIdToken} from "../../../apis/appleOAuth";
 import {supabaseSignInAndSignUpWithIdToken} from "../../../apis/supabase";
 import {OAuthProvider} from "../../../types/oauth";
 import type {JWTToken} from "../../../types/jwt";
 import {OS} from "../../../types/os";
+import * as S from "./AppleSignInAndSignUpButton.styled";
 
 export interface AppleSignInAndSignUpButtonProps {
     onSuccess: (token: JWTToken) => void;
@@ -24,15 +25,10 @@ const AppleSignInAndSignUpButton = (props: AppleSignInAndSignUpButtonProps) => {
     }
 
     return (Platform.OS === OS.IOS || appleAuthAndroid.isSupported) && (
-                <AppleButton
-                    buttonStyle={AppleButton.Style.WHITE}
-                    buttonType={AppleButton.Type.SIGN_IN}
-                    style={{
-                        width: 160, // You must specify a width
-                        height: 45, // You must specify a height
-                    }}
-                    onPress={handlePress}
-                />
+        <TouchableOpacity style={S.styles.appleButton} onPress={handlePress}>
+            <Image source={require('../../../../assets/icon/apple.png')} style={S.styles.appleLogo} />
+            <Text style={S.styles.appleButtonText}>Apple로 시작하기</Text>
+        </TouchableOpacity>
             );
 }
 
