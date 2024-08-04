@@ -45,10 +45,10 @@ export const requestApi = async (url: string, method: string, jwtContext: Global
                     throw new JwtError(`[${method}] ${url} refresh error`);
                 }
             } else {
-                throw new ApiError(`[${method}] ${url} refresh error`);
+                throw new ApiError(`[${method}] ${url} api request error`);
             }
         } catch (error) {
-            throw new JwtError(`[${method}] ${url} error` + error);
+            throw error;
         }
     };
     
