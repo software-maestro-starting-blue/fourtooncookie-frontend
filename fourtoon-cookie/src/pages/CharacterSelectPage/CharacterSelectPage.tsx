@@ -11,15 +11,19 @@ import { Character, CharacterPaymentType } from '../../types/character';
 import * as S from './CharacterSelectPage.styled';
 import { RootStackParamList } from '../../constants/routing';
 import GlobalJwtTokenStateContext from '../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext';
+import GlobalErrorInfoStateContext from '../../components/global/GlobalError/GlobalErrorInfoStateContext';
+import { GlobalErrorInfoType } from '../../types/error';
 
 const CharacterSelectPage = () => {
     const [ selectedPaymentType, setSelectedPaymentType ] = useState<CharacterPaymentType>(CharacterPaymentType.FREE);
-    const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
-    const jwtContext = useContext(GlobalJwtTokenStateContext);
     const [ characters, setCharacters ] = useState<Character[]>([]);
     const [ loading, setLoading ] = useState<boolean>(true);
     const [ error, setError ] = useState<string | null>(null);
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+    const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
+    const jwtContext = useContext(GlobalJwtTokenStateContext);
+	const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     useEffect(() => {
       const fetchCharacters = async () => {
@@ -27,8 +31,11 @@ const CharacterSelectPage = () => {
           const characters = await getCharacters(jwtContext);
           setCharacters(characters);
         } catch (e) {
-          console.error(e);
-          setError('Failed to fetch characters.');
+			setErrorInfo({
+				type: GlobalErrorInfoType.MODAL,
+				message: '캐릭터 정보를 가져오는 중 오류가 발생했습니다.',
+				callback: () => navigation.goBack()
+			});
         } finally {
           setLoading(false);
         }
@@ -36,12 +43,6 @@ const CharacterSelectPage = () => {
 
       fetchCharacters();
     }, []);
-
-    useEffect(() => {
-        if (error) {
-            navigation.goBack();
-        }
-    }, [error, navigation]);
 
     const groupByArtworkTitle = (characters: Character[]) => {
       return characters.reduce((acc, character) => {
