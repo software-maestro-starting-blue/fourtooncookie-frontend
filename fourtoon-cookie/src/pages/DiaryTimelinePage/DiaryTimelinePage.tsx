@@ -11,6 +11,8 @@ import { deleteDiary, getDiaries } from '../../apis/diary';
 import type { Diary } from "../../types/diary";
 import { diaryDefaultImages } from "../../constants/diary";
 import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
+import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
+import { GlobalErrorInfoType } from "../../types/error";
 
 const DiaryTimelinePage = () => {
     const [diaries, setDiaries] = useState<Diary[]>([]);
@@ -19,6 +21,7 @@ const DiaryTimelinePage = () => {
     const [hasMore, setHasMore] = useState(true);
 
     const jwtContext = useContext(GlobalJwtTokenStateContext);
+    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     useEffect(() => {
         const loadDiaries = async () => {
@@ -31,6 +34,10 @@ const DiaryTimelinePage = () => {
                 result = await getDiaries(page, "1", jwtContext); // TODO 1대신 멤버 ID 
             } catch (error) {
                 result = [];
+                setErrorInfo({
+                    type: GlobalErrorInfoType.MODAL,
+                    message: "일기 목록을 불러오는 중 오류가 발생했습니다."
+                });
             }
 
             if (result.length === 0) {
@@ -62,7 +69,10 @@ const DiaryTimelinePage = () => {
             await deleteDiary(diaryId, jwtContext);
             setDiaries(prevDiaries => prevDiaries.filter(diary => diary.diaryId !== diaryId));
         } catch (error) {
-            console.error("An error occurred while deleting the diary: ", error);
+            setErrorInfo({
+                type: GlobalErrorInfoType.MODAL,
+                message: "일기 삭제 중 오류가 발생했습니다."
+            });
         }
     }
 
