@@ -17,10 +17,11 @@ const CharacterInfoLayout = () => {
         navigation.navigate('CharacterSelectPage');
     }
 
-    return ( // TODO: 캐릭터 이미지 추가
+    return (
         <View style={S.styles.character}>
             <Image
                 style={S.styles.characterCircle}
+                source={ character ? character.selectionThumbnailUrl : require('../../../../assets/icon.png') }
             />
             <TouchableOpacity style={S.styles.changeButton} onPress={onCharacterChangeButtonPress}>
                 <Text style={S.styles.changeButtonText}>캐릭터 변경</Text>
