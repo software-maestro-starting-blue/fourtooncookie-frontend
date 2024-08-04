@@ -34,10 +34,12 @@ const DiaryTimelinePage = () => {
                 result = await getDiaries(page, jwtContext); // TODO 1대신 멤버 ID 
             } catch (error) {
                 result = [];
-                setErrorInfo({
-                    type: GlobalErrorInfoType.MODAL,
-                    message: "일기 목록을 불러오는 중 오류가 발생했습니다."
-                });
+                if (error instanceof Error) {
+                    setErrorInfo({
+                      type: GlobalErrorInfoType.MODAL,
+                      error: error
+                    });
+                }
             }
 
             if (result.length === 0) {
@@ -69,10 +71,12 @@ const DiaryTimelinePage = () => {
             await deleteDiary(diaryId, jwtContext);
             setDiaries(prevDiaries => prevDiaries.filter(diary => diary.diaryId !== diaryId));
         } catch (error) {
-            setErrorInfo({
-                type: GlobalErrorInfoType.MODAL,
-                message: "일기 삭제 중 오류가 발생했습니다."
-            });
+            if (error instanceof Error) {
+                setErrorInfo({
+                    type: GlobalErrorInfoType.MODAL,
+                    error: error
+                });
+            }
         }
     }
 

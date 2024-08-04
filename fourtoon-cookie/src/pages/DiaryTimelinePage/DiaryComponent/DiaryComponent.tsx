@@ -33,10 +33,12 @@ const DiaryComponent = (props: DiaryProps) => {
             await patchDiaryFavorite(diaryId, isFavorite, jwtContext);
             setIsFavorite(!isFavorite);
         } catch (error) {
-            setErrorInfo({
-                type: GlobalErrorInfoType.MODAL,
-                message: "좋아요를 변경하는 중 오류가 발생했습니다."
-            });
+            if (error instanceof Error) {
+                setErrorInfo({
+                    type: GlobalErrorInfoType.MODAL,
+                    error: error
+                });
+            }
         }
     };
 
