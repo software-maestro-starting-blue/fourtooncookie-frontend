@@ -73,14 +73,14 @@ const DiaryComponent = (props: DiaryProps) => {
                 onDelete={handleDelete}
             />
             <DiaryPaintingImagesLayout imageUrls={paintingImageUrls} />
+            <DiaryContentsLayout
+                content={content}     
+            />
             <Footer
                 isFavorite={isFavorite}
                 onToggleFavorite={handleToggleFavorite}
                 onShare={handleShare}
                 onDownload={handleDownload}
-            />
-            <DiaryContentsLayout
-                content={content}     
             />
             <ConfirmationModal
                 visible={isModalVisible}
