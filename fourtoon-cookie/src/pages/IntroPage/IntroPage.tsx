@@ -15,6 +15,7 @@ import AppleSignInAndSignUpButton from "../../components/auth/AppleSignInAndSign
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const { jwtToken, setJwtToken } = useContext(GlobalJwtTokenStateContext);
+    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
     
     useEffect(() => {
         if (!jwtToken) return;
@@ -27,9 +28,13 @@ const IntroPage = () => {
                 } else {
                     navigation.navigate('DiaryTimelinePage');
                 }
-            } catch (e) {
-                console.error('checkIsFirstTime : ', e);
-                setJwtToken(null);
+            } catch (error) {
+                if (error instanceof Error) {
+                    setErrorInfo({
+                        type: GlobalErrorInfoType.MODAL,
+                        error: error
+                    });
+                }
             }
         }
 
