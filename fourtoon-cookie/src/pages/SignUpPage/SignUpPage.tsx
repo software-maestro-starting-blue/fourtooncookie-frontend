@@ -13,6 +13,8 @@ import { RootStackParamList } from "../../constants/routing";
 import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 import { patchMember } from "../../apis/member";
 import { LocalDate } from "@js-joda/core";
+import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
+import { GlobalErrorInfoType } from "../../types/error";
 
 
 enum SignUpProgres {
@@ -30,6 +32,8 @@ const SignUpPage = () => {
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const jwtContext = useContext(GlobalJwtTokenStateContext);
+
+    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     const isNextButtonAvailabe: boolean = 
         (signUpProgress == SignUpProgres.NAME && name.length > 0)
@@ -71,12 +75,17 @@ const SignUpPage = () => {
 
             try {
                 patchMember(name, birth, gender, jwtContext);
+                navigation.navigate('DiaryTimelinePage');
             } catch (e) {
-                console.error("patchMember error : ", e);
-                throw Error("등록에 실패했습니다.");
+                setErrorInfo({
+                    type: GlobalErrorInfoType.MODAL,
+                    message: '회원 정보를 추가적으로 등록하는 중 오류가 발생하였습니다. 첫 화면으로 돌아갑니다.',
+                    callback: () => {
+                        jwtContext.setJwtToken(null);
+                        navigation.navigate('IntroPage');
+                    }
+                });
             }
-
-            navigation.navigate('DiaryTimelinePage');
         }
     }
 
