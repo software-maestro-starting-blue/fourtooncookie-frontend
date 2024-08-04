@@ -8,7 +8,9 @@ import CharacterSelectPage from './src/pages/CharacterSelectPage/CharacterSelect
 import DiaryWritePage from './src/pages/DiaryWritePage/DiaryWritePage';
 import DiaryTimelinePage from './src/pages/DiaryTimelinePage/DiaryTimelinePage';
 import GlobalSelectionCharacterStateProvider from './src/components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateProvider';
+import SignUpPage from './src/pages/SignUpPage/SignUpPage';
 import GlobalJwtTokenStateProvider from './src/components/global/GlobalJwtToken/GlobalJwtTokenStateProvider';
+import IntroPage from './src/pages/IntroPage/IntroPage';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -17,10 +19,12 @@ export default function App() {
     <GlobalJwtTokenStateProvider>
       <GlobalSelectionCharacterStateProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="DiaryTimelinePage" screenOptions={{ headerShown: false }}>
+          <Stack.Navigator initialRouteName="IntroPage" screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="IntroPage" component={IntroPage} />
             <Stack.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} />
             <Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
             <Stack.Screen name="CharacterSelectPage" component={CharacterSelectPage} />
+            <Stack.Screen name="SignUpPage" component={SignUpPage} />
           </Stack.Navigator>
         </NavigationContainer>
       </GlobalSelectionCharacterStateProvider>
