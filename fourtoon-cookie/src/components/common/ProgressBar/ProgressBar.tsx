@@ -28,7 +28,10 @@ const ProgressBar = (props: ProgressBarProps) => {
 
     return (
         <View style={S.styles.progressContainer}>
-            <Text style={S.styles.progressText}>{progress} / {totalProgress}</Text>
+            <View style={{ flexDirection: 'row' }}>
+                <Text style={S.styles.progressText}>{progress}</Text>
+                <Text style={S.styles.progressTextGray}> / {totalProgress}</Text>
+            </View>
             <View style={[S.styles.progressBarBackground]}>
                 <Animated.View style={[S.styles.progressBarForeground, { width: progressWidth.interpolate({
                     inputRange: [0, 100],

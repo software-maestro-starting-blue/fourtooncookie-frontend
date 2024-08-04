@@ -1,7 +1,7 @@
 import { ReactNode, useContext, useEffect, useRef, useState } from "react";
 import { Gender } from "../../types/gender";
 import ProgressBar from "../../components/common/ProgressBar/ProgressBar";
-import { SafeAreaView, Text, View } from "react-native";
+import { Keyboard, KeyboardAvoidingView, Platform, SafeAreaView, Text, View } from "react-native";
 import * as S from "./SignUpPage.styled";
 import Header from "./Header/Header";
 import Button from "../../components/common/Button/Button";
@@ -37,7 +37,7 @@ const SignUpPage = () => {
 
     const isNextButtonAvailabe: boolean = 
         (signUpProgress == SignUpProgres.NAME && name.length > 0)
-        || (signUpProgress == SignUpProgres.BIRTH && birth != null)
+        || (signUpProgress == SignUpProgres.BIRTH && birth != null && ! birth.isAfter(LocalDate.now()))
         || (signUpProgress == SignUpProgres.GENDER && gender != null);
     
     useEffect(() => {
@@ -118,7 +118,12 @@ const SignUpPage = () => {
                         />
                     </Container>
                 }
-                <View style={S.styles.bottomContainer} >
+                <KeyboardAvoidingView 
+                    style={S.styles.bottomContainer} 
+                    enabled={true}
+                    keyboardVerticalOffset={80}
+                    behavior={'padding'}
+                >
                     <View style={S.styles.progressContainer}>
                         <ProgressBar
                             progress={signUpProgress}
@@ -135,7 +140,7 @@ const SignUpPage = () => {
                         }}
                         textStyle={S.styles.nextButtonText}
                     />
-                </View>
+                </KeyboardAvoidingView>
             </View>
         </SafeAreaView>
     );

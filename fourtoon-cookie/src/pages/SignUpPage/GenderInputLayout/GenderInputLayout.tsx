@@ -1,5 +1,7 @@
 import { Image, StyleProp, Text, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native";
 import { Gender } from "../../../types/gender";
+import MALE_ICON from "../../../../assets/icon/man.png";
+import FEMALE_ICON from "../../../../assets/icon/woman.png";
 import * as S from "./GenderInputLayout.styled"
 
 export interface GenderInputLayoutProps {
@@ -35,7 +37,10 @@ const GenderComponent = (props: GenderComponentProps) => {
             style={[S.styles.genderOption, isSelected && S.styles.selectedOption]}
             onPress={onPress}
         >
-            <Image style={S.styles.genderImage}/>
+            <Image 
+                style={S.styles.genderImage}
+                source={(gender == Gender.MALE) ? MALE_ICON : FEMALE_ICON}
+            />
             <Text style={S.styles.genderText}>{gender}</Text>
         </TouchableOpacity>
     )

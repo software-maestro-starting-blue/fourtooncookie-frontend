@@ -2,11 +2,11 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     button: {
-        position: 'absolute',
-        padding: 10,
+        position: 'relative',
+        padding: 20,
     },
-    buttonText: {
-        fontSize: 24,
-        color: '#007AFF',
+    buttonImage: {
+        width: 24,
+        height: 24,
     },
 });

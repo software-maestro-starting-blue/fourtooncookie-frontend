@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
     genderOption: {
+      marginTop: '60%',
       width: 147,
       height: 138,
       padding: 10,
