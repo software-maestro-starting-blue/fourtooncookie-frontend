@@ -21,7 +21,7 @@ const CharacterInfoLayout = () => {
         <View style={S.styles.character}>
             <Image
                 style={S.styles.characterCircle}
-                source={ character ? character.selectionThumbnailUrl : require('../../../../assets/icon.png') }
+                source={ character ? {uri: character.selectionThumbnailUrl} : require('../../../../assets/icon.png') }
             />
             <TouchableOpacity style={S.styles.changeButton} onPress={onCharacterChangeButtonPress}>
                 <Text style={S.styles.changeButtonText}>캐릭터 변경</Text>

@@ -14,7 +14,7 @@ const Footer = () => {
     const icons = [
         { source: TimelineIcon, pageName: 'DiaryTimelinePage' },
         { source: WriteIcon, pageName: 'DiaryWritePage' },
-        { source: SettingIcon, pageName: 'SettingsPage' },
+        { source: SettingIcon, pageName: 'SettingPage' },
     ];
         
     return (
