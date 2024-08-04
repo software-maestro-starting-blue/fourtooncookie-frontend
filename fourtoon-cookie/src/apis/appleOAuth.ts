@@ -39,21 +39,13 @@ const getAppleIdTokenInANDROID = async () => {
 }
 
 export const getAppleIdToken = async (): Promise<[string, string | undefined]> => {
-    if (Platform.OS === OS.IOS) {
-        const [idToken, nonce] = await getAppleIdTokenInIOS();
-        if (idToken) {
-            return [idToken, nonce];
-        }
-        throw new Error('Could not find user info');
+    if (Platform.OS != OS.IOS && Platform.OS != OS.ANDROID) {
+        throw new Error('unsupported appleAuth os');
     }
 
-    if (Platform.OS === OS.ANDROID) {
-        const [idToken, nonce] = await getAppleIdTokenInANDROID();
-        if (idToken) {
-            return [idToken, nonce];
-        }
-        throw new Error('Could not find user info');
+    const [idToken, nonce] = (Platform.OS === OS.IOS) ? await getAppleIdTokenInIOS() : await getAppleIdTokenInANDROID();
+    if (idToken) {
+        return [idToken, nonce];
     }
-
-    throw new Error('unsupported appleAuth os');
+    throw new Error('Could not find user info');
 }
