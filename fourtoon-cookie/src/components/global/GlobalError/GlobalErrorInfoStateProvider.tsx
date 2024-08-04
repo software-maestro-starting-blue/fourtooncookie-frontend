@@ -13,6 +13,8 @@ const GlobalErrorInfoStateProvider = (props: GlobalErrorInfoStateProviderProps) 
 
 
     const setErrorInfo = (errorInfo: GlobalErrorInfo | null) => {
+        if (errorInfo && errorInfo?.error.name == 'JwtError') return;
+        
         setErrorInfoState(errorInfo);
     }
 

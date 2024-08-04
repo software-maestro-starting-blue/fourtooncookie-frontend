@@ -4,7 +4,7 @@ export enum GlobalErrorInfoType {
 }
 
 export interface GlobalErrorInfo {
-    message: string;
+    error: Error;
     type: GlobalErrorInfoType;
     callback?: () => void;
 }
