@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import * as S from './SettingPage.styled';
 import { useNavigation } from '@react-navigation/native';
@@ -9,17 +9,20 @@ import CharacterSelectPage from '../CharacterSelectPage/CharacterSelectPage';
 import LoginInfoLayout from './LoginInfoLayout/LoginInfoLayout';
 import CharacterInfoLayout from './CharacterInfoLayout/CharacterInfoLayout';
 import Footer from './Footer/Footer';
+import GlobalJwtTokenStateContext from '../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext';
 
 const SettingPage = () => {
 	const [member, setMember] = useState<Member | null>(null);
+	const jwtContext = useContext(GlobalJwtTokenStateContext);
 
   	useEffect(() => {
 		const fetchMember = async () => {
 			try {
-				const memberData = await getMember();
+				const memberData = await getMember(jwtContext);
 				setMember(memberData);
 			} catch (error) {
 				console.error('Failed to fetch member data:', error);
+				//TODO : 에러 핸들링 할 것
 			}
 		};
 	
