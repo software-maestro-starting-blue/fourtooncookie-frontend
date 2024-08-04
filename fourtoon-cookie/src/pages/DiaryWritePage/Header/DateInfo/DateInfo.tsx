@@ -3,17 +3,18 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 import * as S from "./DateInfo.styled";
+import { LocalDate } from '@js-joda/core';
 
 export interface DateInfoProps {
-    date: Date;
+    date: LocalDate;
     isChangeable: boolean;
-    onDateChange: (date: Date) => void;
+    onDateChange: (date: LocalDate) => void;
 }
 
 const DateInfo = (props: DateInfoProps) => {
     const { date, isChangeable, onDateChange, ...rest } = props;
 
-    const dateString: string = date.getFullYear() + "." + date.getMonth() + "." + date.getDate();
+    const dateString: string = date.toString();
 
 
     const [isDatePickerVisible, setDatePickerVisible] = useState<boolean>(false);
@@ -29,7 +30,8 @@ const DateInfo = (props: DateInfoProps) => {
     }
 
     const handleConfirm = (date: Date) => {
-        onDateChange(date);
+        const localDate: LocalDate = LocalDate.of(date.getFullYear(), date.getMonth() + 1, date.getDate());
+        onDateChange(localDate);
         setDatePickerVisible(false);
     }
 
@@ -42,7 +44,7 @@ const DateInfo = (props: DateInfoProps) => {
             <DateTimePickerModal 
                 isVisible={isDatePickerVisible}
                 mode="date"
-                date={date}
+                date={new Date(date.year(), date.monthValue() - 1, date.dayOfMonth())}
                 onConfirm={handleConfirm}
                 onCancel={handleCancel}
                 style={S.styles.dateModal}

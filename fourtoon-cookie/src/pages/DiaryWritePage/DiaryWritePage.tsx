@@ -14,6 +14,7 @@ import GlobalSelectionCharacterStateContext from "../../components/global/Global
 import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../types/error";
+import { LocalDate } from "@js-joda/core";
 
 
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
@@ -22,7 +23,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     const { diary, isEdit, ...rest } = route.params || { diary: undefined, isEdit: false };
 
     
-    const [diaryDate, setDiaryDate] = useState<Date>(diary ? diary.diaryDate : new Date());
+    const [diaryDate, setDiaryDate] = useState<LocalDate>(diary ? diary.diaryDate : LocalDate.now());
     const [content, setContent] = useState<string>(diary ? diary.content : "");
     const [hashtags, setHashtags] = useState<number[]>(diary ? diary.hashtagIds : []); // TODO: Hashtag type 구현 필요
     const [weather, setWeather] = useState<number | null>(null); // TODO: Weather type 구현 필요
@@ -60,7 +61,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
         return null;
     }
 
-    const handleDiaryDateChange = (newDate: Date) => {
+    const handleDiaryDateChange = (newDate: LocalDate) => {
         setDiaryDate(newDate);
     }
 
