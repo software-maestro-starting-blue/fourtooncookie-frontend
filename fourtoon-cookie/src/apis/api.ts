@@ -2,13 +2,15 @@ import { API_URL } from "@env";
 import { GlobalJwtTokenStateContextProps } from "../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 import type { JWTToken } from "../types/jwt";
 import { supabaseRefreshToken } from "./supabase";
+import { JwtError } from "../error/JwtError";
+import { ApiError } from "../error/ApiError";
 
 
 export const requestApi = async (url: string, method: string, jwtContext: GlobalJwtTokenStateContextProps, body?: any): Promise<Response> => {
     const { jwtToken, setJwtToken } = jwtContext;
 
     if (!jwtToken) {
-        throw new Error('jwtToken is null');
+        throw new JwtError('jwtToken is null');
     }
 
     const refreshJwtToken = async () => {
@@ -18,7 +20,7 @@ export const requestApi = async (url: string, method: string, jwtContext: Global
             return newToken;
         } catch (error) {
             setJwtToken(null);
-            throw new Error('jwtToken refresh error');
+            throw new JwtError('jwtToken refresh error');
         }
     };
 
@@ -35,14 +37,18 @@ export const requestApi = async (url: string, method: string, jwtContext: Global
 
             if (response.status <= 299) {
                 return response;
-            } else if (response.status === 401 && !isRetry) {
-                const newToken = await refreshJwtToken();
-                return makeRequest(newToken, true);
+            } else if (response.status === 401) {
+                if (! isRetry) {
+                    const newToken = await refreshJwtToken();
+                    return makeRequest(newToken, true);
+                } else {
+                    throw new JwtError(`[${method}] ${url} refresh error`);
+                }
             } else {
-                throw new Error(`[${method}] ${url} refresh error`);
+                throw new ApiError(`[${method}] ${url} refresh error`);
             }
         } catch (error) {
-            throw new Error(`[${method}] ${url} error` + error);
+            throw new JwtError(`[${method}] ${url} error` + error);
         }
     };
     
