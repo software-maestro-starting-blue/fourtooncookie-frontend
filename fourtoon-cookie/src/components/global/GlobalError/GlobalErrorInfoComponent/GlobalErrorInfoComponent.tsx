@@ -12,7 +12,6 @@ const GlobalErrorInfoComponent = () => {
         if (! errorInfo) return;
 
         setErrorInfo(null);
-        errorInfo.callback?.();
     }
 
     if (errorInfo === null) {
@@ -24,7 +23,7 @@ const GlobalErrorInfoComponent = () => {
             <AlertModal
                 visible={errorInfo.type == GlobalErrorInfoType.MODAL}
                 onClose={handleCloseErrorInfoModal}
-                message={errorInfo ? errorInfo.message : ""}
+                message={errorInfo ? errorInfo.error.message : ""}
             />
     );
 

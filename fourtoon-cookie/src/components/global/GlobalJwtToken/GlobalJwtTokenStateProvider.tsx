@@ -6,6 +6,7 @@ import GlobalErrorInfoStateContext from "../GlobalError/GlobalErrorInfoStateCont
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../constants/routing";
 import { GlobalErrorInfoType } from "../../../types/error";
+import { JwtError } from "../../../error/JwtError";
 
 
 export interface GlobalJwtTokenStateProviderProps {
@@ -26,19 +27,25 @@ const GlobalJwtTokenStateProvider = (props: GlobalJwtTokenStateProviderProps) =>
                 if (savedJwtToken) {
                     setJwtTokenState(JSON.parse(savedJwtToken));
                 }
-            } catch (e) {
-                setErrorInfo({
-                    type: GlobalErrorInfoType.MODAL,
-                    message: '로그인 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.',
-                    callback: () => {
-                        navigation.navigate('IntroPage');
-                    }
-                });
+            } catch (error) {
+                if (error instanceof Error) {
+                    setErrorInfo({
+                        type: GlobalErrorInfoType.MODAL,
+                        error: new JwtError("인증 정보가 없습니다.")
+                    });
+                }
             }
         };
 
         loadJwtToken();
     }, []);
+
+    useEffect(() => {
+        if (! (errorInfo instanceof JwtError)) return;
+
+        navigation.navigate('IntroPage');
+
+    }, [errorInfo, navigation]);
     
     const setJwtToken = async (jwtToken: JWTToken | null) => {
         try {
@@ -48,10 +55,7 @@ const GlobalJwtTokenStateProvider = (props: GlobalJwtTokenStateProviderProps) =>
                 await AsyncStorage.removeItem('jwtToken');
                 setErrorInfo({
                     type: GlobalErrorInfoType.MODAL,
-                    message: '로그인 정보가 만료되었습니다. 다시 로그인해주세요.',
-                    callback: () => {
-                        navigation.navigate('IntroPage');
-                    }
+                    error: new JwtError("인증 정보가 없습니다.")
                 });
             }
             setJwtTokenState(jwtToken);
