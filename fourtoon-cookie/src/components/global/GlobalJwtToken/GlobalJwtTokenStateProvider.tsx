@@ -1,7 +1,11 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { JWTToken } from "../../../types/jwt";
 import GlobalJwtTokenStateContext from "./GlobalJwtTokenStateContext";
+import GlobalErrorInfoStateContext from "../GlobalError/GlobalErrorInfoStateContext";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../../constants/routing";
+import { GlobalErrorInfoType } from "../../../types/error";
 
 
 export interface GlobalJwtTokenStateProviderProps {
@@ -12,6 +16,9 @@ const GlobalJwtTokenStateProvider = (props: GlobalJwtTokenStateProviderProps) =>
     const { children } = props;
     const [ jwtToken, setJwtTokenState ] = useState<JWTToken | null>(null);
 
+    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
     useEffect(() => {
         const loadJwtToken = async () => {
             try {
@@ -20,8 +27,13 @@ const GlobalJwtTokenStateProvider = (props: GlobalJwtTokenStateProviderProps) =>
                     setJwtTokenState(JSON.parse(savedJwtToken));
                 }
             } catch (e) {
-                console.error('Failed to load the jwt token from storage:', e);
-                throw Error('Failed to load the jwt token from storage' + e);
+                setErrorInfo({
+                    type: GlobalErrorInfoType.MODAL,
+                    message: '로그인 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.',
+                    callback: () => {
+                        navigation.navigate('IntroPage');
+                    }
+                });
             }
         };
 
@@ -34,6 +46,13 @@ const GlobalJwtTokenStateProvider = (props: GlobalJwtTokenStateProviderProps) =>
                 await AsyncStorage.setItem('jwtToken', JSON.stringify(jwtToken));
             } else {
                 await AsyncStorage.removeItem('jwtToken');
+                setErrorInfo({
+                    type: GlobalErrorInfoType.MODAL,
+                    message: '로그인 정보가 만료되었습니다. 다시 로그인해주세요.',
+                    callback: () => {
+                        navigation.navigate('IntroPage');
+                    }
+                });
             }
             setJwtTokenState(jwtToken);
         } catch (e) {

@@ -8,7 +8,7 @@ import { LocalDate } from "@js-joda/core";
 
 export const getMember = async (jwtContext: GlobalJwtTokenStateContextProps): Promise<Member> => {
     try {
-        const response = await requestApi(`${API_URL}/member`, 'GET', jwtContext);
+        const response = await requestApi(`/member`, 'GET', jwtContext);
         if (response.status != 200) {
             throw new Error("getMember error");
         }
@@ -30,7 +30,7 @@ export const patchMember = async (name: string, birth: LocalDate, gender: Gender
     };
 
     try {
-        const response = await requestApi(`${API_URL}/member`, 'PATCH', jwtContext, requestBody);
+        const response = await requestApi(`/member`, 'PATCH', jwtContext, requestBody);
         if (response.status != 200) {
             throw new Error("patchMember error");
         }

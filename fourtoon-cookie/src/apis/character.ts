@@ -6,7 +6,7 @@ import { GlobalJwtTokenStateContextProps } from "../components/global/GlobalJwtT
 
 export const getCharacters = async (jwtContext: GlobalJwtTokenStateContextProps): Promise<Character[]> => {
     try {
-        const response = await requestApi(`${API_URL}/character`, 'GET', jwtContext, undefined);
+        const response = await requestApi(`/character`, 'GET', jwtContext, undefined);
         const data = await response.json();
         const characterResponses: CharacterSavedResponse[] = data.characterResponses;
         return [...characterResponses];

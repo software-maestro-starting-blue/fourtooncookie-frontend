@@ -6,7 +6,6 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../constants/routing";
 import { useContext, useEffect } from "react";
 import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
-import { supabaseRefreshToken } from "../../apis/supabase";
 import type { Member } from "../../types/member";
 import { getMember } from "../../apis/member";
 import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
@@ -16,8 +15,7 @@ import AppleSignInAndSignUpButton from "../../components/auth/AppleSignInAndSign
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const { jwtToken, setJwtToken } = useContext(GlobalJwtTokenStateContext);
-    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
-
+    
     useEffect(() => {
         if (!jwtToken) return;
 
@@ -31,10 +29,6 @@ const IntroPage = () => {
                 }
             } catch (e) {
                 console.error('checkIsFirstTime : ', e);
-                setErrorInfo({
-                    type: GlobalErrorInfoType.MODAL,
-                    message: '로그인 정보를 가져오는 중 오류가 발생했습니다.'
-                });
                 setJwtToken(null);
             }
         }

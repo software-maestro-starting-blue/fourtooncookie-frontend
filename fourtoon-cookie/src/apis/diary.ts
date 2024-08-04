@@ -6,7 +6,7 @@ import { requestApi } from "./api";
 
 export const getDiary = async (diaryId: number, jwtContext: GlobalJwtTokenStateContextProps): Promise<Diary> => {
     try {
-        const response = await requestApi(`${API_URL}/diary/${diaryId}`, 'GET', jwtContext, undefined);
+        const response = await requestApi(`/diary/${diaryId}`, 'GET', jwtContext, undefined);
         const diaryResponse: DiarySavedResponse = await response.json();
         return { ...diaryResponse };
     } catch (error) {
@@ -17,7 +17,7 @@ export const getDiary = async (diaryId: number, jwtContext: GlobalJwtTokenStateC
 
 export const getDiaries = async (pageNumber: number, memberId: string, jwtContext: GlobalJwtTokenStateContextProps): Promise<Diary[]> => {
     try {
-        const response = await requestApi(`${API_URL}/diary/timeline?pageNumber=${pageNumber}`, 'GET', jwtContext, undefined);
+        const response = await requestApi(`/diary/timeline?pageNumber=${pageNumber}`, 'GET', jwtContext, undefined);
 
         if (response.status === 200) {
             const data: DiarySavedResponse[] = await response.json();
@@ -43,7 +43,7 @@ export const postDiary = async (characterId: number, date: Date, content: string
     }; // TODO: 캐릭터 아이디를 가지고 와야함.
 
     try {
-        const response = await requestApi(`${API_URL}/diary`, 'POST', jwtContext, requestBody);
+        const response = await requestApi(`/diary`, 'POST', jwtContext, requestBody);
         if (response.status === 200) {
             return;
         } else {
@@ -63,7 +63,7 @@ export const patchDiary = async (characterId: number, diaryId: number, content: 
     }; 
 
     try {
-        const response = await requestApi(`${API_URL}/diary/${diaryId}`, 'PATCH', jwtContext, requestBody);
+        const response = await requestApi(`/diary/${diaryId}`, 'PATCH', jwtContext, requestBody);
         
         if (response.status === 200) {
             return;
@@ -77,7 +77,7 @@ export const patchDiary = async (characterId: number, diaryId: number, content: 
 
 export const deleteDiary = async (diaryId: number, jwtContext: GlobalJwtTokenStateContextProps): Promise<void> => {
     try {
-        const response = await requestApi(`${API_URL}/diary/${diaryId}`, 'DELETE', jwtContext, undefined);
+        const response = await requestApi(`/diary/${diaryId}`, 'DELETE', jwtContext, undefined);
 
         if (response.status === 204) {
             return;
@@ -91,7 +91,7 @@ export const deleteDiary = async (diaryId: number, jwtContext: GlobalJwtTokenSta
 
 export const patchDiaryFavorite = async (diaryId: number, isFavorite: boolean, jwtContext: GlobalJwtTokenStateContextProps): Promise<void> => {
     try {
-        const response = await requestApi(`${API_URL}/diary/favorite/${diaryId}`, 'PATCH', jwtContext, isFavorite);
+        const response = await requestApi(`/diary/favorite/${diaryId}`, 'PATCH', jwtContext, isFavorite);
 
         if (response.status === 200) {
             return;
