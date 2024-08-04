@@ -11,7 +11,7 @@ const GlobalErrorInfoStateProvider = (props: GlobalErrorInfoStateProviderProps) 
     const [ errorInfo, setErrorInfoState ] = useState<GlobalErrorInfo | null>(null);
 
 
-    const setErrorInfo = (errorInfo: GlobalErrorInfo) => {
+    const setErrorInfo = (errorInfo: GlobalErrorInfo | null) => {
         setErrorInfoState(errorInfo);
     }
 
