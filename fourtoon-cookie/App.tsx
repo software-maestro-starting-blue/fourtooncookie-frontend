@@ -18,10 +18,10 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
+    <NavigationContainer>
     <GlobalErrorInfoStateProvider>
       <GlobalJwtTokenStateProvider>
         <GlobalSelectionCharacterStateProvider>
-          <NavigationContainer>
             <Stack.Navigator initialRouteName="IntroPage" screenOptions={{ headerShown: false }}>
               <Stack.Screen name="IntroPage" component={IntroPage} />
               <Stack.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} />
@@ -30,10 +30,10 @@ export default function App() {
               <Stack.Screen name="SignUpPage" component={SignUpPage} />
               <Stack.Screen name="SettingPage" component={SettingPage} />
             </Stack.Navigator>
-          </NavigationContainer>
         </GlobalSelectionCharacterStateProvider>
       </GlobalJwtTokenStateProvider>
     </GlobalErrorInfoStateProvider>
+    </NavigationContainer>
   );
 }
 
