@@ -8,12 +8,16 @@ import { getMember } from '../../apis/member';
 import CharacterSelectPage from '../CharacterSelectPage/CharacterSelectPage';
 import LoginInfoLayout from './LoginInfoLayout/LoginInfoLayout';
 import CharacterInfoLayout from './CharacterInfoLayout/CharacterInfoLayout';
-import Footer from './Footer/Footer';
+import InfoLayout from './InfoLayout/InfoLayout';
 import GlobalJwtTokenStateContext from '../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext';
+import GlobalErrorInfoStateContext from '../../components/global/GlobalError/GlobalErrorInfoStateContext';
+import { GlobalErrorInfoType } from '../../types/error';
+import Footer from '../../components/common/Footer/Footer';
 
 const SettingPage = () => {
 	const [member, setMember] = useState<Member | null>(null);
 	const jwtContext = useContext(GlobalJwtTokenStateContext);
+	const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
   	useEffect(() => {
 		const fetchMember = async () => {
@@ -21,13 +25,18 @@ const SettingPage = () => {
 				const memberData = await getMember(jwtContext);
 				setMember(memberData);
 			} catch (error) {
-				console.error('Failed to fetch member data:', error);
-				//TODO : 에러 핸들링 할 것
+				if (error instanceof Error) {
+                    setErrorInfo({
+                        type: GlobalErrorInfoType.MODAL,
+                        error: error
+                    });
+                }
+                jwtContext.setJwtToken(null);
 			}
 		};
 	
     	fetchMember();
-  	}, []);
+  	}, [jwtContext]);
 
 	return (
     	<SafeAreaView style={S.styles.container}>
@@ -42,7 +51,9 @@ const SettingPage = () => {
 				</ContainerBox>
 			</View>
 
+			<InfoLayout />
 			<Footer />
+
     	</SafeAreaView>
   	);
 };
@@ -60,7 +71,7 @@ const ContainerBox = (props: ContainerBoxProps) => {
 
 	return (
 		<View style={S.styles.section}>
-			<Text style={S.styles.sectionTitle}>title</Text>
+			<Text style={S.styles.sectionTitle}>{title}</Text>
 			<View style={S.styles.box}>
 				{children}
 			</View>

@@ -6,42 +6,41 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../constants/routing";
 import { useContext, useEffect } from "react";
 import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
-import { supabaseRefreshToken } from "../../apis/supabase";
 import type { Member } from "../../types/member";
 import { getMember } from "../../apis/member";
+import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
+import { GlobalErrorInfoType } from "../../types/error";
+import AppleSignInAndSignUpButton from "../../components/auth/AppleSignInAndSignUpButton/AppleSignInAndSignUpButton";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const { jwtToken, setJwtToken } = useContext(GlobalJwtTokenStateContext);
-
+    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
+    
     useEffect(() => {
         if (!jwtToken) return;
 
-        if (!jwtToken.expires_at || jwtToken.expires_at < Date.now()) {
-            const refreshAccessToken = async () => {
-                try {
-                    const newToken = await supabaseRefreshToken(jwtToken.refreshToken);
-                    setJwtToken(newToken);
-                } catch (e) {
-                    setJwtToken(null);
-                }
-            }
-
-            refreshAccessToken();
-            return;
-        }
-
         const checkIsFirstTime = async () => {
-            const member: Member = await getMember({jwtToken, setJwtToken});
-            if (member.name == null) {
-                navigation.navigate('SignUpPage');
-            } else {
-                navigation.navigate('DiaryTimelinePage');
+            try {
+                const member: Member = await getMember({jwtToken, setJwtToken});
+                if (member.name == null) {
+                    navigation.navigate('SignUpPage');
+                } else {
+                    navigation.navigate('DiaryTimelinePage');
+                }
+            } catch (error) {
+                if (error instanceof Error) {
+                    setErrorInfo({
+                        type: GlobalErrorInfoType.MODAL,
+                        error: error
+                    });
+                }
+                setJwtToken(null);
             }
         }
 
         checkIsFirstTime();
-    }, [jwtToken, setJwtToken, navigation]);
+    }, [jwtToken, navigation]);
 
     if (jwtToken) {
         return null;
@@ -62,7 +61,7 @@ const IntroPage = () => {
                     <GoogleSignInAndSignUpButton onSuccess={handleSignUpAndSignInSuccess} />
                 </View>
                 <View style={S.styles.buttonApple}>
-                    
+                    <AppleSignInAndSignUpButton onSuccess={handleSignUpAndSignInSuccess} />
                 </View>
             </View>
         </View>

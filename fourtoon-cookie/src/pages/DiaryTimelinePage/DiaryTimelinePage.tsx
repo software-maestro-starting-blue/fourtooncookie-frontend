@@ -11,29 +11,35 @@ import { deleteDiary, getDiaries } from '../../apis/diary';
 import type { Diary } from "../../types/diary";
 import { diaryDefaultImages } from "../../constants/diary";
 import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
+import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
+import { GlobalErrorInfoType } from "../../types/error";
 
 const DiaryTimelinePage = () => {
     const [diaries, setDiaries] = useState<Diary[]>([]);
     const [page, setPage] = useState(0);
-    const [isLoadingMore, setIsLoadingMore] = useState(false);
     const [hasMore, setHasMore] = useState(true);
 
     const jwtContext = useContext(GlobalJwtTokenStateContext);
+    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     useEffect(() => {
-        const loadDiaries = async () => {
-            if (isLoadingMore) return;
-            if (! hasMore) return;
+        if (! hasMore) return;
 
-            setIsLoadingMore(true);
+        const loadDiaries = async () => {
             let result: Diary[];
             try {
-                result = await getDiaries(page, "1", jwtContext); // TODO 1대신 멤버 ID 
+                result = await getDiaries(page, jwtContext);
             } catch (error) {
                 result = [];
+                if (error instanceof Error) {
+                    setErrorInfo({
+                      type: GlobalErrorInfoType.MODAL,
+                      error: error
+                    });
+                }
             }
 
-            if (result.length === 0) {
+            if (result.length == 0) {
                 setHasMore(false);
             } else {
                 result = result.map(diary => ({
@@ -44,15 +50,13 @@ const DiaryTimelinePage = () => {
                 setDiaries(prev => 
                     [...prev, ...result]);
             }
-
-            setIsLoadingMore(false);
         };
 
         loadDiaries();
-    }, [page]);
+    }, [hasMore, page, jwtContext]);
 
     const handleEndReached = debounce(() => {
-        if (hasMore && !isLoadingMore) {
+        if (hasMore) {
             setPage(prevPage => prevPage + 1);
         }
     }, 300); // 300ms 디바운스 타임
@@ -62,7 +66,12 @@ const DiaryTimelinePage = () => {
             await deleteDiary(diaryId, jwtContext);
             setDiaries(prevDiaries => prevDiaries.filter(diary => diary.diaryId !== diaryId));
         } catch (error) {
-            console.error("An error occurred while deleting the diary: ", error);
+            if (error instanceof Error) {
+                setErrorInfo({
+                    type: GlobalErrorInfoType.MODAL,
+                    error: error
+                });
+            }
         }
     }
 

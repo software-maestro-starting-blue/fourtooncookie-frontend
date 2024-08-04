@@ -5,13 +5,7 @@ import { requestApi } from "./api";
 import { GlobalJwtTokenStateContextProps } from "../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 
 export const getCharacters = async (jwtContext: GlobalJwtTokenStateContextProps): Promise<Character[]> => {
-    try {
-        const response = await requestApi(`${API_URL}/character`, 'GET', jwtContext, undefined);
-        const data = await response.json();
-        const characterResponses: CharacterSavedResponse[] = data.characterResponses;
-        return [...characterResponses];
-    } catch (error) {
-        console.error("getCharacters : ", error);
-        throw new Error("getCharacters error");
-    }
+    const response = await requestApi(`/character`, 'GET', jwtContext, undefined);
+    const characterResponses: CharacterSavedResponse[] = await response.json();
+    return [...characterResponses];
 };

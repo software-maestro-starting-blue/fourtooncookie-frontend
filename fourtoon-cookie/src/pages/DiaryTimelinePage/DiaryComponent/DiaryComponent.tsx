@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { View } from "react-native";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import ConfirmationModal from "../../../components/common/Modal/ConfirmationModal/ConfirmationModal";
@@ -9,6 +9,9 @@ import DiaryActionsLayout from "./DiaryActionLayout/DiaryActionsLayout";
 import DiaryPaintingImagesLayout from "./DiaryPaintingImagesLayout/DiaryPaintingImagesLayout";
 import * as S from './DiaryComponent.styled';
 import { RootStackParamList } from "../../../constants/routing";
+import GlobalJwtTokenStateContext from "../../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
+import GlobalErrorInfoStateContext from "../../../components/global/GlobalError/GlobalErrorInfoStateContext";
+import { GlobalErrorInfoType } from "../../../types/error";
 
 export interface DiaryProps {
     diary: Diary,
@@ -22,13 +25,20 @@ const DiaryComponent = (props: DiaryProps) => {
     const [isFavorite, setIsFavorite] = useState(initialFavorite);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+    const jwtContext = useContext(GlobalJwtTokenStateContext);
+    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     const handleToggleFavorite = async () => {
         try {
-            await patchDiaryFavorite(diaryId, isFavorite);
+            await patchDiaryFavorite(diaryId, !isFavorite, jwtContext);
             setIsFavorite(!isFavorite);
         } catch (error) {
-            console.error("An error occurred while deleting the diary: ", error);
+            if (error instanceof Error) {
+                setErrorInfo({
+                    type: GlobalErrorInfoType.MODAL,
+                    error: error
+                });
+            }
         }
     };
 
@@ -48,14 +58,9 @@ const DiaryComponent = (props: DiaryProps) => {
         setIsModalVisible(true);
     };
 
-    const handleConfirmDelete = async () => {
-        try {
-            setIsModalVisible(false);
-            onDelete();
-        } catch (error) {
-            console.error("An error occurred while deleting the diary: ", error);
-        }
-        
+    const handleConfirmDelete = () => {
+        setIsModalVisible(false);
+        onDelete();
     };
 
     return (

@@ -9,11 +9,12 @@ import { useContext, useEffect } from "react";
 import GlobalSelectionCharacterStateContext from "../../../components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateContext";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../constants/routing";
+import { LocalDate } from "@js-joda/core";
 
 export interface HeaderProps {
-    date: Date;
+    date: LocalDate;
     isDateChangeable: boolean;
-    onDateChange: (date: Date) => void;
+    onDateChange: (date: LocalDate) => void;
     onCharacterChoosePress: () => void;
     onDonePress: () => void;
 }
@@ -22,13 +23,6 @@ const Header = (props: HeaderProps) => {
     const { date, isDateChangeable, onDateChange, onCharacterChoosePress, onDonePress, ...rest } = props;
 
     const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
-    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
-    useEffect(() => {
-        if (! selectedCharacter){
-            navigation.navigate("CharacterSelectPage");
-        }
-    }, [navigation, selectedCharacter]);
 
     if (! selectedCharacter){
         return null;

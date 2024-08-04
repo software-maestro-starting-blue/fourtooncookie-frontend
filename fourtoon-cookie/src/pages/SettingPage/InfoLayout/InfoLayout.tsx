@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity } from 'react-native';
-import * as S from './Footer.styled';
+import * as S from './InfoLayout.styled';
 
-const Footer = () => {
+const InfoLayout = () => {
     const handleInquiry = () => {
         //TODO: 문의하기 로직 구현
     }
@@ -22,4 +22,4 @@ const Footer = () => {
     );
 }
 
-export default Footer;
+export default InfoLayout;

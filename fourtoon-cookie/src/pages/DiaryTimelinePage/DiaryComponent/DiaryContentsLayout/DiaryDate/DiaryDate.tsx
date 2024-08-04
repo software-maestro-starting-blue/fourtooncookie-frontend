@@ -1,9 +1,10 @@
 import React from "react";
 import { View, Text } from "react-native";
 import * as S from './DiaryDate.styld';
+import { LocalDate } from "@js-joda/core";
 
 interface DiaryDateProps {
-    diaryDate: Date;
+    diaryDate: LocalDate;
 }
 
 const Date = (props: DiaryDateProps) => {

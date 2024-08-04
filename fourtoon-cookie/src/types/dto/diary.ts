@@ -1,7 +1,9 @@
+import { LocalDate } from "@js-joda/core"
+
 export interface DiarySaveRequest {
     content: string,
     hashtagIds: number[],
-    diaryDate: Date,
+    diaryDate: LocalDate,
     characterId: number
 }
 
@@ -11,11 +13,15 @@ export interface DiaryUpdateRequest {
     characterId: number
 }
 
+export interface DiaryPatchFavoriteRequest {
+    isFavorite: boolean
+}
+
 export interface DiarySavedResponse {
     diaryId: number,
     content: string,
     isFavorite: boolean,
-    diaryDate: Date,
+    diaryDate: string,
     paintingImageUrls: string[],
     hashtagIds: number[],
     characterId: number
