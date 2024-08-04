@@ -18,8 +18,6 @@ const CharacterSelectPage = () => {
     const [ selectedPaymentType, setSelectedPaymentType ] = useState<CharacterPaymentType>(CharacterPaymentType.FREE);
     const [ characters, setCharacters ] = useState<Character[]>([]);
     const [ loading, setLoading ] = useState<boolean>(true);
-    const [ error, setError ] = useState<string | null>(null);
-    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
     const jwtContext = useContext(GlobalJwtTokenStateContext);
@@ -31,11 +29,12 @@ const CharacterSelectPage = () => {
           const characters = await getCharacters(jwtContext);
           setCharacters(characters);
         } catch (e) {
-			setErrorInfo({
-				type: GlobalErrorInfoType.MODAL,
-				message: '캐릭터 정보를 가져오는 중 오류가 발생했습니다.',
-				callback: () => navigation.navigate('DiaryTimelinePage')
-			});
+          if (e instanceof Error) {
+            setErrorInfo({
+              type: GlobalErrorInfoType.MODAL,
+              error: e
+            });
+          }
         } finally {
           setLoading(false);
         }
