@@ -1,7 +1,7 @@
 import { ReactNode, useState } from "react"
 import type { GlobalErrorInfo } from "../../../types/error";
 import GlobalErrorInfoStateContext from "./GlobalErrorInfoStateContext";
-import GlobalErrorInfoModal from "./GlobalErrorInfoModal/GlobalErrorInfoModal";
+import GlobalErrorInfoComponent from "./GlobalErrorInfoComponent/GlobalErrorInfoComponent";
 
 export interface GlobalErrorInfoStateProviderProps {
     children: ReactNode,
@@ -19,7 +19,7 @@ const GlobalErrorInfoStateProvider = (props: GlobalErrorInfoStateProviderProps) 
     return (
         <GlobalErrorInfoStateContext.Provider value={{ errorInfo, setErrorInfo }}>
             {children}
-            <GlobalErrorInfoModal />
+            <GlobalErrorInfoComponent />
         </GlobalErrorInfoStateContext.Provider>
     );
 }

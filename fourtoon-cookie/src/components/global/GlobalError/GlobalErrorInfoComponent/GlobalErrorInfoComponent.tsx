@@ -1,12 +1,11 @@
 import { useContext } from "react";
 import GlobalErrorInfoStateContext from "../GlobalErrorInfoStateContext";
-import * as S from "./GlobalErrorInfoModal.styled";
-import ConfirmationModal from "../../../common/Modal/ConfirmationModal/ConfirmationModal";
+import * as S from "./GlobalErrorInfoComponent.styled";
 import { GlobalErrorInfoType } from "../../../../types/error";
 import AlertModal from "../../../common/Modal/AlertModal/AlertModal";
 
 
-const GlobalErrorInfoModal = () => {
+const GlobalErrorInfoComponent = () => {
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     const handleCloseErrorInfoModal = () => {
@@ -31,4 +30,4 @@ const GlobalErrorInfoModal = () => {
 
 }
 
-export default GlobalErrorInfoModal;
+export default GlobalErrorInfoComponent;
