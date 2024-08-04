@@ -9,10 +9,13 @@ import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/G
 import { supabaseRefreshToken } from "../../apis/supabase";
 import type { Member } from "../../types/member";
 import { getMember } from "../../apis/member";
+import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
+import { GlobalErrorInfoType } from "../../types/error";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const { jwtToken, setJwtToken } = useContext(GlobalJwtTokenStateContext);
+    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     useEffect(() => {
         if (!jwtToken) return;
@@ -24,6 +27,10 @@ const IntroPage = () => {
                     setJwtToken(newToken);
                 } catch (e) {
                     setJwtToken(null);
+                    setErrorInfo({
+                        type: GlobalErrorInfoType.MODAL,
+                        message: '로그인 정보가 만료되었습니다. 다시 로그인해주세요.'
+                    });
                 }
             }
 
