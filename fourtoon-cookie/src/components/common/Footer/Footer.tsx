@@ -5,7 +5,6 @@ import IconButton from "../IconButton/IconButton";
 import TimelineIcon from"../../../../assets/icon/timeline.png";
 import SettingIcon from"../../../../assets/icon/setting.png";
 import WriteIcon from"../../../../assets/icon/write.png";
-import SearchIcon from"../../../../assets/icon/search.png";
 
 import * as S from './Footer.styled';
 
@@ -14,7 +13,6 @@ const Footer = () => {
 
     const icons = [
         { source: TimelineIcon, pageName: 'DiaryTimelinePage' },
-        { source: SearchIcon, pageName: 'DiarySearchPage' },
         { source: WriteIcon, pageName: 'DiaryWritePage' },
         { source: SettingIcon, pageName: 'SettingsPage' },
     ];
