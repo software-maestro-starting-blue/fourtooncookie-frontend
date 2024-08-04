@@ -1,8 +1,8 @@
-import { LocalDate } from "@js-joda/core";
+import { LocalDate } from "@js-joda/core"
 
 export interface Member {
-    email: string;
-    name: string;
-    gender: string;
-    birth: LocalDate;
-}
+    name: string,
+    email: string,
+    gender: string,
+    birth: LocalDate
+};

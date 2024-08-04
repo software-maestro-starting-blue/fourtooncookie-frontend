@@ -9,4 +9,5 @@ export type RootStackParamList = {
     CharacterSelectPage: undefined,
     IntroPage: undefined,
     SignUpPage: undefined,
+    SettingPage: undefined,
 }

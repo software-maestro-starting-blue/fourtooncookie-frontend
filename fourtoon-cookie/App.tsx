@@ -11,6 +11,7 @@ import GlobalSelectionCharacterStateProvider from './src/components/global/Globa
 import SignUpPage from './src/pages/SignUpPage/SignUpPage';
 import GlobalJwtTokenStateProvider from './src/components/global/GlobalJwtToken/GlobalJwtTokenStateProvider';
 import IntroPage from './src/pages/IntroPage/IntroPage';
+import SettingPage from './src/pages/SettingPage/SettingPage';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -25,6 +26,7 @@ export default function App() {
             <Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
             <Stack.Screen name="CharacterSelectPage" component={CharacterSelectPage} />
             <Stack.Screen name="SignUpPage" component={SignUpPage} />
+            <Stack.Screen name="SettingPage" component={SettingPage}/>
           </Stack.Navigator>
         </NavigationContainer>
       </GlobalSelectionCharacterStateProvider>
