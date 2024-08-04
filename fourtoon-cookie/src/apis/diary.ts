@@ -3,6 +3,7 @@ import type { Diary } from "../types/diary";
 import type { DiarySaveRequest, DiarySavedResponse, DiaryUpdateRequest } from "../types/dto/diary";
 import { GlobalJwtTokenStateContextProps } from "../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 import { requestApi } from "./api";
+import { LocalDate } from "@js-joda/core";
 
 export const getDiary = async (diaryId: number, jwtContext: GlobalJwtTokenStateContextProps): Promise<Diary> => {
     try {
@@ -15,7 +16,7 @@ export const getDiary = async (diaryId: number, jwtContext: GlobalJwtTokenStateC
     }
 }
 
-export const getDiaries = async (pageNumber: number, memberId: string, jwtContext: GlobalJwtTokenStateContextProps): Promise<Diary[]> => {
+export const getDiaries = async (pageNumber: number, jwtContext: GlobalJwtTokenStateContextProps): Promise<Diary[]> => {
     try {
         const response = await requestApi(`/diary/timeline?pageNumber=${pageNumber}`, 'GET', jwtContext, undefined);
 
@@ -33,7 +34,7 @@ export const getDiaries = async (pageNumber: number, memberId: string, jwtContex
     }
 }
 
-export const postDiary = async (characterId: number, date: Date, content: string, hashtagIds: number[], jwtContext: GlobalJwtTokenStateContextProps) => {
+export const postDiary = async (characterId: number, date: LocalDate, content: string, hashtagIds: number[], jwtContext: GlobalJwtTokenStateContextProps) => {
 
     const requestBody: DiarySaveRequest = {
         characterId: characterId,

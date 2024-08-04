@@ -31,7 +31,7 @@ const DiaryTimelinePage = () => {
             setIsLoadingMore(true);
             let result: Diary[];
             try {
-                result = await getDiaries(page, "1", jwtContext); // TODO 1대신 멤버 ID 
+                result = await getDiaries(page, jwtContext); // TODO 1대신 멤버 ID 
             } catch (error) {
                 result = [];
                 setErrorInfo({

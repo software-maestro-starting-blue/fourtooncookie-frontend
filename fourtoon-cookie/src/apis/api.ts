@@ -39,10 +39,10 @@ export const requestApi = async (url: string, method: string, jwtContext: Global
                 const newToken = await refreshJwtToken();
                 return makeRequest(newToken, true);
             } else {
-                throw new Error(`[${method}] ${url} error`);
+                throw new Error(`[${method}] ${url} refresh error`);
             }
         } catch (error) {
-            throw new Error(`[${method}] ${url} error`);
+            throw new Error(`[${method}] ${url} error` + error);
         }
     };
     
