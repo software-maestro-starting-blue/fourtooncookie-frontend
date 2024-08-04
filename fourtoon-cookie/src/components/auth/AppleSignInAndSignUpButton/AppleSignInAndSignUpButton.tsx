@@ -5,26 +5,25 @@ import {getAppleIdToken} from "../../../apis/appleOAuth";
 import {supabaseSignInAndSignUpWithIdToken} from "../../../apis/supabase";
 import {OAuthProvider} from "../../../types/oauth";
 import type {JWTToken} from "../../../types/jwt";
+import {OS} from "../../../types/os";
 
 export interface AppleSignInAndSignUpButtonProps {
-    onPress: (token: JWTToken) => void;
+    onSuccess: (token: JWTToken) => void;
 }
 
-const AppleSignAndSignUpButton = (props: AppleSignInAndSignUpButtonProps) => {
-    const {onPress, ...rest} = props;
+const AppleSignInAndSignUpButton = (props: AppleSignInAndSignUpButtonProps) => {
+    const {onSuccess, ...rest} = props;
 
     const handlePress = async () => {
         const [idToken, nonce] = await getAppleIdToken();
         if (idToken) {
             const token = await supabaseSignInAndSignUpWithIdToken(OAuthProvider.APPLE, idToken, nonce);
-            onPress(token);
+            onSuccess(token);
         }
         // TODO: 다른 방식으로 에러 핸들링
     }
 
-    return (
-        <View>
-            {(Platform.OS === 'ios' || appleAuthAndroid.isSupported) && (
+    return (Platform.OS === OS.IOS || appleAuthAndroid.isSupported) && (
                 <AppleButton
                     buttonStyle={AppleButton.Style.WHITE}
                     buttonType={AppleButton.Type.SIGN_IN}
@@ -34,9 +33,7 @@ const AppleSignAndSignUpButton = (props: AppleSignInAndSignUpButtonProps) => {
                     }}
                     onPress={handlePress}
                 />
-            )}
-        </View>
-    );
+            );
 }
 
-export default AppleSignAndSignUpButton;
+export default AppleSignInAndSignUpButton;
