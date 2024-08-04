@@ -76,15 +76,13 @@ const SignUpPage = () => {
             try {
                 patchMember(name, birth, gender, jwtContext);
                 navigation.navigate('DiaryTimelinePage');
-            } catch (e) {
-                setErrorInfo({
-                    type: GlobalErrorInfoType.MODAL,
-                    message: '회원 정보를 추가적으로 등록하는 중 오류가 발생하였습니다. 첫 화면으로 돌아갑니다.',
-                    callback: () => {
-                        jwtContext.setJwtToken(null);
-                        navigation.navigate('IntroPage');
-                    }
-                });
+            } catch (error) {
+                if (error instanceof Error) {
+                    setErrorInfo({
+                        type: GlobalErrorInfoType.MODAL,
+                        error: error
+                    });
+                }
             }
         }
     }
