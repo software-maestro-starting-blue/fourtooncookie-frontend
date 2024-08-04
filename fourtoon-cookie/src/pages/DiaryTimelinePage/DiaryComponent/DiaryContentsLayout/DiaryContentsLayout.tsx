@@ -7,19 +7,15 @@ import { View } from "react-native";
 
 
 export interface DiaryContentsLayoutProps {
-    hashtagIds: number[],
     content: string,
-    diaryDate: LocalDate,
 }
 
 const DiaryContentsLayout = (props: DiaryContentsLayoutProps) => {
-    const { hashtagIds, content, diaryDate } = props;
+    const { content } = props;
 
     return (
         <View>
-            <DiaryHashtag hashtagIds={hashtagIds}/>
             <DiaryContent content={content}/>
-            <DiaryDate diaryDate={diaryDate} />
         </View>
     );
 }

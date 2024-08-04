@@ -2,24 +2,21 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     grid: {
+        display: 'flex',
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        marginBottom: 10,
-        padding: 5,
-    },
-    imageLayout: {
-        width: '48%',
-        marginBottom: 10,
-        borderRadius: 8,
-        overflow: 'hidden',
+        gap: 2,
+        width: 318,
+        height: 318,
+        borderRadius: 20,
     },
     image: {
-        width: '100%',
-        height: 150,
-        backgroundColor: '#f0f0f0',
-        resizeMode: 'cover',
+        width: 158,
+        height: 158,
+        marginBottom: 10,
+        resizeMode: 'contain',
     },
+    
     modalBackground: {
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.8)',

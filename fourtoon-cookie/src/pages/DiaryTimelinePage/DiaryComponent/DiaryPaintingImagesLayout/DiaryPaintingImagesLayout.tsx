@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { View, Modal, Image, TouchableOpacity, Text } from "react-native";
-import ImageButton from "../../../../components/common/ImageButton/ImageButton";
 import * as S from './DiaryPaintingImagesLayout.styled';
 
 export interface DiaryPaintingImagesLayoutProps {
@@ -12,37 +11,61 @@ const DiaryPaintingImagesLayout = (props: DiaryPaintingImagesLayoutProps) => {
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-    const openModal = (imageUrl: string) => {
+    const handleImagePress = (imageUrl: string) => {
         setSelectedImage(imageUrl);
         setModalVisible(true);
     };
 
-    const closeModal = () => {
+    const handleCloseModal = () => {
         setModalVisible(false);
         setSelectedImage(null);
     };
 
     return (
-        <View style={S.styles.grid}>
-            {imageUrls.map((imageUrl, index) => (
-                <ImageButton 
-                    key={index}
-                    imageUrl={imageUrl} 
-                    onPress={() => openModal(imageUrl)} 
-                    style={S.styles.imageLayout} 
-                    imageStyle={S.styles.image} 
+        <View>
+            <View style={S.styles.grid}>
+                {imageUrls.map((imageUrl, index) => (
+                    <TouchableOpacity key={index} onPress={() => handleImagePress(imageUrl)}>
+                        <Image
+                            source={{ uri: imageUrl }}
+                            style={S.styles.image}
+                        />
+                    </TouchableOpacity>
+                ))}
+            </View>
+            <ImageModal 
+                isModalVisible={isModalVisible}
+                selectedImage={selectedImage}
+                onCloseModal={handleCloseModal}
                 />
-            ))}
-            <Modal
+        </View>
+    );
+};
+
+export default DiaryPaintingImagesLayout;
+
+interface ImageModalProps {
+    isModalVisible: boolean;
+    selectedImage: string | null;
+    onCloseModal: () => void;
+}
+
+const ImageModal = (props: ImageModalProps) => {
+    const { isModalVisible, selectedImage, onCloseModal } = props;
+
+    if (! isModalVisible) return null;
+
+    return (
+        <Modal
                 visible={isModalVisible}
                 transparent={true}
                 animationType="fade"
-                onRequestClose={closeModal}
+                onRequestClose={onCloseModal}
             >
                 <View style={S.styles.modalBackground}>
-                    <TouchableOpacity style={S.styles.modalContainer} onPress={closeModal}>
+                    <TouchableOpacity style={S.styles.modalContainer} onPress={onCloseModal}>
                         <View style={S.styles.modalContent}>
-                            <TouchableOpacity style={S.styles.closeButton} onPress={closeModal}>
+                            <TouchableOpacity style={S.styles.closeButton} onPress={onCloseModal}>
                                 <Text style={S.styles.closeButtonText}>X</Text>
                             </TouchableOpacity>
                             {selectedImage && (
@@ -55,9 +78,7 @@ const DiaryPaintingImagesLayout = (props: DiaryPaintingImagesLayoutProps) => {
                         </View>
                     </TouchableOpacity>
                 </View>
-            </Modal>
-        </View>
-    );
-};
+        </Modal>
+    )
 
-export default DiaryPaintingImagesLayout;
+}

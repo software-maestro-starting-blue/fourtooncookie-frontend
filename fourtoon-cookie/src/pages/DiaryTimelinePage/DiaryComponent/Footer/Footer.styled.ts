@@ -1,15 +1,11 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-    contents: {
-        flexDirection: 'column',
-        marginBottom: 10,
-    },
     footer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 10,
+        marginTop: 10,
     },
     favoriteImage: {
         width: 30,
@@ -23,13 +19,11 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-end',
     },
-    button: {
-        padding: 5,
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: 'gray',
-        backgroundColor: 'gray',
-        textAlign: 'center',
-        marginLeft: 5,
+    image: {
+        width: 40,
+        height: 40,
+        marginLeft: 10,
+        marginRight: 10,
+        resizeMode: 'contain',
     },
 });

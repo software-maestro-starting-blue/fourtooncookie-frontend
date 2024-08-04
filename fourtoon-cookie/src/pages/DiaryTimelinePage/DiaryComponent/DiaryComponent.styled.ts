@@ -2,13 +2,17 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        borderWidth: 1,
-        borderColor: 'gray',
-        borderRadius: 10,
-        marginBottom: 10,
-        padding: 10,
-        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        padding: 16,
+        marginLeft: 10,
+        marginRight: 10,
+        gap: 16,
+        width: 'auto',
+        height: 'auto',
+        backgroundColor: '#FFFFFF',
+        borderRadius: 30,
     },
     contents: {
         flexDirection: 'column',
