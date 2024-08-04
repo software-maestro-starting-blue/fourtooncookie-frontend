@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import * as S from './SettingPage.styled';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Member } from '../../types/member';
+import type { Member } from '../../types/member';
 import { getMember } from '../../apis/member';
 import CharacterSelectPage from '../CharacterSelectPage/CharacterSelectPage';
 import LoginInfoLayout from './LoginInfoLayout/LoginInfoLayout';
