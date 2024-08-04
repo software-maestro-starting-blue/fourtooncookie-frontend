@@ -2,7 +2,7 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import * as S from "./CharacterInfoLayout.styled";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../../constants/routing';
-import { Character } from '../../../types/character';
+import type { Character } from '../../../types/character';
 import { useContext } from 'react';
 import GlobalJwtTokenStateContext from '../../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext';
 import GlobalSelectionCharacterStateContext from '../../../components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateContext';
