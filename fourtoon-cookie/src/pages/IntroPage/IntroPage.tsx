@@ -11,6 +11,7 @@ import type { Member } from "../../types/member";
 import { getMember } from "../../apis/member";
 import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../types/error";
+import AppleSignInAndSignUpButton from "../../components/auth/AppleSignInAndSignUpButton/AppleSignInAndSignUpButton";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -69,7 +70,7 @@ const IntroPage = () => {
                     <GoogleSignInAndSignUpButton onSuccess={handleSignUpAndSignInSuccess} />
                 </View>
                 <View style={S.styles.buttonApple}>
-                    
+                    <AppleSignInAndSignUpButton onSuccess={handleSignUpAndSignInSuccess} />
                 </View>
             </View>
         </View>
