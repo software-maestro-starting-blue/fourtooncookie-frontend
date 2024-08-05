@@ -1,25 +1,38 @@
-import { View, Text, TouchableOpacity } from 'react-native';
-import * as S from './InfoLayout.styled';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
+import * as S from "./InfoLayout.styled";
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../../constants/routing';
+import type { Character } from '../../../types/character';
+import { useContext } from 'react';
+import GlobalJwtTokenStateContext from '../../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext';
+import GlobalSelectionCharacterStateContext from '../../../components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateContext';
+import type { Member } from '../../../types/member';
 
-const InfoLayout = () => {
-    const handleInquiry = () => {
-        //TODO: 문의하기 로직 구현
+
+export interface InfoLayoutProps {
+    member: Member | null;
+}
+
+const InfoLayout = (props: InfoLayoutProps) => {
+    const { member, ...rest } = props;
+
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+    const character: Character | null = useContext(GlobalSelectionCharacterStateContext).selectedCharacter;
+
+    const handleCharacterChangeButtonPress = () => {
+        navigation.navigate('CharacterSelectPage');
     }
 
-    const handleLogout = () => {
-        //TODO: 탈퇴 로직 구현
-    }
-    
     return (
-        <View style={S.styles.footer}>
-            <TouchableOpacity onPress={handleInquiry}>
-                <Text style={S.styles.inquiryText}>문의하기</Text>
+        <View style={S.styles.profileContainer}>
+            <Image source={{uri: character?.selectionThumbnailUrl}} style={S.styles.profileImage} />
+            <Text style={S.styles.name}>{member?.name}</Text>
+            <Text style={S.styles.email}>{member?.email}</Text>
+            <TouchableOpacity style={S.styles.changeCharacterButton} onPress={handleCharacterChangeButtonPress}>
+                <Text style={S.styles.changeCharacterText}>캐릭터 변경</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleLogout}>
-                <Text style={S.styles.logoutText}>탈퇴하기</Text>
-            </TouchableOpacity>
-        </View>
-    );
+      </View>
+    )
 }
 
 export default InfoLayout;
