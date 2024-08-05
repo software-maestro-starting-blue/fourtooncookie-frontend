@@ -77,7 +77,7 @@ const DiaryTimelinePage = () => {
     }
 
     return (
-        <MainPageLayout>
+        <MainPageLayout isHomeActivate={true} isPersonActivate={false}>
             <FlatList
                 data={diaries}
                 renderItem={({ item }) => <DiaryComponent diary={item} onDelete={() => handleDelete(item.diaryId)} />}

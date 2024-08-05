@@ -13,6 +13,7 @@ import GlobalJwtTokenStateContext from '../../components/global/GlobalJwtToken/G
 import GlobalErrorInfoStateContext from '../../components/global/GlobalError/GlobalErrorInfoStateContext';
 import { GlobalErrorInfoType } from '../../types/error';
 import Footer from '../../components/common/Footer/Footer';
+import MainPageLayout from '../../components/layout/MainPageLayout/MainPageLayout';
 
 const SettingPage = () => {
 	const [member, setMember] = useState<Member | null>(null);
@@ -39,7 +40,7 @@ const SettingPage = () => {
   	}, [jwtContext]);
 
 	return (
-    	<SafeAreaView style={S.styles.container}>
+    	<MainPageLayout isHomeActivate={false} isPersonActivate={true} >
       		<Text style={S.styles.title}>설정</Text>
 
 	    	<View style={S.styles.body}>
@@ -52,9 +53,8 @@ const SettingPage = () => {
 			</View>
 
 			<InfoLayout />
-			<Footer isHomeActivate={false} isPersonActivate={true}/>
 
-    	</SafeAreaView>
+    	</MainPageLayout>
   	);
 };
 
