@@ -2,13 +2,15 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     container: {
+        position: 'relative',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
         padding: 0,
         width: "100%",
-        height: "9%",
+        height: "11%",
+        backgroundColor: "#FFFFFF"
     },
     itemContainer: {
         display: 'flex',
@@ -16,6 +18,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 10,
+        marginBottom: 20,
         gap: 4,
         width: "33%",
         height: "100%",

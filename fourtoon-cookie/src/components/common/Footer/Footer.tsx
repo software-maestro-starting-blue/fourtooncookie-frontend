@@ -19,7 +19,7 @@ const Footer = (props: FooterProps) => {
     const { isHomeActivate, isPersonActivate } = props;
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const icons = [
+    const items = [
         { source: isHomeActivate ? HomeActivateIcon : HomeInactivateIcon, pageName: 'DiaryTimelinePage', name: '홈' },
         { source: DrawIcon, pageName: 'DiaryWritePage', name: '글쓰기' },
         { source: isPersonActivate ? PersonActivateIcon : PersonInactivateIcon, pageName: 'SettingPage', name: '마이' },
@@ -27,31 +27,29 @@ const Footer = (props: FooterProps) => {
         
     return (
         <View style={S.styles.container}>
-        {icons.map((icon, index) => (
-            <FooterItem
-                key={index}
-                imageSource={icon.source}
-                name={icon.name}
-                onPress={() => navigation.navigate(icon.pageName as never)}
-            />
-        ))}
+            {items.map((item, index) => (
+                <FooterItem
+                    imageSource={item.source}
+                    name={item.name}
+                    onPress={() => navigation.navigate(item.pageName as never)}
+                />
+            ))}
         </View>
         
     );
 }
 
 interface FooterItemProps {
-    key: number;
     imageSource: ImageSourcePropType;
     name: string;
     onPress: () => void;
 }
 
 const FooterItem = (props: FooterItemProps) => {
-    const { key, imageSource, name, onPress } = props;
+    const { imageSource, name, onPress } = props;
 
     return (
-        <TouchableOpacity key={key} style={S.styles.itemContainer} onPress={onPress}>
+        <TouchableOpacity style={S.styles.itemContainer} onPress={onPress}>
             <Image source={imageSource} style={S.styles.icon} />
             <Text style={S.styles.activeText}>{name}</Text>
         </TouchableOpacity>

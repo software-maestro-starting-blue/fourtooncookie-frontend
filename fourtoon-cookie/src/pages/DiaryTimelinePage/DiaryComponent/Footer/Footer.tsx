@@ -20,7 +20,7 @@ const DiaryActionsLayout = (props: FooterProps) => {
     return (
         <View style={S.styles.footer}>
             <View style={S.styles.favoriteButton}>
-                <TouchableOpacity onPress={onDownload}>
+                <TouchableOpacity onPress={onToggleFavorite}>
                     <Image
                         source={isFavorite ? FAVORITE_ACTIVATE_ICON : FAVORITE_INACTIVATE_ICON}
                         style={S.styles.image}

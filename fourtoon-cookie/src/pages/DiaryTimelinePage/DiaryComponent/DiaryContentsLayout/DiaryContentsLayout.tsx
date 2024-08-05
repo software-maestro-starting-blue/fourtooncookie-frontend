@@ -1,9 +1,8 @@
-import DiaryHashtag from "./DiaryHashtag/DiaryHashtag";
 import React from "react";
-import DiaryDate from "./DiaryDate/DiaryDate";
 import DiaryContent from "./DiaryContent/DiaryContent";
 import { LocalDate, LocalDateTime } from "@js-joda/core";
 import { View } from "react-native";
+import * as S from "./DiaryContentsLayout.styled";
 
 
 export interface DiaryContentsLayoutProps {
@@ -14,7 +13,7 @@ const DiaryContentsLayout = (props: DiaryContentsLayoutProps) => {
     const { content } = props;
 
     return (
-        <View>
+        <View style={S.styles.layout}>
             <DiaryContent content={content}/>
         </View>
     );

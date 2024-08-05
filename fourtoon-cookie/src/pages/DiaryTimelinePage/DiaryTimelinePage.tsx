@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { debounce } from 'lodash';
 import Footer from "../../components/common/Footer/Footer";
@@ -13,6 +13,7 @@ import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/G
 import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../types/error";
 import DiaryComponent from "./DiaryComponent/DiaryComponent";
+import MainPageLayout from "../../components/layout/MainPageLayout/MainPageLayout";
 
 const DiaryTimelinePage = () => {
     const [diaries, setDiaries] = useState<Diary[]>([]);
@@ -76,18 +77,16 @@ const DiaryTimelinePage = () => {
     }
 
     return (
-        <SafeAreaView style={S.styles.container}>
+        <MainPageLayout>
             <FlatList
                 data={diaries}
                 renderItem={({ item }) => <DiaryComponent diary={item} onDelete={() => handleDelete(item.diaryId)} />}
                 ListHeaderComponent={<Header />}
                 onEndReached={handleEndReached}
                 onEndReachedThreshold={0.5}
-                contentContainerStyle={{flexGrow: 1}}
                 ListEmptyComponent={<DiaryEmpty/>}
             />
-            <Footer isHomeActivate={true} isPersonActivate={false} />
-        </SafeAreaView>
+        </MainPageLayout>
     );
 };
 
