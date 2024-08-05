@@ -126,7 +126,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
                     text={content}
                     onTextChange={handleInputTextChange}
                 /> 
-                <View style={S.styles.rectangle} />
+                <View style={S.styles.separator} />
                 <HashtagLayout 
                     hashtagIds={hashtagsContainWeather}
                 />

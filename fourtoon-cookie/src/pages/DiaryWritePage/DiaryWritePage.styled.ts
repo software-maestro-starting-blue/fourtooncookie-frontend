@@ -11,8 +11,8 @@ export const styles = StyleSheet.create({
         paddingRight: 23,
         position: 'relative'
       },
-    rectangle: {
-        width: 350,
+    separator: {
+        width: "100%",
         height: 1,
         backgroundColor: '#F7F7F7',
         alignSelf: 'stretch',
