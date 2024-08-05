@@ -6,13 +6,14 @@ import { getCharacters } from '../../apis/character';
 import BackButton from '../../components/common/BackButton/BackButton';
 import GlobalSelectionCharacterStateContext from '../../components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateContext';
 import ArtworkList from './ArtworkList/ArtworkList';
-import Header from './Header/Header';
+import Tabs from './Tabs/Tabs';
 import { Character, CharacterPaymentType } from '../../types/character';
 import * as S from './CharacterSelectPage.styled';
 import { RootStackParamList } from '../../constants/routing';
 import GlobalJwtTokenStateContext from '../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext';
 import GlobalErrorInfoStateContext from '../../components/global/GlobalError/GlobalErrorInfoStateContext';
 import { GlobalErrorInfoType } from '../../types/error';
+import Header from './Header/Header';
 
 const CharacterSelectPage = () => {
     const [ selectedPaymentType, setSelectedPaymentType ] = useState<CharacterPaymentType>(CharacterPaymentType.FREE);
@@ -78,14 +79,14 @@ const CharacterSelectPage = () => {
 
     return (
         <SafeAreaView style={S.styles.container}>
-            <View style={S.styles.header}>
-                <BackButton style={{ justifyContent: 'flex-start' }} />
-            </View>
+            <Header />
 
-            <Header
+            <Tabs
                 selectedPaymentType={selectedPaymentType}
                 setSelectedPaymentType={setSelectedPaymentType}
             />
+            
+            <View style={S.styles.separator} />
 
             <View>
                 {selectedPaymentType === CharacterPaymentType.FREE ? (

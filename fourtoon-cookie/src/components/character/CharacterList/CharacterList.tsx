@@ -16,18 +16,17 @@ const CharacterList = (props: CharacterListProps) => {
 
     return (
         <FlatList
-        data={characters}
-        keyExtractor={(character) => character.id.toString()}
-        renderItem={({ item }) => (
-            <CharacterItem
-            character={item}
-            isSelected={selectedCharacter?.id === item.id}
-            onPress={() => handleCharacterPress(item)}
-            />
-        )}
-        numColumns={numColumns}
-        columnWrapperStyle={S.styles.row}
-        contentContainerStyle={S.styles.flatListContent}
+            data={characters}
+            keyExtractor={(character) => character.id.toString()}
+            renderItem={({ item }) => (
+                <CharacterItem
+                    character={item}
+                    isSelected={selectedCharacter?.id === item.id}
+                    onPress={() => handleCharacterPress(item)}
+                />
+            )}
+            numColumns={numColumns}
+            contentContainerStyle={S.styles.listContainer}
         />
     );
 };

@@ -1,32 +1,18 @@
-import React from 'react';
-import { View } from 'react-native';
-import Tab from './Tab/Tab';
-import * as S from './Header.styled';
-import { FREE_KOR, PAID_KOR } from '../../../constants/character';
-import { CharacterPaymentType } from '../../../types/character';
+import { Text, View } from "react-native";
+import BackButton from "../../../components/common/BackButton/BackButton";
 
-export interface HeaderProps {
-    selectedPaymentType: CharacterPaymentType;
-    setSelectedPaymentType: (category: CharacterPaymentType) => void;
-}
+import * as S from "./Header.styled";
 
-const Header = (props: HeaderProps) => {
-    const { selectedPaymentType, setSelectedPaymentType, ...rest } = props;
-    
+const Header = () => {
+
     return (
-        <View style={S.styles.headersContainer}>
-            <Tab 
-                isActive={selectedPaymentType === CharacterPaymentType.FREE} 
-                label={FREE_KOR}
-                onPress={() => setSelectedPaymentType(CharacterPaymentType.FREE)} 
-            />
-            <Tab 
-                isActive={selectedPaymentType === CharacterPaymentType.PAID} 
-                label={PAID_KOR}
-                onPress={() => setSelectedPaymentType(CharacterPaymentType.PAID)} 
-            />
+        <View style={S.styles.header}>
+            <BackButton style={S.styles.backButton} />
+            <View style={S.styles.textContainer}>
+                    <Text style={S.styles.text}>캐릭터 선택</Text>
+            </View>
         </View>
     );
-};
+}
 
 export default Header;

@@ -12,7 +12,7 @@ const Tab = (props: TabProps) => {
     const { isActive, label, onPress, ...rest } = props;
 
     return (
-        <TouchableOpacity onPress={onPress} style={S.styles.tab}>
+        <TouchableOpacity onPress={onPress} style={[S.styles.tab, isActive && S.styles.selectedTab ]}>
             <Text style={[S.styles.tabText, isActive && S.styles.activeTabText]}>{label}</Text>
         </TouchableOpacity>
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Image, Text } from 'react-native';
+import { TouchableOpacity, Image, Text, View } from 'react-native';
 import type { Character } from '../../../types/character';
 import * as S from './CharacterItem.styled';
 
@@ -17,16 +17,28 @@ const CharacterItem = (props:CharacterItemProps) => {
     }
                 
     return (
-        <TouchableOpacity style={[S.styles.characterContainer, isSelected && S.styles.selectedCharacter]} onPress={onPress}>
-            <Image 
-                source={{ uri: character.selectionThumbnailUrl }} 
-                style={S.styles.image} 
-                onError={() => handleError()}
-            />
+        <TouchableOpacity style={S.styles.characterContainer} onPress={onPress}>
+            <View style={S.styles.imageContainer}>
+                <Image 
+                    source={{ uri: character.selectionThumbnailUrl }} 
+                    style={S.styles.image} 
+                    onError={() => handleError()}
+                />
+                {isSelected && <CheckMark />}
+            </View>
             <Text style={S.styles.name}>{character.name}</Text>
-            {isSelected && <Text style={S.styles.checkmark}>✔</Text>}
         </TouchableOpacity>
     );
 };
+
+const CheckMark = () => {
+    return (
+        <View style={S.styles.checkmarkWrapper}>
+            <View style={S.styles.checkmark}>
+                <Text style={S.styles.checkmarkText}>✓</Text>
+            </View>
+        </View>
+    );
+}
 
 export default CharacterItem;

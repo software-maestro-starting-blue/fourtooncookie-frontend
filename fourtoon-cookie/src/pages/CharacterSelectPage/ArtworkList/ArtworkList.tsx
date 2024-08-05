@@ -11,24 +11,22 @@ export interface ArtworkListProps {
 }
 
 const ArtworkList = (props: ArtworkListProps) => {
-  const { groupedCharacters, selectedCharacter, handleCharacterPress } = props;
+	const { groupedCharacters, selectedCharacter, handleCharacterPress } = props;
 
-  const renderItem: ListRenderItem<string> = ({ item }) => (
-    <ArtworkItem
-      artworkName={item}
-      artworkCharacters={groupedCharacters[item]}
-      selectedCharacter={selectedCharacter}
-      handleCharacterPress={handleCharacterPress}
-    />
-  );
-
-  return (
-    <FlatList
-      data={Object.keys(groupedCharacters)}
-      keyExtractor={(item) => item}
-      renderItem={renderItem}
-    />
-  );
+  	return (
+		<FlatList
+			data={Object.keys(groupedCharacters)}
+			keyExtractor={(item) => item}
+			renderItem={ ({ item } )=> 
+				<ArtworkItem
+					artworkName={item}
+					artworkCharacters={groupedCharacters[item]}
+					selectedCharacter={selectedCharacter}
+					handleCharacterPress={handleCharacterPress}
+				/>
+			}
+		/>
+  	);
 };
 
 interface ArtworkItemProps {
@@ -41,14 +39,14 @@ interface ArtworkItemProps {
 const ArtworkItem = (props: ArtworkItemProps) => {
     const { artworkName, artworkCharacters, selectedCharacter, handleCharacterPress } = props;
     return (
-        <View key={artworkName}>
-        <Text style={S.styles.artworkTitle}>{artworkName}</Text>
-        <CharacterList
-            characters={artworkCharacters}
-            selectedCharacter={selectedCharacter}
-            handleCharacterPress={handleCharacterPress}
-            numColumns={3}
-        />
+        <View key={artworkName} style={S.styles.artworkContainer}>
+			<Text style={S.styles.artworkTitle}>{artworkName}</Text>
+			<CharacterList
+				characters={artworkCharacters}
+				selectedCharacter={selectedCharacter}
+				handleCharacterPress={handleCharacterPress}
+				numColumns={3}
+			/>
         </View>
     );
 };
