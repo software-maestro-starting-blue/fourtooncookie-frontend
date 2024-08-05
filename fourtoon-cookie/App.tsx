@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { StyleSheet } from 'react-native';
 import { RootStackParamList } from './src/constants/routing';
 
@@ -19,6 +20,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function App() {
   return (
     <NavigationContainer>
+    <ActionSheetProvider>
     <GlobalErrorInfoStateProvider>
       <GlobalJwtTokenStateProvider>
         <GlobalSelectionCharacterStateProvider>
@@ -33,6 +35,7 @@ export default function App() {
         </GlobalSelectionCharacterStateProvider>
       </GlobalJwtTokenStateProvider>
     </GlobalErrorInfoStateProvider>
+    </ActionSheetProvider>
     </NavigationContainer>
   );
 }

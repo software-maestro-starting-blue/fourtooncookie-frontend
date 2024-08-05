@@ -3,6 +3,7 @@ import { Character } from "../../../../types/character";
 import * as S from "./Header.styled";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import DOTS_ICON from "../../../../../assets/icon/dots.png";
+import { useActionSheet } from "@expo/react-native-action-sheet";
 
 export interface HeaderProps {
     characterId: number;
@@ -14,6 +15,26 @@ export interface HeaderProps {
 const Header = (props: HeaderProps) => {
     const { characterId, date, onEdit, onDelete } = props;
 
+    const { showActionSheetWithOptions } = useActionSheet();
+
+    const handleDotIconPress = () => {
+        const options = ["취소", "수정하기", "삭제하기"];
+        const cancelButtonIndex = 0;
+
+        showActionSheetWithOptions({
+            options,
+            cancelButtonIndex
+        }, buttonIndex => {
+            if (buttonIndex == 1)
+                onEdit();
+            else if (buttonIndex == 2)
+                onDelete();
+            
+        })
+
+        showActionSheetWithOptions
+    }
+
     return (
         <View style={S.styles.header}>
             <View style={S.styles.profile}>
@@ -23,7 +44,7 @@ const Header = (props: HeaderProps) => {
                     <Text style={S.styles.profileDate}>{date.toString()}</Text>
                 </View>
             </View>
-            <TouchableOpacity style={S.styles.moreIcon}>
+            <TouchableOpacity style={S.styles.moreIcon} onPress={handleDotIconPress}>
                 <Image source={DOTS_ICON} style={S.styles.moreShape} />
             </TouchableOpacity>
         </View>
