@@ -1,4 +1,4 @@
-import { SafeAreaView } from "react-native";
+import { KeyboardAvoidingView, SafeAreaView, View } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
@@ -17,6 +17,7 @@ import { GlobalErrorInfoType } from "../../types/error";
 import { LocalDate } from "@js-joda/core";
 
 import { RuntimeError } from "../../error/RuntimeError";
+import Button from "../../components/common/Button/Button";
 
 
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
@@ -36,6 +37,8 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     const hashtagsContainWeather: number[] = (weather) ? [weather, ...hashtags] : hashtags
+
+    const isNextButtonEnabled: boolean = content.length > 0;
     
     useEffect(() => {
         if (isEdit && ! diary) {
@@ -111,21 +114,39 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
 
     return (
-        <SafeAreaView style={S.styles.container}>
-            <Header 
-                date={diaryDate} 
-                isDateChangeable={! isEdit}
-                onDateChange={handleDiaryDateChange}
-                onCharacterChoosePress={handleCharacterChooseButtonPress}
-                onDonePress={handleWriteDoneButtonPress} 
+        <SafeAreaView style={S.styles.safeArea}>
+            <View style={S.styles.container}>
+                <Header 
+                    date={diaryDate} 
+                    isDateChangeable={! isEdit}
+                    onDateChange={handleDiaryDateChange}
+                    onCharacterChoosePress={handleCharacterChooseButtonPress}
                 />
-            <TextInputLayout
-                text={content}
-                onTextChange={handleInputTextChange}
-            /> 
-            <HashtagLayout 
-                hashtagIds={hashtagsContainWeather}
-            />
+                <TextInputLayout
+                    text={content}
+                    onTextChange={handleInputTextChange}
+                /> 
+                <View style={S.styles.rectangle} />
+                <HashtagLayout 
+                    hashtagIds={hashtagsContainWeather}
+                />
+                <KeyboardAvoidingView 
+                    style={S.styles.bottomContainer} 
+                    enabled={true}
+                    keyboardVerticalOffset={80}
+                    behavior={'padding'}
+                >
+                    <Button
+                        title="다음"
+                        onPress={handleWriteDoneButtonPress}
+                        style={{
+                            ...S.styles.nextButton, 
+                            backgroundColor: isNextButtonEnabled ? '#FFC426' : '#DDDDDD'
+                        }}
+                        textStyle={S.styles.nextButtonText}
+                    />
+                </KeyboardAvoidingView>
+            </View>
         </SafeAreaView>
     );
 }

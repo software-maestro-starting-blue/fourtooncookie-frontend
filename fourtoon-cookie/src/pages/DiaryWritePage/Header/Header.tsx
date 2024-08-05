@@ -1,5 +1,4 @@
-import { View } from "react-native";
-import WriteDoneButton from "./WriteDoneButton/WriteDoneButton";
+import { Image, View } from "react-native";
 import DateInfo from "./DateInfo/DateInfo";
 import BackButton from "../../../components/common/BackButton/BackButton";
 
@@ -10,17 +9,17 @@ import GlobalSelectionCharacterStateContext from "../../../components/global/Glo
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../constants/routing";
 import { LocalDate } from "@js-joda/core";
+import CharacterIconButton from "./CharacterIconButton/CharacterIconButton";
 
 export interface HeaderProps {
     date: LocalDate;
     isDateChangeable: boolean;
     onDateChange: (date: LocalDate) => void;
     onCharacterChoosePress: () => void;
-    onDonePress: () => void;
 }
 
 const Header = (props: HeaderProps) => {
-    const { date, isDateChangeable, onDateChange, onCharacterChoosePress, onDonePress, ...rest } = props;
+    const { date, isDateChangeable, onDateChange, onCharacterChoosePress, ...rest } = props;
 
     const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
 
@@ -30,18 +29,9 @@ const Header = (props: HeaderProps) => {
 
     return (
         <View style={S.styles.header}>
-            <View style={S.styles.leftContainer}>
-                <BackButton style={{position: "static"}}/>
-                <DateInfo date={date} isChangeable={isDateChangeable} onDateChange={onDateChange}/>
-            </View>
-            <View style={S.styles.rightContainer}>
-                <CharacterItem
-                    character={selectedCharacter}
-                    isSelected={false}
-                    onPress={onCharacterChoosePress}
-                />
-                <WriteDoneButton onPress={onDonePress}/>
-            </View>
+            <BackButton style={S.styles.backButton} />
+            <DateInfo date={date} isChangeable={isDateChangeable} onDateChange={onDateChange} />
+            <CharacterIconButton onCharacterChoosePress={onCharacterChoosePress} />
         </View>
     );
 }
