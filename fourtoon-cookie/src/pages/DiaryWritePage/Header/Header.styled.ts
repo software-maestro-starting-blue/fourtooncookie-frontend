@@ -5,8 +5,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingLeft: 20,
-    paddingRight: 20,
     position: 'relative',
     width: '100%',
     height: 64,
@@ -15,7 +13,6 @@ export const styles = StyleSheet.create({
     width: 24,
     height: 24,
     justifyContent: 'center',
-    alignItems: 'flex-end',
     position: 'relative'
   },
 

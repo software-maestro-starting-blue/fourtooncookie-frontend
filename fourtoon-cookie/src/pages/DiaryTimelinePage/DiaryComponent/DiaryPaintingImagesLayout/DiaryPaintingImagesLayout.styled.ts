@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     grid: {
-        display: 'flex',
         flexDirection: 'row',
         flexWrap: 'wrap',
         gap: 2,
@@ -16,7 +15,6 @@ export const styles = StyleSheet.create({
         marginBottom: 10,
         resizeMode: 'contain',
     },
-    
     modalBackground: {
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.8)',

@@ -6,7 +6,9 @@ export const styles = StyleSheet.create({
         backgroundColor: '#F7F7F7',
     },
     childrenContainer: {
+        position: 'relative',
         flexGrow: 1,
+        height: "89%",
         padding: 10,
     }
 });

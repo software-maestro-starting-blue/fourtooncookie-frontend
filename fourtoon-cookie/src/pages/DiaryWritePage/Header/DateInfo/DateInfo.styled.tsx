@@ -4,8 +4,6 @@ export const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        position: 'absolute',
-        left: "37%",
     },
     view: {
         flexDirection: 'row',
