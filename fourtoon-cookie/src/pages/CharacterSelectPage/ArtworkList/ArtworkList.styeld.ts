@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     artworkContainer: {
         flex: 1,
-        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
         padding: 0,
         marginTop: 20,
         gap: 12,

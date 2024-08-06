@@ -25,7 +25,7 @@ const DiaryPaintingImagesLayout = (props: DiaryPaintingImagesLayoutProps) => {
         <View>
             <View style={S.styles.grid}>
                 {imageUrls.map((imageUrl, index) => (
-                    <TouchableOpacity key={index} onPress={() => handleImagePress(imageUrl)}>
+                    <TouchableOpacity style={S.styles.imageContainer} key={index} onPress={() => handleImagePress(imageUrl)}>
                         <Image
                             source={{ uri: imageUrl }}
                             style={S.styles.image}

@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, SafeAreaView, View } from "react-native";
+import { KeyboardAvoidingView, Platform, SafeAreaView, View } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
@@ -17,6 +17,7 @@ import { LocalDate } from "@js-joda/core";
 
 import { RuntimeError } from "../../error/RuntimeError";
 import Button from "../../components/common/Button/Button";
+import { OS } from "../../types/os";
 
 
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
@@ -129,7 +130,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
                     style={S.styles.bottomContainer} 
                     enabled={true}
                     keyboardVerticalOffset={80}
-                    behavior={'padding'}
+                    behavior={(Platform.OS == OS.IOS) ? 'padding' : 'height'}
                 >
                     <Button
                         title="다음"

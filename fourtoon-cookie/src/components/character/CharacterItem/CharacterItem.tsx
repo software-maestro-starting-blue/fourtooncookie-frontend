@@ -11,10 +11,6 @@ export interface CharacterItemProps {
 
 const CharacterItem = (props:CharacterItemProps) => {
     const { character, isSelected, onPress, ...rest } = props;
-
-    const handleError = () => {
-        throw new Error('Image failed to load:' + character.selectionThumbnailUrl);
-    }
                 
     return (
         <TouchableOpacity style={S.styles.characterContainer} onPress={onPress}>
@@ -22,7 +18,6 @@ const CharacterItem = (props:CharacterItemProps) => {
                 <Image 
                     source={{ uri: character.selectionThumbnailUrl }} 
                     style={S.styles.image} 
-                    onError={() => handleError()}
                 />
                 {isSelected && <CheckMark />}
             </View>

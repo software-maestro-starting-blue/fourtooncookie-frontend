@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList, View } from 'react-native';
 import CharacterItem from '../CharacterItem/CharacterItem';
-import type { Character } from '../../../types/character';
+import { CharacterPaymentType, type Character } from '../../../types/character';
 import * as S from './CharacterList.styled';
 
 export interface CharacterListProps {
@@ -26,6 +26,7 @@ const CharacterList = (props: CharacterListProps) => {
                 />
             )}
             numColumns={numColumns}
+            columnWrapperStyle={S.styles.columnWrapper}
             contentContainerStyle={S.styles.listContainer}
         />
     );

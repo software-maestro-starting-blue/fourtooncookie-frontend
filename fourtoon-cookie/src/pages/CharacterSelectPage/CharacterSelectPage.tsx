@@ -86,8 +86,7 @@ const CharacterSelectPage = () => {
                 onSelectedPaymentTypeChange={handleSelectedPaymentTypeChange}
             />
             <View style={S.styles.separator} />
-            <View>
-				{
+                {
 					(selectedPaymentType === CharacterPaymentType.FREE) &&
 					<ArtworkList
                         groupedCharacters={groupedFreeCharacters}
@@ -103,7 +102,6 @@ const CharacterSelectPage = () => {
                         handleCharacterPress={handleCharacterPress}
                     />
 				}
-            </View>
         </SafeAreaView>
     );
 };

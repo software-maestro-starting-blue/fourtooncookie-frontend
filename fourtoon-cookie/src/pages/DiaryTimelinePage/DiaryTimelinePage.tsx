@@ -86,7 +86,7 @@ const DiaryTimelinePage = () => {
                 onEndReached={handleEndReached}
                 onEndReachedThreshold={0.5}
                 ListEmptyComponent={<DiaryEmpty/>}
-                contentContainerStyle={{ paddingBottom: "11%" }}
+                contentContainerStyle={{ paddingBottom: "25%" }}
             />
         </MainPageLayout>
     );

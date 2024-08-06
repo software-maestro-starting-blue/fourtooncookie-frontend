@@ -4,15 +4,21 @@ export const styles = StyleSheet.create({
     grid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        gap: 2,
-        width: 318,
-        height: 318,
+        justifyContent: 'space-between',
+        width: "100%",
+        aspectRatio: 1,
         borderRadius: 20,
     },
-    image: {
-        width: 158,
-        height: 158,
+    imageContainer: {
+        width: "49%",
+        height: "49%",
+        alignItems: 'center',
         marginBottom: 10,
+    },
+    image: {
+        flex: 1,
+        width: "100%",
+        height: "100%",
         resizeMode: 'contain',
     },
     modalBackground: {
