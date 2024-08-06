@@ -7,7 +7,7 @@ export interface NameInputLayoutProps {
 }
 
 const NameInputLayout = (props: NameInputLayoutProps) => {
-    const { name, onNameChange } = props;
+    const { name, onNameChange, ...rest } = props;
 
     return (
         <TextInput

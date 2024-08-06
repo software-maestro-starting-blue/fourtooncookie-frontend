@@ -10,6 +10,7 @@
     "eas:dev:android": "eas build --profile development --local --platform android --clear-cache"
   },
   "dependencies": {
+    "@expo/react-native-action-sheet": "^4.1.0",
     "@invertase/react-native-apple-authentication": "^2.3.0",
     "@js-joda/core": "^5.6.3",
     "@react-native-async-storage/async-storage": "1.23.1",

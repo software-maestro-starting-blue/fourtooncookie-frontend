@@ -1,5 +1,7 @@
 import { Image, StyleProp, Text, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native";
 import { Gender } from "../../../types/gender";
+import MALE_ICON from "../../../../assets/icon/man.png";
+import FEMALE_ICON from "../../../../assets/icon/woman.png";
 import * as S from "./GenderInputLayout.styled"
 
 export interface GenderInputLayoutProps {
@@ -8,7 +10,7 @@ export interface GenderInputLayoutProps {
 }
 
 const GenderInputLayout = (props: GenderInputLayoutProps) => {
-    const { gender, onGenderChange } = props;
+    const { gender, onGenderChange, ...rest } = props;
 
     return [Gender.MALE, Gender.FEMALE].map(genderItem => 
             <View key={genderItem} >
@@ -28,14 +30,17 @@ interface GenderComponentProps {
 }
 
 const GenderComponent = (props: GenderComponentProps) => {
-    const { gender, isSelected, onPress } = props;
+    const { gender, isSelected, onPress, ...rest } = props;
 
     return (
         <TouchableOpacity 
             style={[S.styles.genderOption, isSelected && S.styles.selectedOption]}
             onPress={onPress}
         >
-            <Image style={S.styles.genderImage}/>
+            <Image 
+                style={S.styles.genderImage}
+                source={(gender == Gender.MALE) ? MALE_ICON : FEMALE_ICON}
+            />
             <Text style={S.styles.genderText}>{gender}</Text>
         </TouchableOpacity>
     )

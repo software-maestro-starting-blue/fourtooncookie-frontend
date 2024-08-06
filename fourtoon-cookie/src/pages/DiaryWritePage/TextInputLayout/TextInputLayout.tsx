@@ -15,6 +15,7 @@ const TextInputLayout = (props: TextInputLayoutProps) => {
             <TextInput
                 style={S.styles.diaryInput}
                 placeholder="일기를 작성하세요"
+                placeholderTextColor="#CCCCCC"
                 value={text}
                 multiline={true}
                 scrollEnabled={false}

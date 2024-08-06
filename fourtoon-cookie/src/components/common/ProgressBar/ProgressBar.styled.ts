@@ -3,14 +3,20 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
     progressContainer: {
       width: '100%',
-      padding: 20,
       alignItems: 'flex-end',
       marginTop: 20,
     },
     progressText: {
       fontSize: 17,
+      fontStyle: 'normal',
       fontWeight: '600',
       color: '#212121',
+    },
+    progressTextGray: {
+      fontSize: 17,
+      fontStyle: 'normal',
+      fontWeight: '600',
+      color: '#DDDDDD',
     },
     progressBarBackground: {
       width: '100%',

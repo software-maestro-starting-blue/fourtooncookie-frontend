@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { debounce } from 'lodash';
-import DiaryLayout from "./DiaryComponent/DiaryComponent";
 import Footer from "../../components/common/Footer/Footer";
-import Header from "../../components/common/Header/Header";
+import Header from "./Header/Header";
 import DiaryEmpty from "./DiaryEmpty/DiaryEmpty";
 import * as S from './DiaryTimelinePage.styled';
 import { deleteDiary, getDiaries } from '../../apis/diary';
@@ -13,6 +12,8 @@ import { diaryDefaultImages } from "../../constants/diary";
 import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../types/error";
+import DiaryComponent from "./DiaryComponent/DiaryComponent";
+import MainPageLayout from "../../components/layout/MainPageLayout/MainPageLayout";
 
 const DiaryTimelinePage = () => {
     const [diaries, setDiaries] = useState<Diary[]>([]);
@@ -29,6 +30,18 @@ const DiaryTimelinePage = () => {
             let result: Diary[];
             try {
                 result = await getDiaries(page, jwtContext);
+
+                if (result.length == 0) {
+                    setHasMore(false);
+                } else {
+                    result = result.map(diary => ({
+                        ...diary,
+                        paintingImageUrls: diary.paintingImageUrls.length ? diary.paintingImageUrls : diaryDefaultImages
+                    }));
+    
+                    setDiaries(prev => 
+                        [...prev, ...result]);
+                }
             } catch (error) {
                 result = [];
                 if (error instanceof Error) {
@@ -37,18 +50,6 @@ const DiaryTimelinePage = () => {
                       error: error
                     });
                 }
-            }
-
-            if (result.length == 0) {
-                setHasMore(false);
-            } else {
-                result = result.map(diary => ({
-                    ...diary,
-                    paintingImageUrls: diary.paintingImageUrls.length ? diary.paintingImageUrls : diaryDefaultImages
-                }));
-
-                setDiaries(prev => 
-                    [...prev, ...result]);
             }
         };
 
@@ -76,18 +77,18 @@ const DiaryTimelinePage = () => {
     }
 
     return (
-        <SafeAreaView style={S.styles.container}>
+        <MainPageLayout isHomeActivate={true} isPersonActivate={false}>
             <FlatList
                 data={diaries}
-                renderItem={({ item }) => <DiaryLayout diary={item} onDelete={() => handleDelete(item.diaryId)} />}
+                keyExtractor={item => item.diaryId.toString()}
+                renderItem={({ item }) => <DiaryComponent diary={item} onDelete={() => handleDelete(item.diaryId)} />}
                 ListHeaderComponent={<Header />}
                 onEndReached={handleEndReached}
                 onEndReachedThreshold={0.5}
-                contentContainerStyle={{flexGrow: 1}}
                 ListEmptyComponent={<DiaryEmpty/>}
+                contentContainerStyle={{ paddingBottom: "25%" }}
             />
-            <Footer />
-        </SafeAreaView>
+        </MainPageLayout>
     );
 };
 

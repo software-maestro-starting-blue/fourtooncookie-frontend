@@ -9,7 +9,7 @@ export interface BirthInputLayoutProps {
 }
 
 const BirthInputLayout = (props: BirthInputLayoutProps) => {
-    const { birth, onBirthChange } = props;
+    const { birth, onBirthChange, ...rest } = props;
 
     const handleDateChange = (event: DateTimePickerEvent, date?: Date | undefined) => {
         if (! date) {
@@ -21,13 +21,16 @@ const BirthInputLayout = (props: BirthInputLayoutProps) => {
     }
 
     return (
-        <DateTimePicker
-            value={new Date(birth.year(), birth.monthValue() - 1, birth.dayOfMonth())}
-            mode="date"
-            display="spinner"
-            onChange={handleDateChange}
-            style={S.styles.datePicker}
-        />
+        <View style={S.styles.container}>
+            <DateTimePicker
+                value={new Date(birth.year(), birth.monthValue() - 1, birth.dayOfMonth())}
+                mode="date"
+                display="spinner"
+                textColor="black"
+                style={{ width: '100%', height: '100%' }}
+                onChange={handleDateChange}
+            />
+        </View>
     );
 }
 

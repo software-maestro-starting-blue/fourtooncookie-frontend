@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import DOWN_ARROW from '../../../../../assets/icon/down-arrow.png';
 
 import * as S from "./DateInfo.styled";
 import { LocalDate } from '@js-joda/core';
@@ -30,6 +31,7 @@ const DateInfo = (props: DateInfoProps) => {
     }
 
     const handleConfirm = (date: Date) => {
+        if (date.getTime() > Date.now()) return;
         const localDate: LocalDate = LocalDate.of(date.getFullYear(), date.getMonth() + 1, date.getDate());
         onDateChange(localDate);
         setDatePickerVisible(false);
@@ -37,9 +39,10 @@ const DateInfo = (props: DateInfoProps) => {
 
 
     return (
-        <View style={S.styles.view}>
-            <TouchableOpacity onPress={handleDatePress}>
+        <View style={S.styles.container}>
+            <TouchableOpacity onPress={handleDatePress} style={S.styles.view}>
                 <Text style={S.styles.date}>{dateString}</Text>
+                <Image source={DOWN_ARROW} style={S.styles.downArrow} />
             </TouchableOpacity>
             <DateTimePickerModal 
                 isVisible={isDatePickerVisible}

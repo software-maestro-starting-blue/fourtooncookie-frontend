@@ -1,10 +1,9 @@
-import { SafeAreaView } from "react-native";
+import { KeyboardAvoidingView, Platform, SafeAreaView, View } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import Header from "./Header/Header";
 import TextInputLayout from "./TextInputLayout/TextInputLayout";
-import HashtagLayout from "./HashtagLayout/HashtagLayout";
 
 import { postDiary, patchDiary } from "../../apis/diary";
 import { RootStackParamList } from "../../constants/routing";
@@ -17,6 +16,8 @@ import { GlobalErrorInfoType } from "../../types/error";
 import { LocalDate } from "@js-joda/core";
 
 import { RuntimeError } from "../../error/RuntimeError";
+import Button from "../../components/common/Button/Button";
+import { OS } from "../../types/os";
 
 
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
@@ -27,15 +28,15 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     
     const [diaryDate, setDiaryDate] = useState<LocalDate>(diary ? diary.diaryDate : LocalDate.now());
     const [content, setContent] = useState<string>(diary ? diary.content : "");
-    const [hashtags, setHashtags] = useState<number[]>(diary ? diary.hashtagIds : []); // TODO: Hashtag type 구현 필요
-    const [weather, setWeather] = useState<number | null>(null); // TODO: Weather type 구현 필요
     const [isWorking, setIsWorking] = useState<boolean>(false);
 
     const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
     const jwtContext = useContext(GlobalJwtTokenStateContext);
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
-    const hashtagsContainWeather: number[] = (weather) ? [weather, ...hashtags] : hashtags
+    //TODO: 해시태그 관련 로직 구현
+
+    const isNextButtonEnabled: boolean = content.length > 0;
     
     useEffect(() => {
         if (isEdit && ! diary) {
@@ -43,6 +44,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
                 type: GlobalErrorInfoType.MODAL,
                 error: new RuntimeError("잘못된 형식입니다.")
             });
+            navigation.navigate('DiaryTimelinePage');
         }
         if (! selectedCharacter) {
             setErrorInfo({
@@ -79,9 +81,9 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
         try {
             if (! isEdit) {
-                await postDiary(selectedCharacter?.id, diaryDate, content, hashtagsContainWeather, jwtContext);
+                await postDiary(selectedCharacter?.id, diaryDate, content, [], jwtContext);
             } else if (diary) {
-                await patchDiary(selectedCharacter?.id, diary.diaryId, content, hashtagsContainWeather, jwtContext);
+                await patchDiary(selectedCharacter?.id, diary.diaryId, content, [], jwtContext);
             } else {
                 setErrorInfo({
                     type: GlobalErrorInfoType.MODAL,
@@ -111,21 +113,36 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
 
     return (
-        <SafeAreaView style={S.styles.container}>
-            <Header 
-                date={diaryDate} 
-                isDateChangeable={! isEdit}
-                onDateChange={handleDiaryDateChange}
-                onCharacterChoosePress={handleCharacterChooseButtonPress}
-                onDonePress={handleWriteDoneButtonPress} 
+        <SafeAreaView style={S.styles.safeArea}>
+            <View style={S.styles.container}>
+                <Header 
+                    date={diaryDate} 
+                    isDateChangeable={! isEdit}
+                    onDateChange={handleDiaryDateChange}
+                    onCharacterChoosePress={handleCharacterChooseButtonPress}
                 />
-            <TextInputLayout
-                text={content}
-                onTextChange={handleInputTextChange}
-            /> 
-            <HashtagLayout 
-                hashtagIds={hashtagsContainWeather}
-            />
+                <TextInputLayout
+                    text={content}
+                    onTextChange={handleInputTextChange}
+                /> 
+                <View style={S.styles.separator} />
+                <KeyboardAvoidingView 
+                    style={S.styles.bottomContainer} 
+                    enabled={true}
+                    keyboardVerticalOffset={80}
+                    behavior={(Platform.OS == OS.IOS) ? 'padding' : 'height'}
+                >
+                    <Button
+                        title="다음"
+                        onPress={handleWriteDoneButtonPress}
+                        style={{
+                            ...S.styles.nextButton, 
+                            backgroundColor: isNextButtonEnabled ? '#FFC426' : '#DDDDDD'
+                        }}
+                        textStyle={S.styles.nextButtonText}
+                    />
+                </KeyboardAvoidingView>
+            </View>
         </SafeAreaView>
     );
 }

@@ -5,13 +5,14 @@ import ConfirmationModal from "../../../components/common/Modal/ConfirmationModa
 import { patchDiaryFavorite } from '../../../apis/diary';
 import { Diary } from "../../../types/diary";
 import DiaryContentsLayout from "./DiaryContentsLayout/DiaryContentsLayout";
-import DiaryActionsLayout from "./DiaryActionLayout/DiaryActionsLayout";
 import DiaryPaintingImagesLayout from "./DiaryPaintingImagesLayout/DiaryPaintingImagesLayout";
 import * as S from './DiaryComponent.styled';
 import { RootStackParamList } from "../../../constants/routing";
 import GlobalJwtTokenStateContext from "../../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 import GlobalErrorInfoStateContext from "../../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../../types/error";
+import Footer from "./Footer/Footer";
+import Header from "./Header/Header";
 
 export interface DiaryProps {
     diary: Diary,
@@ -65,19 +66,21 @@ const DiaryComponent = (props: DiaryProps) => {
 
     return (
         <View style={S.styles.container}>
-            <DiaryPaintingImagesLayout imageUrls={paintingImageUrls} />
-            <DiaryActionsLayout
-                isFavorite={isFavorite}
-                onToggleFavorite={handleToggleFavorite}
-                onDownload={handleDownload}
-                onShare={handleShare}
+            <Header
+                characterId={diary.characterId}
+                date={diaryDate}
                 onEdit={handleEdit}
                 onDelete={handleDelete}
             />
+            <DiaryPaintingImagesLayout imageUrls={paintingImageUrls} />
             <DiaryContentsLayout
-                content={content}
-                hashtagIds={hashtagIds} 
-                diaryDate={diaryDate}            
+                content={content}     
+            />
+            <Footer
+                isFavorite={isFavorite}
+                onToggleFavorite={handleToggleFavorite}
+                onShare={handleShare}
+                onDownload={handleDownload}
             />
             <ConfirmationModal
                 visible={isModalVisible}

@@ -19,8 +19,8 @@ const DiaryContent = (props: DiaryContentProps) => {
     };
 
     return (
-        <View>
-            <Text numberOfLines={isExpanded ? content.split("\n").length : diaryContentPreviewLines}>
+        <View style={S.styles.container}>
+            <Text style={S.styles.content} numberOfLines={isExpanded ? content.split("\n").length : diaryContentPreviewLines}>
                 {isExpanded ? content : content.slice(0, diaryContentPreviewWordCount)}
                 {!isExpanded && content.length > diaryContentPreviewWordCount && '...'}
             </Text>
