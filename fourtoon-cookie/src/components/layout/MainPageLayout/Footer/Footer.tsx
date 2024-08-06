@@ -1,14 +1,15 @@
 import React from "react";
 import { Image, ImageSourcePropType, Text, TouchableOpacity, View } from "react-native";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import HomeInactivateIcon from '../../../../assets/icon/home-inactivate.png';
-import HomeActivateIcon from '../../../../assets/icon/home-activate.png';
-import DrawIcon from '../../../../assets/icon/draw.png';
-import PersonInactivateIcon from '../../../../assets/icon/person-inactivate.png';
-import PersonActivateIcon from '../../../../assets/icon/person-activate.png';
+import HomeInactivateIcon from '../../../../../assets/icon/home-inactivate.png';
+import HomeActivateIcon from '../../../../../assets/icon/home-activate.png';
+import DrawIcon from '../../../../../assets/icon/draw.png';
+import PersonInactivateIcon from '../../../../../assets/icon/person-inactivate.png';
+import PersonActivateIcon from '../../../../../assets/icon/person-activate.png';
+
+import { RootStackParamList } from "../../../../constants/routing";
 
 import * as S from './Footer.styled';
-import { RootStackParamList } from "../../../constants/routing";
 
 export interface FooterProps {
     isHomeActivate: boolean;

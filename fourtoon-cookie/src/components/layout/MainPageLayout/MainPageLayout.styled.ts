@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#F7F7F7',
     },
-    listContainer: {
+    childrenContainer: {
         flexGrow: 1,
         padding: 10,
     }
