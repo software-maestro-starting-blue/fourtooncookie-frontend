@@ -5,16 +5,16 @@ export default {
         "slug": process.env.SLUG,
         "version": "1.0.0",
         "orientation": "portrait",
-        "icon": "./assets/icon.png",
+        "icon": "./assets/logo/logo-3.png",
         "userInterfaceStyle": "automatic",
         "splash": {
-            "image": "./assets/splash.png",
+            "image": "./assets/logo/logo-8.png",
             "resizeMode": "contain",
             "backgroundColor": "#FFFFFF"
         },
         android: {
             "adaptiveIcon": {
-                "foregroundImage": "./assets/adaptive-icon.png",
+                "foregroundImage": "./assets/logo/logo-8.png",
                 "backgroundColor": "#ffffff"
             },
             package: process.env.ANDROID_PACKAGE,
@@ -34,7 +34,7 @@ export default {
             }
         },
         "web": {
-            "favicon": "./assets/favicon.png"
+            "favicon": "./assets/logo/logo-3.png"
         },
         "extra": {
             "eas": {
