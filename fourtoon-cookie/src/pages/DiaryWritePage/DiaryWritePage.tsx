@@ -4,7 +4,6 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import Header from "./Header/Header";
 import TextInputLayout from "./TextInputLayout/TextInputLayout";
-import HashtagLayout from "./HashtagLayout/HashtagLayout";
 
 import { postDiary, patchDiary } from "../../apis/diary";
 import { RootStackParamList } from "../../constants/routing";
@@ -28,15 +27,13 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     
     const [diaryDate, setDiaryDate] = useState<LocalDate>(diary ? diary.diaryDate : LocalDate.now());
     const [content, setContent] = useState<string>(diary ? diary.content : "");
-    const [hashtags, setHashtags] = useState<number[]>(diary ? diary.hashtagIds : []); // TODO: Hashtag type 구현 필요
-    const [weather, setWeather] = useState<number | null>(null); // TODO: Weather type 구현 필요
     const [isWorking, setIsWorking] = useState<boolean>(false);
 
     const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
     const jwtContext = useContext(GlobalJwtTokenStateContext);
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
-    const hashtagsContainWeather: number[] = (weather) ? [weather, ...hashtags] : hashtags
+    //TODO: 해시태그 관련 로직 구현
 
     const isNextButtonEnabled: boolean = content.length > 0;
     
@@ -46,6 +43,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
                 type: GlobalErrorInfoType.MODAL,
                 error: new RuntimeError("잘못된 형식입니다.")
             });
+            navigation.navigate('DiaryTimelinePage');
         }
         if (! selectedCharacter) {
             setErrorInfo({
@@ -82,9 +80,9 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
         try {
             if (! isEdit) {
-                await postDiary(selectedCharacter?.id, diaryDate, content, hashtagsContainWeather, jwtContext);
+                await postDiary(selectedCharacter?.id, diaryDate, content, [], jwtContext);
             } else if (diary) {
-                await patchDiary(selectedCharacter?.id, diary.diaryId, content, hashtagsContainWeather, jwtContext);
+                await patchDiary(selectedCharacter?.id, diary.diaryId, content, [], jwtContext);
             } else {
                 setErrorInfo({
                     type: GlobalErrorInfoType.MODAL,
@@ -127,9 +125,6 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
                     onTextChange={handleInputTextChange}
                 /> 
                 <View style={S.styles.separator} />
-                <HashtagLayout 
-                    hashtagIds={hashtagsContainWeather}
-                />
                 <KeyboardAvoidingView 
                     style={S.styles.bottomContainer} 
                     enabled={true}
