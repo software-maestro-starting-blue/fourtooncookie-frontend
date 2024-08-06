@@ -8,13 +8,13 @@ export default {
         "icon": "./assets/logo/logo-3.png",
         "userInterfaceStyle": "automatic",
         "splash": {
-            "image": "./assets/logo/logo-8.png",
+            "image": "./assets/logo/logo-3.png",
             "resizeMode": "contain",
             "backgroundColor": "#FFFFFF"
         },
         android: {
             "adaptiveIcon": {
-                "foregroundImage": "./assets/logo/logo-8.png",
+                "foregroundImage": "./assets/logo/logo-3.png",
                 "backgroundColor": "#ffffff"
             },
             package: process.env.ANDROID_PACKAGE,
