@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
       profileName: {
         fontFamily: 'Pretendard',
         fontStyle: 'normal',
-        fontWeight: 600,
+        fontWeight: '600',
         fontSize: 16,
         lineHeight: 20,
         color: '#212121',
@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
       profileDate: {
         fontFamily: 'Pretendard',
         fontStyle: 'normal',
-        fontWeight: 400,
+        fontWeight: '400',
         fontSize: 14,
         lineHeight: 16,
         color: '#999999',

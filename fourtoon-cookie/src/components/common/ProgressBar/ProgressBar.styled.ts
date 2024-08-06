@@ -9,13 +9,13 @@ export const styles = StyleSheet.create({
     progressText: {
       fontSize: 17,
       fontStyle: 'normal',
-      fontWeight: 600,
+      fontWeight: '600',
       color: '#212121',
     },
     progressTextGray: {
       fontSize: 17,
       fontStyle: 'normal',
-      fontWeight: 600,
+      fontWeight: '600',
       color: '#DDDDDD',
     },
     progressBarBackground: {

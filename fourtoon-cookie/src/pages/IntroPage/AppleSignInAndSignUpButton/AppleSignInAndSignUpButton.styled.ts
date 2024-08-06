@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
       appleButtonText: {
         fontFamily: 'Pretendard',
         fontStyle: 'normal',
-        fontWeight: 600,
+        fontWeight: '600',
         fontSize: 17,
         color: '#FFFFFF',
       },
