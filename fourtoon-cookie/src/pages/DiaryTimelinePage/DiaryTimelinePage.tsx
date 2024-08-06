@@ -30,6 +30,18 @@ const DiaryTimelinePage = () => {
             let result: Diary[];
             try {
                 result = await getDiaries(page, jwtContext);
+
+                if (result.length == 0) {
+                    setHasMore(false);
+                } else {
+                    result = result.map(diary => ({
+                        ...diary,
+                        paintingImageUrls: diary.paintingImageUrls.length ? diary.paintingImageUrls : diaryDefaultImages
+                    }));
+    
+                    setDiaries(prev => 
+                        [...prev, ...result]);
+                }
             } catch (error) {
                 result = [];
                 if (error instanceof Error) {
@@ -38,18 +50,6 @@ const DiaryTimelinePage = () => {
                       error: error
                     });
                 }
-            }
-
-            if (result.length == 0) {
-                setHasMore(false);
-            } else {
-                result = result.map(diary => ({
-                    ...diary,
-                    paintingImageUrls: diary.paintingImageUrls.length ? diary.paintingImageUrls : diaryDefaultImages
-                }));
-
-                setDiaries(prev => 
-                    [...prev, ...result]);
             }
         };
 
@@ -80,11 +80,13 @@ const DiaryTimelinePage = () => {
         <MainPageLayout isHomeActivate={true} isPersonActivate={false}>
             <FlatList
                 data={diaries}
+                keyExtractor={item => item.diaryId.toString()}
                 renderItem={({ item }) => <DiaryComponent diary={item} onDelete={() => handleDelete(item.diaryId)} />}
                 ListHeaderComponent={<Header />}
                 onEndReached={handleEndReached}
                 onEndReachedThreshold={0.5}
                 ListEmptyComponent={<DiaryEmpty/>}
+                contentContainerStyle={{ paddingBottom: "11%" }}
             />
         </MainPageLayout>
     );
