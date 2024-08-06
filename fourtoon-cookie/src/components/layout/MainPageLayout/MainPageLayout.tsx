@@ -11,7 +11,7 @@ export interface MainPageLayoutProps {
 }
 
 const MainPageLayout = (props: MainPageLayoutProps) => {
-    const { children, isHomeActivate, isPersonActivate } = props;
+    const { children, isHomeActivate, isPersonActivate, ...rest } = props;
 
     return (
         <View style={S.styles.container}>

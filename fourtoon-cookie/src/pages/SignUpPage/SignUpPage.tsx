@@ -154,7 +154,7 @@ interface ContainerProps {
 }
 
 const Container = (props: ContainerProps) => {
-    const { title, children } = props;
+    const { title, children, ...rest } = props;
 
     return (
         <View>

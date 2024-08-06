@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     separator: {
         width: "100%",
         height: 1,
-        backgroundColor: '#F7F7F7',
+        backgroundColor: '#E9ECEF',
         alignSelf: 'stretch',
         flexGrow: 0,
     },

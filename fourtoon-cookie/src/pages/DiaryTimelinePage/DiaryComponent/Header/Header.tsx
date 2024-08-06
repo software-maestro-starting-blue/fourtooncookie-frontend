@@ -13,7 +13,7 @@ export interface HeaderProps {
 }
 
 const Header = (props: HeaderProps) => {
-    const { characterId, date, onEdit, onDelete } = props;
+    const { characterId, date, onEdit, onDelete, ...rest } = props;
 
     const { showActionSheetWithOptions } = useActionSheet();
 

@@ -9,7 +9,7 @@ export interface BirthInputLayoutProps {
 }
 
 const BirthInputLayout = (props: BirthInputLayoutProps) => {
-    const { birth, onBirthChange } = props;
+    const { birth, onBirthChange, ...rest } = props;
 
     const handleDateChange = (event: DateTimePickerEvent, date?: Date | undefined) => {
         if (! date) {

@@ -10,7 +10,7 @@ export interface ProgressBarProps {
 }
 
 const ProgressBar = (props: ProgressBarProps) => {
-    const { progress, totalProgress, isAnimated } = props;
+    const { progress, totalProgress, isAnimated, ...rest } = props;
 
     const progressWidth = useRef(new Animated.Value(0)).current;
 

@@ -1,5 +1,5 @@
 import { Image, Text, TextStyle, TouchableOpacity } from "react-native"
-import CHEVRON_RIGHT from '../../../../assets/icon/chevron-right.png';
+import CHEVRON_RIGHT from '../../../../../assets/icon/chevron-right.png';
 import * as S from "./MenuItem.styled";
 
 export interface MenuItemProps {

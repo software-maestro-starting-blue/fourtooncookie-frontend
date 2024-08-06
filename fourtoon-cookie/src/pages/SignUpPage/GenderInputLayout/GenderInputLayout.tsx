@@ -10,7 +10,7 @@ export interface GenderInputLayoutProps {
 }
 
 const GenderInputLayout = (props: GenderInputLayoutProps) => {
-    const { gender, onGenderChange } = props;
+    const { gender, onGenderChange, ...rest } = props;
 
     return [Gender.MALE, Gender.FEMALE].map(genderItem => 
             <View key={genderItem} >
@@ -30,7 +30,7 @@ interface GenderComponentProps {
 }
 
 const GenderComponent = (props: GenderComponentProps) => {
-    const { gender, isSelected, onPress } = props;
+    const { gender, isSelected, onPress, ...rest } = props;
 
     return (
         <TouchableOpacity 

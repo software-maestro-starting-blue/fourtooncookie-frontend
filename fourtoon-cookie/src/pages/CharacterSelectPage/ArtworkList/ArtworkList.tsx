@@ -11,7 +11,7 @@ export interface ArtworkListProps {
 }
 
 const ArtworkList = (props: ArtworkListProps) => {
-	const { groupedCharacters, selectedCharacter, handleCharacterPress } = props;
+	const { groupedCharacters, selectedCharacter, handleCharacterPress, ...rest } = props;
 
   	return (
 		<FlatList
@@ -37,7 +37,7 @@ interface ArtworkItemProps {
 }
   
 const ArtworkItem = (props: ArtworkItemProps) => {
-    const { artworkName, artworkCharacters, selectedCharacter, handleCharacterPress } = props;
+    const { artworkName, artworkCharacters, selectedCharacter, handleCharacterPress, ...rest } = props;
     return (
         <View key={artworkName} style={S.styles.artworkContainer}>
 			<Text style={S.styles.artworkTitle}>{artworkName}</Text>

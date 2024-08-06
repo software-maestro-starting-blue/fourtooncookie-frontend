@@ -51,7 +51,7 @@ interface ImageModalProps {
 }
 
 const ImageModal = (props: ImageModalProps) => {
-    const { isModalVisible, selectedImage, onCloseModal } = props;
+    const { isModalVisible, selectedImage, onCloseModal, ...rest } = props;
 
     if (! isModalVisible) return null;
 

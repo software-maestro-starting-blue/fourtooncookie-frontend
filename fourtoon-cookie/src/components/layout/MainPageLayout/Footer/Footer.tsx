@@ -17,7 +17,7 @@ export interface FooterProps {
 }
 
 const Footer = (props: FooterProps) => {
-    const { isHomeActivate, isPersonActivate } = props;
+    const { isHomeActivate, isPersonActivate, ...rest } = props;
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     const items = [
@@ -47,7 +47,7 @@ interface FooterItemProps {
 }
 
 const FooterItem = (props: FooterItemProps) => {
-    const { imageSource, name, onPress } = props;
+    const { imageSource, name, onPress, ...rest } = props;
 
     return (
         <TouchableOpacity style={S.styles.itemContainer} onPress={onPress}>
