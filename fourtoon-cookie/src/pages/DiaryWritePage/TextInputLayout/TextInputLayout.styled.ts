@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         textAlignVertical: 'top',
-        fontWeight: 400,
+        fontWeight: '400',
         fontSize: 20,
         lineHeight: 32,
         fontFamily: 'Pretendard',
