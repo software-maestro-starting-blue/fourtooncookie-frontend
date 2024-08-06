@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native';
-import CHEVRON_RIGHT from '../../../../assets/icon/chevron-right.png';
 import * as S from './MenuLayout.styled';
+import MenuItem from './MenuItem/MenuItem';
 
 const MenuLayout = () => {
     const handleInquiry = () => {
@@ -8,25 +8,18 @@ const MenuLayout = () => {
     }
 
     const handleLogout = () => {
-        //TODO: 탈퇴 로직 구현
+        //TODO: 로그아웃 로직 구현
+    }
+
+    const handleResign = () => {
+        //TODO: 회원 탈퇴 로직 구현
     }
     
     return (
         <View style={S.styles.menuContainer}>
-            <TouchableOpacity style={S.styles.menuItem}>
-                <Text style={S.styles.menuText}>문의하기</Text>
-                <Image source={CHEVRON_RIGHT} style={S.styles.chevronRight} />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={S.styles.menuItem}>
-                <Text style={S.styles.menuText}>로그아웃</Text>
-                <Image source={CHEVRON_RIGHT} style={S.styles.chevronRight} />
-            </TouchableOpacity>
-
-            <TouchableOpacity style={S.styles.menuItem}>
-                <Text style={[S.styles.menuText, S.styles.deleteText]}>탈퇴하기</Text>
-                <Image source={CHEVRON_RIGHT} style={S.styles.chevronRight} />
-            </TouchableOpacity>
+            <MenuItem menuText='문의하기' onPress={handleInquiry} />
+            <MenuItem menuText='로그아웃' onPress={handleLogout} />
+            <MenuItem menuText='탈퇴하기' onPress={handleResign} textStyle={S.styles.deleteText} />
       </View>
     );
 }

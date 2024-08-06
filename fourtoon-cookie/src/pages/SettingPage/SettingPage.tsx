@@ -36,14 +36,10 @@ const SettingPage = () => {
 
 	return (
     	<MainPageLayout isHomeActivate={false} isPersonActivate={true} >
-
 			<View style={S.styles.container}>
-
 				<InfoLayout member={member} />
-
 				<MenuLayout />
 			</View>
-
     	</MainPageLayout>
   	);
 };
