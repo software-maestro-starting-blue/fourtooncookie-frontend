@@ -50,3 +50,5 @@ const GlobalCharacterListStateProvider = (props: GlobalCharacterListStateProvide
         </GlobalCharacterListStateContext.Provider>
     );
 }
+
+export default GlobalCharacterListStateProvider;
