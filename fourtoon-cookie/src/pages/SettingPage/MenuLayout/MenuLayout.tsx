@@ -1,10 +1,21 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Linking } from 'react-native';
 import * as S from './MenuLayout.styled';
 import MenuItem from './MenuItem/MenuItem';
+import { INQRUITY_PAGE_URL } from '../../../constants/constants';
+import { useContext } from 'react';
+import GlobalErrorInfoStateContext from '../../../components/global/GlobalError/GlobalErrorInfoStateContext';
+import { GlobalErrorInfoType } from '../../../types/error';
 
 const MenuLayout = () => {
+    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
+
     const handleInquiry = () => {
-        //TODO: 문의하기 로직 구현
+        Linking.openURL(INQRUITY_PAGE_URL).catch(err => 
+            setErrorInfo({
+                type: GlobalErrorInfoType.MODAL,
+                error: new Error("문의 페이지로 이동하는데 실패했습니다."),
+            })
+        );
     }
 
     const handleLogout = () => {
