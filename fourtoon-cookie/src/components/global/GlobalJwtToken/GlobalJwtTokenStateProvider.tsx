@@ -56,7 +56,7 @@ const GlobalJwtTokenStateProvider = (props: GlobalJwtTokenStateProviderProps) =>
                 await AsyncStorage.removeItem('jwtToken');
                 setErrorInfo({
                     type: GlobalErrorInfoType.MODAL,
-                    error: new JwtError("인증 정보가 없습니다.")
+                    error: new JwtError("로그아웃 되었습니다.")
                 });
             }
             setJwtTokenState(jwtToken);
