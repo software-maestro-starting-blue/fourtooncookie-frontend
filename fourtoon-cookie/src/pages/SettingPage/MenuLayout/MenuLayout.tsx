@@ -1,5 +1,4 @@
-import { View, Text, TouchableOpacity, Image, Linking } from 'react-native';
-import * as S from './MenuLayout.styled';
+import { View, Linking } from 'react-native';
 import MenuItem from './MenuItem/MenuItem';
 import { INQRUITY_PAGE_URL } from '../../../constants/constants';
 import { useContext, useState } from 'react';
@@ -7,6 +6,7 @@ import GlobalErrorInfoStateContext from '../../../components/global/GlobalError/
 import { GlobalErrorInfoType } from '../../../types/error';
 import GlobalJwtTokenStateContext from '../../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext';
 import ResignModal from './ResignModal/ResignModal';
+import * as S from './MenuLayout.styled';
 
 const MenuLayout = () => {
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
