@@ -2,14 +2,16 @@ import { View, Text, TouchableOpacity, Image, Linking } from 'react-native';
 import * as S from './MenuLayout.styled';
 import MenuItem from './MenuItem/MenuItem';
 import { INQRUITY_PAGE_URL } from '../../../constants/constants';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import GlobalErrorInfoStateContext from '../../../components/global/GlobalError/GlobalErrorInfoStateContext';
 import { GlobalErrorInfoType } from '../../../types/error';
 import GlobalJwtTokenStateContext from '../../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext';
+import ResignModal from './ResignModal/ResignModal';
 
 const MenuLayout = () => {
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
     const { jwtToken, setJwtToken } = useContext(GlobalJwtTokenStateContext);
+    const [ isModalVisible, setIsModalVisible ] = useState(false);
 
     const handleInquiry = () => {
         Linking.openURL(INQRUITY_PAGE_URL).catch(err => 
@@ -24,16 +26,24 @@ const MenuLayout = () => {
         setJwtToken(null);
     }
 
-    const handleResign = () => {
-        //TODO: 회원 탈퇴 로직 구현
+    const handleResignButtonPress = () => {
+        setIsModalVisible(true);
+    }
+
+    const handleResignModelClose = () => {
+        setIsModalVisible(false);
     }
     
     return (
         <View style={S.styles.menuContainer}>
             <MenuItem menuText='문의하기' onPress={handleInquiry} />
             <MenuItem menuText='로그아웃' onPress={handleLogout} />
-            <MenuItem menuText='탈퇴하기' onPress={handleResign} textStyle={S.styles.deleteText} />
-      </View>
+            <MenuItem menuText='탈퇴하기' onPress={handleResignButtonPress} textStyle={S.styles.deleteText} />
+            <ResignModal
+                visible={isModalVisible}
+                onClose={handleResignModelClose}
+            />
+        </View>
     );
 }
 
