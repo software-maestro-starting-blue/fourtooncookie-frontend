@@ -5,9 +5,11 @@ import { INQRUITY_PAGE_URL } from '../../../constants/constants';
 import { useContext } from 'react';
 import GlobalErrorInfoStateContext from '../../../components/global/GlobalError/GlobalErrorInfoStateContext';
 import { GlobalErrorInfoType } from '../../../types/error';
+import GlobalJwtTokenStateContext from '../../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext';
 
 const MenuLayout = () => {
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
+    const { jwtToken, setJwtToken } = useContext(GlobalJwtTokenStateContext);
 
     const handleInquiry = () => {
         Linking.openURL(INQRUITY_PAGE_URL).catch(err => 
@@ -19,7 +21,7 @@ const MenuLayout = () => {
     }
 
     const handleLogout = () => {
-        //TODO: 로그아웃 로직 구현
+        setJwtToken(null);
     }
 
     const handleResign = () => {
