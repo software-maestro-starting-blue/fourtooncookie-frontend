@@ -31,3 +31,10 @@ export const patchMember = async (name: string, birth: LocalDate, gender: Gender
         throw new ApiError("patchMember error");
     }
 }
+
+export const deleteMember = async (jwtContext: GlobalJwtTokenStateContextProps) => {
+    const response = await requestApi(`/member`, 'DELETE', jwtContext);
+    if (response.status != 204) {
+        throw new ApiError("deleteMember error");
+    }
+}
