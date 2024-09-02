@@ -19,7 +19,8 @@ const GlobalSelectionCharacterStateProvider = (props: GlobalSelectionCharacterSt
                     setSelectedCharacterState(JSON.parse(savedCharacter));
                 }
             } catch (e) {
-                console.error('Failed to load the selected character from storage:', e);
+                console.error('저장된 캐릭터를 불러오는 중 오류가 발생했습니다.', e);
+                throw new Error('저장된 캐릭터를 불러오는 중 오류가 발생했습니다.');
             }
         };
 
@@ -35,7 +36,8 @@ const GlobalSelectionCharacterStateProvider = (props: GlobalSelectionCharacterSt
             }
             setSelectedCharacterState(character);
         } catch (e) {
-            throw new Error('Failed to save the selected character to storage: ' + e)
+            console.error('선택한 캐릭터를 저장하는 중 오류가 발생했습니다:', e);
+            throw new Error('선택한 캐릭터를 저장하는 중 오류가 발생했습니다.');
         }
     };
 

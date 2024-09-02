@@ -6,5 +6,5 @@ export const getGoogleIdTokenWithNativeLogin = async (): Promise<string> => {
     if(userInfo.idToken) {
         return userInfo.idToken;
     }
-    throw new Error('Could not find user info');
+    throw new Error('사용자 구글 정보를 찾을 수 없습니다.');
 }
