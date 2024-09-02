@@ -1,47 +1,31 @@
 import React, { useEffect, useState, useMemo, useContext } from 'react';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getCharacters } from '../../apis/character';
 import GlobalSelectionCharacterStateContext from '../../components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateContext';
 import ArtworkList from './ArtworkList/ArtworkList';
 import TabsLayout from './TabsLayout/TabsLayout';
 import { Character, CharacterPaymentType } from '../../types/character';
 import * as S from './CharacterSelectPage.styled';
-import { RootStackParamList } from '../../constants/routing';
-import GlobalJwtTokenStateContext from '../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext';
-import GlobalErrorInfoStateContext from '../../components/global/GlobalError/GlobalErrorInfoStateContext';
-import { GlobalErrorInfoType } from '../../types/error';
 import Header from './Header/Header';
+import GlobalCharacterListStateContext from '../../components/global/GlobalCharacterList/GlobalCharacterListStateContext';
 
 const CharacterSelectPage = () => {
     const [ selectedPaymentType, setSelectedPaymentType ] = useState<CharacterPaymentType>(CharacterPaymentType.FREE);
-    const [ characters, setCharacters ] = useState<Character[]>([]);
     const [ loading, setLoading ] = useState<boolean>(true);
 
+    const { characterList, updateCharacterList } = useContext(GlobalCharacterListStateContext);
     const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
-    const jwtContext = useContext(GlobalJwtTokenStateContext);
-	const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     useEffect(() => {
-		const fetchCharacters = async () => {
-			try {
-                const characters = await getCharacters(jwtContext);
-                setCharacters(characters);
-			} catch (e) {
-                if (e instanceof Error) {
-                    setErrorInfo({
-                        type: GlobalErrorInfoType.MODAL,
-                        error: e
-                    });
-                }
-			} finally {
-			    setLoading(false);
-			}
-		};
+        if (! loading) return;
 
-		fetchCharacters();
-    }, []);
-
+        setLoading(false);
+        if (! characterList || characterList.length === 0) {
+            updateCharacterList();
+        }
+        
+    }, [loading, characterList]);
+    
     const groupByArtworkTitle = (characters: Character[]) => {
 		return characters.reduce((acc, character) => {
 			if (!acc[character.artworkTitle]) {
@@ -59,8 +43,8 @@ const CharacterSelectPage = () => {
 			: character.paymentType === CharacterPaymentType.PAID
 		);
       
-    const groupedFreeCharacters = useMemo(() => groupByArtworkTitle(getCharactersByType(CharacterPaymentType.FREE, characters)), [characters]);
-    const groupedPaidCharacters = useMemo(() => groupByArtworkTitle(getCharactersByType(CharacterPaymentType.PAID, characters)), [characters]);
+    const groupedFreeCharacters = useMemo(() => groupByArtworkTitle(getCharactersByType(CharacterPaymentType.FREE, characterList)), [characterList]);
+    const groupedPaidCharacters = useMemo(() => groupByArtworkTitle(getCharactersByType(CharacterPaymentType.PAID, characterList)), [characterList]);
 
     const handleCharacterPress = (character: Character) => {
         setSelectedCharacter(character);
@@ -70,13 +54,6 @@ const CharacterSelectPage = () => {
         setSelectedPaymentType(characterPaymentType);
     }
 
-    if (loading) {
-        return (
-            <SafeAreaView style={S.styles.container}>
-                <Text>Loading...</Text>
-            </SafeAreaView>
-        );
-    }
 
     return (
         <SafeAreaView style={S.styles.container}>
