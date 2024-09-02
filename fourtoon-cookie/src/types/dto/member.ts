@@ -1,7 +1,7 @@
 import { LocalDate } from "@js-joda/core";
 
 
-export interface MemberUpdateRequest {
+export interface MemberCreateRequest {
     name: string;
     birth: LocalDate;
     gender: string;
