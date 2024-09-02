@@ -78,6 +78,6 @@ export const patchDiaryFavorite = async (diaryId: number, isFavorite: boolean, j
     if (response.status === 200) {
         return;
     } else {
-        throw new ApiError("즐겨찾기 중 오류가 발생했습니다. 다시 시도해 주세요.");
+        throw new ApiError("일기 즐겨찾기 중 오류가 발생했습니다. 다시 시도해 주세요.");
     }
 };

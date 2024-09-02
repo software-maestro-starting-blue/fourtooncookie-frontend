@@ -17,7 +17,7 @@ const getAppleIdTokenInIOS = async () => {
         return [appleAuthRequestResponse.identityToken, appleAuthRequestResponse.nonce];
     }
 
-    throw new Error('인증할 수 없습니다. 다시 로그인해 주세요.');
+    throw new Error('사용자 정보를 가져오는 중 오류가 발생 했습니다. 다시 로그인해 주세요.');
 }
 
 const getAppleIdTokenInANDROID = async () => {

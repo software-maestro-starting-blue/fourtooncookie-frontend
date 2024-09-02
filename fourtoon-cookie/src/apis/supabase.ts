@@ -15,7 +15,7 @@ export const supabaseSignInAndSignUpWithIdToken = async (provider: OAuthProvider
         });
 
         if (error || !data.session) {
-            throw new JwtError("Supabase 로그인 중 오류가 발생했습니다.");
+            throw new JwtError("로그인 중 오류가 발생했습니다.");
         }
 
         return {
@@ -33,7 +33,7 @@ export const supabaseRefreshToken = async (refreshToken: string): Promise<JWTTok
         const { data, error } = await supabase.auth.refreshSession({ refresh_token: refreshToken });
 
         if (error || !data || !data.session) {
-            throw new JwtError("토큰 갱신 중 오류가 발생했습니다.");
+            throw new JwtError("로그인 갱신 중 오류가 발생했습니다.");
         }
 
         return {
