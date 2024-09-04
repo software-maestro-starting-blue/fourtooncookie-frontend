@@ -16,62 +16,59 @@ import { LocalDate } from "@js-joda/core";
 import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../types/error";
 
+import AgreementInputLayout from "./AgreementInputLayout/AgreementInputLayout";
 
 enum SignUpProgres {
     NAME = 1,
     BIRTH = 2,
-    GENDER = 3
+    GENDER = 3,
+    AGREEMENT = 4
 }
 
 const SignUpPage = () => {
-    const [ name, setName ] = useState<string>('');
-    const [ birth, setBirth ] = useState<LocalDate>(LocalDate.now());
-    const [ gender, setGender ] = useState<Gender | null>(null);
+    const [name, setName] = useState<string>('');
+    const [birth, setBirth] = useState<LocalDate>(LocalDate.now());
+    const [gender, setGender] = useState<Gender | null>(null);
+    const [isAgreed, setIsAgreed] = useState<boolean>(false);
 
-    const [ signUpProgress, setSignUpProgress ] = useState<SignUpProgres>(SignUpProgres.NAME);
+    const [signUpProgress, setSignUpProgress] = useState<SignUpProgres>(SignUpProgres.NAME);
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const jwtContext = useContext(GlobalJwtTokenStateContext);
-
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     const isNextButtonAvailabe: boolean = 
         (signUpProgress == SignUpProgres.NAME && name.length > 0)
         || (signUpProgress == SignUpProgres.BIRTH && birth != null && ! birth.isAfter(LocalDate.now()))
-        || (signUpProgress == SignUpProgres.GENDER && gender != null);
-    
-    useEffect(() => {
-        if (! jwtContext.jwtToken) {
-            navigation.navigate('IntroPage');
-        }
-
-    }, [jwtContext, navigation]);
+        || (signUpProgress == SignUpProgres.GENDER && gender != null)
+        || (signUpProgress == SignUpProgres.AGREEMENT && isAgreed);
 
     const handleNameChange = (name: string) => {
         if (signUpProgress != SignUpProgres.NAME) return;
-
         setName(name);
-    }
+    };
 
     const handleBirthChange = (birth: LocalDate) => {
         if (signUpProgress != SignUpProgres.BIRTH) return;
-
         setBirth(birth);
-    }
+    };
 
     const handleGenderChange = (gender: Gender) => {
         if (signUpProgress != SignUpProgres.GENDER) return;
-
         setGender(gender);
-    }
+    };
+
+    const handleAgreementChange = (isAgreed: boolean) => {
+        setIsAgreed(isAgreed);
+    };
 
     const handleNextButtonClick = () => {
-        if (! isNextButtonAvailabe) return;
+        if (!isNextButtonAvailabe) return;
 
-        if (signUpProgress < SignUpProgres.GENDER){
+        if (signUpProgress < SignUpProgres.AGREEMENT) {
             setSignUpProgress(signUpProgress + 1);
         } else {
-            if (! gender) return;
+            if (!gender || !isAgreed) return;
 
             try {
                 patchMember(name, birth, gender, jwtContext);
@@ -85,7 +82,7 @@ const SignUpPage = () => {
                 }
             }
         }
-    }
+    };
 
     return (
         <SafeAreaView style={S.styles.safeArea}>
@@ -118,6 +115,14 @@ const SignUpPage = () => {
                         />
                     </Container>
                 }
+                {
+                    signUpProgress == SignUpProgres.AGREEMENT && 
+                    <Container title="서비스 약관 및 정책">
+                        <AgreementInputLayout 
+                            onAgreementChange={handleAgreementChange} 
+                        />
+                    </Container>
+                }
                 <KeyboardAvoidingView 
                     style={S.styles.bottomContainer} 
                     enabled={true}
@@ -127,7 +132,7 @@ const SignUpPage = () => {
                     <View style={S.styles.progressContainer}>
                         <ProgressBar
                             progress={signUpProgress}
-                            totalProgress={3}
+                            totalProgress={4}
                             isAnimated={true}
                         />
                     </View>
@@ -144,9 +149,10 @@ const SignUpPage = () => {
             </View>
         </SafeAreaView>
     );
-}
+};
 
 export default SignUpPage;
+
 
 interface ContainerProps {
     title: string;
