@@ -1,6 +1,6 @@
 import { API_URL } from "@env";
 import { GlobalJwtTokenStateContextProps } from "../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
-import type { MemberSavedResponse, MemberUpdateRequest } from "../types/dto/member";
+import type { MemberSavedResponse, MemberSaveRequest } from "../types/dto/member";
 import { Gender } from "../types/gender";
 import { requestApi } from "./api";
 import type { Member } from "../types/member";
@@ -20,7 +20,7 @@ export const getMember = async (jwtContext: GlobalJwtTokenStateContextProps): Pr
 }
 
 export const patchMember = async (name: string, birth: LocalDate, gender: Gender, jwtContext: GlobalJwtTokenStateContextProps) => {
-    const requestBody: MemberUpdateRequest = {
+    const requestBody: MemberSaveRequest = {
         name: name,
         birth: birth,
         gender: gender
