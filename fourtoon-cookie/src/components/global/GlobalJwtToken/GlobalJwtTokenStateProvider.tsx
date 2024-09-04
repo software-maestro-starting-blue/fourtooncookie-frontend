@@ -31,7 +31,7 @@ const GlobalJwtTokenStateProvider = (props: GlobalJwtTokenStateProviderProps) =>
                 if (error instanceof Error) {
                     setErrorInfo({
                         type: GlobalErrorInfoType.MODAL,
-                        error: new JwtError("인증 정보가 없습니다.")
+                        error: new JwtError("인증 정보가 존재하지 않습니다.")
                     });
                 }
             }
@@ -56,12 +56,12 @@ const GlobalJwtTokenStateProvider = (props: GlobalJwtTokenStateProviderProps) =>
                 await AsyncStorage.removeItem('jwtToken');
                 setErrorInfo({
                     type: GlobalErrorInfoType.MODAL,
-                    error: new JwtError("로그아웃 되었습니다.")
+                    error: new JwtError("존재하지 않는 인증 정보입니다. 다시 로그인해 주세요.")
                 });
             }
             setJwtTokenState(jwtToken);
         } catch (e) {
-            throw new Error('Failed to save the jwtToken to storage: ' + e)
+            throw new Error('인증에 실패 했습니다. 잠시후 다시 시도해 주세요.');
         }
     };
 

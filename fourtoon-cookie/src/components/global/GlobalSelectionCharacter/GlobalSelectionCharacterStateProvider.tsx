@@ -35,7 +35,7 @@ const GlobalSelectionCharacterStateProvider = (props: GlobalSelectionCharacterSt
             }
             setSelectedCharacterState(character);
         } catch (e) {
-            throw new Error('Failed to save the selected character to storage: ' + e)
+            throw new Error('저장된 캐릭터를 불러오는 중 오류가 발생했습니다.');
         }
     };
 
