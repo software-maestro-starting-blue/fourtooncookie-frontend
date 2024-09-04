@@ -56,7 +56,7 @@ const GlobalJwtTokenStateProvider = (props: GlobalJwtTokenStateProviderProps) =>
                 await AsyncStorage.removeItem('jwtToken');
                 setErrorInfo({
                     type: GlobalErrorInfoType.MODAL,
-                    error: new JwtError("존재하지 않는 인증 정보입니다. 다시 로그인해 주세요.");
+                    error: new JwtError("존재하지 않는 인증 정보입니다. 다시 로그인해 주세요.")
                 });
             }
             setJwtTokenState(jwtToken);
