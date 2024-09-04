@@ -25,7 +25,7 @@ export const requestApi = async (url: string, method: string, jwtContext: Global
 
     const makeRequest = async (token: JWTToken, isRetry: boolean = false): Promise<Response> => {
         try {
-            const response = await fetch(process.env.EXPO_PUBLIC_API_URL! + '/' + url, {
+            const response = await fetch(process.env.EXPO_PUBLIC_API_URL! + url, {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json',
