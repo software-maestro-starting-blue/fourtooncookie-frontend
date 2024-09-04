@@ -40,7 +40,7 @@ const getAppleIdTokenInANDROID = async () => {
 
 export const getAppleIdToken = async (): Promise<[string, string | undefined]> => {
     if (Platform.OS != OS.IOS && Platform.OS != OS.ANDROID) {
-        throw new Error('해당 운영체제는 지원하지 않습니다. IOS 또는 ANDROID로 시도해 주십시오.');
+        throw new Error('해당 운영체제는 지원하지 않습니다. IOS 또는 ANDROID로 시도해 주세요.');
     }
 
     const [idToken, nonce] = (Platform.OS === OS.IOS) ? await getAppleIdTokenInIOS() : await getAppleIdTokenInANDROID();
