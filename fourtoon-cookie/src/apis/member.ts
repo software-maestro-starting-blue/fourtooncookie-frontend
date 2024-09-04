@@ -19,15 +19,15 @@ export const getMember = async (jwtContext: GlobalJwtTokenStateContextProps): Pr
 
 }
 
-export const patchMember = async (name: string, birth: LocalDate, gender: Gender, jwtContext: GlobalJwtTokenStateContextProps) => {
+export const postMember = async (name: string, birth: LocalDate, gender: Gender, jwtContext: GlobalJwtTokenStateContextProps) => {
     const requestBody: MemberSaveRequest = {
         name: name,
         birth: birth,
         gender: gender
     };
 
-    const response = await requestApi(`/member`, 'PATCH', jwtContext, requestBody);
-    if (response.status != 200) {
+    const response = await requestApi(`/member`, 'POST', jwtContext, requestBody);
+    if (response.status != 201) {
         throw new ApiError("회원가입 중 오류가 발생했습니다.");
     }
 }
