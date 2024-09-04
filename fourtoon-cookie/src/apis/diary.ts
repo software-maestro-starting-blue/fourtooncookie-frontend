@@ -1,4 +1,3 @@
-import { API_URL } from "@env";
 import type { Diary } from "../types/diary";
 import type { DiaryPatchFavoriteRequest, DiarySaveRequest, DiarySavedResponse, DiaryUpdateRequest } from "../types/dto/diary";
 import { GlobalJwtTokenStateContextProps } from "../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";

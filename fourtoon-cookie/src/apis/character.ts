@@ -1,4 +1,3 @@
-import { API_URL } from "@env";
 import type { Character } from "../types/character";
 import type { CharacterSavedResponse } from "../types/dto/character";
 import { requestApi } from "./api";

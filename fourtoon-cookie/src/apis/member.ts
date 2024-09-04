@@ -1,4 +1,3 @@
-import { API_URL } from "@env";
 import { GlobalJwtTokenStateContextProps } from "../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 import type { MemberSavedResponse, MemberUpdateRequest } from "../types/dto/member";
 import { Gender } from "../types/gender";
