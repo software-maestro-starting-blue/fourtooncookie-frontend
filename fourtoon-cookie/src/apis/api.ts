@@ -10,7 +10,7 @@ export const requestApi = async (url: string, method: string, jwtContext: Global
     const { jwtToken, setJwtToken } = jwtContext;
 
     if (!jwtToken) {
-        throw new JwtError('jwtToken is null');
+        throw new JwtError('토큰이 존재하지 않습니다. 다시 로그인해 주세요.');
     }
 
     const refreshJwtToken = async () => {
@@ -20,11 +20,11 @@ export const requestApi = async (url: string, method: string, jwtContext: Global
             return newToken;
         } catch (error) {
             setJwtToken(null);
-            throw new JwtError('jwtToken refresh error');
+            throw new JwtError('토큰이 존재하지 않습니다. 다시 로그인해 주세요.');
         }
     };
 
-    const makeRequest = async (token: JWTToken, isRetry: boolean = false) => {
+    const makeRequest = async (token: JWTToken, isRetry: boolean = false): Promise<Response> => {
         try {
             const response = await fetch(API_URL + url, {
                 method: method,
@@ -42,10 +42,10 @@ export const requestApi = async (url: string, method: string, jwtContext: Global
                     const newToken = await refreshJwtToken();
                     return makeRequest(newToken, true);
                 } else {
-                    throw new JwtError(`[${method}] ${url} refresh error`);
+                    throw new JwtError(`잘못된 요청입니다. 토큰이 유효하지 않습니다.`);
                 }
             } else {
-                throw new ApiError(`[${method}] ${url} api request error`);
+                throw new ApiError(`요청이 실패했습니다. 잠시후 다시 시도해 주세요.`);
             }
         } catch (error) {
             throw error;
