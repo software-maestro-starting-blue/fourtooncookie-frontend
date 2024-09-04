@@ -11,7 +11,7 @@ export const getMember = async (jwtContext: GlobalJwtTokenStateContextProps): Pr
     const response = await requestApi(`/member`, 'GET', jwtContext);
 
     if (response.status != 200) {
-        throw new ApiError("getMember error");
+        throw new ApiError("회원 정보를 가져오는 중 오류가 발생했습니다."); 
     }
 
     const data: MemberSavedResponse = await response.json();
@@ -28,13 +28,13 @@ export const patchMember = async (name: string, birth: LocalDate, gender: Gender
 
     const response = await requestApi(`/member`, 'PATCH', jwtContext, requestBody);
     if (response.status != 200) {
-        throw new ApiError("patchMember error");
+        throw new ApiError("회원가입 중 오류가 발생했습니다.");
     }
 }
 
 export const deleteMember = async (jwtContext: GlobalJwtTokenStateContextProps) => {
     const response = await requestApi(`/member`, 'DELETE', jwtContext);
     if (response.status != 204) {
-        throw new ApiError("deleteMember error");
+        throw new ApiError("회원 정보를 삭제하는 중 오류가 발생했습니다.");
     }
 }
