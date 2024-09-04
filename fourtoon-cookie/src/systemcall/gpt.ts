@@ -6,7 +6,7 @@ export const getGpsPosition = async (): Promise<Position> => {
     const { status } = await Location.requestForegroundPermissionsAsync();
 
     if (status !== 'granted') {
-        throw new Error("getGpsPosition error");
+        throw new Error("GPS 위치 권한이 거부되었습니다. 권한을 허용해 주세요.");
     }
 
     const location = await Location.getCurrentPositionAsync({});
