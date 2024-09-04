@@ -23,7 +23,7 @@ const GlobalCharacterListStateProvider = (props: GlobalCharacterListStateProvide
             // Load character list from the server
             const responsedCharacterList = await getCharacters(jwtContext);
             if (! responsedCharacterList){
-                throw Error('Failed to load the character list from the server');
+                throw Error('캐릭터를 불러오는 중 오류가 발생했습니다. 잠시후 다시 시도해 주세요.');
             }
             setCharacterList(responsedCharacterList);
         } catch (e) {
