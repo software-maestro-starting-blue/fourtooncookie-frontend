@@ -8,7 +8,6 @@ export interface MemberSaveRequest {
 }
 
 export interface MemberSavedResponse {
-    email: string;
     name: string;
     gender: string;
     birth: LocalDate;
