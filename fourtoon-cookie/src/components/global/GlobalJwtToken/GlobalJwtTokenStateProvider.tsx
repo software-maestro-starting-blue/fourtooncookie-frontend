@@ -61,7 +61,7 @@ const GlobalJwtTokenStateProvider = (props: GlobalJwtTokenStateProviderProps) =>
             }
             setJwtTokenState(jwtToken);
         } catch (e) {
-            throw new Error('토큰 저장에 실패 했습니다. 잠시후 다시 시도해 주세요.');
+            throw new Error('인증에 실패 했습니다. 잠시후 다시 시도해 주세요.');
         }
     };
 
