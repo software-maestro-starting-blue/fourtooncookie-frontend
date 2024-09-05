@@ -10,11 +10,11 @@ import BirthInputLayout from "./BirthInputLayout/BirthInputLayout";
 import GenderInputLayout from "./GenderInputLayout/GenderInputLayout";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../constants/routing";
-import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 import { patchMember } from "../../apis/member";
 import { LocalDate } from "@js-joda/core";
 import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../types/error";
+import { jwtManager } from "../../apis/jwt";
 
 
 enum SignUpProgres {
@@ -31,7 +31,6 @@ const SignUpPage = () => {
     const [ signUpProgress, setSignUpProgress ] = useState<SignUpProgres>(SignUpProgres.NAME);
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-    const jwtContext = useContext(GlobalJwtTokenStateContext);
 
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
@@ -41,11 +40,11 @@ const SignUpPage = () => {
         || (signUpProgress == SignUpProgres.GENDER && gender != null);
     
     useEffect(() => {
-        if (! jwtContext.jwtToken) {
+        if (! jwtManager.getToken()) {
             navigation.navigate('IntroPage');
         }
 
-    }, [jwtContext, navigation]);
+    }, [navigation]);
 
     const handleNameChange = (name: string) => {
         if (signUpProgress != SignUpProgres.NAME) return;
@@ -74,7 +73,7 @@ const SignUpPage = () => {
             if (! gender) return;
 
             try {
-                patchMember(name, birth, gender, jwtContext);
+                patchMember(name, birth, gender);
                 navigation.navigate('DiaryTimelinePage');
             } catch (error) {
                 if (error instanceof Error) {
