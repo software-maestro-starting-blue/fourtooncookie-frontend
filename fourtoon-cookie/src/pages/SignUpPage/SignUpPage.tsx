@@ -64,6 +64,16 @@ const SignUpPage = () => {
         setGender(gender);
     }
 
+    const handleBackButtonPress = () => {
+        if (signUpProgress == SignUpProgres.NAME) {
+            jwtContext.setJwtToken(null);
+            navigation.goBack();
+            return;
+        }
+
+        setSignUpProgress(signUpProgress - 1);
+    }
+
     const handleNextButtonClick = () => {
         if (! isNextButtonAvailabe) return;
 
@@ -89,7 +99,7 @@ const SignUpPage = () => {
     return (
         <SafeAreaView style={S.styles.safeArea}>
             <View style={S.styles.container}>
-                <Header />
+                <Header onBackButtonPress={handleBackButtonPress}/>
                 {
                     signUpProgress == SignUpProgres.NAME && 
                     <Container title="당신의 이름을 알려주세요">
