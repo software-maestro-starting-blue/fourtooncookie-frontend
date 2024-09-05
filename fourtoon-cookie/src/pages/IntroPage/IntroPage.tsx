@@ -5,49 +5,43 @@ import type { JWTToken } from "../../types/jwt";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../constants/routing";
 import { useContext, useEffect } from "react";
-import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 import type { Member } from "../../types/member";
 import { getMember } from "../../apis/member";
 import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../types/error";
 import AppleSignInAndSignUpButton from "./AppleSignInAndSignUpButton/AppleSignInAndSignUpButton";
+import { jwtManager } from "../../apis/jwt";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-    const { jwtToken, setJwtToken } = useContext(GlobalJwtTokenStateContext);
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
     
-    useEffect(() => {
-        if (!jwtToken) return;
-
-        const checkIsFirstTime = async () => {
-            try {
-                const member: Member = await getMember({jwtToken, setJwtToken});
-                if (member.name == null) {
-                    navigation.navigate('SignUpPage');
-                } else {
-                    navigation.navigate('DiaryTimelinePage');
-                }
-            } catch (error) {
-                if (error instanceof Error) {
-                    setErrorInfo({
-                        type: GlobalErrorInfoType.MODAL,
-                        error: error
-                    });
-                }
-                setJwtToken(null);
+    const navigateByCheckingMemberExist = async () => {
+        try {
+            const member: Member = await getMember();
+            if (member.name == null) {
+                navigation.navigate('SignUpPage');
+            } else {
+                navigation.navigate('DiaryTimelinePage');
+            }
+        } catch (error) {
+            if (error instanceof Error) {
+                setErrorInfo({
+                    type: GlobalErrorInfoType.MODAL,
+                    error: error
+                });
             }
         }
+    }
 
-        checkIsFirstTime();
-    }, [jwtToken, navigation]);
-
-    if (jwtToken) {
+    if (jwtManager.getToken()) {
+        navigateByCheckingMemberExist();
         return null;
     }
 
     const handleSignUpAndSignInSuccess = (token: JWTToken) => {
-        setJwtToken(token);
+        jwtManager.setToken(token);
+        navigateByCheckingMemberExist();
     }
 
     return (
