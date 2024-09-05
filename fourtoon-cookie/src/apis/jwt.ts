@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { JWTToken } from "../types/jwt";
 
 class JwtManager {
@@ -5,7 +6,20 @@ class JwtManager {
     private token: JWTToken | null;
 
     constructor() {
-        // TODO: AsyncStorage를 통해 JWT 존재 여부 확인 후 저장
+        this.token = null;
+
+        const loadJwtToken = async () => {
+            try {
+                const savedJwtToken = await AsyncStorage.getItem('jwtToken');
+                if (savedJwtToken) {
+                    this.token = JSON.parse(savedJwtToken);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        loadJwtToken();
     }
 
     getToken(): JWTToken | null {
