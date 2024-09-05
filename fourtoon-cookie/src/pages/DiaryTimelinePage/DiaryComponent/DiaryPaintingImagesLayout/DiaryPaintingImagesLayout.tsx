@@ -41,7 +41,7 @@ const DiaryPaintingImagesLayout = (props: DiaryPaintingImagesLayoutProps) => {
                 <Text style={S.styles.characterText}>
                     {selectedCharacter?.name || '캐릭터'}가 그림을 그리고 있습니다!
                 </Text>
-                <Text style={S.styles.estimatedTimeText}>약 24시간 소요 예정</Text>
+                <Text style={S.styles.estimatedTimeText}>열심히 작업 중입니다. 조금만 기다려주세요!</Text>
             </View>
         );
     } else {
