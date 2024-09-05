@@ -1,5 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { supabaseRefreshToken } from "./supabase";
 import { JWTToken } from "../types/jwt";
+import { JwtError } from "../error/JwtError";
 
 class JwtManager {
     
@@ -39,8 +41,17 @@ class JwtManager {
         }
     }
 
-    refleshToken() {
-        // TODO: JWTToken을 reflesh한다.
+    async refleshToken() {
+        if (! this.token){
+            throw new JwtError('사용자 정보가 존재하지 않습니다. 다시 로그인해 주세요.');
+        }
+
+        try {
+            const newToken = await supabaseRefreshToken(this.token.refreshToken);
+            this.setToken(newToken);
+        } catch (error) {
+            throw new JwtError('사용자 정보가 존재하지 않습니다. 다시 로그인해 주세요.');
+        }
     }
 
 }
