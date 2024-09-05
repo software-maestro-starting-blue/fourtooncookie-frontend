@@ -37,7 +37,8 @@
     "react-native-screens": "3.31.1",
     "react-native-url-polyfill": "^2.0.0",
     "react-navigation": "^5.0.0",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "expo-dev-client": "~4.0.26"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
