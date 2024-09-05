@@ -8,7 +8,6 @@ import DiaryContentsLayout from "./DiaryContentsLayout/DiaryContentsLayout";
 import DiaryPaintingImagesLayout from "./DiaryPaintingImagesLayout/DiaryPaintingImagesLayout";
 import * as S from './DiaryComponent.styled';
 import { RootStackParamList } from "../../../constants/routing";
-import GlobalJwtTokenStateContext from "../../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 import GlobalErrorInfoStateContext from "../../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../../types/error";
 import Footer from "./Footer/Footer";
@@ -26,12 +25,11 @@ const DiaryComponent = (props: DiaryProps) => {
     const [isFavorite, setIsFavorite] = useState(initialFavorite);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-    const jwtContext = useContext(GlobalJwtTokenStateContext);
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     const handleToggleFavorite = async () => {
         try {
-            await patchDiaryFavorite(diaryId, !isFavorite, jwtContext);
+            await patchDiaryFavorite(diaryId, !isFavorite);
             setIsFavorite(!isFavorite);
         } catch (error) {
             if (error instanceof Error) {
