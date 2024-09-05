@@ -1,6 +1,3 @@
-import { GlobalJwtTokenStateContextProps } from "../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
-import type { JWTToken } from "../types/jwt";
-import { supabaseRefreshToken } from "./supabase";
 import { JwtError } from "../error/JwtError";
 import { ApiError } from "../error/ApiError";
 import { jwtManager } from "./jwt";
