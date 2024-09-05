@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import ConfirmationModal from "../../../../components/common/Modal/ConfirmationModal/ConfirmationModal"
-import GlobalJwtTokenStateContext from "../../../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 import { deleteMember } from "../../../../apis/member";
 import GlobalErrorInfoStateContext from "../../../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../../../types/error";
+import { jwtManager } from "../../../../apis/jwt";
 
 export interface ResignModalProps {
     visible: boolean;
@@ -14,13 +14,12 @@ const ResignModal = (props: ResignModalProps) => {
     const { visible, onClose } = props;
 
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
-    const jwtContext = useContext(GlobalJwtTokenStateContext);
 
     const handleResign = async () => {
         try {
             onClose();
-            await deleteMember(jwtContext);
-            jwtContext.setJwtToken(null);
+            await deleteMember();
+            jwtManager.setToken(null);
         } catch (error) {
             if (error instanceof Error) {
                 setErrorInfo({

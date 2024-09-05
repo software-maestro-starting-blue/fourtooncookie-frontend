@@ -4,13 +4,12 @@ import { INQRUITY_PAGE_URL } from '../../../constants/constants';
 import { useContext, useState } from 'react';
 import GlobalErrorInfoStateContext from '../../../components/global/GlobalError/GlobalErrorInfoStateContext';
 import { GlobalErrorInfoType } from '../../../types/error';
-import GlobalJwtTokenStateContext from '../../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext';
 import ResignModal from './ResignModal/ResignModal';
 import * as S from './MenuLayout.styled';
+import { jwtManager } from '../../../apis/jwt';
 
 const MenuLayout = () => {
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
-    const { jwtToken, setJwtToken } = useContext(GlobalJwtTokenStateContext);
     const [ isModalVisible, setIsModalVisible ] = useState(false);
 
     const handleInquiry = () => {
@@ -23,7 +22,7 @@ const MenuLayout = () => {
     }
 
     const handleLogout = () => {
-        setJwtToken(null);
+        jwtManager.setToken(null);
     }
 
     const handleResignButtonPress = () => {
