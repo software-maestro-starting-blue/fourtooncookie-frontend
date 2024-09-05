@@ -41,14 +41,14 @@ export const postDiary = async (characterId: number, date: LocalDate, content: s
     }
 }
 
-export const patchDiary = async (characterId: number, diaryId: number, content: string, hashtagIds: number[], jwtContext: GlobalJwtTokenStateContextProps) => {
+export const putDiary = async (characterId: number, diaryId: number, content: string, hashtagIds: number[], jwtContext: GlobalJwtTokenStateContextProps) => {
     
     const requestBody: DiaryUpdateRequest = {
         content: content,
         hashtagIds: hashtagIds,
         characterId: characterId
     }; 
-    const response = await requestApi(`/diary/${diaryId}`, 'PATCH', jwtContext, requestBody);
+    const response = await requestApi(`/diary/${diaryId}`, 'PUT', jwtContext, requestBody);
     
     if (response.status === 200) {
         return;
