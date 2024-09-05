@@ -1,5 +1,4 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
-import {CLIENT_ID, IOS_CLIENT_ID} from '@env'
 import {supabaseSignInAndSignUpWithIdToken} from "../../../apis/supabase";
 import type {JWTToken} from "../../../types/jwt";
 import { OAuthProvider } from "../../../types/oauth";
@@ -16,8 +15,8 @@ const GoogleSignInAndSignUpButton = (props: GoogleSignInAndSignUpButtonProps) =>
 
     GoogleSignin.configure({
         scopes: [],
-        webClientId: CLIENT_ID,
-        iosClientId: IOS_CLIENT_ID
+        webClientId: process.env.EXPO_PUBLIC_GOOGLE_OAUTH_CLIENT_ID,
+        iosClientId: process.env.EXPO_PUBLIC_GOOGLE_OAUTH_IOS_CLIENT_ID
     });
 
     const handlePress = async () => {

@@ -1,4 +1,3 @@
-import { API_URL } from "@env";
 import { GlobalJwtTokenStateContextProps } from "../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 import type { JWTToken } from "../types/jwt";
 import { supabaseRefreshToken } from "./supabase";
@@ -26,7 +25,7 @@ export const requestApi = async (url: string, method: string, jwtContext: Global
 
     const makeRequest = async (token: JWTToken, isRetry: boolean = false): Promise<Response> => {
         try {
-            const response = await fetch(API_URL + url, {
+            const response = await fetch(process.env.EXPO_PUBLIC_API_URL! + url, {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json',
