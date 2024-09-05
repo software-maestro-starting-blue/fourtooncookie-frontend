@@ -1,11 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FlatList, View } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {FlatList, RefreshControl, ScrollView} from "react-native";
 import { debounce } from 'lodash';
-import Footer from "../../components/common/Footer/Footer";
 import Header from "./Header/Header";
 import DiaryEmpty from "./DiaryEmpty/DiaryEmpty";
-import * as S from './DiaryTimelinePage.styled';
 import { deleteDiary, getDiaries } from '../../apis/diary';
 import type { Diary } from "../../types/diary";
 import { diaryDefaultImages } from "../../constants/diary";
@@ -26,6 +23,12 @@ const DiaryTimelinePage = () => {
             let result: Diary[];
             try {
                 result = await getDiaries(page);
+    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
+
+    const loadDiaries = async () => {
+        let result: Diary[];
+        try {
+            result = await getDiaries(page);
 
                 if (result.length == 0) {
                     setHasMore(false);
@@ -48,6 +51,30 @@ const DiaryTimelinePage = () => {
                 }
             }
         };
+            if (result.length == 0) {
+                setHasMore(false);
+            } else {
+                result = result.map(diary => ({
+                    ...diary,
+                    paintingImageUrls: diary.paintingImageUrls.length ? diary.paintingImageUrls : diaryDefaultImages
+                }));
+
+                setDiaries(prev =>
+                    [...prev, ...result]);
+            }
+        } catch (error) {
+            result = [];
+            if (error instanceof Error) {
+                setErrorInfo({
+                    type: GlobalErrorInfoType.MODAL,
+                    error: error
+                });
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (! hasMore) return;
 
         loadDiaries();
     }, [hasMore, page]);
@@ -72,18 +99,36 @@ const DiaryTimelinePage = () => {
         }
     }
 
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        // 데이터 최신화 로직 실행
+        setTimeout(() => {
+            loadDiaries();
+            console.log('데이터 최신화 됨')
+            setRefreshing(false);
+        }, 2000);
+    };
     return (
         <MainPageLayout isHomeActivate={true} isPersonActivate={false}>
-            <FlatList
-                data={diaries}
-                keyExtractor={item => item.diaryId.toString()}
-                renderItem={({ item }) => <DiaryComponent diary={item} onDelete={() => handleDelete(item.diaryId)} />}
-                ListHeaderComponent={<Header />}
-                onEndReached={handleEndReached}
-                onEndReachedThreshold={0.5}
-                ListEmptyComponent={<DiaryEmpty/>}
-                contentContainerStyle={{ paddingBottom: "25%" }}
-            />
+            <ScrollView
+                contentContainerStyle={{ flex: 1 }}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+            >
+                <FlatList
+                    data={diaries}
+                    keyExtractor={item => item.diaryId.toString()}
+                    renderItem={({ item }) => <DiaryComponent diary={item} onDelete={() => handleDelete(item.diaryId)} />}
+                    ListHeaderComponent={<Header />}
+                    onEndReached={handleEndReached}
+                    onEndReachedThreshold={0.5}
+                    ListEmptyComponent={<DiaryEmpty/>}
+                    contentContainerStyle={{ paddingBottom: "25%" }}
+                />
+            </ScrollView>
         </MainPageLayout>
     );
 };
