@@ -10,7 +10,7 @@ import BirthInputLayout from "./BirthInputLayout/BirthInputLayout";
 import GenderInputLayout from "./GenderInputLayout/GenderInputLayout";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../constants/routing";
-import { patchMember } from "../../apis/member";
+import { postMember } from "../../apis/member";
 import { LocalDate } from "@js-joda/core";
 import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../types/error";
@@ -83,7 +83,7 @@ const SignUpPage = () => {
             if (! gender) return;
 
             try {
-                patchMember(name, birth, gender);
+                postMember(name, birth, gender);
                 navigation.navigate('DiaryTimelinePage');
             } catch (error) {
                 if (error instanceof Error) {

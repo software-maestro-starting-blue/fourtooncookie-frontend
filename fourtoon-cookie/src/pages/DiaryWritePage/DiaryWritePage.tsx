@@ -5,7 +5,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Header from "./Header/Header";
 import TextInputLayout from "./TextInputLayout/TextInputLayout";
 
-import { postDiary, patchDiary } from "../../apis/diary";
+import { postDiary, putDiary } from "../../apis/diary";
 import { RootStackParamList } from "../../constants/routing";
 
 import * as S from "./DiaryWritePage.styled";
@@ -81,7 +81,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
             if (! isEdit) {
                 await postDiary(selectedCharacter?.id, diaryDate, content, []);
             } else if (diary) {
-                await patchDiary(selectedCharacter?.id, diary.diaryId, content, []);
+                await putDiary(selectedCharacter?.id, diary.diaryId, content, []);
             } else {
                 setErrorInfo({
                     type: GlobalErrorInfoType.MODAL,
