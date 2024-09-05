@@ -26,8 +26,17 @@ class JwtManager {
         return this.token;
     }
 
-    setToken(token: JWTToken | null) {
-        // TODO: token을 설정하고, AsyncStorage에 이를 반영한다.
+    async setToken(token: JWTToken | null) {
+        try {
+            if (token) {
+                await AsyncStorage.setItem('jwtToken', JSON.stringify(token));
+            } else {
+                await AsyncStorage.removeItem('jwtToken');
+            }
+            this.token = token;
+        } catch (e) {
+            throw new Error('인증에 실패 했습니다. 잠시후 다시 시도해 주세요.');
+        }
     }
 
     refleshToken() {
