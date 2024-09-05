@@ -66,7 +66,7 @@ const SignUpPage = () => {
 
     const handleBackButtonPress = () => {
         if (signUpProgress == SignUpProgres.NAME) {
-            jwtContext.setJwtToken(null);
+            jwtManager.setToken(null);
             navigation.goBack();
             return;
         }
