@@ -39,8 +39,8 @@ const IntroPage = () => {
         return null;
     }
 
-    const handleSignUpAndSignInSuccess = (token: JWTToken) => {
-        jwtManager.setToken(token);
+    const handleSignUpAndSignInSuccess = async (token: JWTToken) => {
+        await jwtManager.setToken(token);
         navigateByCheckingMemberExist();
     }
 

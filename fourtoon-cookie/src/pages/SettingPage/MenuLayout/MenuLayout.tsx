@@ -7,9 +7,12 @@ import { GlobalErrorInfoType } from '../../../types/error';
 import ResignModal from './ResignModal/ResignModal';
 import * as S from './MenuLayout.styled';
 import { jwtManager } from '../../../apis/jwt';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../../constants/routing';
 
 const MenuLayout = () => {
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const [ isModalVisible, setIsModalVisible ] = useState(false);
 
     const handleInquiry = () => {
@@ -21,8 +24,9 @@ const MenuLayout = () => {
         );
     }
 
-    const handleLogout = () => {
-        jwtManager.setToken(null);
+    const handleLogout = async () => {
+        await jwtManager.setToken(null);
+        navigation.navigate('IntroPage');
     }
 
     const handleResignButtonPress = () => {

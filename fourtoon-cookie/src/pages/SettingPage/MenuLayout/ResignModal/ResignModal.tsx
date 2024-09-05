@@ -4,6 +4,8 @@ import { deleteMember } from "../../../../apis/member";
 import GlobalErrorInfoStateContext from "../../../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../../../types/error";
 import { jwtManager } from "../../../../apis/jwt";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../../../constants/routing";
 
 export interface ResignModalProps {
     visible: boolean;
@@ -14,12 +16,14 @@ const ResignModal = (props: ResignModalProps) => {
     const { visible, onClose } = props;
 
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     const handleResign = async () => {
         try {
-            onClose();
             await deleteMember();
-            jwtManager.setToken(null);
+            await jwtManager.setToken(null);
+            navigation.navigate('IntroPage');
+            onClose();
         } catch (error) {
             if (error instanceof Error) {
                 setErrorInfo({
