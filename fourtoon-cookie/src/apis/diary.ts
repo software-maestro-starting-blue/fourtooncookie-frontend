@@ -5,13 +5,13 @@ import { LocalDate } from "@js-joda/core";
 import { ApiError } from "../error/ApiError";
 
 export const getDiary = async (diaryId: number): Promise<Diary> => {
-    const response = await requestApi(`/diary/${diaryId}`, 'GET', undefined);
+    const response = await requestApi(`/diary/${diaryId}`, 'GET');
     const diaryResponse: DiarySavedResponse = await response.json();
     return { ...diaryResponse, diaryDate: LocalDate.parse(diaryResponse.diaryDate) };
 }
 
 export const getDiaries = async (pageNumber: number): Promise<Diary[]> => {
-    const response = await requestApi(`/diary/timeline?pageNumber=${pageNumber}`, 'GET', undefined);
+    const response = await requestApi(`/diary/timeline?pageNumber=${pageNumber}`, 'GET');
 
     if (response.status === 200) {
         const data: DiarySavedResponse[] = await response.json();
@@ -57,7 +57,7 @@ export const putDiary = async (characterId: number, diaryId: number, content: st
 }
 
 export const deleteDiary = async (diaryId: number): Promise<void> => {
-    const response = await requestApi(`/diary/${diaryId}`, 'DELETE', undefined);
+    const response = await requestApi(`/diary/${diaryId}`, 'DELETE');
 
     if (response.status === 204) {
         return;
