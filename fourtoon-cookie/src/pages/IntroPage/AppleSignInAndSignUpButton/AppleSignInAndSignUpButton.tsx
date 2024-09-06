@@ -1,8 +1,8 @@
 import React from 'react';
 import {Image, Platform, Text, TouchableOpacity, View} from 'react-native';
 import {appleAuthAndroid} from '@invertase/react-native-apple-authentication';
-import {getAppleIdToken} from "../../../apis/appleOAuth";
-import {supabaseSignInAndSignUpWithIdToken} from "../../../apis/supabase";
+import {getAppleIdToken} from "../../../auth/appleOAuth";
+import {supabaseSignInAndSignUpWithIdToken} from "../../../auth/supabase";
 import {OAuthProvider} from "../../../types/oauth";
 import type {JWTToken} from "../../../types/jwt";
 import {OS} from "../../../types/os";

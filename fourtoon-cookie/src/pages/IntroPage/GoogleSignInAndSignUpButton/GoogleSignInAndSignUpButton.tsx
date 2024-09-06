@@ -1,8 +1,8 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
-import {supabaseSignInAndSignUpWithIdToken} from "../../../apis/supabase";
+import {supabaseSignInAndSignUpWithIdToken} from "../../../auth/supabase";
 import type {JWTToken} from "../../../types/jwt";
 import { OAuthProvider } from "../../../types/oauth";
-import {getGoogleIdTokenWithNativeLogin} from "../../../apis/googleOAuth";
+import {getGoogleIdTokenWithNativeLogin} from "../../../auth/googleOAuth";
 import { Image, Text, TouchableOpacity } from 'react-native';
 import * as S from './GoogleSignInAndSignUpButton.styled';
 

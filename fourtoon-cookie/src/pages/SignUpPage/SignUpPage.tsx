@@ -14,7 +14,7 @@ import { postMember } from "../../apis/member";
 import { LocalDate } from "@js-joda/core";
 import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../types/error";
-import { jwtManager } from "../../apis/jwt";
+import { jwtManager } from "../../auth/jwt";
 
 
 enum SignUpProgres {
