@@ -2,9 +2,10 @@ import { JwtError } from "../error/JwtError";
 import { ApiError } from "../error/ApiError";
 import { jwtManager } from "../auth/jwt";
 import { JWTToken } from "../types/jwt";
+import { API_METHOD_TYPE } from "../constants/api";
 
 
-export const requestApi = async (url: string, method: string, body?: any): Promise<Response> => {
+export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: any): Promise<Response> => {
     let token: JWTToken | null = jwtManager.getToken();
 
     let leftTryCount: number = 2;
