@@ -11,6 +11,7 @@ import GlobalErrorInfoStateContext from "../../components/global/GlobalError/Glo
 import { GlobalErrorInfoType } from "../../types/error";
 import AppleSignInAndSignUpButton from "./AppleSignInAndSignUpButton/AppleSignInAndSignUpButton";
 import { jwtManager } from "../../auth/jwt";
+import { ApiError } from "../../error/ApiError";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -18,14 +19,16 @@ const IntroPage = () => {
     
     const navigateByCheckingMemberExist = async () => {
         try {
-            const member: Member = await getMember();
-            if (member.name == null) {
-                navigation.navigate('SignUpPage');
-            } else {
-                navigation.navigate('DiaryTimelinePage');
-            }
+            await getMember();
+            navigation.navigate('DiaryTimelinePage');
         } catch (error) {
+            if (error instanceof ApiError && error.getStatus() === 404) {
+                navigation.navigate('SignUpPage');
+                return;
+            }
+            
             if (error instanceof Error) {
+                jwtManager.setToken(null);
                 setErrorInfo({
                     type: GlobalErrorInfoType.MODAL,
                     error: error
