@@ -10,7 +10,7 @@ export const getMember = async (): Promise<Member> => {
     const response = await requestApi(`/member`, 'GET');
 
     if (response.status != API_STATUS.SUCCESS) {
-        throw new ApiError("회원 정보를 가져오는 중 오류가 발생했습니다."); 
+        throw new ApiError("회원 정보를 가져오는 중 오류가 발생했습니다.", response.status); 
     }
 
     const data: MemberSavedResponse = await response.json();
@@ -28,7 +28,7 @@ export const postMember = async (name: string, birth: LocalDate, gender: Gender)
     const response = await requestApi(`/member`, 'POST', requestBody);
 
     if (response.status != API_STATUS.CREATED) {
-        throw new ApiError("회원가입 중 오류가 발생했습니다.");
+        throw new ApiError("회원가입 중 오류가 발생했습니다.", response.status);
     }
 }
 
@@ -36,6 +36,6 @@ export const deleteMember = async () => {
     const response = await requestApi(`/member`, 'DELETE');
 
     if (response.status != API_STATUS.NO_CONTENT) {
-        throw new ApiError("회원 정보를 삭제하는 중 오류가 발생했습니다.");
+        throw new ApiError("회원 정보를 삭제하는 중 오류가 발생했습니다.", response.status);
     }
 }
