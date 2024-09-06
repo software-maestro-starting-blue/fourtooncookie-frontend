@@ -27,17 +27,10 @@ const DiaryPaintingImagesLayout = (props: DiaryPaintingImagesLayoutProps) => {
     if (imageUrls.length < 4) {
         return (
             <View style={S.styles.emptyContainer}>
-                {selectedCharacter ? (
-                    <Image 
-                        source={{ uri: selectedCharacter.selectionThumbnailUrl }} // 캐릭터의 selectionThumbnailUrl 사용
-                        style={S.styles.characterIcon}
-                    />
-                ) : (
-                    <Image 
-                        source={require('../../../../../assets/logo/logo-3.png')} /** @TODO 캐릭터 기본 이미지 선정 해야함. */
-                        style={S.styles.characterIcon}
-                    />
-                )}
+                <Image 
+                    source={selectedCharacter ? { uri: selectedCharacter.selectionThumbnailUrl } : require('../../../../../assets/logo/logo-3.png')}
+                    style={S.styles.characterIcon}
+                />
                 <Text style={S.styles.characterText}>
                     {selectedCharacter?.name || '캐릭터'}가 그림을 그리고 있습니다!
                 </Text>
