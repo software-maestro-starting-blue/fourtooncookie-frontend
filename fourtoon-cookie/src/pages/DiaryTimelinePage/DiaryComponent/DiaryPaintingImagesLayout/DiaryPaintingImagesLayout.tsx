@@ -24,7 +24,7 @@ const DiaryPaintingImagesLayout = (props: DiaryPaintingImagesLayoutProps) => {
         setSelectedImage(null);
     };
 
-    if (imageUrls.length === 0) {
+    if (imageUrls.length < 4) {
         return (
             <View style={S.styles.emptyContainer}>
                 {selectedCharacter ? (
