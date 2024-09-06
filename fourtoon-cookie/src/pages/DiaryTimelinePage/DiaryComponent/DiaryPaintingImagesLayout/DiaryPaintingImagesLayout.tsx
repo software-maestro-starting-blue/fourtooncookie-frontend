@@ -24,11 +24,13 @@ const DiaryPaintingImagesLayout = (props: DiaryPaintingImagesLayoutProps) => {
         setSelectedImage(null);
     };
 
+    const defaultSelectCharacterImageUrl = require('../../../../../assets/logo/logo-3.png');
+
     if (imageUrls.length < 4) {
         return (
             <View style={S.styles.emptyContainer}>
                 <Image 
-                    source={selectedCharacter ? { uri: selectedCharacter.selectionThumbnailUrl } : require('../../../../../assets/logo/logo-3.png')}
+                    source={selectedCharacter ? { uri: selectedCharacter.selectionThumbnailUrl } : require(defaultSelectCharacterImageUrl)}
                     style={S.styles.characterIcon}
                 />
                 <Text style={S.styles.characterText}>
