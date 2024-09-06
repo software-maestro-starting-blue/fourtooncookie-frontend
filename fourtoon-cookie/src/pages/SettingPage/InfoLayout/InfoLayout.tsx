@@ -4,7 +4,6 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../../constants/routing';
 import type { Character } from '../../../types/character';
 import { useContext } from 'react';
-import GlobalJwtTokenStateContext from '../../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext';
 import GlobalSelectionCharacterStateContext from '../../../components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateContext';
 import type { Member } from '../../../types/member';
 

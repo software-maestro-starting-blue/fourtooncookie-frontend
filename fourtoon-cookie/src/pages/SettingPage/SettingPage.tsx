@@ -4,7 +4,6 @@ import * as S from './SettingPage.styled';
 import type { Member } from '../../types/member';
 import { getMember } from '../../apis/member';
 import MenuLayout from './MenuLayout/MenuLayout';
-import GlobalJwtTokenStateContext from '../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext';
 import GlobalErrorInfoStateContext from '../../components/global/GlobalError/GlobalErrorInfoStateContext';
 import { GlobalErrorInfoType } from '../../types/error';
 import MainPageLayout from '../../components/layout/MainPageLayout/MainPageLayout';
@@ -12,13 +11,12 @@ import InfoLayout from './InfoLayout/InfoLayout';
 
 const SettingPage = () => {
 	const [member, setMember] = useState<Member | null>(null);
-	const jwtContext = useContext(GlobalJwtTokenStateContext);
 	const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
   	useEffect(() => {
 		const fetchMember = async () => {
 			try {
-				const memberData = await getMember(jwtContext);
+				const memberData = await getMember();
 				setMember(memberData);
 			} catch (error) {
 				if (error instanceof Error) {
@@ -27,12 +25,11 @@ const SettingPage = () => {
                         error: error
                     });
                 }
-                jwtContext.setJwtToken(null);
 			}
 		};
 	
     	fetchMember();
-  	}, [jwtContext]);
+  	}, []);
 
 	return (
     	<MainPageLayout isHomeActivate={false} isPersonActivate={true} >

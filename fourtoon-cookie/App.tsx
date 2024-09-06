@@ -10,7 +10,6 @@ import DiaryWritePage from './src/pages/DiaryWritePage/DiaryWritePage';
 import DiaryTimelinePage from './src/pages/DiaryTimelinePage/DiaryTimelinePage';
 import GlobalSelectionCharacterStateProvider from './src/components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateProvider';
 import SignUpPage from './src/pages/SignUpPage/SignUpPage';
-import GlobalJwtTokenStateProvider from './src/components/global/GlobalJwtToken/GlobalJwtTokenStateProvider';
 import IntroPage from './src/pages/IntroPage/IntroPage';
 import SettingPage from './src/pages/SettingPage/SettingPage';
 import GlobalErrorInfoStateProvider from './src/components/global/GlobalError/GlobalErrorInfoStateProvider';
@@ -23,20 +22,18 @@ export default function App() {
     <NavigationContainer>
       <ActionSheetProvider>
         <GlobalErrorInfoStateProvider>
-          <GlobalJwtTokenStateProvider>
-            <GlobalCharacterListStateProvider>
-              <GlobalSelectionCharacterStateProvider>
-                  <Stack.Navigator initialRouteName="IntroPage" screenOptions={{ headerShown: false }}>
-                    <Stack.Screen name="IntroPage" component={IntroPage} />
-                    <Stack.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} options={{ animation: "none" }} />
-                    <Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
-                    <Stack.Screen name="CharacterSelectPage" component={CharacterSelectPage} />
-                    <Stack.Screen name="SignUpPage" component={SignUpPage} />
-                    <Stack.Screen name="SettingPage" component={SettingPage} options={{ animation: "none" }} />
-                  </Stack.Navigator>
-              </GlobalSelectionCharacterStateProvider>
-            </GlobalCharacterListStateProvider>
-          </GlobalJwtTokenStateProvider>
+          <GlobalCharacterListStateProvider>
+            <GlobalSelectionCharacterStateProvider>
+                <Stack.Navigator initialRouteName="IntroPage" screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="IntroPage" component={IntroPage} />
+                  <Stack.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} options={{ animation: "none" }} />
+                  <Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
+                  <Stack.Screen name="CharacterSelectPage" component={CharacterSelectPage} />
+                  <Stack.Screen name="SignUpPage" component={SignUpPage} />
+                  <Stack.Screen name="SettingPage" component={SettingPage} options={{ animation: "none" }} />
+                </Stack.Navigator>
+            </GlobalSelectionCharacterStateProvider>
+          </GlobalCharacterListStateProvider>
         </GlobalErrorInfoStateProvider>
       </ActionSheetProvider>
     </NavigationContainer>
