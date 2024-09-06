@@ -4,13 +4,15 @@ import { INQRUITY_PAGE_URL } from '../../../constants/constants';
 import { useContext, useState } from 'react';
 import GlobalErrorInfoStateContext from '../../../components/global/GlobalError/GlobalErrorInfoStateContext';
 import { GlobalErrorInfoType } from '../../../types/error';
-import GlobalJwtTokenStateContext from '../../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext';
 import ResignModal from './ResignModal/ResignModal';
 import * as S from './MenuLayout.styled';
+import { jwtManager } from '../../../apis/jwt';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../../constants/routing';
 
 const MenuLayout = () => {
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
-    const { jwtToken, setJwtToken } = useContext(GlobalJwtTokenStateContext);
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const [ isModalVisible, setIsModalVisible ] = useState(false);
 
     const handleInquiry = () => {
@@ -22,8 +24,9 @@ const MenuLayout = () => {
         );
     }
 
-    const handleLogout = () => {
-        setJwtToken(null);
+    const handleLogout = async () => {
+        await jwtManager.setToken(null);
+        navigation.navigate('IntroPage');
     }
 
     const handleResignButtonPress = () => {

@@ -9,7 +9,6 @@ import * as S from './DiaryTimelinePage.styled';
 import { deleteDiary, getDiaries } from '../../apis/diary';
 import type { Diary } from "../../types/diary";
 import { diaryDefaultImages } from "../../constants/diary";
-import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../types/error";
 import DiaryComponent from "./DiaryComponent/DiaryComponent";
@@ -20,7 +19,6 @@ const DiaryTimelinePage = () => {
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
 
-    const jwtContext = useContext(GlobalJwtTokenStateContext);
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     useEffect(() => {
@@ -29,7 +27,7 @@ const DiaryTimelinePage = () => {
         const loadDiaries = async () => {
             let result: Diary[];
             try {
-                result = await getDiaries(page, jwtContext);
+                result = await getDiaries(page);
 
                 if (result.length == 0) {
                     setHasMore(false);
@@ -54,7 +52,7 @@ const DiaryTimelinePage = () => {
         };
 
         loadDiaries();
-    }, [hasMore, page, jwtContext]);
+    }, [hasMore, page]);
 
     const handleEndReached = debounce(() => {
         if (hasMore) {
@@ -64,7 +62,7 @@ const DiaryTimelinePage = () => {
 
     const handleDelete = async (diaryId: number) => {
         try {
-            await deleteDiary(diaryId, jwtContext);
+            await deleteDiary(diaryId);
             setDiaries(prevDiaries => prevDiaries.filter(diary => diary.diaryId !== diaryId));
         } catch (error) {
             if (error instanceof Error) {

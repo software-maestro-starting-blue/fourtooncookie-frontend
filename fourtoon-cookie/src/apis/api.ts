@@ -1,32 +1,18 @@
-import { API_URL } from "@env";
-import { GlobalJwtTokenStateContextProps } from "../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
-import type { JWTToken } from "../types/jwt";
-import { supabaseRefreshToken } from "./supabase";
 import { JwtError } from "../error/JwtError";
 import { ApiError } from "../error/ApiError";
+import { jwtManager } from "./jwt";
 
 
-export const requestApi = async (url: string, method: string, jwtContext: GlobalJwtTokenStateContextProps, body?: any): Promise<Response> => {
-    const { jwtToken, setJwtToken } = jwtContext;
+export const requestApi = async (url: string, method: string, body?: any): Promise<Response> => {
+    let token = jwtManager.getToken();
 
-    if (!jwtToken) {
-        throw new JwtError('사용자 정보가 존재하지 않습니다. 다시 로그인해 주세요.');
-    }
-
-    const refreshJwtToken = async () => {
-        try {
-            const newToken = await supabaseRefreshToken(jwtToken.refreshToken);
-            setJwtToken(newToken);
-            return newToken;
-        } catch (error) {
-            setJwtToken(null);
+    const makeRequest = async (isRetry: boolean = false): Promise<Response> => {
+        if (! token) {
             throw new JwtError('사용자 정보가 존재하지 않습니다. 다시 로그인해 주세요.');
         }
-    };
 
-    const makeRequest = async (token: JWTToken, isRetry: boolean = false): Promise<Response> => {
         try {
-            const response = await fetch(API_URL + url, {
+            const response = await fetch(process.env.EXPO_PUBLIC_API_URL! + url, {
                 method: method,
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,8 +25,9 @@ export const requestApi = async (url: string, method: string, jwtContext: Global
                 return response;
             } else if (response.status === 401) {
                 if (! isRetry) {
-                    const newToken = await refreshJwtToken();
-                    return makeRequest(newToken, true);
+                    await jwtManager.refleshToken();
+                    token = jwtManager.getToken();
+                    return makeRequest(true);
                 } else {
                     throw new JwtError(`잘못된 요청입니다. 사용자 정보가 유효하지 않습니다.`);
                 }
@@ -52,5 +39,5 @@ export const requestApi = async (url: string, method: string, jwtContext: Global
         }
     };
     
-    return makeRequest(jwtToken);
+    return makeRequest();
 }

@@ -5,12 +5,11 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Header from "./Header/Header";
 import TextInputLayout from "./TextInputLayout/TextInputLayout";
 
-import { postDiary, patchDiary } from "../../apis/diary";
+import { postDiary, putDiary } from "../../apis/diary";
 import { RootStackParamList } from "../../constants/routing";
 
 import * as S from "./DiaryWritePage.styled";
 import GlobalSelectionCharacterStateContext from "../../components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateContext";
-import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../types/error";
 import { LocalDate } from "@js-joda/core";
@@ -31,7 +30,6 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     const [isWorking, setIsWorking] = useState<boolean>(false);
 
     const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
-    const jwtContext = useContext(GlobalJwtTokenStateContext);
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     //TODO: 해시태그 관련 로직 구현
@@ -81,9 +79,9 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
         try {
             if (! isEdit) {
-                await postDiary(selectedCharacter?.id, diaryDate, content, [], jwtContext);
+                await postDiary(selectedCharacter?.id, diaryDate, content, []);
             } else if (diary) {
-                await patchDiary(selectedCharacter?.id, diary.diaryId, content, [], jwtContext);
+                await putDiary(selectedCharacter?.id, diary.diaryId, content, []);
             } else {
                 setErrorInfo({
                     type: GlobalErrorInfoType.MODAL,

@@ -4,14 +4,19 @@ import * as S from './BackButton.styled';
 import {useNavigation} from "@react-navigation/native";
 
 export interface BackButtonProps {
+    onPress?: () => void;
     style?: StyleProp<ViewStyle>;
 }
 
 const BackButton = (props: BackButtonProps) => {
-    const {style, ...rest} = props;
+    const {onPress, style, ...rest} = props;
     const navigation = useNavigation();
 
     const handlePress = () => {
+        if (onPress){
+            onPress();
+            return;
+        }
         navigation.goBack();
     }
 

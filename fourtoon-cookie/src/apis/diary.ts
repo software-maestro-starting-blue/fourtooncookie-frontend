@@ -1,19 +1,17 @@
-import { API_URL } from "@env";
 import type { Diary } from "../types/diary";
 import type { DiaryPatchFavoriteRequest, DiarySaveRequest, DiarySavedResponse, DiaryUpdateRequest } from "../types/dto/diary";
-import { GlobalJwtTokenStateContextProps } from "../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
 import { requestApi } from "./api";
 import { LocalDate } from "@js-joda/core";
 import { ApiError } from "../error/ApiError";
 
-export const getDiary = async (diaryId: number, jwtContext: GlobalJwtTokenStateContextProps): Promise<Diary> => {
-    const response = await requestApi(`/diary/${diaryId}`, 'GET', jwtContext, undefined);
+export const getDiary = async (diaryId: number): Promise<Diary> => {
+    const response = await requestApi(`/diary/${diaryId}`, 'GET', undefined);
     const diaryResponse: DiarySavedResponse = await response.json();
     return { ...diaryResponse, diaryDate: LocalDate.parse(diaryResponse.diaryDate) };
 }
 
-export const getDiaries = async (pageNumber: number, jwtContext: GlobalJwtTokenStateContextProps): Promise<Diary[]> => {
-    const response = await requestApi(`/diary/timeline?pageNumber=${pageNumber}`, 'GET', jwtContext, undefined);
+export const getDiaries = async (pageNumber: number): Promise<Diary[]> => {
+    const response = await requestApi(`/diary/timeline?pageNumber=${pageNumber}`, 'GET', undefined);
 
     if (response.status === 200) {
         const data: DiarySavedResponse[] = await response.json();
@@ -25,7 +23,7 @@ export const getDiaries = async (pageNumber: number, jwtContext: GlobalJwtTokenS
     }
 }
 
-export const postDiary = async (characterId: number, date: LocalDate, content: string, hashtagIds: number[], jwtContext: GlobalJwtTokenStateContextProps) => {
+export const postDiary = async (characterId: number, date: LocalDate, content: string, hashtagIds: number[]) => {
 
     const requestBody: DiarySaveRequest = {
         characterId: characterId,
@@ -34,7 +32,7 @@ export const postDiary = async (characterId: number, date: LocalDate, content: s
         diaryDate: date,
     };
 
-    const response = await requestApi(`/diary`, 'POST', jwtContext, requestBody);
+    const response = await requestApi(`/diary`, 'POST', requestBody);
     if (response.status === 200) {
         return;
     } else {
@@ -42,14 +40,14 @@ export const postDiary = async (characterId: number, date: LocalDate, content: s
     }
 }
 
-export const patchDiary = async (characterId: number, diaryId: number, content: string, hashtagIds: number[], jwtContext: GlobalJwtTokenStateContextProps) => {
+export const putDiary = async (characterId: number, diaryId: number, content: string, hashtagIds: number[]) => {
     
     const requestBody: DiaryUpdateRequest = {
         content: content,
         hashtagIds: hashtagIds,
         characterId: characterId
     }; 
-    const response = await requestApi(`/diary/${diaryId}`, 'PATCH', jwtContext, requestBody);
+    const response = await requestApi(`/diary/${diaryId}`, 'PUT', requestBody);
     
     if (response.status === 200) {
         return;
@@ -58,8 +56,8 @@ export const patchDiary = async (characterId: number, diaryId: number, content: 
     }
 }
 
-export const deleteDiary = async (diaryId: number, jwtContext: GlobalJwtTokenStateContextProps): Promise<void> => {
-    const response = await requestApi(`/diary/${diaryId}`, 'DELETE', jwtContext, undefined);
+export const deleteDiary = async (diaryId: number): Promise<void> => {
+    const response = await requestApi(`/diary/${diaryId}`, 'DELETE', undefined);
 
     if (response.status === 204) {
         return;
@@ -68,12 +66,12 @@ export const deleteDiary = async (diaryId: number, jwtContext: GlobalJwtTokenSta
     }
 };
 
-export const patchDiaryFavorite = async (diaryId: number, isFavorite: boolean, jwtContext: GlobalJwtTokenStateContextProps): Promise<void> => {
+export const patchDiaryFavorite = async (diaryId: number, isFavorite: boolean): Promise<void> => {
     const requestBody: DiaryPatchFavoriteRequest = {
         isFavorite: isFavorite
     }
 
-    const response = await requestApi(`/diary/${diaryId}/favorite`, 'PATCH', jwtContext, requestBody);
+    const response = await requestApi(`/diary/${diaryId}/favorite`, 'PATCH', requestBody);
 
     if (response.status === 200) {
         return;

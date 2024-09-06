@@ -3,7 +3,6 @@ import {appleAuth, appleAuthAndroid} from "@invertase/react-native-apple-authent
 import 'react-native-get-random-values';
 import {v4 as uuid} from "uuid";
 import {OS} from "../types/os";
-import {APPLE_OAUTH_SERVICE_ID, APPLE_OAUTH_REDIRECT_URL} from '@env'
 
 const getAppleIdTokenInIOS = async () => {
     const appleAuthRequestResponse = await appleAuth.performRequest({
@@ -25,8 +24,8 @@ const getAppleIdTokenInANDROID = async () => {
     const state = uuid();
 
     appleAuthAndroid.configure({
-        clientId: APPLE_OAUTH_SERVICE_ID,
-        redirectUri: APPLE_OAUTH_REDIRECT_URL,
+        clientId: process.env.EXPO_PUBLIC_APPLE_OAUTH_SERVICE_ID!,
+        redirectUri: process.env.EXPO_PUBLIC_APPLE_OAUTH_REDIRECT_URL!,
         responseType: appleAuthAndroid.ResponseType.ALL,
         scope: appleAuthAndroid.Scope.ALL,
         nonce: rawNonce,

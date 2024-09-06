@@ -10,11 +10,11 @@ import BirthInputLayout from "./BirthInputLayout/BirthInputLayout";
 import GenderInputLayout from "./GenderInputLayout/GenderInputLayout";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../constants/routing";
-import GlobalJwtTokenStateContext from "../../components/global/GlobalJwtToken/GlobalJwtTokenStateContext";
-import { patchMember } from "../../apis/member";
+import { postMember } from "../../apis/member";
 import { LocalDate } from "@js-joda/core";
 import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../types/error";
+import { jwtManager } from "../../apis/jwt";
 
 import AgreementInputLayout from "./AgreementInputLayout/AgreementInputLayout";
 
@@ -34,14 +34,19 @@ const SignUpPage = () => {
     const [signUpProgress, setSignUpProgress] = useState<SignUpProgres>(SignUpProgres.NAME);
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-    const jwtContext = useContext(GlobalJwtTokenStateContext);
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     const isNextButtonAvailabe: boolean = 
         (signUpProgress == SignUpProgres.NAME && name.length > 0)
         || (signUpProgress == SignUpProgres.BIRTH && birth != null && ! birth.isAfter(LocalDate.now()))
-        || (signUpProgress == SignUpProgres.GENDER && gender != null)
-        || (signUpProgress == SignUpProgres.AGREEMENT && isAgreed);
+        || (signUpProgress == SignUpProgres.GENDER && gender != null);
+    
+    useEffect(() => {
+        if (! jwtManager.getToken()) {
+            navigation.navigate('IntroPage');
+        }
+
+    }, [navigation]);
 
     const handleNameChange = (name: string) => {
         if (signUpProgress != SignUpProgres.NAME) return;
@@ -62,6 +67,16 @@ const SignUpPage = () => {
         setIsAgreed(isAgreed);
     };
 
+    const handleBackButtonPress = () => {
+        if (signUpProgress == SignUpProgres.NAME) {
+            jwtManager.setToken(null);
+            navigation.goBack();
+            return;
+        }
+
+        setSignUpProgress(signUpProgress - 1);
+    }
+
     const handleNextButtonClick = () => {
         if (!isNextButtonAvailabe) return;
 
@@ -71,7 +86,7 @@ const SignUpPage = () => {
             if (!gender || !isAgreed) return;
 
             try {
-                patchMember(name, birth, gender, jwtContext);
+                postMember(name, birth, gender);
                 navigation.navigate('DiaryTimelinePage');
             } catch (error) {
                 if (error instanceof Error) {
@@ -87,7 +102,7 @@ const SignUpPage = () => {
     return (
         <SafeAreaView style={S.styles.safeArea}>
             <View style={S.styles.container}>
-                <Header />
+                <Header onBackButtonPress={handleBackButtonPress}/>
                 {
                     signUpProgress == SignUpProgres.NAME && 
                     <Container title="당신의 이름을 알려주세요">
