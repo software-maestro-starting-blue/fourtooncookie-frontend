@@ -1,15 +1,16 @@
+import { API_STATUS } from "../constants/api";
 
 export class ApiError extends Error {
     
-    private status: number | null;
+    private status: API_STATUS | null;
 
-    constructor(message: string, status: number | null = null) {
+    constructor(message: string, status: API_STATUS | null = null) {
         super(message);
         this.name = 'ApiError';
         this.status = status;
     }
 
-    getStatus() {
+    getStatus(): API_STATUS | null {
         return this.status;
     }
 }
