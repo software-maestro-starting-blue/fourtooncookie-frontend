@@ -30,7 +30,7 @@ const DiaryPaintingImagesLayout = (props: DiaryPaintingImagesLayoutProps) => {
         return (
             <View style={S.styles.emptyContainer}>
                 <Image 
-                    source={selectedCharacter ? { uri: selectedCharacter.selectionThumbnailUrl } : require(defaultSelectCharacterImageUrl)}
+                    source={selectedCharacter ? { uri: selectedCharacter.selectionThumbnailUrl } : defaultSelectCharacterImageUrl}
                     style={S.styles.characterIcon}
                 />
                 <Text style={S.styles.characterText}>
