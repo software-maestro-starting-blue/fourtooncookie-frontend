@@ -19,7 +19,7 @@ const IntroPage = () => {
     
     const navigateByCheckingMemberExist = async () => {
         try {
-            const member: Member = await getMember();
+            await getMember();
             navigation.navigate('DiaryTimelinePage');
         } catch (error) {
             if (error instanceof ApiError && error.getStatus() === 404) {
