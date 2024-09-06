@@ -2,7 +2,7 @@ import { JwtError } from "../error/JwtError";
 import { ApiError } from "../error/ApiError";
 import { jwtManager } from "../auth/jwt";
 import { JWTToken } from "../types/jwt";
-import { API_METHOD_TYPE } from "../constants/api";
+import { API_METHOD_TYPE, API_STATUS } from "../constants/api";
 
 
 export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: any): Promise<Response> => {
@@ -26,7 +26,7 @@ export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: an
             body: body ? JSON.stringify(body) : undefined,
         });
 
-        if (response.status != 401) {
+        if (response.status != API_STATUS.UNAUTHORIZED) {
             return response;
         }
 
@@ -36,5 +36,5 @@ export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: an
         }
     }
 
-    throw new ApiError('인증에 실패했습니다.', 401);
+    throw new ApiError('인증에 실패했습니다.', API_STATUS.UNAUTHORIZED);
 }
