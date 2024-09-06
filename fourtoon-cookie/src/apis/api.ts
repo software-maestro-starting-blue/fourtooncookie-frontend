@@ -1,6 +1,6 @@
 import { JwtError } from "../error/JwtError";
 import { ApiError } from "../error/ApiError";
-import { jwtManager } from "./jwt";
+import { jwtManager } from "../auth/jwt";
 import { JWTToken } from "../types/jwt";
 
 

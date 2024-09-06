@@ -6,7 +6,7 @@ import GlobalErrorInfoStateContext from '../../../components/global/GlobalError/
 import { GlobalErrorInfoType } from '../../../types/error';
 import ResignModal from './ResignModal/ResignModal';
 import * as S from './MenuLayout.styled';
-import { jwtManager } from '../../../apis/jwt';
+import { jwtManager } from '../../../auth/jwt';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../../constants/routing';
 

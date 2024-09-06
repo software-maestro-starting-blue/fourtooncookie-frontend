@@ -4,7 +4,7 @@ import GlobalErrorInfoStateContext from "../GlobalError/GlobalErrorInfoStateCont
 import { getCharacters } from "../../../apis/character";
 import { GlobalErrorInfoType } from "../../../types/error";
 import GlobalCharacterListStateContext from "./GlobalCharacterListStateContext";
-import { jwtManager } from "../../../apis/jwt";
+import { jwtManager } from "../../../auth/jwt";
 
 
 export interface GlobalCharacterListStateProviderProps {

@@ -3,7 +3,7 @@ import ConfirmationModal from "../../../../components/common/Modal/ConfirmationM
 import { deleteMember } from "../../../../apis/member";
 import GlobalErrorInfoStateContext from "../../../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../../../types/error";
-import { jwtManager } from "../../../../apis/jwt";
+import { jwtManager } from "../../../../auth/jwt";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../../constants/routing";
 
