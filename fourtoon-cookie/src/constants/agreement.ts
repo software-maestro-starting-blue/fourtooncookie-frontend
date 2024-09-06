@@ -1,1 +1,1 @@
-export const NOTION_LINK = "https://www.notion.so/fourtoon-cookie-96c54ff3236b473b92d7e4fa61b8311c";
+export const NOTION_TERMS_AND_POLICY_LINK = "https://www.notion.so/fourtoon-cookie-96c54ff3236b473b92d7e4fa61b8311c";

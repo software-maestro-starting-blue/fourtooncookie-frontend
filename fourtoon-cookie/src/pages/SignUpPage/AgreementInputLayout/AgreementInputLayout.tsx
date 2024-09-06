@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { View, Text, Pressable, Linking } from 'react-native';
 import * as S from "./AgreementInputLayout.style";
 import { MaterialIcons } from '@expo/vector-icons'; // 아이콘 사용
-import { NOTION_LINK } from '../../../constants/agreement';
-interface AgreementInputLayoutProps {
+import { NOTION_TERMS_AND_POLICY_LINK } from '../../../constants/agreement';
+
+export interface AgreementInputLayoutProps {
     onAgreementChange: (isAgreed: boolean) => void;
 }
 
-const AgreementInputLayout = ({ onAgreementChange }: AgreementInputLayoutProps) => {
+const AgreementInputLayout = (props: AgreementInputLayoutProps) => {
+    const { onAgreementChange, ...rest } = props;
     const [isAgreed, setIsAgreed] = useState(false);
 
     const handleCheckboxChange = () => {
@@ -17,11 +19,11 @@ const AgreementInputLayout = ({ onAgreementChange }: AgreementInputLayoutProps) 
     };
 
     const handleTermsPress = () => {
-        Linking.openURL(NOTION_LINK);
+        Linking.openURL(NOTION_TERMS_AND_POLICY_LINK);
     };
 
     const handlePrivacyPress = () => {
-        Linking.openURL(NOTION_LINK);
+        Linking.openURL(NOTION_TERMS_AND_POLICY_LINK);
     };
 
     return (
