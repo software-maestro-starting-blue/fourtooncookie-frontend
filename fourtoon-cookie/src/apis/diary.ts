@@ -20,8 +20,15 @@ export const getDiaries = async (pageNumber: number): Promise<Diary[]> => {
     const response = await requestApi(`/diary/timeline?pageNumber=${pageNumber}`, API_METHOD_TYPE.GET);
 
     if (response.status === API_STATUS.SUCCESS) {
-        const data: DiarySavedResponse[] = await response.json();
-        return data.map(diary => ({...diary, diaryDate: LocalDate.parse(diary.diaryDate)}));
+        const responseData = await response.json();
+
+        if (!Array.isArray(responseData.diarySavedResponses)) {
+            throw new ApiError("잘못된 응답 형식입니다. 일기 목록을 불러오지 못했습니다.");
+        }
+
+        const diaryResponses = responseData.diarySavedResponses as DiarySavedResponse[];
+
+        return diaryResponses.map(diary => ({...diary, diaryDate: LocalDate.parse(diary.diaryDate)}));
     } else if (response.status === API_STATUS.NO_CONTENT) {
         return [];
     } else {
