@@ -32,8 +32,6 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
-    //TODO: 해시태그 관련 로직 구현
-
     const isNextButtonEnabled: boolean = content.length > 0;
     
     useEffect(() => {
