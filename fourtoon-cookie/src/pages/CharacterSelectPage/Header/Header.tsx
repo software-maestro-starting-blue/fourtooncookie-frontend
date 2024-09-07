@@ -4,13 +4,18 @@ import BackButton from "../../../components/common/BackButton/BackButton";
 import * as S from "./Header.styled";
 import { useContext } from "react";
 import GlobalSelectionCharacterStateContext from "../../../components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateContext";
+import handleError from "../../../error/errorhandler";
+import { GlobalErrorInfoType } from "../../../types/error";
 
 const Header = () => {
 
     const { selectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
 
     const handleBackButtonPressWhenCharacterNotSelected = () => {
-        //TODO: 백버튼 눌렀을 때 handleError로 처리하기 (TSK-45)
+        handleError(
+            new Error('캐릭터가 선택되지 않았습니다. 캐릭터를 선택해주세요.'),
+            GlobalErrorInfoType.ALERT
+        )
     }
 
     return (
