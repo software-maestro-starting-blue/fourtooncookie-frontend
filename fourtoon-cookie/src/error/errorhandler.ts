@@ -2,7 +2,7 @@ import { Alert } from "react-native";
 import { GlobalErrorInfoType } from "../types/error";
 
 
-const handleError = (error: Error, errorType: GlobalErrorInfoType, callback: (error: Error) => void) => {
+const handleError = (error: Error, errorType: GlobalErrorInfoType, callback?: (error: Error) => void) => {
     console.error(error);
 
     switch (errorType) {
@@ -14,7 +14,7 @@ const handleError = (error: Error, errorType: GlobalErrorInfoType, callback: (er
     }
 }
 
-const handleModalError = (error: Error, callback: (error: Error) => void) => {
+const handleModalError = (error: Error, callback?: (error: Error) => void) => {
     Alert.alert(
         '오류가 발생하였습니다.',
         error.message,
@@ -22,7 +22,9 @@ const handleModalError = (error: Error, callback: (error: Error) => void) => {
             {
                 text: '확인',
                 onPress: () => {
-                    callback(error);
+                    if (callback) {
+                        callback(error);
+                    }
                 },
             },
         ]
