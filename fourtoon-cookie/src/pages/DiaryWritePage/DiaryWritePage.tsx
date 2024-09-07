@@ -79,9 +79,9 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
         try {
             if (! isEdit) {
-                await postDiary(selectedCharacter?.id, diaryDate, content, []);
+                await postDiary(selectedCharacter?.id, diaryDate, content);
             } else if (diary) {
-                await putDiary(selectedCharacter?.id, diary.diaryId, content, []);
+                await putDiary(selectedCharacter?.id, diary.diaryId, content);
             } else {
                 setErrorInfo({
                     type: GlobalErrorInfoType.MODAL,
