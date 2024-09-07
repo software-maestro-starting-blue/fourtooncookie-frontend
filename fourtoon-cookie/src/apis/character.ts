@@ -1,7 +1,6 @@
 import { API_METHOD_TYPE, API_STATUS } from "../constants/api";
 import { ApiError } from "../error/ApiError";
 import type { Character } from "../types/character";
-import type { CharacterSavedResponse } from "../types/dto/character";
 import { requestApi } from "./api";
 
 export const getCharacters = async (): Promise<Character[]> => {
@@ -16,14 +15,5 @@ export const getCharacters = async (): Promise<Character[]> => {
         throw new ApiError('잘못된 응답 형식입니다. 캐릭터 목록을 불러오지 못했습니다.', response.status);
     }
 
-    const characters: Character[] = responseData.characterSavedResponses.map((response: CharacterSavedResponse) => ({
-        id: response.id,
-        paymentType: response.paymentType,
-        artworkTitle: response.artworkTitle,
-        artworkThumbnailUrl: response.artworkThumbnailUrl,
-        name: response.name,
-        selectionThumbnailUrl: response.selectionThumbnailUrl
-    }));
-
-    return characters;
+    return responseData.characterSavedResponses as Character[];
 };
