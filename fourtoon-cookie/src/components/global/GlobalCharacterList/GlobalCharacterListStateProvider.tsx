@@ -1,10 +1,10 @@
-import { ReactNode, useContext, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import type { Character } from "../../../types/character";
-import GlobalErrorInfoStateContext from "../GlobalError/GlobalErrorInfoStateContext";
 import { getCharacters } from "../../../apis/character";
 import { GlobalErrorInfoType } from "../../../types/error";
 import GlobalCharacterListStateContext from "./GlobalCharacterListStateContext";
 import { jwtManager } from "../../../auth/jwt";
+import handleError from "../../../error/errorhandler";
 
 
 export interface GlobalCharacterListStateProviderProps {
@@ -14,8 +14,6 @@ export interface GlobalCharacterListStateProviderProps {
 const GlobalCharacterListStateProvider = (props: GlobalCharacterListStateProviderProps) => {
     const { children } = props;
     const [ characterList, setCharacterList ] = useState<Character[]>([]);
-
-    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     const loadCharacterList = async () => {
         try {
@@ -28,10 +26,10 @@ const GlobalCharacterListStateProvider = (props: GlobalCharacterListStateProvide
             setCharacterList(responsedCharacterList);
         } catch (e) {
             if (e instanceof Error) {
-                setErrorInfo({
-                    type: GlobalErrorInfoType.MODAL,
-                    error: e,
-                });
+                handleError(
+                    e,
+                    GlobalErrorInfoType.MODAL
+                );
             }
         }
     };
