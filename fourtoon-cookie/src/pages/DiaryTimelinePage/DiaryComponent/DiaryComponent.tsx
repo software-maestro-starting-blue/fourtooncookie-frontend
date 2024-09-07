@@ -20,7 +20,7 @@ export interface DiaryProps {
 
 const DiaryComponent = (props: DiaryProps) => {
     const { diary, onDelete, ...rest } = props;
-    const { diaryId, content, isFavorite: initialFavorite, diaryDate, paintingImageUrls, hashtagIds } = diary;
+    const { diaryId, content, isFavorite: initialFavorite, diaryDate, paintingImageUrls } = diary;
     
     const [isFavorite, setIsFavorite] = useState(initialFavorite);
     const [isModalVisible, setIsModalVisible] = useState(false);
