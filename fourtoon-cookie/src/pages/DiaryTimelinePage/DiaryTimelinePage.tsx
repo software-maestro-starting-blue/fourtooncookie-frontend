@@ -1,12 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
-import {FlatList, RefreshControl, ScrollView} from "react-native";
-import { debounce } from 'lodash';
+import React, {useState, useEffect} from "react";
+import {FlatList} from "react-native";
 import Header from "./Header/Header";
 import DiaryEmpty from "./DiaryEmpty/DiaryEmpty";
-import { deleteDiary, getDiaries } from '../../apis/diary';
-import type { Diary } from "../../types/diary";
-import { diaryDefaultImages } from "../../constants/diary";
-import { GlobalErrorInfoType } from "../../types/error";
+import {deleteDiary, getDiaries} from '../../apis/diary';
+import type {Diary} from "../../types/diary";
+import {diaryDefaultImages} from "../../constants/diary";
+import {GlobalErrorInfoType} from "../../types/error";
 import DiaryComponent from "./DiaryComponent/DiaryComponent";
 import MainPageLayout from "../../components/layout/MainPageLayout/MainPageLayout";
 import handleError from "../../error/errorhandler";
@@ -15,75 +14,17 @@ const DiaryTimelinePage = () => {
     const [diaries, setDiaries] = useState<Diary[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
-
-    useEffect(() => {
-        if (! hasMore) return;
-
-        const loadDiaries = async () => {
-            let result: Diary[];
-            try {
-                result = await getDiaries(page);
-    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
+    const [refreshing, setRefreshing] = useState(false);
+    const [reached, setReached] = useState(false);
 
     const loadDiaries = async () => {
-        let result: Diary[];
-        try {
-            result = await getDiaries(page);
+        const result = await getDiaries(page);
 
-                if (result.length == 0) {
-                    setHasMore(false);
-                } else {
-                    result = result.map(diary => ({
-                        ...diary,
-                        paintingImageUrls: diary.paintingImageUrls.length ? diary.paintingImageUrls : diaryDefaultImages
-                    }));
-    
-                    setDiaries(prev => 
-                        [...prev, ...result]);
-                }
-            } catch (error) {
-                result = [];
-                if (error instanceof Error) {
-                    handleError(
-                        error,
-                        GlobalErrorInfoType.ALERT
-                    );
-                }
-            }
-        };
-            if (result.length == 0) {
-                setHasMore(false);
-            } else {
-                result = result.map(diary => ({
-                    ...diary,
-                    paintingImageUrls: diary.paintingImageUrls.length ? diary.paintingImageUrls : diaryDefaultImages
-                }));
-
-                setDiaries(prev =>
-                    [...prev, ...result]);
-            }
-        } catch (error) {
-            result = [];
-            if (error instanceof Error) {
-                setErrorInfo({
-                    type: GlobalErrorInfoType.MODAL,
-                    error: error
-                });
-            }
-        }
+        return result.map(diary => ({
+            ...diary,
+            paintingImageUrls: diary.paintingImageUrls.length ? diary.paintingImageUrls : diaryDefaultImages
+        }));
     };
-
-    useEffect(() => {
-        if (! hasMore) return;
-
-        loadDiaries();
-    }, [hasMore, page]);
-
-    const handleEndReached = debounce(() => {
-        if (hasMore) {
-            setPage(prevPage => prevPage + 1);
-        }
-    }, 300); // 300ms 디바운스 타임
 
     const handleDelete = async (diaryId: number) => {
         try {
@@ -99,36 +40,69 @@ const DiaryTimelinePage = () => {
         }
     }
 
-    const [refreshing, setRefreshing] = useState(false);
-
-    const onRefresh = () => {
-        setRefreshing(true);
-        // 데이터 최신화 로직 실행
-        setTimeout(() => {
-            loadDiaries();
-            console.log('데이터 최신화 됨')
-            setRefreshing(false);
-        }, 2000);
+    const handleEndReached = async () => {
+        if (hasMore) {
+            setReached(true);
+        }
     };
+
+    const onRefresh = async () => {
+        setRefreshing(true);
+        setPage(0);
+        setHasMore(true);
+    };
+
+    useEffect(() => {
+        const fetchDiaries = async () => {
+            if (refreshing && page === 0) {
+                const result = await loadDiaries();
+                if (result != null) {
+                    setDiaries(result);
+                }
+                setRefreshing(false);
+                setPage(1);
+                setHasMore(true);
+            }
+        };
+
+        if (refreshing) {
+            fetchDiaries();
+        }
+    }, [refreshing, page]);
+
+    useEffect(() => {
+        const fetchDiaries = async () => {
+            if (reached && hasMore) {
+                const result = await loadDiaries();
+                if (result != null && result.length > 0) {
+                    setDiaries(prevDiaries => [...prevDiaries, ...result]);
+                    setPage(prevPage => prevPage + 1);
+                } else {
+                    setHasMore(false);
+                }
+                setReached(false);
+            }
+        };
+
+        if (reached) {
+            fetchDiaries();
+        }
+    }, [reached]);
+
     return (
         <MainPageLayout isHomeActivate={true} isPersonActivate={false}>
-            <ScrollView
-                contentContainerStyle={{ flex: 1 }}
-                refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                }
-            >
-                <FlatList
-                    data={diaries}
-                    keyExtractor={item => item.diaryId.toString()}
-                    renderItem={({ item }) => <DiaryComponent diary={item} onDelete={() => handleDelete(item.diaryId)} />}
-                    ListHeaderComponent={<Header />}
-                    onEndReached={handleEndReached}
-                    onEndReachedThreshold={0.5}
-                    ListEmptyComponent={<DiaryEmpty/>}
-                    contentContainerStyle={{ paddingBottom: "25%" }}
-                />
-            </ScrollView>
+            <FlatList
+                data={diaries}
+                keyExtractor={(item) => item.diaryId.toString()}
+                renderItem={({item}) => <DiaryComponent diary={item} onDelete={() => handleDelete(item.diaryId)}/>}
+                ListHeaderComponent={<Header/>}
+                onEndReached={handleEndReached}
+                onEndReachedThreshold={0.5}
+                ListEmptyComponent={refreshing ? null : <DiaryEmpty/>}
+                contentContainerStyle={{paddingBottom: "25%"}}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+            />
         </MainPageLayout>
     );
 };
