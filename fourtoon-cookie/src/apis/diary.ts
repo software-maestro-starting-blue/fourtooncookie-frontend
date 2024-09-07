@@ -29,12 +29,11 @@ export const getDiaries = async (pageNumber: number): Promise<Diary[]> => {
     }
 }
 
-export const postDiary = async (characterId: number, date: LocalDate, content: string, hashtagIds: number[]) => {
+export const postDiary = async (characterId: number, date: LocalDate, content: string) => {
 
     const requestBody: DiarySaveRequest = {
         characterId: characterId,
         content: content,
-        hashtagIds: hashtagIds,
         diaryDate: date,
     };
 
@@ -45,11 +44,10 @@ export const postDiary = async (characterId: number, date: LocalDate, content: s
     }
 }
 
-export const putDiary = async (characterId: number, diaryId: number, content: string, hashtagIds: number[]) => {
+export const putDiary = async (characterId: number, diaryId: number, content: string) => {
     
     const requestBody: DiaryUpdateRequest = {
         content: content,
-        hashtagIds: hashtagIds,
         characterId: characterId
     }; 
     const response = await requestApi(`/diary/${diaryId}`, API_METHOD_TYPE.PUT, requestBody);

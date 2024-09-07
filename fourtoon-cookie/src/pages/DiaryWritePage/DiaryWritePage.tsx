@@ -32,8 +32,6 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
     const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
-    //TODO: 해시태그 관련 로직 구현
-
     const isNextButtonEnabled: boolean = content.length > 0;
     
     useEffect(() => {
@@ -79,9 +77,9 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
         try {
             if (! isEdit) {
-                await postDiary(selectedCharacter?.id, diaryDate, content, []);
+                await postDiary(selectedCharacter?.id, diaryDate, content);
             } else if (diary) {
-                await putDiary(selectedCharacter?.id, diary.diaryId, content, []);
+                await putDiary(selectedCharacter?.id, diary.diaryId, content);
             } else {
                 setErrorInfo({
                     type: GlobalErrorInfoType.MODAL,

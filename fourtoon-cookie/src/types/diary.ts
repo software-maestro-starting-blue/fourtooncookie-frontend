@@ -6,6 +6,5 @@ export interface Diary {
     isFavorite: boolean,
     diaryDate: LocalDate,
     paintingImageUrls: string[],
-    hashtagIds: number[],
     characterId: number
 }
