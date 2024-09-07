@@ -9,17 +9,15 @@ import * as S from './DiaryTimelinePage.styled';
 import { deleteDiary, getDiaries } from '../../apis/diary';
 import type { Diary } from "../../types/diary";
 import { diaryDefaultImages } from "../../constants/diary";
-import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../types/error";
 import DiaryComponent from "./DiaryComponent/DiaryComponent";
 import MainPageLayout from "../../components/layout/MainPageLayout/MainPageLayout";
+import handleError from "../../error/errorhandler";
 
 const DiaryTimelinePage = () => {
     const [diaries, setDiaries] = useState<Diary[]>([]);
     const [page, setPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
-
-    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     useEffect(() => {
         if (! hasMore) return;
@@ -43,10 +41,10 @@ const DiaryTimelinePage = () => {
             } catch (error) {
                 result = [];
                 if (error instanceof Error) {
-                    setErrorInfo({
-                      type: GlobalErrorInfoType.MODAL,
-                      error: error
-                    });
+                    handleError(
+                        error,
+                        GlobalErrorInfoType.MODAL
+                    );
                 }
             }
         };
@@ -66,10 +64,10 @@ const DiaryTimelinePage = () => {
             setDiaries(prevDiaries => prevDiaries.filter(diary => diary.diaryId !== diaryId));
         } catch (error) {
             if (error instanceof Error) {
-                setErrorInfo({
-                    type: GlobalErrorInfoType.MODAL,
-                    error: error
-                });
+                handleError(
+                    error,
+                    GlobalErrorInfoType.MODAL
+                );
             }
         }
     }

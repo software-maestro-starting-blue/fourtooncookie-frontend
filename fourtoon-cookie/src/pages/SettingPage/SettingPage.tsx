@@ -4,14 +4,13 @@ import * as S from './SettingPage.styled';
 import type { Member } from '../../types/member';
 import { getMember } from '../../apis/member';
 import MenuLayout from './MenuLayout/MenuLayout';
-import GlobalErrorInfoStateContext from '../../components/global/GlobalError/GlobalErrorInfoStateContext';
 import { GlobalErrorInfoType } from '../../types/error';
 import MainPageLayout from '../../components/layout/MainPageLayout/MainPageLayout';
 import InfoLayout from './InfoLayout/InfoLayout';
+import handleError from '../../error/errorhandler';
 
 const SettingPage = () => {
 	const [member, setMember] = useState<Member | null>(null);
-	const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
   	useEffect(() => {
 		const fetchMember = async () => {
@@ -20,10 +19,10 @@ const SettingPage = () => {
 				setMember(memberData);
 			} catch (error) {
 				if (error instanceof Error) {
-                    setErrorInfo({
-                        type: GlobalErrorInfoType.MODAL,
-                        error: error
-                    });
+                    handleError(
+						error,
+						GlobalErrorInfoType.MODAL
+					);
                 }
 			}
 		};

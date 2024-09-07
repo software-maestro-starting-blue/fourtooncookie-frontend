@@ -1,7 +1,7 @@
-import { ReactNode, useContext, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Gender } from "../../types/gender";
 import ProgressBar from "../../components/common/ProgressBar/ProgressBar";
-import { Keyboard, KeyboardAvoidingView, Platform, SafeAreaView, Text, View } from "react-native";
+import { Keyboard, KeyboardAvoidingView, SafeAreaView, Text, View } from "react-native";
 import * as S from "./SignUpPage.styled";
 import Header from "./Header/Header";
 import Button from "../../components/common/Button/Button";
@@ -12,9 +12,9 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../constants/routing";
 import { postMember } from "../../apis/member";
 import { LocalDate } from "@js-joda/core";
-import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../types/error";
 import { jwtManager } from "../../auth/jwt";
+import handleError from "../../error/errorhandler";
 
 
 enum SignUpProgres {
@@ -31,8 +31,6 @@ const SignUpPage = () => {
     const [ signUpProgress, setSignUpProgress ] = useState<SignUpProgres>(SignUpProgres.NAME);
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
-    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     const isNextButtonAvailabe: boolean = 
         (signUpProgress == SignUpProgres.NAME && name.length > 0)
@@ -87,10 +85,10 @@ const SignUpPage = () => {
                 navigation.navigate('DiaryTimelinePage');
             } catch (error) {
                 if (error instanceof Error) {
-                    setErrorInfo({
-                        type: GlobalErrorInfoType.MODAL,
-                        error: error
-                    });
+                    handleError(
+                        error,
+                        GlobalErrorInfoType.MODAL
+                    );
                 }
             }
         }

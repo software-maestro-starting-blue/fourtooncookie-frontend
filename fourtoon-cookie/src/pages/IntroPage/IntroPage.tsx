@@ -7,15 +7,14 @@ import { RootStackParamList } from "../../constants/routing";
 import { useContext, useEffect } from "react";
 import type { Member } from "../../types/member";
 import { getMember } from "../../apis/member";
-import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../types/error";
 import AppleSignInAndSignUpButton from "./AppleSignInAndSignUpButton/AppleSignInAndSignUpButton";
 import { jwtManager } from "../../auth/jwt";
 import { ApiError } from "../../error/ApiError";
+import handleError from "../../error/errorhandler";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
     
     const navigateByCheckingMemberExist = async () => {
         try {
@@ -28,11 +27,13 @@ const IntroPage = () => {
             }
             
             if (error instanceof Error) {
-                jwtManager.setToken(null);
-                setErrorInfo({
-                    type: GlobalErrorInfoType.MODAL,
-                    error: error
-                });
+                handleError(
+                    error,
+                    GlobalErrorInfoType.MODAL,
+                    () => {
+                        jwtManager.setToken(null);
+                    }
+                );
             }
         }
     }

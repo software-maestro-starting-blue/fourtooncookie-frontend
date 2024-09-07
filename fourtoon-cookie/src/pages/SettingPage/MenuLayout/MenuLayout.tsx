@@ -2,25 +2,24 @@ import { View, Linking } from 'react-native';
 import MenuItem from './MenuItem/MenuItem';
 import { INQRUITY_PAGE_URL } from '../../../constants/constants';
 import { useContext, useState } from 'react';
-import GlobalErrorInfoStateContext from '../../../components/global/GlobalError/GlobalErrorInfoStateContext';
 import { GlobalErrorInfoType } from '../../../types/error';
 import ResignModal from './ResignModal/ResignModal';
 import * as S from './MenuLayout.styled';
 import { jwtManager } from '../../../auth/jwt';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../../constants/routing';
+import handleError from '../../../error/errorhandler';
 
 const MenuLayout = () => {
-    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const [ isModalVisible, setIsModalVisible ] = useState(false);
 
     const handleInquiry = () => {
         Linking.openURL(INQRUITY_PAGE_URL).catch(err => 
-            setErrorInfo({
-                type: GlobalErrorInfoType.MODAL,
-                error: new Error("문의 페이지로 이동하는데 실패했습니다."),
-            })
+            handleError(
+                new Error('문의 페이지를 열 수 없습니다.'),
+                GlobalErrorInfoType.MODAL
+            )
         );
     }
 
