@@ -8,10 +8,10 @@ import DiaryContentsLayout from "./DiaryContentsLayout/DiaryContentsLayout";
 import DiaryPaintingImagesLayout from "./DiaryPaintingImagesLayout/DiaryPaintingImagesLayout";
 import * as S from './DiaryComponent.styled';
 import { RootStackParamList } from "../../../constants/routing";
-import GlobalErrorInfoStateContext from "../../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../../types/error";
 import Footer from "./Footer/Footer";
 import Header from "./Header/Header";
+import handleError from "../../../error/errorhandler";
 
 export interface DiaryProps {
     diary: Diary,
@@ -25,7 +25,6 @@ const DiaryComponent = (props: DiaryProps) => {
     const [isFavorite, setIsFavorite] = useState(initialFavorite);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
 
     const handleToggleFavorite = async () => {
         try {
@@ -33,10 +32,10 @@ const DiaryComponent = (props: DiaryProps) => {
             setIsFavorite(!isFavorite);
         } catch (error) {
             if (error instanceof Error) {
-                setErrorInfo({
-                    type: GlobalErrorInfoType.MODAL,
-                    error: error
-                });
+                handleError(
+                    error,
+                    GlobalErrorInfoType.ALERT
+                );
             }
         }
     };
