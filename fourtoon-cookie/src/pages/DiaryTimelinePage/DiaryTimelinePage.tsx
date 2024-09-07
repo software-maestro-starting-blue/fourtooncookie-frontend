@@ -43,7 +43,7 @@ const DiaryTimelinePage = () => {
                 if (error instanceof Error) {
                     handleError(
                         error,
-                        GlobalErrorInfoType.MODAL
+                        GlobalErrorInfoType.ALERT
                     );
                 }
             }
@@ -66,7 +66,7 @@ const DiaryTimelinePage = () => {
             if (error instanceof Error) {
                 handleError(
                     error,
-                    GlobalErrorInfoType.MODAL
+                    GlobalErrorInfoType.ALERT
                 );
             }
         }

@@ -34,7 +34,7 @@ const DiaryComponent = (props: DiaryProps) => {
             if (error instanceof Error) {
                 handleError(
                     error,
-                    GlobalErrorInfoType.MODAL
+                    GlobalErrorInfoType.ALERT
                 );
             }
         }

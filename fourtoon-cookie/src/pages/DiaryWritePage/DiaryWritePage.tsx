@@ -37,7 +37,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
         if (isEdit && ! diary) {
             handleError(
                 new RuntimeError("잘못된 형식입니다."),
-                GlobalErrorInfoType.MODAL,
+                GlobalErrorInfoType.ALERT,
                 () => {
                     navigation.navigate('DiaryTimelinePage');
                 }
@@ -46,7 +46,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
         if (! selectedCharacter) {
             handleError(
                 new RuntimeError("캐릭터가 선택되지 않았습니다."),
-                GlobalErrorInfoType.MODAL,
+                GlobalErrorInfoType.ALERT,
                 () => {
                     navigation.navigate('CharacterSelectPage');
                 }
@@ -86,7 +86,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
             } else {
                 handleError(
                     new RuntimeError("잘못된 형식입니다."),
-                    GlobalErrorInfoType.MODAL
+                    GlobalErrorInfoType.ALERT
                 );
                 return;
             }
@@ -96,7 +96,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
             if (error instanceof Error) {
                 handleError(
                     error,
-                    GlobalErrorInfoType.MODAL
+                    GlobalErrorInfoType.ALERT
                 );
             }
         } finally {

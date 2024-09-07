@@ -6,15 +6,15 @@ const handleError = (error: Error, errorType: GlobalErrorInfoType, callback?: (e
     console.error(error);
 
     switch (errorType) {
-        case GlobalErrorInfoType.MODAL:
-            handleModalError(error, callback);
+        case GlobalErrorInfoType.ALERT:
+            handleAlertError(error, callback);
             break;
         default:
             break;
     }
 }
 
-const handleModalError = (error: Error, callback?: (error: Error) => void) => {
+const handleAlertError = (error: Error, callback?: (error: Error) => void) => {
     Alert.alert(
         '오류가 발생하였습니다.',
         error.message,

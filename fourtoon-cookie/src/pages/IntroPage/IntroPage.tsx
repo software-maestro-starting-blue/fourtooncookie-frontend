@@ -29,7 +29,7 @@ const IntroPage = () => {
             if (error instanceof Error) {
                 handleError(
                     error,
-                    GlobalErrorInfoType.MODAL,
+                    GlobalErrorInfoType.ALERT,
                     () => {
                         jwtManager.setToken(null);
                     }

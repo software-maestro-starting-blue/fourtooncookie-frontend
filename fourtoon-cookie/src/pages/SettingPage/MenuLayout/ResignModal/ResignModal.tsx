@@ -26,7 +26,7 @@ const ResignModal = (props: ResignModalProps) => {
             if (error instanceof Error) {
                 handleError(
                     error,
-                    GlobalErrorInfoType.MODAL
+                    GlobalErrorInfoType.ALERT
                 );
             }
         }

@@ -18,7 +18,7 @@ const MenuLayout = () => {
         Linking.openURL(INQRUITY_PAGE_URL).catch(err => 
             handleError(
                 new Error('문의 페이지를 열 수 없습니다.'),
-                GlobalErrorInfoType.MODAL
+                GlobalErrorInfoType.ALERT
             )
         );
     }

@@ -1,6 +1,6 @@
 
 export enum GlobalErrorInfoType {
-    MODAL
+    ALERT
 }
 
 export interface GlobalErrorInfo {

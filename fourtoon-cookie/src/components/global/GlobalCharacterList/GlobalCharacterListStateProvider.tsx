@@ -28,7 +28,7 @@ const GlobalCharacterListStateProvider = (props: GlobalCharacterListStateProvide
             if (e instanceof Error) {
                 handleError(
                     e,
-                    GlobalErrorInfoType.MODAL
+                    GlobalErrorInfoType.ALERT
                 );
             }
         }

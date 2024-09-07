@@ -87,7 +87,7 @@ const SignUpPage = () => {
                 if (error instanceof Error) {
                     handleError(
                         error,
-                        GlobalErrorInfoType.MODAL
+                        GlobalErrorInfoType.ALERT
                     );
                 }
             }
