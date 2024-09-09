@@ -36,5 +36,5 @@ export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: an
         }
     }
 
-    throw new ApiError('인증에 실패했습니다.', API_STATUS.UNAUTHORIZED);
+    throw new JwtError('인증에 실패했습니다.');
 }

@@ -10,6 +10,7 @@ import MainPageLayout from "../../components/layout/MainPageLayout/MainPageLayou
 import handleError from "../../error/errorhandler";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../constants/routing";
+import { FOOTER_STATE } from "../../components/layout/MainPageLayout/Footer/Footer";
 
 enum LIST_STATUS {
     NONE, REFRESH, END_REACHED
@@ -90,7 +91,7 @@ const DiaryTimelinePage = () => {
     }, [listStatus, diaries, pageRef, hasMoreRef]);
 
     return (
-        <MainPageLayout isHomeActivate={true} isPersonActivate={false}>
+        <MainPageLayout footerState={FOOTER_STATE.HOME}>
             <FlatList
                 data={diaries}
                 keyExtractor={(item) => item.diaryId.toString()}
