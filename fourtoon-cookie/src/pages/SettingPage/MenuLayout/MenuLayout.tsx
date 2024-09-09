@@ -17,7 +17,7 @@ const MenuLayout = () => {
     const handleInquiry = () => {
         Linking.openURL(APP_INFO_URL).catch(err => 
             handleError(
-                new Error('문의 페이지를 열 수 없습니다.'),
+                new Error('앱 정보 페이지를 열 수 없습니다.'),
                 GlobalErrorInfoType.ALERT
             )
         );
@@ -38,7 +38,7 @@ const MenuLayout = () => {
     
     return (
         <View style={S.styles.menuContainer}>
-            <MenuItem menuText='문의하기' onPress={handleInquiry} />
+            <MenuItem menuText='앱 정보' onPress={handleInquiry} />
             <MenuItem menuText='로그아웃' onPress={handleLogout} />
             <MenuItem menuText='탈퇴하기' onPress={handleResignButtonPress} textStyle={S.styles.deleteText} />
             <ResignModal
