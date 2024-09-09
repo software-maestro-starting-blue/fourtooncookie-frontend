@@ -34,7 +34,8 @@ const DiaryTimelinePage = () => {
     }
 
     const handleEndReached = async () => {
-        setListStatus(LIST_STATUS.END_REACHED)
+        if (!hasMoreRef.current) return;
+        setListStatus(LIST_STATUS.END_REACHED);
     };
 
     const handleRefresh = async () => {
@@ -57,7 +58,6 @@ const DiaryTimelinePage = () => {
                     currentDiaries = [];
                     break;
                 case LIST_STATUS.END_REACHED:
-                    if (!hasMoreRef.current) return;
                     pageRef.current++;
                     break;
             }
@@ -69,10 +69,11 @@ const DiaryTimelinePage = () => {
             if (result == null || result.length == 0) {
                 hasMoreRef.current = false;
             }
+
+            setListStatus(LIST_STATUS.NONE);
         }
 
         fetchDiaries(listStatus);
-        setListStatus(LIST_STATUS.NONE);
 
     }, [listStatus, diaries, pageRef, hasMoreRef]);
 
