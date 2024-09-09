@@ -20,16 +20,13 @@ const GoogleSignInAndSignUpButton = (props: GoogleSignInAndSignUpButtonProps) =>
     });
 
     const handlePress = async () => {
-        console.log('GoogleSignInAndSignUpButton handlePress');
         try {
             const idToken = await getGoogleIdTokenWithNativeLogin();
-            console.log('IdToken: ', idToken);
             if (idToken) {
                 const token: JWTToken = await supabaseSignInAndSignUpWithIdToken(OAuthProvider.GOOGLE, idToken);
                 onSuccess(token);
             }
         } catch (error) {
-            console.log('Error: ', error);
         }
     }
 

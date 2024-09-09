@@ -14,7 +14,6 @@ class JwtManager {
                 this.token = JSON.parse(savedJwtToken);
             }
         } catch (error) {
-            console.log(error);
         }
     }
 

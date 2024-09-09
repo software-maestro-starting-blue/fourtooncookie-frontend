@@ -19,7 +19,6 @@ const GlobalSelectionCharacterStateProvider = (props: GlobalSelectionCharacterSt
                     setSelectedCharacterState(JSON.parse(savedCharacter));
                 }
             } catch (e) {
-                console.error('Failed to load the selected character from storage:', e);
             }
         };
 
