@@ -5,23 +5,17 @@ import { JwtError } from "../error/JwtError";
 
 class JwtManager {
     
-    private token: JWTToken | null;
+    private token: JWTToken | null = null;
 
-    constructor() {
-        this.token = null;
-
-        const loadJwtToken = async () => {
-            try {
-                const savedJwtToken = await AsyncStorage.getItem('jwtToken');
-                if (savedJwtToken) {
-                    this.token = JSON.parse(savedJwtToken);
-                }
-            } catch (error) {
-                console.log(error);
+    async loadJwtToken() {
+        try {
+            const savedJwtToken = await AsyncStorage.getItem('jwtToken');
+            if (savedJwtToken) {
+                this.token = JSON.parse(savedJwtToken);
             }
-        };
-
-        loadJwtToken();
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     getToken(): JWTToken | null {
