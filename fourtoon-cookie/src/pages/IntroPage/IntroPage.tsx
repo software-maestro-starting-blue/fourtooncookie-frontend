@@ -1,11 +1,10 @@
-import { View, TouchableOpacity, Image, Text } from "react-native";
+import { View, Image, Text } from "react-native";
 import * as S from './IntroPage.styled';
 import GoogleSignInAndSignUpButton from "./GoogleSignInAndSignUpButton/GoogleSignInAndSignUpButton";
 import type { JWTToken } from "../../types/jwt";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../constants/routing";
-import { useContext, useEffect } from "react";
-import type { Member } from "../../types/member";
+import { useState } from "react";
 import { getMember } from "../../apis/member";
 import { GlobalErrorInfoType } from "../../types/error";
 import AppleSignInAndSignUpButton from "./AppleSignInAndSignUpButton/AppleSignInAndSignUpButton";
@@ -15,6 +14,8 @@ import handleError from "../../error/errorhandler";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+    const [ isLogined, setIsLogined ] = useState<boolean>(jwtManager.getToken() != null);
     
     const navigateByCheckingMemberExist = async () => {
         try {
@@ -32,15 +33,15 @@ const IntroPage = () => {
                     GlobalErrorInfoType.ALERT,
                     () => {
                         jwtManager.setToken(null);
+                        setIsLogined(false);
                     }
                 );
             }
         }
     }
 
-    if (jwtManager.getToken()) {
+    if (isLogined) {
         navigateByCheckingMemberExist();
-        return null;
     }
 
     const handleSignUpAndSignInSuccess = async (token: JWTToken) => {
@@ -56,10 +57,10 @@ const IntroPage = () => {
                 </View>
                 <Text style={S.styles.subtitle}>나의 하루를 그림일기로 표현해보세요</Text>
             </View>
-            <View style={S.styles.buttonsContainer}>
+            { !isLogined && <View style={S.styles.buttonsContainer}>
                 <GoogleSignInAndSignUpButton onSuccess={handleSignUpAndSignInSuccess} />
                 <AppleSignInAndSignUpButton onSuccess={handleSignUpAndSignInSuccess} />
-            </View>
+            </View> }
         </View>
     );
 }
