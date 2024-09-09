@@ -10,13 +10,13 @@ import { RootStackParamList } from "../../constants/routing";
 
 import * as S from "./DiaryWritePage.styled";
 import GlobalSelectionCharacterStateContext from "../../components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateContext";
-import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../types/error";
 import { LocalDate } from "@js-joda/core";
 
 import { RuntimeError } from "../../error/RuntimeError";
 import Button from "../../components/common/Button/Button";
 import { OS } from "../../types/os";
+import handleError from "../../error/errorhandler";
 
 
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
@@ -30,26 +30,27 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     const [isWorking, setIsWorking] = useState<boolean>(false);
 
     const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
-    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
-
-    //TODO: 해시태그 관련 로직 구현
 
     const isNextButtonEnabled: boolean = content.length > 0;
     
     useEffect(() => {
         if (isEdit && ! diary) {
-            setErrorInfo({
-                type: GlobalErrorInfoType.MODAL,
-                error: new RuntimeError("잘못된 형식입니다.")
-            });
-            navigation.navigate('DiaryTimelinePage');
+            handleError(
+                new RuntimeError("잘못된 형식입니다."),
+                GlobalErrorInfoType.ALERT,
+                () => {
+                    navigation.navigate('DiaryTimelinePage');
+                }
+            );
         }
         if (! selectedCharacter) {
-            setErrorInfo({
-                type: GlobalErrorInfoType.MODAL,
-                error: new RuntimeError("캐릭터가 선택되지 않았습니다.")
-            });
-            navigation.navigate('CharacterSelectPage');
+            handleError(
+                new RuntimeError("캐릭터가 선택되지 않았습니다."),
+                GlobalErrorInfoType.ALERT,
+                () => {
+                    navigation.navigate('CharacterSelectPage');
+                }
+            );
         }
     }, [isEdit, diary, selectedCharacter]);
 
@@ -79,24 +80,24 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
         try {
             if (! isEdit) {
-                await postDiary(selectedCharacter?.id, diaryDate, content, []);
+                await postDiary(selectedCharacter?.id, diaryDate, content);
             } else if (diary) {
-                await putDiary(selectedCharacter?.id, diary.diaryId, content, []);
+                await putDiary(selectedCharacter?.id, diary.diaryId, content);
             } else {
-                setErrorInfo({
-                    type: GlobalErrorInfoType.MODAL,
-                    error: new RuntimeError("잘못된 형식입니다.")
-                });
+                handleError(
+                    new RuntimeError("잘못된 형식입니다."),
+                    GlobalErrorInfoType.ALERT
+                );
                 return;
             }
 
             navigation.navigate('DiaryTimelinePage');
         } catch (error) {
             if (error instanceof Error) {
-                setErrorInfo({
-                    type: GlobalErrorInfoType.MODAL,
-                    error: error
-                });
+                handleError(
+                    error,
+                    GlobalErrorInfoType.ALERT
+                );
             }
         } finally {
             setIsWorking(false);

@@ -7,29 +7,33 @@ import { RootStackParamList } from "../../constants/routing";
 import { useContext, useEffect } from "react";
 import type { Member } from "../../types/member";
 import { getMember } from "../../apis/member";
-import GlobalErrorInfoStateContext from "../../components/global/GlobalError/GlobalErrorInfoStateContext";
 import { GlobalErrorInfoType } from "../../types/error";
 import AppleSignInAndSignUpButton from "./AppleSignInAndSignUpButton/AppleSignInAndSignUpButton";
-import { jwtManager } from "../../apis/jwt";
+import { jwtManager } from "../../auth/jwt";
+import { ApiError } from "../../error/ApiError";
+import handleError from "../../error/errorhandler";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-    const { errorInfo, setErrorInfo } = useContext(GlobalErrorInfoStateContext);
     
     const navigateByCheckingMemberExist = async () => {
         try {
-            const member: Member = await getMember();
-            if (member.name == null) {
-                navigation.navigate('SignUpPage');
-            } else {
-                navigation.navigate('DiaryTimelinePage');
-            }
+            await getMember();
+            navigation.navigate('DiaryTimelinePage');
         } catch (error) {
+            if (error instanceof ApiError && error.getStatus() === 404) {
+                navigation.navigate('SignUpPage');
+                return;
+            }
+            
             if (error instanceof Error) {
-                setErrorInfo({
-                    type: GlobalErrorInfoType.MODAL,
-                    error: error
-                });
+                handleError(
+                    error,
+                    GlobalErrorInfoType.ALERT,
+                    () => {
+                        jwtManager.setToken(null);
+                    }
+                );
             }
         }
     }
