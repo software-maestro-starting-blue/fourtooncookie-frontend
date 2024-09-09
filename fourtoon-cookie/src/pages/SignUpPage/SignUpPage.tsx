@@ -38,7 +38,8 @@ const SignUpPage = () => {
     const isNextButtonAvailabe: boolean = 
         (signUpProgress == SignUpProgres.NAME && name.length > 0)
         || (signUpProgress == SignUpProgres.BIRTH && birth != null && ! birth.isAfter(LocalDate.now()))
-        || (signUpProgress == SignUpProgres.GENDER && gender != null);
+        || (signUpProgress == SignUpProgres.GENDER && gender != null)
+        || (signUpProgress == SignUpProgres.AGREEMENT && isAgreed);
     
     useEffect(() => {
         if (! jwtManager.getToken()) {
