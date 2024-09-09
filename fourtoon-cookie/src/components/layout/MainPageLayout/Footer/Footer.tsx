@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Image, ImageSourcePropType, Text, TouchableOpacity, View } from "react-native";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import HomeInactivateIcon from '../../../../../assets/icon/home-inactivate.png';
@@ -11,25 +11,29 @@ import { RootStackParamList } from "../../../../constants/routing";
 
 import * as S from './Footer.styled';
 
+export enum FOOTER_STATE {
+    HOME, WRITE, SETTING
+}
+
 export interface FooterProps {
-    isHomeActivate: boolean;
-    isPersonActivate: boolean;
+    footerState: FOOTER_STATE;
 }
 
 const Footer = (props: FooterProps) => {
-    const { isHomeActivate, isPersonActivate, ...rest } = props;
+    const { footerState, ...rest } = props;
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const items = [
-        { source: isHomeActivate ? HomeActivateIcon : HomeInactivateIcon, pageName: 'DiaryTimelinePage', name: '홈' },
+    const items = useMemo(() => [
+        { source: footerState === FOOTER_STATE.HOME ? HomeActivateIcon : HomeInactivateIcon, pageName: 'DiaryTimelinePage', name: '홈' },
         { source: DrawIcon, pageName: 'DiaryWritePage', name: '글쓰기' },
-        { source: isPersonActivate ? PersonActivateIcon : PersonInactivateIcon, pageName: 'SettingPage', name: '마이' },
-    ];
+        { source: footerState === FOOTER_STATE.SETTING ? PersonActivateIcon : PersonInactivateIcon, pageName: 'SettingPage', name: '마이' },
+    ], [footerState]);
         
     return (
         <View style={S.styles.container}>
             {items.map((item, index) => (
                 <FooterItem
+                    key={index}
                     imageSource={item.source}
                     name={item.name}
                     onPress={() => navigation.navigate(item.pageName as never)}
