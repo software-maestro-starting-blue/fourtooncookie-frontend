@@ -1,30 +1,23 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import {FlatList} from "react-native";
 import Header from "./Header/Header";
 import DiaryEmpty from "./DiaryEmpty/DiaryEmpty";
 import {deleteDiary, getDiaries} from '../../apis/diary';
 import type {Diary} from "../../types/diary";
-import {diaryDefaultImages} from "../../constants/diary";
 import {GlobalErrorInfoType} from "../../types/error";
 import DiaryComponent from "./DiaryComponent/DiaryComponent";
 import MainPageLayout from "../../components/layout/MainPageLayout/MainPageLayout";
 import handleError from "../../error/errorhandler";
 
+enum LIST_STATUS {
+    NONE, REFRESH, END_REACHED
+}
+
 const DiaryTimelinePage = () => {
     const [diaries, setDiaries] = useState<Diary[]>([]);
-    const [page, setPage] = useState(0);
-    const [hasMore, setHasMore] = useState(true);
-    const [refreshing, setRefreshing] = useState(false);
-    const [reached, setReached] = useState(false);
-
-    const loadDiaries = async () => {
-        const result = await getDiaries(page);
-
-        return result.map(diary => ({
-            ...diary,
-            paintingImageUrls: diary.paintingImageUrls.length ? diary.paintingImageUrls : diaryDefaultImages
-        }));
-    };
+    const [listStatus, setListStatus] = useState(LIST_STATUS.NONE);
+    const hasMoreRef = useRef(true);
+    const pageRef = useRef(-1);
 
     const handleDelete = async (diaryId: number) => {
         try {
@@ -41,53 +34,50 @@ const DiaryTimelinePage = () => {
     }
 
     const handleEndReached = async () => {
-        if (hasMore) {
-            setReached(true);
+        if (hasMoreRef.current) {
+            setListStatus(LIST_STATUS.END_REACHED)
         }
     };
 
-    const onRefresh = async () => {
-        setRefreshing(true);
-        setPage(0);
-        setHasMore(true);
+    const handleRefresh = async () => {
+        pageRef.current = 0;
+        hasMoreRef.current = true;
+        setListStatus(LIST_STATUS.REFRESH);
     };
 
     useEffect(() => {
-        const fetchDiaries = async () => {
-            if (refreshing && page === 0) {
-                const result = await loadDiaries();
-                if (result != null) {
-                    setDiaries(result);
-                }
-                setRefreshing(false);
-                setPage(1);
-                setHasMore(true);
+
+        const fetchDiaries = async (listStatus: LIST_STATUS) => {
+            let currentDiaries = diaries;
+
+            switch (listStatus) {
+                case LIST_STATUS.NONE:
+                    return;
+                case LIST_STATUS.REFRESH:
+                    pageRef.current = 0;
+                    hasMoreRef.current = true;
+                    currentDiaries = [];
+                    break;
+                case LIST_STATUS.END_REACHED:
+                    if (!hasMoreRef.current) return;
+                    pageRef.current++;
+                    break;
             }
-        };
 
-        if (refreshing) {
-            fetchDiaries();
-        }
-    }, [refreshing, page]);
+            setListStatus(LIST_STATUS.NONE);
 
-    useEffect(() => {
-        const fetchDiaries = async () => {
-            if (reached && hasMore) {
-                const result = await loadDiaries();
-                if (result != null && result.length > 0) {
-                    setDiaries(prevDiaries => [...prevDiaries, ...result]);
-                    setPage(prevPage => prevPage + 1);
-                } else {
-                    setHasMore(false);
-                }
-                setReached(false);
+            const result = await getDiaries(pageRef.current);
+
+            setDiaries([...currentDiaries, ...result]);
+
+            if (result == null || result.length == 0) {
+                hasMoreRef.current = false;
             }
-        };
-
-        if (reached) {
-            fetchDiaries();
         }
-    }, [reached]);
+
+        fetchDiaries(listStatus);
+
+    }, [listStatus, diaries, pageRef, hasMoreRef]);
 
     return (
         <MainPageLayout isHomeActivate={true} isPersonActivate={false}>
@@ -98,10 +88,10 @@ const DiaryTimelinePage = () => {
                 ListHeaderComponent={<Header/>}
                 onEndReached={handleEndReached}
                 onEndReachedThreshold={0.5}
-                ListEmptyComponent={refreshing ? null : <DiaryEmpty/>}
+                ListEmptyComponent={listStatus === LIST_STATUS.REFRESH ? null : <DiaryEmpty/>}
                 contentContainerStyle={{paddingBottom: "25%"}}
-                refreshing={refreshing}
-                onRefresh={onRefresh}
+                refreshing={listStatus === LIST_STATUS.REFRESH}
+                onRefresh={handleRefresh}
             />
         </MainPageLayout>
     );
