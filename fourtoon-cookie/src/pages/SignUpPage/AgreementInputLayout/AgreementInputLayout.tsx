@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, Linking } from 'react-native';
 import * as S from "./AgreementInputLayout.style";
 import { MaterialIcons } from '@expo/vector-icons'; // 아이콘 사용
-import { NOTION_TERMS_AND_POLICY_LINK } from '../../../constants/appinfo';
+import { APP_PRIVACY_URL, APP_TERMS_AGREEMENT_URL } from '../../../constants/appinfo';
 
 export interface AgreementInputLayoutProps {
     onAgreementChange: (isAgreed: boolean) => void;
@@ -17,9 +17,13 @@ const AgreementInputLayout = (props: AgreementInputLayoutProps) => {
         onAgreementChange(isTermsAndPrivacyAgreed && isAgeOver14);
     }, [isTermsAndPrivacyAgreed, isAgeOver14]);
 
-    const handleTermsAndPrivacyPress = () => {
-        Linking.openURL(NOTION_TERMS_AND_POLICY_LINK);
+    const handleTermsPress = () => {
+        Linking.openURL(APP_TERMS_AGREEMENT_URL);
     };
+
+    const handlePrivacyPress = () => {
+        Linking.openURL(APP_PRIVACY_URL);
+    }
 
     const handleTermsAndPrivacyCheckboxChange = () => {
         setIsTermsAndPrivacyAgreed(prev => !prev);
@@ -34,12 +38,12 @@ const AgreementInputLayout = (props: AgreementInputLayoutProps) => {
             <View style={S.styles.textWithCheckboxContainer}>
                 <Text style={S.styles.agreementText}>
                     서비스{" "}
-                    <Text style={S.styles.linkText} onPress={handleTermsAndPrivacyPress}>
+                    <Text style={S.styles.linkText} onPress={handleTermsPress}>
                         약관
                     </Text>
                     {" "}및{" "}
-                    <Text style={S.styles.linkText} onPress={handleTermsAndPrivacyPress}>
-                        개인정보 보호정책
+                    <Text style={S.styles.linkText} onPress={handlePrivacyPress}>
+                        개인정보처리동의서
                     </Text>에 동의하십니까?
                 </Text>
                 <Pressable onPress={handleTermsAndPrivacyCheckboxChange} style={S.styles.checkbox}>
