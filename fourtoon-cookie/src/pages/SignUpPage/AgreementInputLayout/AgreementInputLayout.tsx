@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, Linking } from 'react-native';
 import * as S from "./AgreementInputLayout.style";
 import { MaterialIcons } from '@expo/vector-icons'; // 아이콘 사용
-import { NOTION_TERMS_AND_POLICY_LINK } from '../../../constants/appinfo';
+import { APP_PRIVACY_URL, APP_TERMS_AGREEMENT_URL } from '../../../constants/appinfo';
 
 export interface AgreementInputLayoutProps {
     onAgreementChange: (isAgreed: boolean) => void;
@@ -10,21 +10,28 @@ export interface AgreementInputLayoutProps {
 
 const AgreementInputLayout = (props: AgreementInputLayoutProps) => {
     const { onAgreementChange, ...rest } = props;
-    const [isAgreed, setIsAgreed] = useState(false);
+    const [isTermsAndPrivacyAgreed, setIsTermsAndPrivacyAgreed] = useState(false);
+    const [isAgeOver14, setIsAgeOver14] = useState(false);
 
-    const handleCheckboxChange = () => {
-        const newAgreementState = !isAgreed;
-        setIsAgreed(newAgreementState);
-        onAgreementChange(newAgreementState);
-    };
+    useEffect(() => {
+        onAgreementChange(isTermsAndPrivacyAgreed && isAgeOver14);
+    }, [isTermsAndPrivacyAgreed, isAgeOver14]);
 
     const handleTermsPress = () => {
-        Linking.openURL(NOTION_TERMS_AND_POLICY_LINK);
+        Linking.openURL(APP_TERMS_AGREEMENT_URL);
     };
 
     const handlePrivacyPress = () => {
-        Linking.openURL(NOTION_TERMS_AND_POLICY_LINK);
+        Linking.openURL(APP_PRIVACY_URL);
+    }
+
+    const handleTermsAndPrivacyCheckboxChange = () => {
+        setIsTermsAndPrivacyAgreed(prev => !prev);
     };
+
+    const handleAgeOver14CheckboxChange = () => {
+        setIsAgeOver14(prev => !prev);
+    }
 
     return (
         <View style={S.styles.agreementContainer}>
@@ -36,14 +43,26 @@ const AgreementInputLayout = (props: AgreementInputLayoutProps) => {
                     </Text>
                     {" "}및{" "}
                     <Text style={S.styles.linkText} onPress={handlePrivacyPress}>
-                        개인정보 보호정책
+                        개인정보처리동의서
                     </Text>에 동의하십니까?
                 </Text>
-                <Pressable onPress={handleCheckboxChange} style={S.styles.checkbox}>
+                <Pressable onPress={handleTermsAndPrivacyCheckboxChange} style={S.styles.checkbox}>
                     <MaterialIcons 
-                        name={isAgreed ? "check-box" : "check-box-outline-blank"} 
+                        name={isTermsAndPrivacyAgreed ? "check-box" : "check-box-outline-blank"} 
                         size={24} 
-                        color={isAgreed ? "#FFC426" : "#DDDDDD"} 
+                        color={isTermsAndPrivacyAgreed ? "#FFC426" : "#DDDDDD"} 
+                    />
+                </Pressable>
+            </View>
+            <View style={S.styles.textWithCheckboxContainer}>
+                <Text style={S.styles.agreementText}>
+                    만 14세 이상입니다.
+                </Text>
+                <Pressable onPress={handleAgeOver14CheckboxChange} style={S.styles.checkbox}>
+                    <MaterialIcons 
+                        name={isAgeOver14 ? "check-box" : "check-box-outline-blank"} 
+                        size={24} 
+                        color={isAgeOver14 ? "#FFC426" : "#DDDDDD"} 
                     />
                 </Pressable>
             </View>
