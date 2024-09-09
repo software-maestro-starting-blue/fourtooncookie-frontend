@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Image, ImageSourcePropType, Text, TouchableOpacity, View } from "react-native";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import HomeInactivateIcon from '../../../../../assets/icon/home-inactivate.png';
@@ -20,11 +20,11 @@ const Footer = (props: FooterProps) => {
     const { isHomeActivate, isPersonActivate, ...rest } = props;
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const items = [
+    const items = useMemo(() => [
         { source: isHomeActivate ? HomeActivateIcon : HomeInactivateIcon, pageName: 'DiaryTimelinePage', name: '홈' },
         { source: DrawIcon, pageName: 'DiaryWritePage', name: '글쓰기' },
         { source: isPersonActivate ? PersonActivateIcon : PersonInactivateIcon, pageName: 'SettingPage', name: '마이' },
-    ];
+    ], [isHomeActivate, isPersonActivate]);
         
     return (
         <View style={S.styles.container}>
