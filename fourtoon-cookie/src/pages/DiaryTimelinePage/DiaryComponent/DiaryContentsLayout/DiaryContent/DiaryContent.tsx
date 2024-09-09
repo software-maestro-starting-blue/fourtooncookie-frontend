@@ -20,13 +20,13 @@ const DiaryContent = (props: DiaryContentProps) => {
 
     return (
         <View style={S.styles.container}>
-            <Text style={S.styles.content} numberOfLines={isExpanded ? content.split("\n").length : diaryContentPreviewLines}>
+            <Text style={S.styles.content} numberOfLines={isExpanded ? diaryContentPreviewLines : content.split("\n").length}>
                 {isExpanded ? content : content.slice(0, diaryContentPreviewWordCount)}
                 {!isExpanded && content.length > diaryContentPreviewWordCount && '...'}
             </Text>
             {shouldShowReadMore && (
                 <Button
-                    title={isExpanded ? "간단히 보기" : "더 보기"}
+                    title={isExpanded ? "간단히 보기" : "더보기"}
                     onPress={handleToggleExpand}
                     style={S.styles.more}
                     textStyle={S.styles.moreText}
