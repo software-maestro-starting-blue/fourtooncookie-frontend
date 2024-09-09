@@ -10,19 +10,19 @@ export interface AgreementInputLayoutProps {
 
 const AgreementInputLayout = (props: AgreementInputLayoutProps) => {
     const { onAgreementChange, ...rest } = props;
-    const [isTermsAndPolicyAgreed, setIsTermsAndPolicyAgreed] = useState(false);
+    const [isTermsAndPrivacyAgreed, setIsTermsAndPrivacyAgreed] = useState(false);
     const [isAgeOver14, setIsAgeOver14] = useState(false);
 
     useEffect(() => {
-        onAgreementChange(isTermsAndPolicyAgreed && isAgeOver14);
-    }, [isTermsAndPolicyAgreed, isAgeOver14]);
+        onAgreementChange(isTermsAndPrivacyAgreed && isAgeOver14);
+    }, [isTermsAndPrivacyAgreed, isAgeOver14]);
 
-    const handleTermsAndPolicyPress = () => {
+    const handleTermsAndPrivacyPress = () => {
         Linking.openURL(NOTION_TERMS_AND_POLICY_LINK);
     };
 
-    const handleTermsAndPolicyCheckboxChange = () => {
-        setIsTermsAndPolicyAgreed(prev => !prev);
+    const handleTermsAndPrivacyCheckboxChange = () => {
+        setIsTermsAndPrivacyAgreed(prev => !prev);
     };
 
     const handleAgeOver14CheckboxChange = () => {
@@ -34,19 +34,19 @@ const AgreementInputLayout = (props: AgreementInputLayoutProps) => {
             <View style={S.styles.textWithCheckboxContainer}>
                 <Text style={S.styles.agreementText}>
                     서비스{" "}
-                    <Text style={S.styles.linkText} onPress={handleTermsAndPolicyPress}>
+                    <Text style={S.styles.linkText} onPress={handleTermsAndPrivacyPress}>
                         약관
                     </Text>
                     {" "}및{" "}
-                    <Text style={S.styles.linkText} onPress={handleTermsAndPolicyPress}>
+                    <Text style={S.styles.linkText} onPress={handleTermsAndPrivacyPress}>
                         개인정보 보호정책
                     </Text>에 동의하십니까?
                 </Text>
-                <Pressable onPress={handleTermsAndPolicyCheckboxChange} style={S.styles.checkbox}>
+                <Pressable onPress={handleTermsAndPrivacyCheckboxChange} style={S.styles.checkbox}>
                     <MaterialIcons 
-                        name={isTermsAndPolicyAgreed ? "check-box" : "check-box-outline-blank"} 
+                        name={isTermsAndPrivacyAgreed ? "check-box" : "check-box-outline-blank"} 
                         size={24} 
-                        color={isTermsAndPolicyAgreed ? "#FFC426" : "#DDDDDD"} 
+                        color={isTermsAndPrivacyAgreed ? "#FFC426" : "#DDDDDD"} 
                     />
                 </Pressable>
             </View>
