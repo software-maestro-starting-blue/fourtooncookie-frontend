@@ -30,6 +30,7 @@ const Footer = (props: FooterProps) => {
         <View style={S.styles.container}>
             {items.map((item, index) => (
                 <FooterItem
+                    key={index}
                     imageSource={item.source}
                     name={item.name}
                     onPress={() => navigation.navigate(item.pageName as never)}
