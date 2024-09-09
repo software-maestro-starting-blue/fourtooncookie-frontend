@@ -17,6 +17,8 @@ import { RuntimeError } from "../../error/RuntimeError";
 import Button from "../../components/common/Button/Button";
 import { OS } from "../../types/os";
 import handleError from "../../error/errorhandler";
+import { ApiError } from "../../error/ApiError";
+import { API_STATUS } from "../../constants/api";
 
 
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
@@ -93,6 +95,10 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
             navigation.navigate('DiaryTimelinePage');
         } catch (error) {
+            if (error instanceof ApiError && error.getStatus() === API_STATUS.CONFLICT) {
+                error.message = "선택한 날짜에 이미 일기가 존재합니다. 다른 날을 선택해주세요.";
+            }
+
             if (error instanceof Error) {
                 handleError(
                     error,
