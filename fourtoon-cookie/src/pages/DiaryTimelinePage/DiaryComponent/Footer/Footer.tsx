@@ -28,18 +28,6 @@ const DiaryActionsLayout = (props: FooterProps) => {
                 </TouchableOpacity>
             </View>
             <View style={S.styles.actionButtons}>
-                <TouchableOpacity onPress={onDownload}>
-                    <Image
-                        source={DOWNLOAD_ICON}
-                        style={S.styles.image}
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={onShare}>
-                    <Image
-                        source={UPLOAD_ICON}
-                        style={S.styles.image}
-                    />
-                </TouchableOpacity>
             </View>
         </View>
     );
