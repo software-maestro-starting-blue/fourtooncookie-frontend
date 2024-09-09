@@ -4,8 +4,6 @@ import { jwtManager } from "../auth/jwt";
 
 
 const handleError = (error: Error, errorType: GlobalErrorInfoType, callback?: (error: Error) => void) => {
-    console.error(error);
-
     switch(error.name) {
         case 'JwtError':
             jwtManager.setToken(null);
