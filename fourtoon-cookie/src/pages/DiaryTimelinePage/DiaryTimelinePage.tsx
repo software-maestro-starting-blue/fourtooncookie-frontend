@@ -8,6 +8,8 @@ import {GlobalErrorInfoType} from "../../types/error";
 import DiaryComponent from "./DiaryComponent/DiaryComponent";
 import MainPageLayout from "../../components/layout/MainPageLayout/MainPageLayout";
 import handleError from "../../error/errorhandler";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../constants/routing";
 import { FOOTER_STATE } from "../../components/layout/MainPageLayout/Footer/Footer";
 
 enum LIST_STATUS {
@@ -15,6 +17,8 @@ enum LIST_STATUS {
 }
 
 const DiaryTimelinePage = () => {
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
     const [diaries, setDiaries] = useState<Diary[]>([]);
     const [listStatus, setListStatus] = useState(LIST_STATUS.NONE);
     const hasMoreRef = useRef(true);
@@ -44,6 +48,14 @@ const DiaryTimelinePage = () => {
         hasMoreRef.current = true;
         setListStatus(LIST_STATUS.REFRESH);
     };
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            handleRefresh();
+        });
+
+        return unsubscribe;
+    }, [navigation]);
 
     useEffect(() => {
 
