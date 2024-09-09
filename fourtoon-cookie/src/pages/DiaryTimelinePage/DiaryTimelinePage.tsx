@@ -50,11 +50,10 @@ const DiaryTimelinePage = () => {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            console.log('focus');
             handleRefresh();
         });
+
         return unsubscribe;
-    
     }, [navigation]);
 
     useEffect(() => {
