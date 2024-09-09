@@ -11,20 +11,23 @@ import { RootStackParamList } from "../../../../constants/routing";
 
 import * as S from './Footer.styled';
 
+export enum FOOTER_STATE {
+    HOME, WRITE, SETTING
+}
+
 export interface FooterProps {
-    isHomeActivate: boolean;
-    isPersonActivate: boolean;
+    footerState: FOOTER_STATE;
 }
 
 const Footer = (props: FooterProps) => {
-    const { isHomeActivate, isPersonActivate, ...rest } = props;
+    const { footerState, ...rest } = props;
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     const items = useMemo(() => [
-        { source: isHomeActivate ? HomeActivateIcon : HomeInactivateIcon, pageName: 'DiaryTimelinePage', name: '홈' },
+        { source: footerState === FOOTER_STATE.HOME ? HomeActivateIcon : HomeInactivateIcon, pageName: 'DiaryTimelinePage', name: '홈' },
         { source: DrawIcon, pageName: 'DiaryWritePage', name: '글쓰기' },
-        { source: isPersonActivate ? PersonActivateIcon : PersonInactivateIcon, pageName: 'SettingPage', name: '마이' },
-    ], [isHomeActivate, isPersonActivate]);
+        { source: footerState === FOOTER_STATE.SETTING ? PersonActivateIcon : PersonInactivateIcon, pageName: 'SettingPage', name: '마이' },
+    ], [footerState]);
         
     return (
         <View style={S.styles.container}>

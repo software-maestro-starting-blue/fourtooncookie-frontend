@@ -8,6 +8,7 @@ import { GlobalErrorInfoType } from '../../types/error';
 import MainPageLayout from '../../components/layout/MainPageLayout/MainPageLayout';
 import InfoLayout from './InfoLayout/InfoLayout';
 import handleError from '../../error/errorhandler';
+import { FOOTER_STATE } from '../../components/layout/MainPageLayout/Footer/Footer';
 
 const SettingPage = () => {
 	const [member, setMember] = useState<Member | null>(null);
@@ -31,7 +32,7 @@ const SettingPage = () => {
   	}, []);
 
 	return (
-    	<MainPageLayout isHomeActivate={false} isPersonActivate={true} >
+    	<MainPageLayout footerState={FOOTER_STATE.SETTING} >
 			<View style={S.styles.container}>
 				<InfoLayout member={member} />
 				<MenuLayout />

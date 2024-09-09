@@ -8,6 +8,7 @@ import {GlobalErrorInfoType} from "../../types/error";
 import DiaryComponent from "./DiaryComponent/DiaryComponent";
 import MainPageLayout from "../../components/layout/MainPageLayout/MainPageLayout";
 import handleError from "../../error/errorhandler";
+import { FOOTER_STATE } from "../../components/layout/MainPageLayout/Footer/Footer";
 
 enum LIST_STATUS {
     NONE, REFRESH, END_REACHED
@@ -78,7 +79,7 @@ const DiaryTimelinePage = () => {
     }, [listStatus, diaries, pageRef, hasMoreRef]);
 
     return (
-        <MainPageLayout isHomeActivate={true} isPersonActivate={false}>
+        <MainPageLayout footerState={FOOTER_STATE.HOME}>
             <FlatList
                 data={diaries}
                 keyExtractor={(item) => item.diaryId.toString()}
