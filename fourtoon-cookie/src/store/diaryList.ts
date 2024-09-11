@@ -53,7 +53,7 @@ export const useDiaryListStore = create<DiaryListState>(
 
         postDiary: async (diary: Diary) => {
             
-            await postDiary(diary.characterId, diary.diaryDate, diary.content);
+            await postDiary(diary.characterId, diary.diaryDate, diary.content); //TODO 생성된 일기 아이디를 받아야 함.
 
             const { diaryList } = get();
             await set({
