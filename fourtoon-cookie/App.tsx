@@ -27,20 +27,6 @@ export default function App() {
 
 	const navigationRef = useRef<NavigationContainerRef<RootStackParamList> | null>(null);
 
-	const navigateByMemberStatus = async () => {
-		if (! jwt) {
-			navigationRef.current?.navigate('IntroPage');
-			return;
-		}
-
-		if (! member){
-			navigationRef.current?.navigate('SignUpPage');
-			return;
-		}
-
-		navigationRef.current?.navigate('DiaryTimelinePage');
-    }
-
 	useEffect(() => {
 		if (jwt) {
 			reloadMember();
@@ -51,6 +37,20 @@ export default function App() {
 	}, [jwt, reloadMember, updateCharacterList, isLoaded]);
 
 	useEffect(() => {
+		const navigateByMemberStatus = async () => {
+			if (! jwt) {
+				navigationRef.current?.navigate('IntroPage');
+				return;
+			}
+	
+			if (! member){
+				navigationRef.current?.navigate('SignUpPage');
+				return;
+			}
+	
+			navigationRef.current?.navigate('DiaryTimelinePage');
+		}
+		
 		navigateByMemberStatus();
 	}, [member, jwt]);
 
