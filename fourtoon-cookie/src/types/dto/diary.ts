@@ -23,3 +23,7 @@ export interface DiarySavedResponse {
     paintingImageUrls: string[],
     characterId: number
 }
+
+export interface DiaryCreatedResponse {
+    diaryId: number
+}

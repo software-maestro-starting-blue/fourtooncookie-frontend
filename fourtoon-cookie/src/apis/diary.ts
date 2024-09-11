@@ -1,5 +1,5 @@
 import type { Diary } from "../types/diary";
-import type { DiaryPatchFavoriteRequest, DiarySaveRequest, DiarySavedResponse, DiaryUpdateRequest } from "../types/dto/diary";
+import type { DiaryCreatedResponse, DiaryPatchFavoriteRequest, DiarySaveRequest, DiarySavedResponse, DiaryUpdateRequest } from "../types/dto/diary";
 import { requestApi } from "./api";
 import { LocalDate } from "@js-joda/core";
 import { ApiError } from "../error/ApiError";
@@ -36,7 +36,7 @@ export const getDiaries = async (pageNumber: number): Promise<Diary[]> => {
     }
 }
 
-export const postDiary = async (characterId: number, date: LocalDate, content: string) => {
+export const postDiary = async (characterId: number, date: LocalDate, content: string) : Promise<number> => {
 
     const requestBody: DiarySaveRequest = {
         characterId: characterId,
@@ -49,6 +49,10 @@ export const postDiary = async (characterId: number, date: LocalDate, content: s
     if (response.status != API_STATUS.CREATED) {
         throw new ApiError("일기를 저장하는 중 오류가 발생했습니다. 다시 시도해 주세요.", response.status);
     }
+
+    const responseData: DiaryCreatedResponse = await response.json();
+
+    return responseData.diaryId;
 }
 
 export const putDiary = async (characterId: number, diaryId: number, content: string) => {
