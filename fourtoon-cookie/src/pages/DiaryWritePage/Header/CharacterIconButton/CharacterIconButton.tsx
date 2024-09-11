@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import GlobalSelectionCharacterStateContext from "../../../../components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateContext";
 import { Image, TouchableOpacity } from "react-native";
 import * as S from "./CharacterIconButton.styled";
+import { useSelectedCharacterStore } from "../../../../store/selectedCharacter";
 
 export interface CharacterIconButtonProps {
     onCharacterChoosePress: () => void;
@@ -10,7 +10,7 @@ export interface CharacterIconButtonProps {
 const CharacterIconButton = (props: CharacterIconButtonProps) => {
     const { onCharacterChoosePress, ...rest } = props;
 
-    const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
+    const { selectedCharacter } = useSelectedCharacterStore();
 
     if (! selectedCharacter){
         return null;

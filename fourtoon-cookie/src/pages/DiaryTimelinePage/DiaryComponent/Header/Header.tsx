@@ -1,11 +1,9 @@
 import { LocalDate } from "@js-joda/core";
-import { Character } from "../../../../types/character";
 import * as S from "./Header.styled";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import DOTS_ICON from "../../../../../assets/icon/dots.png";
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import { useContext, useEffect } from "react";
-import GlobalCharacterListStateContext from "../../../../components/global/GlobalCharacterList/GlobalCharacterListStateContext";
+import { useSelectedCharacterStore } from "../../../../store/selectedCharacter";
 
 export interface HeaderProps {
     characterId: number;
@@ -17,12 +15,7 @@ export interface HeaderProps {
 const Header = (props: HeaderProps) => {
     const { characterId, date, onEdit, onDelete, ...rest } = props;
 
-    const { characterList, updateCharacterList } = useContext(GlobalCharacterListStateContext);
-
-    useEffect(() => {
-        if (characterList && characterList.length > 0) return;
-        updateCharacterList();
-    }, [characterList]);
+    const { selectedCharacter } = useSelectedCharacterStore();
 
     const { showActionSheetWithOptions } = useActionSheet();
 
@@ -41,14 +34,12 @@ const Header = (props: HeaderProps) => {
         });
     }
 
-    const character = characterList.find(character => character.id === characterId);
-
     return (
         <View style={S.styles.header}>
             <View style={S.styles.profile}>
-                <Image style={S.styles.profileImage} source={{uri: character?.selectionThumbnailUrl}} />
+                <Image style={S.styles.profileImage} source={{uri: selectedCharacter?.selectionThumbnailUrl}} />
                 <View style={S.styles.profileText}>
-                    <Text style={S.styles.profileName}>{character?.name}</Text>
+                    <Text style={S.styles.profileName}>{selectedCharacter?.name}</Text>
                     <Text style={S.styles.profileDate}>{date.toString()}</Text>
                 </View>
             </View>
