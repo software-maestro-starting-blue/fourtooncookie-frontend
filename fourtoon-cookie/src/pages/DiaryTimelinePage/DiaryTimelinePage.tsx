@@ -1,33 +1,26 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect} from "react";
 import {FlatList} from "react-native";
 import Header from "./Header/Header";
 import DiaryEmpty from "./DiaryEmpty/DiaryEmpty";
-import {deleteDiary, getDiaries} from '../../apis/diary';
-import type {Diary} from "../../types/diary";
 import {GlobalErrorInfoType} from "../../types/error";
 import DiaryComponent from "./DiaryComponent/DiaryComponent";
 import MainPageLayout from "../../components/layout/MainPageLayout/MainPageLayout";
 import handleError from "../../error/errorhandler";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../../constants/routing";
 import { FOOTER_STATE } from "../../components/layout/MainPageLayout/Footer/Footer";
+import { useDiaryListStore } from "../../store/diaryList";
 
 enum LIST_STATUS {
     NONE, REFRESH, END_REACHED
 }
 
 const DiaryTimelinePage = () => {
-    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+    const [listStatus, setListStatus] = useState(LIST_STATUS.REFRESH);
 
-    const [diaries, setDiaries] = useState<Diary[]>([]);
-    const [listStatus, setListStatus] = useState(LIST_STATUS.NONE);
-    const hasMoreRef = useRef(true);
-    const pageRef = useRef(-1);
+    const { diaryList, loadFirstPage, loadNextPage, deleteDiaryById } = useDiaryListStore();
 
     const handleDelete = async (diaryId: number) => {
         try {
-            await deleteDiary(diaryId);
-            setDiaries(prevDiaries => prevDiaries.filter(diary => diary.diaryId !== diaryId));
+            deleteDiaryById(diaryId);
         } catch (error) {
             if (error instanceof Error) {
                 handleError(
@@ -39,48 +32,24 @@ const DiaryTimelinePage = () => {
     }
 
     const handleEndReached = async () => {
-        if (!hasMoreRef.current) return;
         setListStatus(LIST_STATUS.END_REACHED);
     };
 
     const handleRefresh = async () => {
-        pageRef.current = 0;
-        hasMoreRef.current = true;
         setListStatus(LIST_STATUS.REFRESH);
     };
 
     useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            handleRefresh();
-        });
-
-        return unsubscribe;
-    }, [navigation]);
-
-    useEffect(() => {
-
         const fetchDiaries = async (listStatus: LIST_STATUS) => {
-            let currentDiaries = diaries;
-
             switch (listStatus) {
                 case LIST_STATUS.NONE:
                     return;
                 case LIST_STATUS.REFRESH:
-                    pageRef.current = 0;
-                    hasMoreRef.current = true;
-                    currentDiaries = [];
+                    await loadFirstPage();
                     break;
                 case LIST_STATUS.END_REACHED:
-                    pageRef.current++;
+                    await loadNextPage();
                     break;
-            }
-
-            const result = await getDiaries(pageRef.current);
-
-            setDiaries([...currentDiaries, ...result]);
-
-            if (result == null || result.length == 0) {
-                hasMoreRef.current = false;
             }
 
             setListStatus(LIST_STATUS.NONE);
@@ -88,12 +57,12 @@ const DiaryTimelinePage = () => {
 
         fetchDiaries(listStatus);
 
-    }, [listStatus, diaries, pageRef, hasMoreRef]);
+    }, [listStatus]);
 
     return (
         <MainPageLayout footerState={FOOTER_STATE.HOME}>
             <FlatList
-                data={diaries}
+                data={diaryList}
                 keyExtractor={(item) => item.diaryId.toString()}
                 renderItem={({item}) => <DiaryComponent diary={item} onDelete={() => handleDelete(item.diaryId)}/>}
                 ListHeaderComponent={<Header/>}

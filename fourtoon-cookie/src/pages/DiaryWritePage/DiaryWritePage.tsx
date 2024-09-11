@@ -1,11 +1,10 @@
 import { KeyboardAvoidingView, Platform, SafeAreaView, View } from "react-native";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import Header from "./Header/Header";
 import TextInputLayout from "./TextInputLayout/TextInputLayout";
 
-import { postDiary, putDiary } from "../../apis/diary";
 import { RootStackParamList } from "../../constants/routing";
 
 import * as S from "./DiaryWritePage.styled";
@@ -19,6 +18,8 @@ import handleError from "../../error/errorhandler";
 import { ApiError } from "../../error/ApiError";
 import { API_STATUS } from "../../constants/api";
 import { useSelectedCharacterStore } from "../../store/selectedCharacter";
+import { useDiaryListStore } from "../../store/diaryList";
+import { Diary } from "../../types/diary";
 
 
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
@@ -33,6 +34,9 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
     const { selectedCharacter } = useSelectedCharacterStore();
 
+    const { postDiary, updateDiary } = useDiaryListStore();
+
+    const currentDiaryId = diary ? diary.diaryId : -1;
     const isNextButtonEnabled: boolean = content.length > 0;
     
     useEffect(() => {
@@ -80,11 +84,20 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
         setIsWorking(true);
 
+        const diary: Diary = {
+            diaryId: currentDiaryId,
+            content: content,
+            isFavorite: false,
+            diaryDate: diaryDate,
+            paintingImageUrls: [],
+            characterId: selectedCharacter.id
+        }
+
         try {
             if (! isEdit) {
-                await postDiary(selectedCharacter?.id, diaryDate, content);
-            } else if (diary) {
-                await putDiary(selectedCharacter?.id, diary.diaryId, content);
+                await postDiary(diary);
+            } else if (currentDiaryId !== -1) {
+                await updateDiary(diary);
             } else {
                 handleError(
                     new RuntimeError("잘못된 형식입니다."),
