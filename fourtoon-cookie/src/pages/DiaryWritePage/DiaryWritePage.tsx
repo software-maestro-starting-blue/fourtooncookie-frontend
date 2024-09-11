@@ -96,7 +96,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
         try {
             if (! isEdit) {
                 await postDiary(diary);
-            } else if (diary) {
+            } else if (currentDiaryId !== -1) {
                 await updateDiary(diary);
             } else {
                 handleError(
