@@ -1,20 +1,20 @@
 import React, { useEffect, useState, useMemo, useContext } from 'react';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import GlobalSelectionCharacterStateContext from '../../components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateContext';
 import ArtworkList from './ArtworkList/ArtworkList';
 import TabsLayout from './TabsLayout/TabsLayout';
 import { Character, CharacterPaymentType } from '../../types/character';
 import * as S from './CharacterSelectPage.styled';
 import Header from './Header/Header';
-import GlobalCharacterListStateContext from '../../components/global/GlobalCharacterList/GlobalCharacterListStateContext';
+import { useCharacterListStore } from '../../store/characterList';
+import { useSelectedCharacterStore } from '../../store/selectedCharacter';
 
 const CharacterSelectPage = () => {
     const [ selectedPaymentType, setSelectedPaymentType ] = useState<CharacterPaymentType>(CharacterPaymentType.FREE);
     const [ loading, setLoading ] = useState<boolean>(true);
 
-    const { characterList, updateCharacterList } = useContext(GlobalCharacterListStateContext);
-    const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
+    const { characterList, updateCharacterList } = useCharacterListStore();
+    const { selectedCharacter, setSelectedCharacter } = useSelectedCharacterStore();
 
     useEffect(() => {
         if (! loading) return;

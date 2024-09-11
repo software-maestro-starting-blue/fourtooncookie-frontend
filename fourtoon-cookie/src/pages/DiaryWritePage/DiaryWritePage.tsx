@@ -9,7 +9,6 @@ import { postDiary, putDiary } from "../../apis/diary";
 import { RootStackParamList } from "../../constants/routing";
 
 import * as S from "./DiaryWritePage.styled";
-import GlobalSelectionCharacterStateContext from "../../components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateContext";
 import { GlobalErrorInfoType } from "../../types/error";
 import { LocalDate } from "@js-joda/core";
 
@@ -19,6 +18,7 @@ import { OS } from "../../types/os";
 import handleError from "../../error/errorhandler";
 import { ApiError } from "../../error/ApiError";
 import { API_STATUS } from "../../constants/api";
+import { useSelectedCharacterStore } from "../../store/selectedCharacter";
 
 
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
@@ -31,7 +31,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
     const [content, setContent] = useState<string>(diary ? diary.content : "");
     const [isWorking, setIsWorking] = useState<boolean>(false);
 
-    const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
+    const { selectedCharacter } = useSelectedCharacterStore();
 
     const isNextButtonEnabled: boolean = content.length > 0;
     

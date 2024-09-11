@@ -4,12 +4,10 @@ import BackButton from "../../../components/common/BackButton/BackButton";
 
 import * as S from "./Header.styled";
 import CharacterItem from "../../../components/character/CharacterItem/CharacterItem";
-import { useContext, useEffect } from "react";
-import GlobalSelectionCharacterStateContext from "../../../components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateContext";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../../../constants/routing";
+import { useContext } from "react";
 import { LocalDate } from "@js-joda/core";
 import CharacterIconButton from "./CharacterIconButton/CharacterIconButton";
+import { useSelectedCharacterStore } from "../../../store/selectedCharacter";
 
 export interface HeaderProps {
     date: LocalDate;
@@ -21,7 +19,7 @@ export interface HeaderProps {
 const Header = (props: HeaderProps) => {
     const { date, isDateChangeable, onDateChange, onCharacterChoosePress, ...rest } = props;
 
-    const { selectedCharacter, setSelectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
+    const { selectedCharacter } = useSelectedCharacterStore();
 
     if (! selectedCharacter){
         return null;

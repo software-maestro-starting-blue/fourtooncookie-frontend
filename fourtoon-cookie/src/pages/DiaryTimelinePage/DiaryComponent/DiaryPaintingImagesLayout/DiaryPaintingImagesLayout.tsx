@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 import { View, Modal, Image, TouchableOpacity, Text } from "react-native";
-import GlobalSelectionCharacterStateContext from '../../../../components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateContext';
 
 import * as S from './DiaryPaintingImagesLayout.styled';
+import { useSelectedCharacterStore } from "../../../../store/selectedCharacter";
 
 export interface DiaryPaintingImagesLayoutProps {
     imageUrls: string[];
@@ -12,7 +12,7 @@ const DiaryPaintingImagesLayout = (props: DiaryPaintingImagesLayoutProps) => {
     const { imageUrls, ...rest } = props;
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    const { selectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
+    const { selectedCharacter } = useSelectedCharacterStore();
 
     const handleImagePress = (imageUrl: string) => {
         setSelectedImage(imageUrl);

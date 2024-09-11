@@ -3,13 +3,13 @@ import BackButton from "../../../components/common/BackButton/BackButton";
 
 import * as S from "./Header.styled";
 import { useContext } from "react";
-import GlobalSelectionCharacterStateContext from "../../../components/global/GlobalSelectionCharacter/GlobalSelectionCharacterStateContext";
 import handleError from "../../../error/errorhandler";
 import { GlobalErrorInfoType } from "../../../types/error";
+import { useSelectedCharacterStore } from "../../../store/selectedCharacter";
 
 const Header = () => {
 
-    const { selectedCharacter } = useContext(GlobalSelectionCharacterStateContext);
+    const { selectedCharacter } = useSelectedCharacterStore();
 
     const handleBackButtonPressWhenCharacterNotSelected = () => {
         handleError(

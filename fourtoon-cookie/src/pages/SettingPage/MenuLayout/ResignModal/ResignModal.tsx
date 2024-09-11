@@ -1,10 +1,10 @@
 import ConfirmationModal from "../../../../components/common/Modal/ConfirmationModal/ConfirmationModal"
 import { deleteMember } from "../../../../apis/member";
 import { GlobalErrorInfoType } from "../../../../types/error";
-import { jwtManager } from "../../../../auth/jwt";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../../constants/routing";
 import handleError from "../../../../error/errorhandler";
+import { useJWTStore } from "../../../../store/jwt";
 
 export interface ResignModalProps {
     visible: boolean;
@@ -16,10 +16,12 @@ const ResignModal = (props: ResignModalProps) => {
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
+    const { removeJWT } = useJWTStore();
+
     const handleResign = async () => {
         try {
             await deleteMember();
-            await jwtManager.setToken(null);
+            removeJWT();
             navigation.navigate('IntroPage');
             onClose();
         } catch (error) {

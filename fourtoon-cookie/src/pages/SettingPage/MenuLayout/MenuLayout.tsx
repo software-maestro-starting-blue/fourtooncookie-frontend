@@ -4,14 +4,15 @@ import { useContext, useState } from 'react';
 import { GlobalErrorInfoType } from '../../../types/error';
 import ResignModal from './ResignModal/ResignModal';
 import * as S from './MenuLayout.styled';
-import { jwtManager } from '../../../auth/jwt';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../../constants/routing';
 import handleError from '../../../error/errorhandler';
 import { APP_INFO_URL } from '../../../constants/appinfo';
+import { useJWTStore } from '../../../store/jwt';
 
 const MenuLayout = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+    const { removeJWT } = useJWTStore();
     const [ isModalVisible, setIsModalVisible ] = useState(false);
 
     const handleInquiry = () => {
@@ -24,7 +25,7 @@ const MenuLayout = () => {
     }
 
     const handleLogout = async () => {
-        await jwtManager.setToken(null);
+        removeJWT();
         navigation.navigate('IntroPage');
     }
 
