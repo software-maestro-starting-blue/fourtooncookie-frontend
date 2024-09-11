@@ -31,7 +31,6 @@ export const useMemberStore = create(
                 set({ member });
             } catch (e) {
                 set({ member: null });
-                useJWTStore.getState().removeJWT();
             }
         },
 
