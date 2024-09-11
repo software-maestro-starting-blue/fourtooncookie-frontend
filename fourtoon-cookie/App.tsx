@@ -35,6 +35,7 @@ export default function App() {
 
 		if (! member){
 			navigationRef.current?.navigate('SignUpPage');
+			return;
 		}
 
 		navigationRef.current?.navigate('DiaryTimelinePage');
