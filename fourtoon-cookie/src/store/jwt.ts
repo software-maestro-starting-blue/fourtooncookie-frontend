@@ -14,7 +14,7 @@ interface JWTState {
 }
 
 
-const useJWTStore = create(
+export const useJWTStore = create(
     persist<JWTState>(
         (set, get) => ({
             jwt: null,
