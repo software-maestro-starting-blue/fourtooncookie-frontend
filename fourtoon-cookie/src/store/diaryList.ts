@@ -39,8 +39,10 @@ export const useDiaryListStore = create<DiaryListState>(
             if (!hasMore) return;
 
             const result = await getDiaries(page + 1);
+            const newDiaryList = [...diaryList, ...result];
+            newDiaryList.sort((a, b) => b.diaryDate.compareTo(a.diaryDate));
             set({
-                diaryList: [...diaryList, ...result],
+                diaryList: newDiaryList,
                 page: page + 1,
                 hasMore: result.length > 0,
             });
@@ -58,8 +60,11 @@ export const useDiaryListStore = create<DiaryListState>(
             diary.diaryId = diaryId;
 
             const { diaryList } = get();
+            
+            const newDiaryList = [diary, ...diaryList];
+            newDiaryList.sort((a, b) => b.diaryDate.compareTo(a.diaryDate));
             await set({
-                diaryList: [diary, ...diaryList],
+                diaryList: newDiaryList,
             });
         },
 
