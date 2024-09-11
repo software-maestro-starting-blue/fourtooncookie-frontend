@@ -13,21 +13,28 @@ import IntroPage from './src/pages/IntroPage/IntroPage';
 import SettingPage from './src/pages/SettingPage/SettingPage';
 import { useCharacterListStore } from './src/store/characterList';
 import { useJWTStore } from './src/store/jwt';
+import { useMemberStore } from './src/store/member';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
 
+	const [ isLoaded, setIsLoaded ] = useState<boolean>(false);
+
 	const { jwt } = useJWTStore();
+	const { reloadMember } = useMemberStore();
 	const { updateCharacterList } = useCharacterListStore();
 
 	useEffect(() => {
-		if (! jwt) return;
+		if (jwt) {
+			reloadMember();
+			updateCharacterList();
+		}
 
-		updateCharacterList();
-	}, [jwt, updateCharacterList]);
+		setIsLoaded(true);
+	}, [jwt, reloadMember, updateCharacterList, isLoaded]);
 
-	if (! jwt) return null;
+	if (! isLoaded) return null;
 
 	return (
 		<NavigationContainer>
