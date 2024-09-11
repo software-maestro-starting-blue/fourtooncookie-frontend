@@ -3,11 +3,12 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { Member } from "../types/member";
 import { useJWTStore } from "./jwt";
-import { deleteMember, getMember } from "../apis/member";
+import { deleteMember, getMember, postMember } from "../apis/member";
 
 
 export interface MemberState {
     member: Member | null;
+    signupMember: (member: Member) => void;
     reloadMember: () => void;
     logoutMember: () => void;
     resignMember: () => void;
@@ -18,6 +19,11 @@ export interface MemberState {
 export const useMemberStore = create(
     persist<MemberState>((set) => ({
         member: null,
+
+        signupMember: async (member: Member) => {
+            await postMember(member.name, member.birth, member.gender);
+            set({ member });
+        },
 
         reloadMember: async () => {
             try {
