@@ -35,7 +35,7 @@ const SignUpPage = () => {
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const { jwt, removeJWT } = useJWTStore();
+    const { removeJWT } = useJWTStore();
     const { signupMember } = useMemberStore();
 
     const isNextButtonAvailabe: boolean = 
@@ -43,13 +43,6 @@ const SignUpPage = () => {
         || (signUpProgress == SignUpProgres.BIRTH && birth != null && ! birth.isAfter(LocalDate.now()))
         || (signUpProgress == SignUpProgres.GENDER && gender != null)
         || (signUpProgress == SignUpProgres.AGREEMENT && isAgreed);
-    
-    useEffect(() => {
-        if (! jwt) {
-            navigation.navigate('IntroPage');
-        }
-
-    }, [navigation]);
 
     const handleNameChange = (name: string) => {
         if (signUpProgress != SignUpProgres.NAME) return;
@@ -73,7 +66,6 @@ const SignUpPage = () => {
     const handleBackButtonPress = () => {
         if (signUpProgress == SignUpProgres.NAME) {
             removeJWT();
-            navigation.goBack();
             return;
         }
 

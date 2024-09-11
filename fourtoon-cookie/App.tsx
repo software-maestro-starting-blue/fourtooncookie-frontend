@@ -22,8 +22,23 @@ export default function App() {
 	const [ isLoaded, setIsLoaded ] = useState<boolean>(false);
 
 	const { jwt } = useJWTStore();
-	const { reloadMember } = useMemberStore();
+	const { member, reloadMember, logoutMember } = useMemberStore();
 	const { updateCharacterList } = useCharacterListStore();
+
+	const navigationRef = useRef<NavigationContainerRef<RootStackParamList> | null>(null);
+
+	const navigateByMemberStatus = async () => {
+		if (! jwt) {
+			navigationRef.current?.navigate('IntroPage');
+			return;
+		}
+
+		if (! member){
+			navigationRef.current?.navigate('SignUpPage');
+		}
+
+		navigationRef.current?.navigate('DiaryTimelinePage');
+    }
 
 	useEffect(() => {
 		if (jwt) {
@@ -34,10 +49,13 @@ export default function App() {
 		setIsLoaded(true);
 	}, [jwt, reloadMember, updateCharacterList, isLoaded]);
 
+	useEffect(() => {
+		navigateByMemberStatus();
+	}, [member, jwt]);
 	if (! isLoaded) return null;
 
 	return (
-		<NavigationContainer>
+		<NavigationContainer ref={navigationRef}>
 			<ActionSheetProvider>
 				<Stack.Navigator initialRouteName="IntroPage" screenOptions={{ headerShown: false }}>
 					<Stack.Screen name="IntroPage" component={IntroPage} />

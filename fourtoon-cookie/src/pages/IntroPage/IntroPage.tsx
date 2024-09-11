@@ -13,27 +13,11 @@ const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     const { jwt, setJWT } = useJWTStore();
-    const { member } = useMemberStore();
-
-    
-    const navigateByCheckingMemberExist = async () => {
-        if (member){
-            navigation.navigate('DiaryTimelinePage');
-            return;
-        }
-
-        if (jwt) {
-            navigation.navigate('SignUpPage');
-            return;
-        }
-    }
-
-    useEffect(() => {
-        navigateByCheckingMemberExist();
-    }, [jwt, member]);
+    const { reloadMember } = useMemberStore();
 
     const handleSignUpAndSignInSuccess = async (token: JWTToken) => {
-        setJWT(token);
+        await setJWT(token);
+        await reloadMember();
     }
 
     return (
