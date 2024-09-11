@@ -10,13 +10,13 @@ import BirthInputLayout from "./BirthInputLayout/BirthInputLayout";
 import GenderInputLayout from "./GenderInputLayout/GenderInputLayout";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../constants/routing";
-import { postMember } from "../../apis/member";
 import { LocalDate } from "@js-joda/core";
 import { GlobalErrorInfoType } from "../../types/error";
 import handleError from "../../error/errorhandler";
 
 import AgreementInputLayout from "./AgreementInputLayout/AgreementInputLayout";
 import { useJWTStore } from "../../store/jwt";
+import { useMemberStore } from "../../store/member";
 
 enum SignUpProgres {
     NAME = 1,
@@ -36,6 +36,7 @@ const SignUpPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     const { jwt, removeJWT } = useJWTStore();
+    const { signupMember } = useMemberStore();
 
     const isNextButtonAvailabe: boolean = 
         (signUpProgress == SignUpProgres.NAME && name.length > 0)
@@ -88,7 +89,11 @@ const SignUpPage = () => {
             if (!gender || !isAgreed) return;
 
             try {
-                postMember(name, birth, gender);
+                signupMember({
+                    name,
+                    birth,
+                    gender,
+                });
                 navigation.navigate('DiaryTimelinePage');
             } catch (error) {
                 if (error instanceof Error) {
