@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { getCharacters } from "../apis/character";
-import { jwtManager } from "../auth/jwt";
 import { Character } from "../types/character";
 
 

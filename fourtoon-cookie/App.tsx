@@ -13,21 +13,10 @@ import SignUpPage from './src/pages/SignUpPage/SignUpPage';
 import IntroPage from './src/pages/IntroPage/IntroPage';
 import SettingPage from './src/pages/SettingPage/SettingPage';
 import GlobalCharacterListStateProvider from './src/components/global/GlobalCharacterList/GlobalCharacterListStateProvider';
-import { jwtManager } from './src/auth/jwt';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
-
-	const [isJwtLoading, setIsJwtLoading] = useState(true);
-
-	if (isJwtLoading) {
-		jwtManager.loadJwtToken().then(() => {
-			setIsJwtLoading(false);
-		});
-		return null;
-	}
-
 	return (
 		<NavigationContainer>
 			<ActionSheetProvider>

@@ -13,10 +13,10 @@ import { RootStackParamList } from "../../constants/routing";
 import { postMember } from "../../apis/member";
 import { LocalDate } from "@js-joda/core";
 import { GlobalErrorInfoType } from "../../types/error";
-import { jwtManager } from "../../auth/jwt";
 import handleError from "../../error/errorhandler";
 
 import AgreementInputLayout from "./AgreementInputLayout/AgreementInputLayout";
+import { useJWTStore } from "../../store/jwt";
 
 enum SignUpProgres {
     NAME = 1,
@@ -35,6 +35,8 @@ const SignUpPage = () => {
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
+    const { jwt, removeJWT } = useJWTStore();
+
     const isNextButtonAvailabe: boolean = 
         (signUpProgress == SignUpProgres.NAME && name.length > 0)
         || (signUpProgress == SignUpProgres.BIRTH && birth != null && ! birth.isAfter(LocalDate.now()))
@@ -42,7 +44,7 @@ const SignUpPage = () => {
         || (signUpProgress == SignUpProgres.AGREEMENT && isAgreed);
     
     useEffect(() => {
-        if (! jwtManager.getToken()) {
+        if (! jwt) {
             navigation.navigate('IntroPage');
         }
 
@@ -69,7 +71,7 @@ const SignUpPage = () => {
 
     const handleBackButtonPress = () => {
         if (signUpProgress == SignUpProgres.NAME) {
-            jwtManager.setToken(null);
+            removeJWT();
             navigation.goBack();
             return;
         }

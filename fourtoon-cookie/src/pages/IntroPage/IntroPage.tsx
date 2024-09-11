@@ -8,14 +8,16 @@ import { useState } from "react";
 import { getMember } from "../../apis/member";
 import { GlobalErrorInfoType } from "../../types/error";
 import AppleSignInAndSignUpButton from "./AppleSignInAndSignUpButton/AppleSignInAndSignUpButton";
-import { jwtManager } from "../../auth/jwt";
 import { ApiError } from "../../error/ApiError";
 import handleError from "../../error/errorhandler";
+import { useJWTStore } from "../../store/jwt";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const [ isLogined, setIsLogined ] = useState<boolean>(jwtManager.getToken() != null);
+    const { jwt, setJWT, removeJWT } = useJWTStore();
+
+    const [ isLogined, setIsLogined ] = useState<boolean>(jwt != null);
     
     const navigateByCheckingMemberExist = async () => {
         try {
@@ -32,7 +34,7 @@ const IntroPage = () => {
                     error,
                     GlobalErrorInfoType.ALERT,
                     () => {
-                        jwtManager.setToken(null);
+                        removeJWT();
                         setIsLogined(false);
                     }
                 );
@@ -45,7 +47,7 @@ const IntroPage = () => {
     }
 
     const handleSignUpAndSignInSuccess = async (token: JWTToken) => {
-        await jwtManager.setToken(token);
+        setJWT(token);
         navigateByCheckingMemberExist();
     }
 
