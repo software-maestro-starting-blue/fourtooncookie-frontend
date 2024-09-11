@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import React, { useEffect, useRef, useState } from 'react';
+import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { StyleSheet } from 'react-native';
@@ -52,6 +52,13 @@ export default function App() {
 	useEffect(() => {
 		navigateByMemberStatus();
 	}, [member, jwt]);
+
+	useEffect(() => {
+		if (member && ! jwt){
+			logoutMember();
+		}
+	}, [member, jwt]);
+
 	if (! isLoaded) return null;
 
 	return (
