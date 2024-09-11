@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
@@ -11,10 +11,24 @@ import DiaryTimelinePage from './src/pages/DiaryTimelinePage/DiaryTimelinePage';
 import SignUpPage from './src/pages/SignUpPage/SignUpPage';
 import IntroPage from './src/pages/IntroPage/IntroPage';
 import SettingPage from './src/pages/SettingPage/SettingPage';
+import { useCharacterListStore } from './src/store/characterList';
+import { useJWTStore } from './src/store/jwt';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
+
+	const { jwt } = useJWTStore();
+	const { updateCharacterList } = useCharacterListStore();
+
+	useEffect(() => {
+		if (! jwt) return;
+
+		updateCharacterList();
+	}, [jwt, updateCharacterList]);
+
+	if (! jwt) return null;
+
 	return (
 		<NavigationContainer>
 			<ActionSheetProvider>
