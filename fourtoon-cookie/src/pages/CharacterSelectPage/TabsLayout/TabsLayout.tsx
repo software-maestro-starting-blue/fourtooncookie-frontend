@@ -20,11 +20,11 @@ const TabsLayout = (props: TabsLayoutProps) => {
                 label={FREE_KOR}
                 onPress={() => onSelectedPaymentTypeChange(CharacterPaymentType.FREE)} 
             />
-            <Tab 
+            {/* <Tab 
                 isActive={selectedPaymentType === CharacterPaymentType.PAID} 
                 label={PAID_KOR}
                 onPress={() => onSelectedPaymentTypeChange(CharacterPaymentType.PAID)} 
-            />
+            /> */}
         </View>
     );
 };
