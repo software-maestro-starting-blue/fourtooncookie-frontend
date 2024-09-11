@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import React, { useEffect, useRef, useState } from 'react';
+import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { StyleSheet } from 'react-native';
@@ -13,24 +13,56 @@ import IntroPage from './src/pages/IntroPage/IntroPage';
 import SettingPage from './src/pages/SettingPage/SettingPage';
 import { useCharacterListStore } from './src/store/characterList';
 import { useJWTStore } from './src/store/jwt';
+import { useMemberStore } from './src/store/member';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
 
+	const [ isLoaded, setIsLoaded ] = useState<boolean>(false);
+
 	const { jwt } = useJWTStore();
+	const { member, reloadMember, logoutMember } = useMemberStore();
 	const { updateCharacterList } = useCharacterListStore();
 
+	const navigationRef = useRef<NavigationContainerRef<RootStackParamList> | null>(null);
+
+	const navigateByMemberStatus = async () => {
+		if (! jwt) {
+			navigationRef.current?.navigate('IntroPage');
+			return;
+		}
+
+		if (! member){
+			navigationRef.current?.navigate('SignUpPage');
+		}
+
+		navigationRef.current?.navigate('DiaryTimelinePage');
+    }
+
 	useEffect(() => {
-		if (! jwt) return;
+		if (jwt) {
+			reloadMember();
+			updateCharacterList();
+		}
 
-		updateCharacterList();
-	}, [jwt, updateCharacterList]);
+		setIsLoaded(true);
+	}, [jwt, reloadMember, updateCharacterList, isLoaded]);
 
-	if (! jwt) return null;
+	useEffect(() => {
+		navigateByMemberStatus();
+	}, [member, jwt]);
+
+	useEffect(() => {
+		if (member && ! jwt){
+			logoutMember();
+		}
+	}, [member, jwt]);
+
+	if (! isLoaded) return null;
 
 	return (
-		<NavigationContainer>
+		<NavigationContainer ref={navigationRef}>
 			<ActionSheetProvider>
 				<Stack.Navigator initialRouteName="IntroPage" screenOptions={{ headerShown: false }}>
 					<Stack.Screen name="IntroPage" component={IntroPage} />
