@@ -46,7 +46,7 @@ export const postDiary = async (characterId: number, date: LocalDate, content: s
 
     const response = await requestApi(`/diary`, API_METHOD_TYPE.POST, requestBody);
 
-    if (response.status != API_STATUS.CREATED) {
+    if (response.status != API_STATUS.SUCCESS && response.status != API_STATUS.CREATED) {
         throw new ApiError("일기를 저장하는 중 오류가 발생했습니다. 다시 시도해 주세요.", response.status);
     }
 
