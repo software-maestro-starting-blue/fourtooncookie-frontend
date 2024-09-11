@@ -4,51 +4,20 @@ import GoogleSignInAndSignUpButton from "./GoogleSignInAndSignUpButton/GoogleSig
 import type { JWTToken } from "../../types/jwt";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../constants/routing";
-import { useState } from "react";
-import { getMember } from "../../apis/member";
-import { GlobalErrorInfoType } from "../../types/error";
+import { useEffect, useState } from "react";
 import AppleSignInAndSignUpButton from "./AppleSignInAndSignUpButton/AppleSignInAndSignUpButton";
-import { ApiError } from "../../error/ApiError";
-import handleError from "../../error/errorhandler";
 import { useJWTStore } from "../../store/jwt";
+import { useMemberStore } from "../../store/member";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const { jwt, setJWT, removeJWT } = useJWTStore();
-
-    const [ isLogined, setIsLogined ] = useState<boolean>(jwt != null);
-    
-    const navigateByCheckingMemberExist = async () => {
-        try {
-            await getMember();
-            navigation.navigate('DiaryTimelinePage');
-        } catch (error) {
-            if (error instanceof ApiError && error.getStatus() === 404) {
-                navigation.navigate('SignUpPage');
-                return;
-            }
-            
-            if (error instanceof Error) {
-                handleError(
-                    error,
-                    GlobalErrorInfoType.ALERT,
-                    () => {
-                        removeJWT();
-                        setIsLogined(false);
-                    }
-                );
-            }
-        }
-    }
-
-    if (isLogined) {
-        navigateByCheckingMemberExist();
-    }
+    const { jwt, setJWT } = useJWTStore();
+    const { reloadMember } = useMemberStore();
 
     const handleSignUpAndSignInSuccess = async (token: JWTToken) => {
-        setJWT(token);
-        navigateByCheckingMemberExist();
+        await setJWT(token);
+        await reloadMember();
     }
 
     return (
@@ -59,7 +28,7 @@ const IntroPage = () => {
                 </View>
                 <Text style={S.styles.subtitle}>나의 하루를 그림일기로 표현해보세요</Text>
             </View>
-            { !isLogined && <View style={S.styles.buttonsContainer}>
+            { !jwt && <View style={S.styles.buttonsContainer}>
                 <GoogleSignInAndSignUpButton onSuccess={handleSignUpAndSignInSuccess} />
                 <AppleSignInAndSignUpButton onSuccess={handleSignUpAndSignInSuccess} />
             </View> }
