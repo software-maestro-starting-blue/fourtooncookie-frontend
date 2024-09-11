@@ -41,7 +41,18 @@ export const useJWTStore = create(
         }),
         {
             name: "jwt-storage",
-            getStorage: () => AsyncStorage,
+            storage: {
+                getItem: async (name) => {
+                  const item = await AsyncStorage.getItem(name);
+                  return item ? JSON.parse(item) : null;
+                },
+                setItem: async (name, value) => {
+                  await AsyncStorage.setItem(name, JSON.stringify(value));
+                },
+                removeItem: async (name) => {
+                  await AsyncStorage.removeItem(name);
+                },
+            },
         }
     )
 );
