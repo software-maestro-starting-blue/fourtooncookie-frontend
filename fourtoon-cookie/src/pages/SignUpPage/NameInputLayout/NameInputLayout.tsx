@@ -12,7 +12,7 @@ const NameInputLayout = (props: NameInputLayoutProps) => {
     return (
         <TextInput
             style={S.styles.input}
-            placeholder="이름을 입력해주세요"
+            placeholder="닉네임을 입력해주세요"
             placeholderTextColor="#CCCCCC"
             value={name}
             onChangeText={onNameChange}

@@ -104,7 +104,7 @@ const SignUpPage = () => {
                 <Header onBackButtonPress={handleBackButtonPress}/>
                 {
                     signUpProgress == SignUpProgres.NAME && 
-                    <Container title="당신의 이름을 알려주세요">
+                    <Container title="당신의 닉네임을 알려주세요">
                         <NameInputLayout 
                             name={name} 
                             onNameChange={handleNameChange} 
