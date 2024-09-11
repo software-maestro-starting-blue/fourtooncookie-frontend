@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, PersistOptions } from "zustand/middleware";
 import { Member } from "../types/member";
 import { useJWTStore } from "./jwt";
 import { deleteMember, getMember, postMember } from "../apis/member";
@@ -52,6 +52,7 @@ export const useMemberStore = create(
     }), 
     {
         name: "member-storage",
+        partialize: (state: MemberState) => ({ member: state.member }),
         storage: {
             getItem: async (name) => {
                 const item = await AsyncStorage.getItem(name);
@@ -64,5 +65,5 @@ export const useMemberStore = create(
                 await AsyncStorage.removeItem(name);
             },
         }
-    }
+    } as PersistOptions<MemberState>
 ));
