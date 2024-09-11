@@ -35,9 +35,9 @@ export const useMemberStore = create(
             }
         },
 
-        logoutMember: () => {
+        logoutMember: async () => {
             set({ member: null });
-            useJWTStore.getState().removeJWT();
+            await useJWTStore.getState().removeJWT();
         },
 
         resignMember: async () => {
