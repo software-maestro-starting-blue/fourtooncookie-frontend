@@ -71,14 +71,14 @@ const CharacterSelectPage = () => {
                         handleCharacterPress={handleCharacterPress}
                     />
 				}
-				{
+				{/* {
 					(selectedPaymentType === CharacterPaymentType.PAID) &&
 					<ArtworkList
                         groupedCharacters={groupedPaidCharacters}
                         selectedCharacter={selectedCharacter}
                         handleCharacterPress={handleCharacterPress}
                     />
-				}
+				} */}
         </SafeAreaView>
     );
 };
