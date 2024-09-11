@@ -8,11 +8,11 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../../constants/routing';
 import handleError from '../../../error/errorhandler';
 import { APP_INFO_URL } from '../../../constants/appinfo';
-import { useJWTStore } from '../../../store/jwt';
+import { useMemberStore } from '../../../store/member';
 
 const MenuLayout = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-    const { removeJWT } = useJWTStore();
+    const { logoutMember } = useMemberStore();
     const [ isModalVisible, setIsModalVisible ] = useState(false);
 
     const handleInquiry = () => {
@@ -25,7 +25,7 @@ const MenuLayout = () => {
     }
 
     const handleLogout = async () => {
-        removeJWT();
+        logoutMember();
         navigation.navigate('IntroPage');
     }
 
