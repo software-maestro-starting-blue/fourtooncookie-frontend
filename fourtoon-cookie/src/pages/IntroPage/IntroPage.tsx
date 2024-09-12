@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import AppleSignInAndSignUpButton from "./AppleSignInAndSignUpButton/AppleSignInAndSignUpButton";
 import { useJWTStore } from "../../store/jwt";
 import { useMemberStore } from "../../store/member";
+import { OAuthProvider } from "../../types/oauth";
+import { supabaseSignInAndSignUpWithIdToken } from "../../auth/supabase";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -15,7 +17,8 @@ const IntroPage = () => {
     const { jwt, setJWT } = useJWTStore();
     const { reloadMember } = useMemberStore();
 
-    const handleSignUpAndSignInSuccess = async (token: JWTToken) => {
+    const handleSignUpAndSignInSuccess = async (oauthProvider: OAuthProvider, idToken: string, nonce?: string) => {
+        const token: JWTToken = await supabaseSignInAndSignUpWithIdToken(oauthProvider, idToken, nonce);
         await setJWT(token);
         await reloadMember();
     }

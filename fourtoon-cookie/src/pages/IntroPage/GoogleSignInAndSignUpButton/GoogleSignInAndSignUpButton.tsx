@@ -1,13 +1,11 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
-import {supabaseSignInAndSignUpWithIdToken} from "../../../auth/supabase";
-import type {JWTToken} from "../../../types/jwt";
 import { OAuthProvider } from "../../../types/oauth";
 import {getGoogleIdTokenWithNativeLogin} from "../../../auth/googleOAuth";
 import { Image, Text, TouchableOpacity } from 'react-native';
 import * as S from './GoogleSignInAndSignUpButton.styled';
 
 export interface GoogleSignInAndSignUpButtonProps {
-    onSuccess: (token: JWTToken) => void;
+    onSuccess: (oauthProvider: OAuthProvider, idToken: string) => void;
 }
 
 const GoogleSignInAndSignUpButton = (props: GoogleSignInAndSignUpButtonProps) => {
@@ -20,14 +18,9 @@ const GoogleSignInAndSignUpButton = (props: GoogleSignInAndSignUpButtonProps) =>
     });
 
     const handlePress = async () => {
-        try {
-            const idToken = await getGoogleIdTokenWithNativeLogin();
-            if (idToken) {
-                const token: JWTToken = await supabaseSignInAndSignUpWithIdToken(OAuthProvider.GOOGLE, idToken);
-                onSuccess(token);
-            }
-        } catch (error) {
-        }
+        const idToken = await getGoogleIdTokenWithNativeLogin();
+        if (!idToken) return;
+        onSuccess(OAuthProvider.GOOGLE, idToken);
     }
 
     return (
