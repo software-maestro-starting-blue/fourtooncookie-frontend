@@ -1,14 +1,14 @@
 import { Image, Text, TextStyle, TouchableOpacity } from "react-native"
-import CHEVRON_RIGHT from '../../../../../assets/icon/chevron-right.png';
-import * as S from "./MenuItem.styled";
+import CHEVRON_RIGHT from '../../../../assets/icon/chevron-right.png';
+import * as S from "./MenuWideButton.styled";
 
-export interface MenuItemProps {
+export interface MenuWideButtonProps {
     menuText: string,
     onPress: () => void;
     textStyle?: TextStyle;
 }
 
-const MenuItem = (props: MenuItemProps) => {
+const MenuWideButton = (props: MenuWideButtonProps) => {
     const { menuText, onPress, textStyle, ...rest } = props;
 
     return (
@@ -19,4 +19,4 @@ const MenuItem = (props: MenuItemProps) => {
     )
 }
 
-export default MenuItem;
+export default MenuWideButton;

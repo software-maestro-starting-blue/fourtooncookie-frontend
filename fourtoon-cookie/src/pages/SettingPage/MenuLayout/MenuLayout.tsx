@@ -1,5 +1,5 @@
 import { View, Linking } from 'react-native';
-import MenuItem from './MenuItem/MenuItem';
+import MenuWideButton from '../../../components/common/MenuWideButton/MenuWideButton';
 import { useContext, useState } from 'react';
 import { GlobalErrorInfoType } from '../../../types/error';
 import ResignModal from './ResignModal/ResignModal';
@@ -39,9 +39,9 @@ const MenuLayout = () => {
     
     return (
         <View style={S.styles.menuContainer}>
-            <MenuItem menuText='앱 정보' onPress={handleInquiry} />
-            <MenuItem menuText='로그아웃' onPress={handleLogout} />
-            <MenuItem menuText='탈퇴하기' onPress={handleResignButtonPress} textStyle={S.styles.deleteText} />
+            <MenuWideButton menuText='앱 정보' onPress={handleInquiry} />
+            <MenuWideButton menuText='로그아웃' onPress={handleLogout} />
+            <MenuWideButton menuText='탈퇴하기' onPress={handleResignButtonPress} textStyle={S.styles.deleteText} />
             <ResignModal
                 visible={isModalVisible}
                 onClose={handleResignModelClose}
