@@ -6,12 +6,10 @@ import * as S from './ArtworkList.styeld';
 
 export interface ArtworkListProps {
   groupedCharacters: Record<string, Character[]>;
-  selectedCharacter: Character | null;
-  handleCharacterPress: (character: Character) => void;
 }
 
 const ArtworkList = (props: ArtworkListProps) => {
-	const { groupedCharacters, selectedCharacter, handleCharacterPress, ...rest } = props;
+	const { groupedCharacters, ...rest } = props;
 
   	return (
 		<FlatList
@@ -21,8 +19,6 @@ const ArtworkList = (props: ArtworkListProps) => {
 				<ArtworkItem
 					artworkName={item}
 					artworkCharacters={groupedCharacters[item]}
-					selectedCharacter={selectedCharacter}
-					handleCharacterPress={handleCharacterPress}
 				/>
 			}
 		/>
@@ -32,19 +28,15 @@ const ArtworkList = (props: ArtworkListProps) => {
 interface ArtworkItemProps {
     artworkName: string;
     artworkCharacters: Character[];
-    selectedCharacter: Character | null;
-    handleCharacterPress: (character: Character) => void;
 }
   
 const ArtworkItem = (props: ArtworkItemProps) => {
-    const { artworkName, artworkCharacters, selectedCharacter, handleCharacterPress, ...rest } = props;
+    const { artworkName, artworkCharacters, ...rest } = props;
     return (
         <View key={artworkName} style={S.styles.artworkContainer}>
 			<Text style={S.styles.artworkTitle}>{artworkName}</Text>
 			<CharacterList
 				characters={artworkCharacters}
-				selectedCharacter={selectedCharacter}
-				handleCharacterPress={handleCharacterPress}
 				numColumns={3}
 			/>
         </View>

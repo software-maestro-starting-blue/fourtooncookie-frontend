@@ -2,18 +2,25 @@ import React from 'react';
 import { TouchableOpacity, Image, Text, View } from 'react-native';
 import type { Character } from '../../../types/character';
 import * as S from './CharacterItem.styled';
+import { useSelectedCharacterStore } from '../../../store/selectedCharacter';
 
 export interface CharacterItemProps {
     character: Character;
-    isSelected: boolean;
-    onPress: () => void;
 }
 
 const CharacterItem = (props:CharacterItemProps) => {
-    const { character, isSelected, onPress, ...rest } = props;
+    const { character, ...rest } = props;
+
+    const { selectedCharacter, setSelectedCharacter } = useSelectedCharacterStore();
+
+    const isSelected: boolean = selectedCharacter?.id == character.id;
+
+    const handlePress = () => {
+        setSelectedCharacter(character);
+    }
                 
     return (
-        <TouchableOpacity style={S.styles.characterContainer} onPress={onPress}>
+        <TouchableOpacity style={S.styles.characterContainer} onPress={handlePress}>
             <View style={S.styles.imageContainer}>
                 <Image 
                     source={{ uri: character.selectionThumbnailUrl }} 

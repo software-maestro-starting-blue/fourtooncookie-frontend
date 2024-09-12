@@ -46,10 +46,6 @@ const CharacterSelectPage = () => {
     const groupedFreeCharacters = useMemo(() => groupByArtworkTitle(getCharactersByType(CharacterPaymentType.FREE, characterList)), [characterList]);
     const groupedPaidCharacters = useMemo(() => groupByArtworkTitle(getCharactersByType(CharacterPaymentType.PAID, characterList)), [characterList]);
 
-    const handleCharacterPress = (character: Character) => {
-        setSelectedCharacter(character);
-    };
-
     const handleSelectedPaymentTypeChange = (characterPaymentType: CharacterPaymentType) => {
         setSelectedPaymentType(characterPaymentType);
     }
@@ -67,8 +63,6 @@ const CharacterSelectPage = () => {
 					(selectedPaymentType === CharacterPaymentType.FREE) &&
 					<ArtworkList
                         groupedCharacters={groupedFreeCharacters}
-                        selectedCharacter={selectedCharacter}
-                        handleCharacterPress={handleCharacterPress}
                     />
 				}
 				{/* {
