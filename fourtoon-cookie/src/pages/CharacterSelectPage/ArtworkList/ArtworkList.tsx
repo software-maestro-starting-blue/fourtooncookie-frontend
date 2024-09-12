@@ -36,7 +36,7 @@ const ArtworkList = (props: ArtworkListProps) => {
 				keyExtractor={(artworkTitle) => artworkTitle}
 				renderItem={ ({ item })=> 
 					<ArtworkItem
-						artworkName={item}
+				artworkTitle={item}
 						artworkCharacters={charactersGroupedByArtworkTitle[item]}
 					/>
 				}
@@ -47,15 +47,15 @@ const ArtworkList = (props: ArtworkListProps) => {
 }
 
 interface ArtworkItemProps {
-    artworkName: string;
+    artworkTitle: string;
     artworkCharacters: Character[];
 }
   
 const ArtworkItem = (props: ArtworkItemProps) => {
-    const { artworkName, artworkCharacters, ...rest } = props;
+    const { artworkTitle, artworkCharacters, ...rest } = props;
     return (
-        <View key={artworkName} style={S.styles.artworkContainer}>
-			<Text style={S.styles.artworkTitle}>{artworkName}</Text>
+        <View key={artworkTitle} style={S.styles.artworkContainer}>
+			<Text style={S.styles.artworkTitle}>{artworkTitle}</Text>
 			<CharacterList
 				characters={artworkCharacters}
 				numColumns={3}
