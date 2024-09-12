@@ -31,18 +31,18 @@ const ArtworkList = (props: ArtworkListProps) => {
 			characterList.filter(character => character.paymentType === paymentType)
 		)
 	
-		  return (
+		return (
 			<FlatList
 				data={Object.keys(charactersGroupedByArtworkTitle)}
 				keyExtractor={(artworkTitle) => artworkTitle}
 				renderItem={ ({ item })=> 
 					<ArtworkItem
-				artworkTitle={item}
+						artworkTitle={item}
 						artworkCharacters={charactersGroupedByArtworkTitle[item]}
 					/>
 				}
 			/>
-		  );
+		);
 
 	}, [paymentType, characterList]);
 }
