@@ -5,7 +5,7 @@ import type { Member } from '../../types/member';
 import MenuLayout from './MenuLayout/MenuLayout';
 import { GlobalErrorInfoType } from '../../types/error';
 import MainPageLayout from '../../components/layout/MainPageLayout/MainPageLayout';
-import InfoLayout from './InfoLayout/InfoLayout';
+import ProfileLayout from './ProfileLayout/ProfileLayout';
 import handleError from '../../error/errorhandler';
 import { FOOTER_STATE } from '../../components/layout/MainPageLayout/Footer/Footer';
 
@@ -14,7 +14,7 @@ const SettingPage = () => {
 	return (
     	<MainPageLayout footerState={FOOTER_STATE.SETTING} >
 			<View style={S.styles.container}>
-				<InfoLayout />
+				<ProfileLayout />
 				<MenuLayout />
 			</View>
     	</MainPageLayout>

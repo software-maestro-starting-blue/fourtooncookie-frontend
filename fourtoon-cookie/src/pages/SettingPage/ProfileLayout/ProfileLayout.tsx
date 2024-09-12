@@ -1,11 +1,11 @@
 import { Image, Text, TouchableOpacity, View } from 'react-native';
-import * as S from "./InfoLayout.styled";
+import * as S from "./ProfileLayout.styled";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../../constants/routing';
 import { useSelectedCharacterStore } from '../../../store/selectedCharacter';
 import { useMemberStore } from '../../../store/member';
 
-const InfoLayout = () => {
+const ProfileLayout = () => {
 
     const { member } = useMemberStore();
 
@@ -28,4 +28,4 @@ const InfoLayout = () => {
     )
 }
 
-export default InfoLayout;
+export default ProfileLayout;
