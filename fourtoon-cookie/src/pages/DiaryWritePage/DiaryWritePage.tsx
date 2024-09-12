@@ -73,12 +73,6 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
         setDiaryDate(newDate);
     }
 
-    const handleCharacterChooseButtonPress = () => {
-        if (isWorking) return;
-
-        navigation.navigate('CharacterSelectPage');
-    }
-
     const handleWriteDoneButtonPress = async () => {
         if (isWorking) return;
 
@@ -137,7 +131,6 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
                     date={diaryDate} 
                     isDateChangeable={! isEdit}
                     onDateChange={handleDiaryDateChange}
-                    onCharacterChoosePress={handleCharacterChooseButtonPress}
                 />
                 <TextInputLayout
                     text={content}
