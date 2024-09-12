@@ -23,7 +23,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
 
 const DiaryWritePage = ({ route }: DiaryWritePageProp) => {
-    const { currentDiaryId, ...rest } = route.params;
+    const { currentDiaryId, ...rest } = route.params || { currentDiaryId : undefined };
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const { getDiaryById } = useDiaryListStore();
