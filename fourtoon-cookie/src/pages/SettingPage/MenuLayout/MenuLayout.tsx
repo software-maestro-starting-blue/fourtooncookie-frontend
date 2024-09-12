@@ -13,7 +13,7 @@ const MenuLayout = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const { logoutMember, resignMember } = useMemberStore();
 
-    const handleInquiry = () => {
+    const handleAppInfoButtonPress = () => {
         Linking.openURL(APP_INFO_URL).catch(err => 
             handleError(
                 new Error('앱 정보 페이지를 열 수 없습니다.'),
@@ -22,7 +22,7 @@ const MenuLayout = () => {
         );
     }
 
-    const handleLogout = async () => {
+    const handleLogoutButtonPress = async () => {
         logoutMember();
         navigation.navigate('IntroPage');
     }
@@ -60,8 +60,8 @@ const MenuLayout = () => {
     
     return (
         <View style={S.styles.menuContainer}>
-            <MenuWideButton menuText='앱 정보' onPress={handleInquiry} />
-            <MenuWideButton menuText='로그아웃' onPress={handleLogout} />
+            <MenuWideButton menuText='앱 정보' onPress={handleAppInfoButtonPress} />
+            <MenuWideButton menuText='로그아웃' onPress={handleLogoutButtonPress} />
             <MenuWideButton menuText='탈퇴하기' onPress={handleResignButtonPress} textStyle={S.styles.deleteText} />
         </View>
     );
