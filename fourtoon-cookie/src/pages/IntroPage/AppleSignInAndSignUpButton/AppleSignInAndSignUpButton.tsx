@@ -1,15 +1,14 @@
 import React from 'react';
-import {Image, Platform, Text, TouchableOpacity, View} from 'react-native';
-import {appleAuthAndroid} from '@invertase/react-native-apple-authentication';
-import {getAppleIdToken} from "../../../auth/appleOAuth";
-import {supabaseSignInAndSignUpWithIdToken} from "../../../auth/supabase";
-import {OAuthProvider} from "../../../types/oauth";
-import type {JWTToken} from "../../../types/jwt";
-import {OS} from "../../../types/os";
+import { Image, Platform, Text, TouchableOpacity } from 'react-native';
+import { appleAuthAndroid } from '@invertase/react-native-apple-authentication';
+import { getAppleIdToken } from "../../../auth/appleOAuth";
+import { OAuthProvider } from "../../../types/oauth";
+import { OS } from "../../../types/os";
+
 import * as S from "./AppleSignInAndSignUpButton.styled";
 
 export interface AppleSignInAndSignUpButtonProps {
-    onSuccess: (token: JWTToken) => void;
+    onSuccess: (oauthProvider: OAuthProvider, idToken: string, nonce?: string) => void;
 }
 
 const AppleSignInAndSignUpButton = (props: AppleSignInAndSignUpButtonProps) => {
@@ -17,11 +16,8 @@ const AppleSignInAndSignUpButton = (props: AppleSignInAndSignUpButtonProps) => {
 
     const handlePress = async () => {
         const [idToken, nonce] = await getAppleIdToken();
-        if (idToken) {
-            const token = await supabaseSignInAndSignUpWithIdToken(OAuthProvider.APPLE, idToken, nonce);
-            onSuccess(token);
-        }
-        // TODO: 다른 방식으로 에러 핸들링
+        if (!idToken) return;
+        onSuccess(OAuthProvider.APPLE, idToken, nonce);
     }
 
     return (Platform.OS === OS.IOS || appleAuthAndroid.isSupported) && (
