@@ -6,13 +6,11 @@ import * as S from './CharacterList.styled';
 
 export interface CharacterListProps {
   characters: Character[];
-  selectedCharacter: Character | null;
-  handleCharacterPress: (character: Character) => void;
   numColumns: number;
 }
 
 const CharacterList = (props: CharacterListProps) => {
-    const { characters, selectedCharacter, handleCharacterPress, numColumns, ...rest } = props;
+    const { characters, numColumns, ...rest } = props;
 
     return (
         <FlatList
@@ -21,8 +19,6 @@ const CharacterList = (props: CharacterListProps) => {
             renderItem={({ item }) => (
                 <CharacterItem
                     character={item}
-                    isSelected={selectedCharacter?.id === item.id}
-                    onPress={() => handleCharacterPress(item)}
                 />
             )}
             numColumns={numColumns}

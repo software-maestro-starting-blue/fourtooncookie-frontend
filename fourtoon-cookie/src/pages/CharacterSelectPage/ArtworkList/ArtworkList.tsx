@@ -1,50 +1,64 @@
-import React from 'react';
-import { Text, View, FlatList, ListRenderItem } from 'react-native';
-import type { Character } from '../../../types/character';
+import React, { useMemo } from 'react';
+import { Text, View, FlatList } from 'react-native';
 import CharacterList from '../../../components/character/CharacterList/CharacterList';
+import { useCharacterListStore } from '../../../store/characterList';
+import type { Character, CharacterPaymentType } from '../../../types/character';
+
 import * as S from './ArtworkList.styeld';
 
 export interface ArtworkListProps {
-  groupedCharacters: Record<string, Character[]>;
-  selectedCharacter: Character | null;
-  handleCharacterPress: (character: Character) => void;
+	paymentType: CharacterPaymentType
 }
 
 const ArtworkList = (props: ArtworkListProps) => {
-	const { groupedCharacters, selectedCharacter, handleCharacterPress, ...rest } = props;
+	const { paymentType, ...rest } = props;
 
-  	return (
-		<FlatList
-			data={Object.keys(groupedCharacters)}
-			keyExtractor={(item) => item}
-			renderItem={ ({ item } )=> 
-				<ArtworkItem
-					artworkName={item}
-					artworkCharacters={groupedCharacters[item]}
-					selectedCharacter={selectedCharacter}
-					handleCharacterPress={handleCharacterPress}
-				/>
-			}
-		/>
-  	);
-};
+	const { characterList } = useCharacterListStore();
+
+	return useMemo(() => {
+
+		const groupByArtworkTitle = (characters: Character[]) => {
+			return characters.reduce((acc, character) => {
+				if (!acc[character.artworkTitle]) {
+					acc[character.artworkTitle] = [];
+				}
+				acc[character.artworkTitle].push(character);
+				return acc;
+			}, {} as Record<string, Character[]>);
+		};
+
+		const charactersGroupedByArtworkTitle = groupByArtworkTitle(
+			characterList.filter(character => character.paymentType === paymentType)
+		)
+	
+		return (
+			<FlatList
+				data={Object.keys(charactersGroupedByArtworkTitle)}
+				keyExtractor={(artworkTitle) => artworkTitle}
+				renderItem={ ({ item })=> 
+					<ArtworkItem
+						artworkTitle={item}
+						artworkCharacters={charactersGroupedByArtworkTitle[item]}
+					/>
+				}
+			/>
+		);
+
+	}, [paymentType, characterList]);
+}
 
 interface ArtworkItemProps {
-    artworkName: string;
+    artworkTitle: string;
     artworkCharacters: Character[];
-    selectedCharacter: Character | null;
-    handleCharacterPress: (character: Character) => void;
 }
   
 const ArtworkItem = (props: ArtworkItemProps) => {
-    const { artworkName, artworkCharacters, selectedCharacter, handleCharacterPress, ...rest } = props;
+    const { artworkTitle, artworkCharacters, ...rest } = props;
     return (
-        <View key={artworkName} style={S.styles.artworkContainer}>
-			<Text style={S.styles.artworkTitle}>{artworkName}</Text>
+        <View key={artworkTitle} style={S.styles.artworkContainer}>
+			<Text style={S.styles.artworkTitle}>{artworkTitle}</Text>
 			<CharacterList
 				characters={artworkCharacters}
-				selectedCharacter={selectedCharacter}
-				handleCharacterPress={handleCharacterPress}
 				numColumns={3}
 			/>
         </View>
