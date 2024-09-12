@@ -1,29 +1,50 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Text, View, FlatList, ListRenderItem } from 'react-native';
-import type { Character } from '../../../types/character';
+import type { Character, CharacterPaymentType } from '../../../types/character';
 import CharacterList from '../../../components/character/CharacterList/CharacterList';
 import * as S from './ArtworkList.styeld';
+import { useCharacterListStore } from '../../../store/characterList';
 
 export interface ArtworkListProps {
-  groupedCharacters: Record<string, Character[]>;
+	paymentType: CharacterPaymentType
 }
 
 const ArtworkList = (props: ArtworkListProps) => {
-	const { groupedCharacters, ...rest } = props;
+	const { paymentType, ...rest } = props;
 
-  	return (
-		<FlatList
-			data={Object.keys(groupedCharacters)}
-			keyExtractor={(item) => item}
-			renderItem={ ({ item } )=> 
-				<ArtworkItem
-					artworkName={item}
-					artworkCharacters={groupedCharacters[item]}
-				/>
-			}
-		/>
-  	);
-};
+	const { characterList } = useCharacterListStore();
+
+	return useMemo(() => {
+
+		const groupByArtworkTitle = (characters: Character[]) => {
+			return characters.reduce((acc, character) => {
+				if (!acc[character.artworkTitle]) {
+					acc[character.artworkTitle] = [];
+				}
+				acc[character.artworkTitle].push(character);
+				return acc;
+			}, {} as Record<string, Character[]>);
+		};
+
+		const groupedCharacters = groupByArtworkTitle(
+			characterList.filter(character => character.paymentType === paymentType)
+		)
+	
+		  return (
+			<FlatList
+				data={Object.keys(groupedCharacters)}
+				keyExtractor={(item) => item}
+				renderItem={ ({ item } )=> 
+					<ArtworkItem
+						artworkName={item}
+						artworkCharacters={groupedCharacters[item]}
+					/>
+				}
+			/>
+		  );
+
+	}, [paymentType, characterList]);
+}
 
 interface ArtworkItemProps {
     artworkName: string;
