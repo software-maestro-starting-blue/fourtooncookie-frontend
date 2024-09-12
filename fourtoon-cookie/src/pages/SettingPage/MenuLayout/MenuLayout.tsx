@@ -1,13 +1,13 @@
 import { View, Linking, Alert } from 'react-native';
-import MenuWideButton from '../../../components/common/MenuWideButton/MenuWideButton';
-import { useContext, useState } from 'react';
-import { GlobalErrorInfoType } from '../../../types/error';
-import * as S from './MenuLayout.styled';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
+import MenuWideButton from '../../../components/common/MenuWideButton/MenuWideButton';
+import { APP_INFO_URL } from '../../../constants/appinfo';
 import { RootStackParamList } from '../../../constants/routing';
 import handleError from '../../../error/errorhandler';
-import { APP_INFO_URL } from '../../../constants/appinfo';
 import { useMemberStore } from '../../../store/member';
+import { GlobalErrorInfoType } from '../../../types/error';
+
+import * as S from './MenuLayout.styled';
 
 const MenuLayout = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
