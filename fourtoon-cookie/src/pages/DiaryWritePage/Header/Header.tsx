@@ -22,10 +22,6 @@ const Header = (props: HeaderProps) => {
 
     const { selectedCharacter } = useSelectedCharacterStore();
 
-    if (! selectedCharacter){
-        return null;
-    }
-
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     const handleCharacterChoosePress = () => {
@@ -36,7 +32,7 @@ const Header = (props: HeaderProps) => {
         <View style={S.styles.header}>
             <BackButton style={S.styles.backButton} />
             <DateInfo date={date} isChangeable={isDateChangeable} onDateChange={onDateChange} />
-            <CharacterIconButton onCharacterChoosePress={handleCharacterChoosePress} />
+            {selectedCharacter && <CharacterIconButton onCharacterChoosePress={handleCharacterChoosePress} />}
         </View>
     );
 }
