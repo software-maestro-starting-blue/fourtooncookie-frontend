@@ -25,30 +25,23 @@ import { Diary } from "../../types/diary";
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
 
 const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
-    const { diary, isEdit, ...rest } = route.params || { diary: undefined, isEdit: false };
+    const { currentDiaryId, ...rest } = route.params;
 
+    const { getDiaryById } = useDiaryListStore();
+
+    const currentDiary: Diary | undefined = currentDiaryId ? getDiaryById(currentDiaryId) : undefined
     
-    const [diaryDate, setDiaryDate] = useState<LocalDate>(diary ? diary.diaryDate : LocalDate.now());
-    const [content, setContent] = useState<string>(diary ? diary.content : "");
+    const [diaryDate, setDiaryDate] = useState<LocalDate>(currentDiary ? currentDiary.diaryDate : LocalDate.now());
+    const [content, setContent] = useState<string>(currentDiary ? currentDiary.content : "");
     const [isWorking, setIsWorking] = useState<boolean>(false);
 
     const { selectedCharacter } = useSelectedCharacterStore();
 
     const { postDiary, updateDiary } = useDiaryListStore();
 
-    const currentDiaryId = diary ? diary.diaryId : -1;
     const isNextButtonEnabled: boolean = content.length > 0;
     
     useEffect(() => {
-        if (isEdit && ! diary) {
-            handleError(
-                new RuntimeError("잘못된 형식입니다."),
-                GlobalErrorInfoType.ALERT,
-                () => {
-                    navigation.navigate('DiaryTimelinePage');
-                }
-            );
-        }
         if (! selectedCharacter) {
             handleError(
                 new RuntimeError("캐릭터가 선택되지 않았습니다."),
@@ -58,12 +51,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
                 }
             );
         }
-    }, [isEdit, diary, selectedCharacter]);
-
-
-    if (isEdit && ! diary){
-        return null;
-    }
+    }, [selectedCharacter]);
 
     if (! selectedCharacter) {
         return null;
@@ -78,8 +66,8 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
 
         setIsWorking(true);
 
-        const diary: Diary = {
-            diaryId: currentDiaryId,
+        const diary: Diary = currentDiary ? currentDiary : {
+            diaryId: -1,
             content: content,
             isFavorite: false,
             diaryDate: diaryDate,
@@ -88,16 +76,10 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
         }
 
         try {
-            if (! isEdit) {
+            if (! currentDiaryId) {
                 await postDiary(diary);
-            } else if (currentDiaryId !== -1) {
-                await updateDiary(diary);
             } else {
-                handleError(
-                    new RuntimeError("잘못된 형식입니다."),
-                    GlobalErrorInfoType.ALERT
-                );
-                return;
+                await updateDiary(diary);
             }
 
             navigation.navigate('DiaryTimelinePage');
@@ -129,7 +111,7 @@ const DiaryWritePage = ({ navigation, route }: DiaryWritePageProp) => {
             <View style={S.styles.container}>
                 <Header 
                     date={diaryDate} 
-                    isDateChangeable={! isEdit}
+                    isDateChangeable={! currentDiaryId}
                     onDateChange={handleDiaryDateChange}
                 />
                 <TextInputLayout

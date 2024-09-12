@@ -49,7 +49,7 @@ const DiaryComponent = (props: DiaryProps) => {
     };
 
     const handleEdit = () => {
-        navigation.navigate("DiaryWritePage", { diary: diary, isEdit: true });
+        navigation.navigate("DiaryWritePage", { currentDiaryId: diaryId });
     };
 
     const handleDelete = () => {
