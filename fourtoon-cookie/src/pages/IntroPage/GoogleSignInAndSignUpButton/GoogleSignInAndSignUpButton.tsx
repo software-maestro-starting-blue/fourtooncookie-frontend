@@ -1,7 +1,8 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
-import { OAuthProvider } from "../../../types/oauth";
-import {getGoogleIdTokenWithNativeLogin} from "../../../auth/googleOAuth";
 import { Image, Text, TouchableOpacity } from 'react-native';
+import { getGoogleIdTokenWithNativeLogin } from "../../../auth/googleOAuth";
+import { OAuthProvider } from "../../../types/oauth";
+
 import * as S from './GoogleSignInAndSignUpButton.styled';
 
 export interface GoogleSignInAndSignUpButtonProps {

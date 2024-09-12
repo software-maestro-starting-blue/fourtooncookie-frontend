@@ -1,9 +1,10 @@
 import React from 'react';
-import {Image, Platform, Text, TouchableOpacity, View} from 'react-native';
-import {appleAuthAndroid} from '@invertase/react-native-apple-authentication';
-import {getAppleIdToken} from "../../../auth/appleOAuth";
-import {OAuthProvider} from "../../../types/oauth";
-import {OS} from "../../../types/os";
+import { Image, Platform, Text, TouchableOpacity } from 'react-native';
+import { appleAuthAndroid } from '@invertase/react-native-apple-authentication';
+import { getAppleIdToken } from "../../../auth/appleOAuth";
+import { OAuthProvider } from "../../../types/oauth";
+import { OS } from "../../../types/os";
+
 import * as S from "./AppleSignInAndSignUpButton.styled";
 
 export interface AppleSignInAndSignUpButtonProps {

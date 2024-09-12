@@ -1,15 +1,15 @@
 import { View, Image, Text } from "react-native";
-import * as S from './IntroPage.styled';
-import GoogleSignInAndSignUpButton from "./GoogleSignInAndSignUpButton/GoogleSignInAndSignUpButton";
-import type { JWTToken } from "../../types/jwt";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { supabaseSignInAndSignUpWithIdToken } from "../../auth/supabase";
 import { RootStackParamList } from "../../constants/routing";
-import { useEffect, useState } from "react";
-import AppleSignInAndSignUpButton from "./AppleSignInAndSignUpButton/AppleSignInAndSignUpButton";
 import { useJWTStore } from "../../store/jwt";
 import { useMemberStore } from "../../store/member";
 import { OAuthProvider } from "../../types/oauth";
-import { supabaseSignInAndSignUpWithIdToken } from "../../auth/supabase";
+import type { JWTToken } from "../../types/jwt";
+
+import AppleSignInAndSignUpButton from "./AppleSignInAndSignUpButton/AppleSignInAndSignUpButton";
+import GoogleSignInAndSignUpButton from "./GoogleSignInAndSignUpButton/GoogleSignInAndSignUpButton";
+import * as S from './IntroPage.styled';
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
