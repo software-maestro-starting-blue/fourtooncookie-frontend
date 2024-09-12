@@ -1,8 +1,7 @@
-import { View, Linking } from 'react-native';
+import { View, Linking, Alert } from 'react-native';
 import MenuWideButton from '../../../components/common/MenuWideButton/MenuWideButton';
 import { useContext, useState } from 'react';
 import { GlobalErrorInfoType } from '../../../types/error';
-import ResignModal from './ResignModal/ResignModal';
 import * as S from './MenuLayout.styled';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../../constants/routing';
@@ -12,8 +11,7 @@ import { useMemberStore } from '../../../store/member';
 
 const MenuLayout = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-    const { logoutMember } = useMemberStore();
-    const [ isModalVisible, setIsModalVisible ] = useState(false);
+    const { logoutMember, resignMember } = useMemberStore();
 
     const handleInquiry = () => {
         Linking.openURL(APP_INFO_URL).catch(err => 
@@ -29,12 +27,35 @@ const MenuLayout = () => {
         navigation.navigate('IntroPage');
     }
 
-    const handleResignButtonPress = () => {
-        setIsModalVisible(true);
-    }
+    const handleResignButtonPress = async () => {
+        const handleResign = () => {
+            try {
+                resignMember();
+                navigation.navigate('IntroPage');
+            } catch (error) {
+                if (error instanceof Error) {
+                    handleError(
+                        error,
+                        GlobalErrorInfoType.ALERT
+                    );
+                }
+            }
+        }
 
-    const handleResignModelClose = () => {
-        setIsModalVisible(false);
+        Alert.alert(
+            '정말 탈퇴하시겠습니까?',
+            '탈퇴하시면 그동안의 기록이 전부 삭제됩니다.',
+            [
+                {
+                    text: '확인',
+                    onPress: handleResign,
+                    style: 'destructive'
+                },
+                {
+                    text: '취소'
+                }
+            ]
+        );
     }
     
     return (
@@ -42,10 +63,6 @@ const MenuLayout = () => {
             <MenuWideButton menuText='앱 정보' onPress={handleInquiry} />
             <MenuWideButton menuText='로그아웃' onPress={handleLogout} />
             <MenuWideButton menuText='탈퇴하기' onPress={handleResignButtonPress} textStyle={S.styles.deleteText} />
-            <ResignModal
-                visible={isModalVisible}
-                onClose={handleResignModelClose}
-            />
         </View>
     );
 }
