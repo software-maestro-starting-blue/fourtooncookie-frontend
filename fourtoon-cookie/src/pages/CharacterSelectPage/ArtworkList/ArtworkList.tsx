@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react';
-import { Text, View, FlatList, ListRenderItem } from 'react-native';
-import type { Character, CharacterPaymentType } from '../../../types/character';
+import { Text, View, FlatList } from 'react-native';
 import CharacterList from '../../../components/character/CharacterList/CharacterList';
-import * as S from './ArtworkList.styeld';
 import { useCharacterListStore } from '../../../store/characterList';
+import type { Character, CharacterPaymentType } from '../../../types/character';
+
+import * as S from './ArtworkList.styeld';
 
 export interface ArtworkListProps {
 	paymentType: CharacterPaymentType

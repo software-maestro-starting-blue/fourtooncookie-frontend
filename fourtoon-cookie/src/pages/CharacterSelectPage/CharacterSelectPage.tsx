@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ArtworkList from './ArtworkList/ArtworkList';
-import TabsLayout from './TabsLayout/TabsLayout';
-import { CharacterPaymentType } from '../../types/character';
-import * as S from './CharacterSelectPage.styled';
-import Header from './Header/Header';
 import { useCharacterListStore } from '../../store/characterList';
+import { CharacterPaymentType } from '../../types/character';
+
+import Header from './Header/Header';
+import TabsLayout from './TabsLayout/TabsLayout';
+import ArtworkList from './ArtworkList/ArtworkList';
+
+import * as S from './CharacterSelectPage.styled';
+
 
 const CharacterSelectPage = () => {
     const [ selectedPaymentType, setSelectedPaymentType ] = useState<CharacterPaymentType>(CharacterPaymentType.FREE);

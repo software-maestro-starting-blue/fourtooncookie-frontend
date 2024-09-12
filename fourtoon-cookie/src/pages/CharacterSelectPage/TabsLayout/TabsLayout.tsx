@@ -1,8 +1,9 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import * as S from './TabsLayout.styled';
 import { FREE_KOR, PAID_KOR } from '../../../constants/character';
 import { CharacterPaymentType } from '../../../types/character';
+
+import * as S from './TabsLayout.styled';
 
 export interface TabsLayoutProps {
     selectedPaymentType: CharacterPaymentType;

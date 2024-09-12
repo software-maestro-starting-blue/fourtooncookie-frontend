@@ -1,11 +1,10 @@
 import { Text, View } from "react-native";
 import BackButton from "../../../components/common/BackButton/BackButton";
-
-import * as S from "./Header.styled";
-import { useContext } from "react";
 import handleError from "../../../error/errorhandler";
 import { GlobalErrorInfoType } from "../../../types/error";
 import { useSelectedCharacterStore } from "../../../store/selectedCharacter";
+
+import * as S from "./Header.styled";
 
 const Header = () => {
 
