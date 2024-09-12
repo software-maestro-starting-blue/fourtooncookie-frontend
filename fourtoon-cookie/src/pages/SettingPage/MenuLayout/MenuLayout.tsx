@@ -1,21 +1,19 @@
-import { View, Linking } from 'react-native';
-import MenuItem from './MenuItem/MenuItem';
-import { useContext, useState } from 'react';
-import { GlobalErrorInfoType } from '../../../types/error';
-import ResignModal from './ResignModal/ResignModal';
-import * as S from './MenuLayout.styled';
+import { View, Linking, Alert } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
+import MenuWideButton from '../../../components/common/MenuWideButton/MenuWideButton';
+import { APP_INFO_URL } from '../../../constants/appinfo';
 import { RootStackParamList } from '../../../constants/routing';
 import handleError from '../../../error/errorhandler';
-import { APP_INFO_URL } from '../../../constants/appinfo';
 import { useMemberStore } from '../../../store/member';
+import { GlobalErrorInfoType } from '../../../types/error';
+
+import * as S from './MenuLayout.styled';
 
 const MenuLayout = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-    const { logoutMember } = useMemberStore();
-    const [ isModalVisible, setIsModalVisible ] = useState(false);
+    const { logoutMember, resignMember } = useMemberStore();
 
-    const handleInquiry = () => {
+    const handleAppInfoButtonPress = () => {
         Linking.openURL(APP_INFO_URL).catch(err => 
             handleError(
                 new Error('앱 정보 페이지를 열 수 없습니다.'),
@@ -24,28 +22,47 @@ const MenuLayout = () => {
         );
     }
 
-    const handleLogout = async () => {
+    const handleLogoutButtonPress = async () => {
         logoutMember();
         navigation.navigate('IntroPage');
     }
 
-    const handleResignButtonPress = () => {
-        setIsModalVisible(true);
-    }
+    const handleResignButtonPress = async () => {
+        const handleResign = () => {
+            try {
+                resignMember();
+                navigation.navigate('IntroPage');
+            } catch (error) {
+                if (error instanceof Error) {
+                    handleError(
+                        error,
+                        GlobalErrorInfoType.ALERT
+                    );
+                }
+            }
+        }
 
-    const handleResignModelClose = () => {
-        setIsModalVisible(false);
+        Alert.alert(
+            '정말 탈퇴하시겠습니까?',
+            '탈퇴하시면 그동안의 기록이 전부 삭제됩니다.',
+            [
+                {
+                    text: '확인',
+                    onPress: handleResign,
+                    style: 'destructive'
+                },
+                {
+                    text: '취소'
+                }
+            ]
+        );
     }
     
     return (
         <View style={S.styles.menuContainer}>
-            <MenuItem menuText='앱 정보' onPress={handleInquiry} />
-            <MenuItem menuText='로그아웃' onPress={handleLogout} />
-            <MenuItem menuText='탈퇴하기' onPress={handleResignButtonPress} textStyle={S.styles.deleteText} />
-            <ResignModal
-                visible={isModalVisible}
-                onClose={handleResignModelClose}
-            />
+            <MenuWideButton menuText='앱 정보' onPress={handleAppInfoButtonPress} />
+            <MenuWideButton menuText='로그아웃' onPress={handleLogoutButtonPress} />
+            <MenuWideButton menuText='탈퇴하기' onPress={handleResignButtonPress} textStyle={S.styles.deleteText} />
         </View>
     );
 }
