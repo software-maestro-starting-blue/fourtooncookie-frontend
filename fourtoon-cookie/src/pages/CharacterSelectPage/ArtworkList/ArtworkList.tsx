@@ -26,18 +26,18 @@ const ArtworkList = (props: ArtworkListProps) => {
 			}, {} as Record<string, Character[]>);
 		};
 
-		const groupedCharacters = groupByArtworkTitle(
+		const charactersGroupedByArtworkTitle = groupByArtworkTitle(
 			characterList.filter(character => character.paymentType === paymentType)
 		)
 	
 		  return (
 			<FlatList
-				data={Object.keys(groupedCharacters)}
-				keyExtractor={(item) => item}
-				renderItem={ ({ item } )=> 
+				data={Object.keys(charactersGroupedByArtworkTitle)}
+				keyExtractor={(artworkTitle) => artworkTitle}
+				renderItem={ ({ item })=> 
 					<ArtworkItem
 						artworkName={item}
-						artworkCharacters={groupedCharacters[item]}
+						artworkCharacters={charactersGroupedByArtworkTitle[item]}
 					/>
 				}
 			/>
