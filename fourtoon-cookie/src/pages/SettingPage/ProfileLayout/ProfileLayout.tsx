@@ -2,13 +2,13 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../../constants/routing';
 import { useSelectedCharacterStore } from '../../../store/selectedCharacter';
-import { useMemberStore } from '../../../store/member';
 
 import * as S from "./ProfileLayout.styled";
+import { useAccountStore } from '../../../store/account';
 
 const ProfileLayout = () => {
 
-    const { member } = useMemberStore();
+    const { member } = useAccountStore();
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const { selectedCharacter } = useSelectedCharacterStore();

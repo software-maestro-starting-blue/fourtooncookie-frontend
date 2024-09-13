@@ -2,25 +2,22 @@ import { View, Image, Text } from "react-native";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { supabaseSignInAndSignUpWithIdToken } from "../../auth/supabase";
 import { RootStackParamList } from "../../constants/routing";
-import { useJWTStore } from "../../store/jwt";
-import { useMemberStore } from "../../store/member";
 import { OAuthProvider } from "../../types/oauth";
 import type { JWTToken } from "../../types/jwt";
 
 import AppleSignInAndSignUpButton from "./AppleSignInAndSignUpButton/AppleSignInAndSignUpButton";
 import GoogleSignInAndSignUpButton from "./GoogleSignInAndSignUpButton/GoogleSignInAndSignUpButton";
 import * as S from './IntroPage.styled';
+import { useAccountStore } from "../../store/account";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const { jwt, setJWT } = useJWTStore();
-    const { reloadMember } = useMemberStore();
+    const { jwt, loginMember } = useAccountStore();
 
     const handleSignUpAndSignInSuccess = async (oauthProvider: OAuthProvider, idToken: string, nonce?: string) => {
         const token: JWTToken = await supabaseSignInAndSignUpWithIdToken(oauthProvider, idToken, nonce);
-        await setJWT(token);
-        await reloadMember();
+        await loginMember(token);
     }
 
     return (

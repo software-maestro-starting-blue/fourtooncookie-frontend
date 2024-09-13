@@ -12,38 +12,32 @@ import SignUpPage from './src/pages/SignUpPage/SignUpPage';
 import IntroPage from './src/pages/IntroPage/IntroPage';
 import SettingPage from './src/pages/SettingPage/SettingPage';
 import { useCharacterListStore } from './src/store/characterList';
-import { useJWTStore } from './src/store/jwt';
-import { useMemberStore } from './src/store/member';
+import { useAccountStore } from './src/store/account';
+import { AccountStatus } from './src/types/account';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
-
-	const [ isLoaded, setIsLoaded ] = useState<boolean>(false);
-
-	const { jwt } = useJWTStore();
-	const { member, reloadMember, logoutMember } = useMemberStore();
 	const { updateCharacterList } = useCharacterListStore();
+
+	const { getAccountStatus } = useAccountStore();
 
 	const navigationRef = useRef<NavigationContainerRef<RootStackParamList> | null>(null);
 
 	useEffect(() => {
-		if (jwt) {
-			reloadMember();
+		if (getAccountStatus() != AccountStatus.UNAUTHORIZED) {
 			updateCharacterList();
 		}
-
-		setIsLoaded(true);
-	}, [jwt, reloadMember, updateCharacterList, isLoaded]);
+	}, [getAccountStatus, updateCharacterList]);
 
 	useEffect(() => {
 		const navigateByMemberStatus = async () => {
-			if (! jwt) {
+			if (getAccountStatus() === AccountStatus.UNAUTHORIZED) {
 				navigationRef.current?.navigate('IntroPage');
 				return;
 			}
 	
-			if (! member){
+			if (getAccountStatus() == AccountStatus.UNSIGNEDUP){
 				navigationRef.current?.navigate('SignUpPage');
 				return;
 			}
@@ -52,15 +46,7 @@ export default function App() {
 		}
 		
 		navigateByMemberStatus();
-	}, [member, jwt]);
-
-	useEffect(() => {
-		if (member && ! jwt){
-			logoutMember();
-		}
-	}, [member, jwt]);
-
-	if (! isLoaded) return null;
+	}, [getAccountStatus]);
 
 	return (
 		<NavigationContainer ref={navigationRef}>

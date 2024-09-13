@@ -15,8 +15,7 @@ import { GlobalErrorInfoType } from "../../types/error";
 import handleError from "../../error/errorhandler";
 
 import AgreementInputLayout from "./AgreementInputLayout/AgreementInputLayout";
-import { useJWTStore } from "../../store/jwt";
-import { useMemberStore } from "../../store/member";
+import { useAccountStore } from "../../store/account";
 
 enum SignUpProgres {
     NAME = 1,
@@ -35,8 +34,7 @@ const SignUpPage = () => {
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const { removeJWT } = useJWTStore();
-    const { signupMember } = useMemberStore();
+    const { logoutMember, signupMember } = useAccountStore();
 
     const isNextButtonAvailabe: boolean = 
         (signUpProgress == SignUpProgres.NAME && name.length > 0)
@@ -65,7 +63,7 @@ const SignUpPage = () => {
 
     const handleBackButtonPress = () => {
         if (signUpProgress == SignUpProgres.NAME) {
-            removeJWT();
+            logoutMember();
             return;
         }
 

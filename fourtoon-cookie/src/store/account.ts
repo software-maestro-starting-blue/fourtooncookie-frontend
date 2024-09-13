@@ -96,7 +96,7 @@ export const useAccountStore = create(
                 //TODO 추후 API에 멤버 정보 수정 기능이 추가되면 구현
             },
 
-            getAccountStatus: () => {
+            getAccountStatus: () : AccountStatus => {
                 const state: AccountState = get();
                 if (state.jwt && state.member) return AccountStatus.LOGINED;
                 if (state.jwt) return AccountStatus.UNSIGNEDUP;
