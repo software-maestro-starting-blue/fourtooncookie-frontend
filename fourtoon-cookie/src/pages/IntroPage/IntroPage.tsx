@@ -19,7 +19,6 @@ const IntroPage = () => {
 
     useEffect(() => {
 		const navigateByMemberStatus = async () => {
-            console.log("NAVIGATE", getAccountStatus());
 			if (getAccountStatus() === AccountStatus.UNAUTHORIZED) {
 				return;
 			}

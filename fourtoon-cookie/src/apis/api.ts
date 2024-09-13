@@ -6,9 +6,7 @@ import { useAccountStore } from "../store/account";
 
 export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: any, jwtToken?: JWTToken): Promise<Response> => {
     let token: JWTToken | null = jwtToken ? jwtToken : useAccountStore.getState().jwt;
-
-    console.log(url, method, token);
-
+    
     let leftTryCount: number = 2;
 
     while (leftTryCount > 0) {
