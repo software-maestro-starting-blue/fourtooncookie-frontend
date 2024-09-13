@@ -25,14 +25,12 @@ const MenuLayout = () => {
 
     const handleLogoutButtonPress = async () => {
         logoutMember();
-        navigation.navigate('IntroPage');
     }
 
     const handleResignButtonPress = async () => {
         const handleResign = () => {
             try {
                 resignMember();
-                navigation.navigate('IntroPage');
             } catch (error) {
                 if (error instanceof Error) {
                     handleError(
