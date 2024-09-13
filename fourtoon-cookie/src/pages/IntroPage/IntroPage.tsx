@@ -11,19 +11,20 @@ import * as S from './IntroPage.styled';
 import { useAccountStore } from "../../store/account";
 import { useEffect } from "react";
 import { AccountStatus } from "../../types/account";
+import { useEffectWithAccountStatus } from "../../hooks/account";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const { jwt, member, loginMember, getAccountStatus } = useAccountStore();
+    const { loginMember } = useAccountStore();
 
-    useEffect(() => {
-		const navigateByMemberStatus = async () => {
-			if (getAccountStatus() === AccountStatus.UNAUTHORIZED) {
+    useEffectWithAccountStatus((accountStatus: AccountStatus) => {
+        const navigateByMemberStatus = async () => {
+			if (accountStatus === AccountStatus.UNAUTHORIZED) {
 				return;
 			}
 	
-			if (getAccountStatus() == AccountStatus.UNSIGNEDUP){
+			if (accountStatus == AccountStatus.UNSIGNEDUP){
 				navigation.navigate('SignUpPage');
 				return;
 			}
@@ -32,7 +33,7 @@ const IntroPage = () => {
 		}
 		
 		navigateByMemberStatus();
-	}, [jwt, member, getAccountStatus]);
+    }, []);
 
     const handleSignUpAndSignInSuccess = async (oauthProvider: OAuthProvider, idToken: string, nonce?: string) => {
         const token: JWTToken = await supabaseSignInAndSignUpWithIdToken(oauthProvider, idToken, nonce);
@@ -47,10 +48,10 @@ const IntroPage = () => {
                 </View>
                 <Text style={S.styles.subtitle}>나의 하루를 그림일기로 표현해보세요</Text>
             </View>
-            { !jwt && <View style={S.styles.buttonsContainer}>
+            <View style={S.styles.buttonsContainer}>
                 <GoogleSignInAndSignUpButton onSuccess={handleSignUpAndSignInSuccess} />
                 <AppleSignInAndSignUpButton onSuccess={handleSignUpAndSignInSuccess} />
-            </View> }
+            </View>
         </View>
     );
 }

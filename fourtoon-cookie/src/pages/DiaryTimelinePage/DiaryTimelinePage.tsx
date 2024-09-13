@@ -8,6 +8,8 @@ import MainPageLayout from "../../components/layout/MainPageLayout/MainPageLayou
 import handleError from "../../error/errorhandler";
 import { FOOTER_STATE } from "../../components/layout/MainPageLayout/Footer/Footer";
 import { useDiaryListStore } from "../../store/diaryList";
+import { useEffectWithAccountStatus } from "../../hooks/account";
+import { AccountStatus } from "../../types/account";
 
 enum LIST_STATUS {
     NONE, REFRESH, END_REACHED
@@ -39,7 +41,7 @@ const DiaryTimelinePage = () => {
         setListStatus(LIST_STATUS.REFRESH);
     };
 
-    useEffect(() => {
+    useEffectWithAccountStatus((accountStatus: AccountStatus) => {
         const fetchDiaries = async (listStatus: LIST_STATUS) => {
             switch (listStatus) {
                 case LIST_STATUS.NONE:
@@ -54,6 +56,8 @@ const DiaryTimelinePage = () => {
 
             setListStatus(LIST_STATUS.NONE);
         }
+
+        if (accountStatus !== AccountStatus.LOGINED) return;
 
         fetchDiaries(listStatus);
 

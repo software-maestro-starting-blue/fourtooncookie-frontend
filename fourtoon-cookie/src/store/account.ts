@@ -9,6 +9,7 @@ import { deleteMember, getMember, postMember } from "../apis/member";
 import { AccountStatus } from "../types/account";
 import { ApiError } from "../error/ApiError";
 import { API_STATUS } from "../constants/api";
+import { useDiaryListStore } from "./diaryList";
 
 
 interface AccountState {
@@ -40,7 +41,7 @@ export const useAccountStore = create(
                     const newToken = await supabaseRefreshToken(state.jwt.refreshToken);
                     set({ jwt: newToken });
                 } catch (error) {
-                    set({ jwt: null, member: null });
+                    state.logoutMember();
                     throw new JwtError("로그인 정보 유지에 실패하였습니다. 다시 로그인해 주세요.");
                 }
             },
@@ -71,6 +72,7 @@ export const useAccountStore = create(
                     jwt: null,
                     member: null,
                 });
+                useDiaryListStore.getState().emptyDiaryList();
             },
 
             resignMember: async () => {
@@ -79,6 +81,7 @@ export const useAccountStore = create(
                     jwt: null,
                     member: null,
                 });
+                useDiaryListStore.getState().emptyDiaryList();
             },
 
             getAccountStatus: () : AccountStatus => {

@@ -10,6 +10,7 @@ interface DiaryListState {
 
     loadFirstPage: () => Promise<void>;
     loadNextPage: () => Promise<void>;
+    emptyDiaryList: () => void;
 
     getDiaryById: (diaryId: number) => Diary | undefined;
     postDiary: (diary: Diary) => Promise<void>;
@@ -45,6 +46,14 @@ export const useDiaryListStore = create<DiaryListState>(
                 diaryList: newDiaryList,
                 page: page + 1,
                 hasMore: result.length > 0,
+            });
+        },
+
+        emptyDiaryList: () => {
+            set({
+                diaryList: [],
+                page: -1,
+                hasMore: true,
             });
         },
 

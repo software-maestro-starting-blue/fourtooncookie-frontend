@@ -8,10 +8,11 @@ import { GlobalErrorInfoType } from '../../../types/error';
 
 import * as S from './MenuLayout.styled';
 import { useAccountStore } from '../../../store/account';
+import { AccountStatus } from '../../../types/account';
 
 const MenuLayout = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-    const { logoutMember, resignMember } = useAccountStore();
+    const { getAccountStatus, logoutMember, resignMember } = useAccountStore();
 
     const handleAppInfoButtonPress = () => {
         Linking.openURL(APP_INFO_URL).catch(err => 
@@ -24,14 +25,12 @@ const MenuLayout = () => {
 
     const handleLogoutButtonPress = async () => {
         logoutMember();
-        navigation.navigate('IntroPage');
     }
 
     const handleResignButtonPress = async () => {
         const handleResign = () => {
             try {
                 resignMember();
-                navigation.navigate('IntroPage');
             } catch (error) {
                 if (error instanceof Error) {
                     handleError(
@@ -57,12 +56,26 @@ const MenuLayout = () => {
             ]
         );
     }
+
+    const handleLoginButtonPress = () => {
+        navigation.navigate('IntroPage');
+    }
     
     return (
         <View style={S.styles.menuContainer}>
             <MenuWideButton menuText='앱 정보' onPress={handleAppInfoButtonPress} />
-            <MenuWideButton menuText='로그아웃' onPress={handleLogoutButtonPress} />
-            <MenuWideButton menuText='탈퇴하기' onPress={handleResignButtonPress} textStyle={S.styles.deleteText} />
+            {
+                (getAccountStatus() === AccountStatus.LOGINED) ? 
+                (
+                    <>
+                    <MenuWideButton menuText='로그아웃' onPress={handleLogoutButtonPress} />
+                    <MenuWideButton menuText='탈퇴하기' onPress={handleResignButtonPress} textStyle={S.styles.deleteText} />
+                    </>
+                ) : 
+                (
+                    <MenuWideButton menuText='로그인' onPress={handleLoginButtonPress} />
+                )
+            }
         </View>
     );
 }
