@@ -18,20 +18,7 @@ enum LIST_STATUS {
 const DiaryTimelinePage = () => {
     const [listStatus, setListStatus] = useState(LIST_STATUS.REFRESH);
 
-    const { diaryList, loadFirstPage, loadNextPage, deleteDiaryById } = useDiaryListStore();
-
-    const handleDelete = async (diaryId: number) => {
-        try {
-            deleteDiaryById(diaryId);
-        } catch (error) {
-            if (error instanceof Error) {
-                handleError(
-                    error,
-                    GlobalErrorInfoType.ALERT
-                );
-            }
-        }
-    }
+    const { diaryList, loadFirstPage, loadNextPage } = useDiaryListStore();
 
     const handleEndReached = async () => {
         setListStatus(LIST_STATUS.END_REACHED);
@@ -68,7 +55,7 @@ const DiaryTimelinePage = () => {
             <FlatList
                 data={diaryList}
                 keyExtractor={(item) => item.diaryId.toString()}
-                renderItem={({item}) => <DiaryComponent diary={item} onDelete={() => handleDelete(item.diaryId)}/>}
+                renderItem={({item}) => <DiaryComponent diary={item}/>}
                 ListHeaderComponent={<Header/>}
                 onEndReached={handleEndReached}
                 onEndReachedThreshold={0.5}

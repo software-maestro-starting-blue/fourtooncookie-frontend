@@ -1,23 +1,65 @@
 import { LocalDate } from "@js-joda/core";
 import * as S from "./Header.styled";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 import DOTS_ICON from "../../../../../assets/icon/dots.png";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { useSelectedCharacterStore } from "../../../../store/selectedCharacter";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../../../constants/routing";
+import { useDiaryListStore } from "../../../../store/diaryList";
+import handleError from "../../../../error/errorhandler";
+import { GlobalErrorInfoType } from "../../../../types/error";
 
 export interface HeaderProps {
+    diaryId: number;
     characterId: number;
     date: LocalDate;
-    onEdit: () => void;
-    onDelete: () => void;
 }
 
 const Header = (props: HeaderProps) => {
-    const { characterId, date, onEdit, onDelete, ...rest } = props;
+    const { diaryId, characterId, date, ...rest } = props;
+
+    const { deleteDiaryById } = useDiaryListStore();
 
     const { selectedCharacter } = useSelectedCharacterStore();
 
     const { showActionSheetWithOptions } = useActionSheet();
+
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+    const handleEditButtonClick = () => {
+        navigation.navigate("DiaryWritePage", { currentDiaryId: diaryId });
+    };
+
+    const handleDeleteButtonClick = async () => {
+        const handleDelete = async () => {
+            try {
+                deleteDiaryById(diaryId);
+            } catch (error) {
+                if (error instanceof Error) {
+                    handleError(
+                        error,
+                        GlobalErrorInfoType.ALERT
+                    );
+                }
+            }
+        }
+
+        Alert.alert(
+            '정말 삭제하겠습니까?',
+            '삭제하시면 기록이 완전 삭제됩니다.',
+            [
+                {
+                    text: '확인',
+                    onPress: handleDelete,
+                    style: 'destructive'
+                },
+                {
+                    text: '취소'
+                }
+            ]
+        );
+    }
 
     const handleDotIconPress = () => {
         const options = ["취소", "수정하기", "삭제하기"];
@@ -28,9 +70,9 @@ const Header = (props: HeaderProps) => {
             cancelButtonIndex
         }, buttonIndex => {
             if (buttonIndex == 1)
-                onEdit();
+                handleEditButtonClick();
             else if (buttonIndex == 2)
-                onDelete();
+                handleDeleteButtonClick();
         });
     }
 
