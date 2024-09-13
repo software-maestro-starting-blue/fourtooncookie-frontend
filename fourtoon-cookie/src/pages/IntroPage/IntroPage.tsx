@@ -11,20 +11,20 @@ import * as S from './IntroPage.styled';
 import { useAccountStore } from "../../store/account";
 import { useEffect } from "react";
 import { AccountStatus } from "../../types/account";
-import { useEffectWithAccountStore } from "../../hooks/account";
+import { useEffectWithAccountStatus } from "../../hooks/account";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const { loginMember, getAccountStatus } = useAccountStore();
+    const { loginMember } = useAccountStore();
 
-    useEffectWithAccountStore(() => {
+    useEffectWithAccountStatus((accountStatus: AccountStatus) => {
         const navigateByMemberStatus = async () => {
-			if (getAccountStatus() === AccountStatus.UNAUTHORIZED) {
+			if (accountStatus === AccountStatus.UNAUTHORIZED) {
 				return;
 			}
 	
-			if (getAccountStatus() == AccountStatus.UNSIGNEDUP){
+			if (accountStatus == AccountStatus.UNSIGNEDUP){
 				navigation.navigate('SignUpPage');
 				return;
 			}
@@ -33,7 +33,7 @@ const IntroPage = () => {
 		}
 		
 		navigateByMemberStatus();
-    }, [getAccountStatus]);
+    }, []);
 
     const handleSignUpAndSignInSuccess = async (oauthProvider: OAuthProvider, idToken: string, nonce?: string) => {
         const token: JWTToken = await supabaseSignInAndSignUpWithIdToken(oauthProvider, idToken, nonce);

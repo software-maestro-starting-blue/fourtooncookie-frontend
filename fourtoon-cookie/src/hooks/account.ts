@@ -1,11 +1,12 @@
 import { DependencyList, useEffect } from "react";
 import { useAccountStore } from "../store/account";
+import { AccountStatus } from "../types/account";
 
 
-export const useEffectWithAccountStore = (callback: () => void, deps: DependencyList = []) => {
-    const { jwt, member } = useAccountStore();
+export const useEffectWithAccountStatus = (callback: (state: AccountStatus) => void, deps: DependencyList = []) => {
+    const { jwt, member, getAccountStatus } = useAccountStore();
 
     useEffect(() => {
-        callback();
-    }, [jwt, member, ...deps]);
+        callback(getAccountStatus());
+    }, [jwt, member, getAccountStatus, ...deps]);
 }
