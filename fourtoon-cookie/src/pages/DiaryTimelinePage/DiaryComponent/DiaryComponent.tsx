@@ -12,6 +12,7 @@ import { GlobalErrorInfoType } from "../../../types/error";
 import Footer from "./Footer/Footer";
 import Header from "./Header/Header";
 import handleError from "../../../error/errorhandler";
+import DiaryPaintingImageLoadingLayout from "./DiaryPaintingImageLoadingLayout/DiaryPaintingImageLoadingLayout";
 
 export interface DiaryProps {
     diary: Diary,
@@ -19,7 +20,7 @@ export interface DiaryProps {
 
 const DiaryComponent = (props: DiaryProps) => {
     const { diary, ...rest } = props;
-    const { diaryId, content, isFavorite, diaryDate, paintingImageUrls } = diary;
+    const { diaryId, content, isFavorite, diaryDate, paintingImageUrls, characterId } = diary;
 
     return (
         <View style={S.styles.container}>
@@ -28,9 +29,15 @@ const DiaryComponent = (props: DiaryProps) => {
                 characterId={diary.characterId}
                 date={diaryDate}
             />
-            <DiaryPaintingImagesLayout imageUrls={paintingImageUrls} />
+            {
+                (paintingImageUrls && paintingImageUrls.length == 4) 
+                ?
+                <DiaryPaintingImagesLayout imageUrls={paintingImageUrls} />
+                :
+                <DiaryPaintingImageLoadingLayout selectedCharacterId={characterId} />
+            }
             <DiaryContentsLayout
-                content={content}     
+                content={content}
             />
             <Footer
                 diaryId={diaryId}
