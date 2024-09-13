@@ -18,10 +18,8 @@ interface AccountState {
     member: Member | null;
     loginMember: (jwt: JWTToken) => void;
     signupMember: (member: Member) => void;
-    reloadMember: () => void;
     logoutMember: () => void;
     resignMember: () => void;
-    updateMember: (member: Member) => void;
     getAccountStatus: () => AccountStatus;
 }
 
@@ -68,15 +66,6 @@ export const useAccountStore = create(
                 set({ member });
             },
 
-            reloadMember: async () => {
-                try {
-                    const member = await getMember();
-                    set({ member });
-                } catch (e) {
-                    set({ member: null });
-                }
-            },
-
             logoutMember: async () => {
                 set({ 
                     jwt: null,
@@ -90,10 +79,6 @@ export const useAccountStore = create(
                     jwt: null,
                     member: null,
                 });
-            },
-
-            updateMember: async (member: Member) => {
-                //TODO 추후 API에 멤버 정보 수정 기능이 추가되면 구현
             },
 
             getAccountStatus: () : AccountStatus => {
