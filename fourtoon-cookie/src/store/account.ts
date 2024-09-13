@@ -50,16 +50,16 @@ export const useAccountStore = create(
             member: null,
 
             loginMember: async (jwt: JWTToken) => {
-                set({ jwt });
                 try {
-                    const member = await getMember();
-                    set({ member });
+                    const member = await getMember(jwt);
+                    set({ jwt, member });
                 } catch (e) {
-                    if (e instanceof ApiError && e.getStatus() === API_STATUS.UNAUTHORIZED) {
-                        set({ member: null });
+                    if (e instanceof ApiError && e.getStatus() === API_STATUS.NOT_FOUND) {
+                        set({ jwt: jwt, member: null });
+                        return;
                     }
 
-                    set({ jwt: null }); //TODO: 추후에는 에러 핸들링으로 처리
+                    set({ jwt: null, member: null }); //TODO: 추후에는 에러 핸들링으로 처리
                 }
             },
 
