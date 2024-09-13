@@ -21,7 +21,7 @@ const ProfileLayout = () => {
         <View style={S.styles.profileContainer}>
             <Image source={{uri: selectedCharacter?.selectionThumbnailUrl}} style={S.styles.profileImage} />
             <Text style={S.styles.name}>{member?.name}</Text>
-            <Text style={S.styles.email}>{null}</Text>
+            <Text style={S.styles.email}>{member ? null : "로그인 해주세요."}</Text>
             <TouchableOpacity style={S.styles.changeCharacterButton} onPress={handleCharacterChangeButtonPress}>
                 <Text style={S.styles.changeCharacterText}>캐릭터 변경</Text>
             </TouchableOpacity>
