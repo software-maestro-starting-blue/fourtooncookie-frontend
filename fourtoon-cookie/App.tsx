@@ -31,7 +31,7 @@ export default function App() {
 	return (
 		<NavigationContainer>
 			<ActionSheetProvider>
-				<Stack.Navigator initialRouteName="IntroPage" screenOptions={{ headerShown: false }}>
+				<Stack.Navigator initialRouteName="DiaryTimelinePage" screenOptions={{ headerShown: false }}>
 					<Stack.Screen name="IntroPage" component={IntroPage} />
 					<Stack.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} options={{ animation: "none" }} />
 					<Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
