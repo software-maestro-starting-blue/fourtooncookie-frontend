@@ -8,6 +8,9 @@ import MainPageLayout from "../../components/layout/MainPageLayout/MainPageLayou
 import handleError from "../../error/errorhandler";
 import { FOOTER_STATE } from "../../components/layout/MainPageLayout/Footer/Footer";
 import { useDiaryListStore } from "../../store/diaryList";
+import { useEffectWithAccountStore } from "../../hooks/account";
+import { useAccountStore } from "../../store/account";
+import { AccountStatus } from "../../types/account";
 
 enum LIST_STATUS {
     NONE, REFRESH, END_REACHED
@@ -15,6 +18,8 @@ enum LIST_STATUS {
 
 const DiaryTimelinePage = () => {
     const [listStatus, setListStatus] = useState(LIST_STATUS.REFRESH);
+
+    const { getAccountStatus } = useAccountStore();
 
     const { diaryList, loadFirstPage, loadNextPage, deleteDiaryById } = useDiaryListStore();
 
@@ -39,7 +44,7 @@ const DiaryTimelinePage = () => {
         setListStatus(LIST_STATUS.REFRESH);
     };
 
-    useEffect(() => {
+    useEffectWithAccountStore(() => {
         const fetchDiaries = async (listStatus: LIST_STATUS) => {
             switch (listStatus) {
                 case LIST_STATUS.NONE:
@@ -55,9 +60,11 @@ const DiaryTimelinePage = () => {
             setListStatus(LIST_STATUS.NONE);
         }
 
+        if (getAccountStatus() !== AccountStatus.LOGINED) return;
+
         fetchDiaries(listStatus);
 
-    }, [listStatus]);
+    }, [listStatus, getAccountStatus]);
 
     return (
         <MainPageLayout footerState={FOOTER_STATE.HOME}>
