@@ -11,16 +11,12 @@ export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: an
 
     while (leftTryCount > 0) {
         leftTryCount--;
-
-        if (! token) {
-            throw new JwtError('사용자 정보가 존재하지 않습니다. 다시 로그인해 주세요.');
-        }
         
         const response = await fetch(process.env.EXPO_PUBLIC_API_URL! + url, {
             method: method,
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token.accessToken}`
+                'Authorization': `Bearer ${token?.accessToken}`
             },
             body: body ? JSON.stringify(body) : undefined,
         });
