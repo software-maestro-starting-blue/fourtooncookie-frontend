@@ -1,4 +1,5 @@
 import { LocalDate } from "@js-joda/core"
+import { DiaryStatus } from "../diary"
 
 export interface DiarySaveRequest {
     content: string,
@@ -21,7 +22,8 @@ export interface DiarySavedResponse {
     isFavorite: boolean,
     diaryDate: string,
     paintingImageUrls: string[],
-    characterId: number
+    characterId: number,
+    diaryStatus: DiaryStatus
 }
 
 export interface DiaryCreatedResponse {
