@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Diary } from "../types/diary";
+import { Diary, DiaryStatus } from "../types/diary";
 import { deleteDiary, getDiaries, patchDiaryFavorite, postDiary, putDiary } from "../apis/diary";
 
 
@@ -67,6 +67,7 @@ export const useDiaryListStore = create<DiaryListState>(
             const diaryId: number = await postDiary(diary.characterId, diary.diaryDate, diary.content);
 
             diary.diaryId = diaryId;
+            diary.diaryStatus = DiaryStatus.IN_PROGRESS;
 
             const { diaryList } = get();
             

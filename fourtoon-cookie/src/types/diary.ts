@@ -6,5 +6,12 @@ export interface Diary {
     isFavorite: boolean,
     diaryDate: LocalDate,
     paintingImageUrls: string[],
-    characterId: number
+    characterId: number,
+    diaryStatus: DiaryStatus,
+}
+
+export enum DiaryStatus {
+    IN_PROGRESS = 'IN_PROGRESS',
+    COMPLETED = 'COMPLETED',
+    FAILED = 'FAILED'
 }
