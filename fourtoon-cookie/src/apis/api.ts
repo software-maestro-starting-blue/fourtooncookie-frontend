@@ -1,12 +1,13 @@
 import { JwtError } from "../error/JwtError";
 import { JWTToken } from "../types/jwt";
 import { API_METHOD_TYPE, API_STATUS } from "../constants/api";
-import {  } from "../store/jwt";
 import { useAccountStore } from "../store/account";
 
 
-export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: any): Promise<Response> => {
-    let token: JWTToken | null = useAccountStore.getState().jwt;
+export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: any, jwtToken?: JWTToken): Promise<Response> => {
+    let token: JWTToken | null = jwtToken ? jwtToken : useAccountStore.getState().jwt;
+
+    console.log(url, method, token);
 
     let leftTryCount: number = 2;
 
