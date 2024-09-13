@@ -1,4 +1,5 @@
 import { LocalDate } from "@js-joda/core";
+import { Gender } from "../gender";
 
 
 export interface MemberSaveRequest {
@@ -10,6 +11,6 @@ export interface MemberSaveRequest {
 export interface MemberSavedResponse {
     email: string;
     name: string;
-    gender: string;
+    gender: Gender;
     birth: LocalDate;
 }
