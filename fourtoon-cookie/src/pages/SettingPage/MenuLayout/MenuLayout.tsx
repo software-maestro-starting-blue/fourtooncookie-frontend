@@ -4,14 +4,14 @@ import MenuWideButton from '../../../components/common/MenuWideButton/MenuWideBu
 import { APP_INFO_URL } from '../../../constants/appinfo';
 import { RootStackParamList } from '../../../constants/routing';
 import handleError from '../../../error/errorhandler';
-import { useMemberStore } from '../../../store/member';
 import { GlobalErrorInfoType } from '../../../types/error';
 
 import * as S from './MenuLayout.styled';
+import { useAccountStore } from '../../../store/account';
 
 const MenuLayout = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-    const { logoutMember, resignMember } = useMemberStore();
+    const { logoutMember, resignMember } = useAccountStore();
 
     const handleAppInfoButtonPress = () => {
         Linking.openURL(APP_INFO_URL).catch(err => 

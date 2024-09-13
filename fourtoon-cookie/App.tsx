@@ -12,58 +12,24 @@ import SignUpPage from './src/pages/SignUpPage/SignUpPage';
 import IntroPage from './src/pages/IntroPage/IntroPage';
 import SettingPage from './src/pages/SettingPage/SettingPage';
 import { useCharacterListStore } from './src/store/characterList';
-import { useJWTStore } from './src/store/jwt';
-import { useMemberStore } from './src/store/member';
+import { useAccountStore } from './src/store/account';
+import { AccountStatus } from './src/types/account';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
-
-	const [ isLoaded, setIsLoaded ] = useState<boolean>(false);
-
-	const { jwt } = useJWTStore();
-	const { member, reloadMember, logoutMember } = useMemberStore();
 	const { updateCharacterList } = useCharacterListStore();
 
-	const navigationRef = useRef<NavigationContainerRef<RootStackParamList> | null>(null);
+	const { jwt, member, getAccountStatus } = useAccountStore();
 
 	useEffect(() => {
-		if (jwt) {
-			reloadMember();
+		if (getAccountStatus() == AccountStatus.LOGINED) {
 			updateCharacterList();
 		}
-
-		setIsLoaded(true);
-	}, [jwt, reloadMember, updateCharacterList, isLoaded]);
-
-	useEffect(() => {
-		const navigateByMemberStatus = async () => {
-			if (! jwt) {
-				navigationRef.current?.navigate('IntroPage');
-				return;
-			}
-	
-			if (! member){
-				navigationRef.current?.navigate('SignUpPage');
-				return;
-			}
-	
-			navigationRef.current?.navigate('DiaryTimelinePage');
-		}
-		
-		navigateByMemberStatus();
-	}, [member, jwt]);
-
-	useEffect(() => {
-		if (member && ! jwt){
-			logoutMember();
-		}
-	}, [member, jwt]);
-
-	if (! isLoaded) return null;
+	}, [jwt, member, getAccountStatus, updateCharacterList]);
 
 	return (
-		<NavigationContainer ref={navigationRef}>
+		<NavigationContainer>
 			<ActionSheetProvider>
 				<Stack.Navigator initialRouteName="IntroPage" screenOptions={{ headerShown: false }}>
 					<Stack.Screen name="IntroPage" component={IntroPage} />
