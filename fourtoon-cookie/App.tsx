@@ -20,36 +20,16 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function App() {
 	const { updateCharacterList } = useCharacterListStore();
 
-	const { getAccountStatus } = useAccountStore();
-
-	const navigationRef = useRef<NavigationContainerRef<RootStackParamList> | null>(null);
+	const { jwt, member, getAccountStatus } = useAccountStore();
 
 	useEffect(() => {
-		if (getAccountStatus() != AccountStatus.UNAUTHORIZED) {
+		if (getAccountStatus() == AccountStatus.LOGINED) {
 			updateCharacterList();
 		}
-	}, [getAccountStatus, updateCharacterList]);
-
-	useEffect(() => {
-		const navigateByMemberStatus = async () => {
-			if (getAccountStatus() === AccountStatus.UNAUTHORIZED) {
-				navigationRef.current?.navigate('IntroPage');
-				return;
-			}
-	
-			if (getAccountStatus() == AccountStatus.UNSIGNEDUP){
-				navigationRef.current?.navigate('SignUpPage');
-				return;
-			}
-	
-			navigationRef.current?.navigate('DiaryTimelinePage');
-		}
-		
-		navigateByMemberStatus();
-	}, [getAccountStatus]);
+	}, [jwt, member, getAccountStatus, updateCharacterList]);
 
 	return (
-		<NavigationContainer ref={navigationRef}>
+		<NavigationContainer>
 			<ActionSheetProvider>
 				<Stack.Navigator initialRouteName="IntroPage" screenOptions={{ headerShown: false }}>
 					<Stack.Screen name="IntroPage" component={IntroPage} />

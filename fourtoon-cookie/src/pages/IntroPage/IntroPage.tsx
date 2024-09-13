@@ -9,11 +9,31 @@ import AppleSignInAndSignUpButton from "./AppleSignInAndSignUpButton/AppleSignIn
 import GoogleSignInAndSignUpButton from "./GoogleSignInAndSignUpButton/GoogleSignInAndSignUpButton";
 import * as S from './IntroPage.styled';
 import { useAccountStore } from "../../store/account";
+import { useEffect } from "react";
+import { AccountStatus } from "../../types/account";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const { jwt, loginMember } = useAccountStore();
+    const { jwt, member, loginMember, getAccountStatus } = useAccountStore();
+
+    useEffect(() => {
+		const navigateByMemberStatus = async () => {
+            console.log("NAVIGATE", getAccountStatus());
+			if (getAccountStatus() === AccountStatus.UNAUTHORIZED) {
+				return;
+			}
+	
+			if (getAccountStatus() == AccountStatus.UNSIGNEDUP){
+				navigation.navigate('SignUpPage');
+				return;
+			}
+	
+			navigation.navigate('DiaryTimelinePage');
+		}
+		
+		navigateByMemberStatus();
+	}, [jwt, member, getAccountStatus]);
 
     const handleSignUpAndSignInSuccess = async (oauthProvider: OAuthProvider, idToken: string, nonce?: string) => {
         const token: JWTToken = await supabaseSignInAndSignUpWithIdToken(oauthProvider, idToken, nonce);
