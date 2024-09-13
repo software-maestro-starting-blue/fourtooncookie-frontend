@@ -1,10 +1,7 @@
-import { Diary } from "../types/diary"
-
 export type RootStackParamList = {
     DiaryTimelinePage: undefined,
     DiaryWritePage: {
-        diary?: Diary
-        isEdit?: boolean,
+        currentDiaryId?: number
     },
     CharacterSelectPage: undefined,
     IntroPage: undefined,
