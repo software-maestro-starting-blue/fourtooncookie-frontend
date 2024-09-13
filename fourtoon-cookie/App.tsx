@@ -12,21 +12,15 @@ import SignUpPage from './src/pages/SignUpPage/SignUpPage';
 import IntroPage from './src/pages/IntroPage/IntroPage';
 import SettingPage from './src/pages/SettingPage/SettingPage';
 import { useCharacterListStore } from './src/store/characterList';
-import { useAccountStore } from './src/store/account';
-import { AccountStatus } from './src/types/account';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
 	const { updateCharacterList } = useCharacterListStore();
 
-	const { jwt, member, getAccountStatus } = useAccountStore();
-
 	useEffect(() => {
-		if (getAccountStatus() == AccountStatus.LOGINED) {
-			updateCharacterList();
-		}
-	}, [jwt, member, getAccountStatus, updateCharacterList]);
+		updateCharacterList();
+	}, [updateCharacterList]);
 
 	return (
 		<NavigationContainer>
