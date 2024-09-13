@@ -20,25 +20,10 @@ export interface DiaryProps {
 
 const DiaryComponent = (props: DiaryProps) => {
     const { diary, onDelete, ...rest } = props;
-    const { diaryId, content, isFavorite: initialFavorite, diaryDate, paintingImageUrls } = diary;
-    
-    const [isFavorite, setIsFavorite] = useState(initialFavorite);
+    const { diaryId, content, isFavorite, diaryDate, paintingImageUrls } = diary;
+
     const [isModalVisible, setIsModalVisible] = useState(false);
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
-    const handleToggleFavorite = async () => {
-        try {
-            await patchDiaryFavorite(diaryId, !isFavorite);
-            setIsFavorite(!isFavorite);
-        } catch (error) {
-            if (error instanceof Error) {
-                handleError(
-                    error,
-                    GlobalErrorInfoType.ALERT
-                );
-            }
-        }
-    };
 
     const handleDownload = () => {
         //TODO: 다운로드 로직 구현
@@ -74,10 +59,8 @@ const DiaryComponent = (props: DiaryProps) => {
                 content={content}     
             />
             <Footer
+                diaryId={diaryId}
                 isFavorite={isFavorite}
-                onToggleFavorite={handleToggleFavorite}
-                onShare={handleShare}
-                onDownload={handleDownload}
             />
             <ConfirmationModal
                 visible={isModalVisible}

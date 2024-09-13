@@ -6,21 +6,26 @@ import FAVORITE_INACTIVATE_ICON from "../../../../../assets/icon/favorite-inacti
 import DOWNLOAD_ICON from "../../../../../assets/icon/download.png";
 import UPLOAD_ICON from "../../../../../assets/icon/upload.png";
 import * as S from './Footer.styled';
+import { useDiaryListStore } from "../../../../store/diaryList";
 
 export interface FooterProps {
+    diaryId: number;
     isFavorite: boolean;
-    onToggleFavorite: () => void;
-    onDownload: () => void;
-    onShare: () => void;
 }
 
 const DiaryActionsLayout = (props: FooterProps) => {
-    const {isFavorite, onToggleFavorite, onDownload, onShare, ...rest} = props;
+    const {diaryId, isFavorite, ...rest} = props;
+
+    const { toggleFavoriteDiary } = useDiaryListStore();
+
+    const handleToggleFavorite = async () => {
+        toggleFavoriteDiary(diaryId);
+    }
 
     return (
         <View style={S.styles.footer}>
             <View style={S.styles.favoriteButton}>
-                <TouchableOpacity onPress={onToggleFavorite}>
+                <TouchableOpacity onPress={handleToggleFavorite}>
                     <Image
                         source={isFavorite ? FAVORITE_ACTIVATE_ICON : FAVORITE_INACTIVATE_ICON}
                         style={S.styles.image}
