@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, Platform } from "react-native"
+import { Alert, KeyboardAvoidingView, Platform } from "react-native"
 import { LocalDate } from "@js-joda/core";
 import { useState } from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
@@ -14,6 +14,8 @@ import { GlobalErrorInfoType } from "../../../types/error";
 import Button from "../../../components/common/Button/Button";
 
 import * as S from "./WriteDoneButtonLayout.styled";
+import { useAccountStore } from "../../../store/account";
+import { AccountStatus } from "../../../types/account";
 
 export interface WriteDoneButtonLayout {
     diaryDate: LocalDate;
@@ -30,12 +32,28 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
 
     const { postDiary, updateDiary } = useDiaryListStore();
     const { selectedCharacter } = useSelectedCharacterStore();
+    const { getAccountStatus } = useAccountStore();
 
     const isNextButtonEnabled = content.length > 0 && ! isWorking;
 
     if (! selectedCharacter) return null;
 
     const handleWriteDoneButtonPress = async () => {
+        if (getAccountStatus() !== AccountStatus.LOGINED) {
+            Alert.alert(
+                '로그인 필요 기능',
+                '로그인을 진행해야 일기 작성이 가능합니다.',
+                [
+                    {
+                        text: '확인',
+                        style: 'destructive'
+                    }
+                ]
+            );
+            navigation.navigate('IntroPage');
+            return;
+        }
+
         if (isWorking) return;
 
         setIsWorking(true);
