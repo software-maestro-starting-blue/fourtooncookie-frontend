@@ -1,0 +1,83 @@
+import { View, Linking, Alert } from 'react-native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import MenuWideButton from '../../../components/common/MenuWideButton/MenuWideButton';
+import { APP_INFO_URL } from '../../../constants/appinfo';
+import { RootStackParamList } from '../../../constants/routing';
+import handleError from '../../../error/errorhandler';
+import { GlobalErrorInfoType } from '../../../types/error';
+
+import * as S from './MenuLayout.styled';
+import { useAccountStore } from '../../../store/account';
+import { AccountStatus } from '../../../types/account';
+
+const MenuLayout = () => {
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+    const { getAccountStatus, logoutMember, resignMember } = useAccountStore();
+
+    const handleAppInfoButtonPress = () => {
+        Linking.openURL(APP_INFO_URL).catch(err => 
+            handleError(
+                new Error('앱 정보 페이지를 열 수 없습니다.'),
+                GlobalErrorInfoType.ALERT
+            )
+        );
+    }
+
+    const handleLogoutButtonPress = async () => {
+        logoutMember();
+    }
+
+    const handleResignButtonPress = async () => {
+        const handleResign = () => {
+            try {
+                resignMember();
+            } catch (error) {
+                if (error instanceof Error) {
+                    handleError(
+                        error,
+                        GlobalErrorInfoType.ALERT
+                    );
+                }
+            }
+        }
+
+        Alert.alert(
+            '정말 탈퇴하시겠습니까?',
+            '탈퇴하시면 그동안의 기록이 전부 삭제됩니다.',
+            [
+                {
+                    text: '확인',
+                    onPress: handleResign,
+                    style: 'destructive'
+                },
+                {
+                    text: '취소'
+                }
+            ]
+        );
+    }
+
+    const handleLoginButtonPress = () => {
+        navigation.navigate('IntroPage');
+    }
+    
+    return (
+        <View style={S.styles.menuContainer}>
+            <MenuWideButton menuText='앱 정보' onPress={handleAppInfoButtonPress} />
+            {
+                (getAccountStatus() === AccountStatus.LOGINED) ? 
+                (
+                    <>
+                    <MenuWideButton menuText='로그아웃' onPress={handleLogoutButtonPress} />
+                    <MenuWideButton menuText='탈퇴하기' onPress={handleResignButtonPress} textStyle={S.styles.deleteText} />
+                    </>
+                ) : 
+                (
+                    <MenuWideButton menuText='로그인' onPress={handleLoginButtonPress} />
+                )
+            }
+        </View>
+    );
+}
+
+export default MenuLayout;
