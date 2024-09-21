@@ -37,6 +37,7 @@
     "react-native-screens": "3.31.1",
     "react-native-url-polyfill": "^2.0.0",
     "react-navigation": "^5.0.0",
+    "react-query": "^3.39.3",
     "uuid": "^10.0.0",
     "zustand": "^4.5.5"
   },
