@@ -13,13 +13,13 @@ export interface ArtworkListProps {
 const ArtworkList = (props: ArtworkListProps) => {
 	const { paymentType, ...rest } = props;
 
-	const { data: characterList, isLoading } = useCharacters();
-
-	if (isLoading || !characterList) {
-		return null;
-	}
+	const { data: characterList } = useCharacters();
 
 	return useMemo(() => {
+
+		if (!characterList) {
+			return null;
+		}
 
 		const groupByArtworkTitle = (characters: Character[]) => {
 			return characters.reduce((acc, character) => {
