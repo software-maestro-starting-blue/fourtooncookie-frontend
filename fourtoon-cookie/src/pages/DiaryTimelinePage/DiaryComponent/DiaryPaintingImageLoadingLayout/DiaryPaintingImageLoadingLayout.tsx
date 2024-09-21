@@ -1,9 +1,7 @@
 import { Image, Text, View } from "react-native";
 
 import * as S from "./DiaryPaintingImageLoadingLayout.styled";
-import { useSelectedCharacterStore } from "../../../../store/selectedCharacter";
-import { Character } from "../../../../types/character";
-import { useCharacterListStore } from "../../../../store/characterList";
+import { useCharacters } from "../../../../hooks/server/character";
 
 export interface DiaryPaintingImageLoadingLayoutProps {
     selectedCharacterId: number;
@@ -12,9 +10,9 @@ export interface DiaryPaintingImageLoadingLayoutProps {
 const DiaryPaintingImageLoadingLayout = (props: DiaryPaintingImageLoadingLayoutProps) => {
     const { selectedCharacterId, ...rest } = props;
 
-    const { characterList } = useCharacterListStore();
+    const { data: characterList } = useCharacters();
 
-    const selectedCharacter = characterList.find(character => character.id === selectedCharacterId);
+    const selectedCharacter = characterList?.find(character => character.id === selectedCharacterId);
 
     const defaultSelectCharacterImageUrl = require('../../../../../assets/logo/logo-3.png');
 

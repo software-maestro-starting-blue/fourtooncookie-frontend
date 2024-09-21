@@ -12,18 +12,12 @@ import DiaryTimelinePage from './src/pages/DiaryTimelinePage/DiaryTimelinePage';
 import SignUpPage from './src/pages/SignUpPage/SignUpPage';
 import IntroPage from './src/pages/IntroPage/IntroPage';
 import SettingPage from './src/pages/SettingPage/SettingPage';
-import { useCharacterListStore } from './src/store/characterList';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const queryClient = new QueryClient();
 
 export default function App() {
-	const { updateCharacterList } = useCharacterListStore();
-
-	useEffect(() => {
-		updateCharacterList();
-	}, [updateCharacterList]);
 
 	return (
 		<QueryClientProvider client={queryClient}>

@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import { Text, View, FlatList } from 'react-native';
 import CharacterList from '../../../components/character/CharacterList/CharacterList';
-import { useCharacterListStore } from '../../../store/characterList';
 import type { Character, CharacterPaymentType } from '../../../types/character';
 
 import * as S from './ArtworkList.styeld';
+import { useCharacters } from '../../../hooks/server/character';
 
 export interface ArtworkListProps {
 	paymentType: CharacterPaymentType
@@ -13,7 +13,11 @@ export interface ArtworkListProps {
 const ArtworkList = (props: ArtworkListProps) => {
 	const { paymentType, ...rest } = props;
 
-	const { characterList } = useCharacterListStore();
+	const { data: characterList, isLoading } = useCharacters();
+
+	if (isLoading || !characterList) {
+		return null;
+	}
 
 	return useMemo(() => {
 
@@ -28,7 +32,7 @@ const ArtworkList = (props: ArtworkListProps) => {
 		};
 
 		const charactersGroupedByArtworkTitle = groupByArtworkTitle(
-			characterList.filter(character => character.paymentType === paymentType)
+			characterList?.filter(character => character.paymentType === paymentType)
 		)
 	
 		return (
