@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { StyleSheet } from 'react-native';
 import { RootStackParamList } from './src/constants/routing';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import CharacterSelectPage from './src/pages/CharacterSelectPage/CharacterSelectPage';
 import DiaryWritePage from './src/pages/DiaryWritePage/DiaryWritePage';
@@ -15,6 +16,8 @@ import { useCharacterListStore } from './src/store/characterList';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
+const queryClient = new QueryClient();
+
 export default function App() {
 	const { updateCharacterList } = useCharacterListStore();
 
@@ -23,18 +26,20 @@ export default function App() {
 	}, [updateCharacterList]);
 
 	return (
-		<NavigationContainer>
-			<ActionSheetProvider>
-				<Stack.Navigator initialRouteName="DiaryTimelinePage" screenOptions={{ headerShown: false }}>
-					<Stack.Screen name="IntroPage" component={IntroPage} />
-					<Stack.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} options={{ animation: "none" }} />
-					<Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
-					<Stack.Screen name="CharacterSelectPage" component={CharacterSelectPage} />
-					<Stack.Screen name="SignUpPage" component={SignUpPage} />
-					<Stack.Screen name="SettingPage" component={SettingPage} options={{ animation: "none" }} />
-				</Stack.Navigator>
-			</ActionSheetProvider>
-		</NavigationContainer>
+		<QueryClientProvider client={queryClient}>
+			<NavigationContainer>
+				<ActionSheetProvider>
+					<Stack.Navigator initialRouteName="DiaryTimelinePage" screenOptions={{ headerShown: false }}>
+						<Stack.Screen name="IntroPage" component={IntroPage} />
+						<Stack.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} options={{ animation: "none" }} />
+						<Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
+						<Stack.Screen name="CharacterSelectPage" component={CharacterSelectPage} />
+						<Stack.Screen name="SignUpPage" component={SignUpPage} />
+						<Stack.Screen name="SettingPage" component={SettingPage} options={{ animation: "none" }} />
+					</Stack.Navigator>
+				</ActionSheetProvider>
+			</NavigationContainer>
+		</QueryClientProvider>
 	);
 }
 
