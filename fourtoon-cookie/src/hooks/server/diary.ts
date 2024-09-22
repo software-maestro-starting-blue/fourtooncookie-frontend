@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "react-query"
-import { deleteDiary, getDiaries, patchDiaryFavorite, postDiary, putDiary } from "../../apis/diary"
+import { deleteDiary, getDiaries, getDiary, patchDiaryFavorite, postDiary, putDiary } from "../../apis/diary"
 import { Diary } from "../../types/diary";
 
 
@@ -31,7 +31,11 @@ export const useDiaries = () => {
 export const useDiaryById = (diaryId: number) => {
     const queryClient = useQueryClient();
 
-    return queryClient.getQueryData(["diary", diaryId]);
+    return useQuery(["diary", diaryId], () => {
+        return getDiary(diaryId);
+    }, {
+        initialData: () => queryClient.getQueryData(["diary", diaryId])
+    });
 }
 
 export const useCreateDiary = () => {
