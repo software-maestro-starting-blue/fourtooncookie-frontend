@@ -28,10 +28,11 @@ export const useDiaries = () => {
     );
 }
 
-export const useDiaryById = (diaryId: number) => {
+export const useDiaryById = (diaryId: number | undefined) => {
     const queryClient = useQueryClient();
 
     return useQuery(["diary", diaryId], () => {
+        if (!diaryId) return;
         return getDiary(diaryId);
     }, {
         initialData: () => queryClient.getQueryData(["diary", diaryId])
