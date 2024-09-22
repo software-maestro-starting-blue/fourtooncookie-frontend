@@ -19,13 +19,9 @@ export const getMember = async (jwtToken?: JWTToken): Promise<Member> => {
 
 }
 
-export const postMember = async (name: string, birth: LocalDate, gender: Gender) => {
-    const requestBody: MemberSaveRequest = {
-        name: name,
-        birth: birth,
-        gender: gender
-    };
-
+export const postMember = async (member: Member) => {
+    const requestBody: MemberSaveRequest = member;
+    
     const response = await requestApi(`/member`, API_METHOD_TYPE.POST, requestBody);
 
     if (response.status != API_STATUS.CREATED) {
