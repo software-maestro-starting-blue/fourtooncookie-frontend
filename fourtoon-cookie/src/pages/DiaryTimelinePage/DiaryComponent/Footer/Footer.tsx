@@ -6,7 +6,7 @@ import FAVORITE_INACTIVATE_ICON from "../../../../../assets/icon/favorite-inacti
 import DOWNLOAD_ICON from "../../../../../assets/icon/download.png";
 import UPLOAD_ICON from "../../../../../assets/icon/upload.png";
 import * as S from './Footer.styled';
-import { useDiaryListStore } from "../../../../store/diaryList";
+import { useUpdateDiaryFavorite } from "../../../../hooks/server/diary";
 
 export interface FooterProps {
     diaryId: number;
@@ -16,10 +16,10 @@ export interface FooterProps {
 const DiaryActionsLayout = (props: FooterProps) => {
     const {diaryId, isFavorite, ...rest} = props;
 
-    const { toggleFavoriteDiary } = useDiaryListStore();
+    const { mutate: updateDiaryFavorite } = useUpdateDiaryFavorite(diaryId);
 
     const handleToggleFavorite = async () => {
-        toggleFavoriteDiary(diaryId);
+        updateDiaryFavorite(! isFavorite);
     }
 
     return (
