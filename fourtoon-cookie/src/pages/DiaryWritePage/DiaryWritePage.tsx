@@ -14,10 +14,9 @@ import { LocalDate } from "@js-joda/core";
 import { RuntimeError } from "../../error/RuntimeError";
 import handleError from "../../error/errorhandler";
 import { useSelectedCharacterStore } from "../../store/selectedCharacter";
-import { useDiaryListStore } from "../../store/diaryList";
-import { Diary } from "../../types/diary";
 import WriteDoneButtonLayout from "./WriteDoneButtonLayout/WriteDoneButtonLayout";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { useDiaryById } from "../../hooks/server/diary";
 
 
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
@@ -26,10 +25,8 @@ const DiaryWritePage = ({ route }: DiaryWritePageProp) => {
     const { currentDiaryId, ...rest } = route.params || { currentDiaryId : undefined };
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-    const { getDiaryById } = useDiaryListStore();
+    const { data: currentDiary } = useDiaryById(currentDiaryId);
     const { selectedCharacter } = useSelectedCharacterStore();
-
-    const currentDiary: Diary | undefined = currentDiaryId ? getDiaryById(currentDiaryId) : undefined
     
     const [diaryDate, setDiaryDate] = useState<LocalDate>(currentDiary ? currentDiary.diaryDate : LocalDate.now());
     const [content, setContent] = useState<string>(currentDiary ? currentDiary.content : "");
