@@ -41,21 +41,22 @@ export const useAccountState = () => {
         setIsLoading(false);
     }
 
-    const signup = (member: Member) => {
+    const signup = async (member: Member) => {
         setIsLoading(true);
-        createMember(member);
+        await createMember(member);
         setIsLoading(false);
     }
 
-    const logout = () => {
+    const logout = async () => {
         setIsLoading(true);
         jwtManager.setToken(null);
+        await refetch();
         setIsLoading(false);
     }
 
-    const resign = () => {
+    const resign = async () => {
         setIsLoading(true);
-        deleteMember();
+        await deleteMember();
         jwtManager.setToken(null);
         setIsLoading(false);
     }
