@@ -59,7 +59,6 @@ export const useAccountState = () => {
     const resign = async () => {
         setIsLoading(true);
         await deleteMember();
-        removeToken();
         setIsLoading(false);
     }
 
