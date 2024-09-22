@@ -59,6 +59,23 @@ export const useUpdateDiary = () => {
     });
 }
 
+export const useUpdateDiaryFavorite = (diaryId: number) => {
+    const queryClient = useQueryClient();
+
+    return useMutation((isFavorite: boolean) => {
+        return patchDiaryFavorite(diaryId, isFavorite);
+    }, {
+        onSuccess: (_, isFavorite: boolean) => {
+            const diary: Diary | undefined = queryClient.getQueryData(["diary", diaryId]);
+            if (!diary) return;
+            queryClient.setQueryData(["diary", diaryId], {
+                ...diary,
+                isFavorite: isFavorite
+            });
+        }
+    });
+}
+
 export const useDeleteDiary = () => {
     const queryClient = useQueryClient();
 
