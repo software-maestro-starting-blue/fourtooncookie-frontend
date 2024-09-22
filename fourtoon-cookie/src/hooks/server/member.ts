@@ -13,7 +13,7 @@ export const useCreateMember = () => {
     return useMutation<void, Error, Member>('member', postMember,
         {
             onSuccess: () => {
-                queryClient.invalidateQueries('member');
+                queryClient.invalidateQueries('member', { exact: true });
             }
         }
     );
@@ -24,7 +24,8 @@ export const useDeleteMember = () => {
 
     return useMutation<void, Error, void>('member', deleteMember, {
         onSuccess: () => {
-            queryClient.removeQueries('member');
+            queryClient.cancelQueries('member', { exact: true });
+            queryClient.removeQueries('member', { exact: true });
         }
     });
 }  
