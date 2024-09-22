@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "react-query"
-import { deleteDiary, getDiaries, postDiary, putDiary } from "../../apis/diary"
+import { deleteDiary, getDiaries, patchDiaryFavorite, postDiary, putDiary } from "../../apis/diary"
 import { Diary } from "../../types/diary";
 
 
@@ -37,7 +37,7 @@ export const useDiaryById = (diaryId: number) => {
 export const useCreateDiary = () => {
     const queryClient = useQueryClient();
 
-    return useMutation("diaries", (diary: Diary) => {
+    return useMutation((diary: Diary) => {
         return postDiary(diary.characterId, diary.diaryDate, diary.content);
     }, {
         onSuccess: () => {
@@ -49,7 +49,7 @@ export const useCreateDiary = () => {
 export const useUpdateDiary = () => {
     const queryClient = useQueryClient();
 
-    return useMutation("diaries", (diary: Diary) => {
+    return useMutation((diary: Diary) => {
         return putDiary(diary.characterId, diary.diaryId, diary.content);
     }, {
         onSuccess: (_, diary) => {
@@ -79,7 +79,7 @@ export const useUpdateDiaryFavorite = (diaryId: number) => {
 export const useDeleteDiary = () => {
     const queryClient = useQueryClient();
 
-    return useMutation("diaries", (diaryId: number) => {
+    return useMutation((diaryId: number) => {
         return deleteDiary(diaryId);
     }, {
         onSuccess: (_, diaryId) => {
