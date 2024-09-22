@@ -1,12 +1,12 @@
 import { Alert } from "react-native";
 import { GlobalErrorInfoType } from "../types/error";
-import { jwtManager } from "../auth/jwtManager";
+import { useJwtStore } from "../store/jwt";
 
 
 const handleError = (error: Error, errorType: GlobalErrorInfoType, callback?: (error: Error) => void) => {
     switch(error.name) {
         case 'JwtError':
-            jwtManager.setToken(null);
+            useJwtStore.getState().removeToken();
             break;
     }
 

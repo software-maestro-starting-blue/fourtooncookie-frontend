@@ -3,12 +3,14 @@ import { AccountStatus } from "../types/account";
 import { JWTToken } from "../types/jwt";
 import { Member } from "../types/member";
 import { useCreateMember, useDeleteMember, useMember } from "./server/member";
-import { jwtManager } from "../auth/jwtManager";
+import { useJwtStore } from "../store/jwt";
 
 
 export const useAccountState = () => {
     const [ accountState, setAccountState ] = useState<AccountStatus>(AccountStatus.UNAUTHORIZED);
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
+
+    const { token, setToken, removeToken } = useJwtStore();
 
     const { data: member, refetch } = useMember();
 
@@ -25,18 +27,18 @@ export const useAccountState = () => {
             return;
         }
 
-        if (jwtManager.getToken()) {
+        if (token) {
             setAccountState(AccountStatus.UNSIGNEDUP);
             return;
         }
 
         setAccountState(AccountStatus.UNAUTHORIZED);
 
-    }, [isLoading, member, jwtManager]);
+    }, [isLoading, member, token]);
     
     const login = async (token: JWTToken) => {
         setIsLoading(true);
-        await jwtManager.setToken(token);
+        setToken(token);
         await refetch();
         setIsLoading(false);
     }
@@ -49,7 +51,7 @@ export const useAccountState = () => {
 
     const logout = async () => {
         setIsLoading(true);
-        jwtManager.setToken(null);
+        removeToken();
         await refetch();
         setIsLoading(false);
     }
@@ -57,7 +59,7 @@ export const useAccountState = () => {
     const resign = async () => {
         setIsLoading(true);
         await deleteMember();
-        jwtManager.setToken(null);
+        removeToken();
         setIsLoading(false);
     }
 

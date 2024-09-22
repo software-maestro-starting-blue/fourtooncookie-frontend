@@ -1,11 +1,14 @@
 import { JwtError } from "../error/JwtError";
 import { JWTToken } from "../types/jwt";
 import { API_METHOD_TYPE, API_STATUS } from "../constants/api";
-import { jwtManager } from "../auth/jwtManager";
+import { useJwtStore } from "../store/jwt";
 
 
 export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: any): Promise<Response> => {
     
+
+    let token: JWTToken | null = useJwtStore.getState().token;
+
     let leftTryCount: number = 2;
 
     while (leftTryCount > 0) {
@@ -15,7 +18,7 @@ export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: an
             method: method,
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${jwtManager.getToken()?.accessToken}`
+                'Authorization': `Bearer ${token}`
             },
             body: body ? JSON.stringify(body) : undefined,
         });
@@ -25,7 +28,8 @@ export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: an
         }
 
         if (leftTryCount > 0) {
-            await jwtManager.refleshToken();
+            await useJwtStore.getState().refreshToken();
+            token = useJwtStore.getState().token;
         }
     }
 
