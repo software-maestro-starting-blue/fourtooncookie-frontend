@@ -4,11 +4,11 @@ import { RootStackParamList } from '../../../constants/routing';
 import { useSelectedCharacterStore } from '../../../store/selectedCharacter';
 
 import * as S from "./ProfileLayout.styled";
-import { useAccountStore } from '../../../store/account';
+import { useMember } from '../../../hooks/server/member';
 
 const ProfileLayout = () => {
 
-    const { member } = useAccountStore();
+    const { data: member } = useMember();
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const { selectedCharacter } = useSelectedCharacterStore();
