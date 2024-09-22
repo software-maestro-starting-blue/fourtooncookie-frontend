@@ -3,7 +3,7 @@ import { deleteDiary, getDiaries, postDiary, putDiary } from "../../apis/diary"
 import { Diary } from "../../types/diary";
 
 
-export const useDiary = () => {
+export const useDiaries = () => {
     const queryClient = useQueryClient();
 
     return useInfiniteQuery("diaries", 
@@ -22,7 +22,7 @@ export const useDiary = () => {
                     page.forEach((diary) => {
                         queryClient.setQueryData(["diary", diary.diaryId], diary)
                     })
-                });                
+                });
             }
         }
     );
