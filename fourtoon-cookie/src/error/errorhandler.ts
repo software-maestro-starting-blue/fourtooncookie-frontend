@@ -1,12 +1,12 @@
 import { Alert } from "react-native";
 import { GlobalErrorInfoType } from "../types/error";
-import { useAccountStore } from "../store/account";
+import { jwtManager } from "../auth/jwtManager";
 
 
 const handleError = (error: Error, errorType: GlobalErrorInfoType, callback?: (error: Error) => void) => {
     switch(error.name) {
         case 'JwtError':
-            useAccountStore.getState().logoutMember();
+            jwtManager.setToken(null);
             break;
     }
 
