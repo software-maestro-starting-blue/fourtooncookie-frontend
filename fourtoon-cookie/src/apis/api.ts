@@ -18,7 +18,7 @@ export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: an
             method: method,
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token?.accessToken}`
             },
             body: body ? JSON.stringify(body) : undefined,
         });
