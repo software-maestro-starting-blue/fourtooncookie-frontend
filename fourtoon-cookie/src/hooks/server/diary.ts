@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "react-query"
-import { deleteDiary, getDiaries, getDiary, patchDiaryFavorite, postDiary, putDiary } from "../../apis/diary"
+import { deleteDiary, getDiaries, getDiary, getDiaryImage, patchDiaryFavorite, postDiary, putDiary } from "../../apis/diary"
 import { Diary } from "../../types/diary";
 import { useAccountState } from "../account";
 import { AccountStatus } from "../../types/account";
@@ -128,3 +128,29 @@ export const useDeleteDiary = () => {
         }
     });
 }
+
+export const useDownloadDiaryImage = (diaryId: number | undefined) => {
+    const queryClient = useQueryClient();
+    const { accountState } = useAccountState();
+
+    return useQuery(
+        ["diary", diaryId, "download"],
+        () => {
+            if (!diaryId) throw new Error("Diary ID is undefined");
+            return getDiaryImage(diaryId);
+        },
+        {
+            enabled: accountState === AccountStatus.LOGINED && !!diaryId,
+            retry: false,
+            onError: (error: Error) => {
+                if (error instanceof JwtError) {
+                    queryClient.cancelQueries(["diary", diaryId, "download"], { exact: true });
+                    queryClient.removeQueries(["diary", diaryId, "download"], { exact: true });
+                } else {
+                    console.error("Error downloading diary image:", error);
+                }
+            },
+            initialData: () => queryClient.getQueryData(["diary", diaryId, "download"]),
+        }
+    );
+};
