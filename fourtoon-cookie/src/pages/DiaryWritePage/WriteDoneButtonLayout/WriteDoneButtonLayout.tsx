@@ -3,9 +3,8 @@ import { LocalDate } from "@js-joda/core";
 import { useState } from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { OS } from "../../../types/os"
-import { Diary } from "../../../types/diary";
+import { Diary, DiaryStatus } from "../../../types/diary";
 import { useSelectedCharacterStore } from "../../../store/selectedCharacter";
-import { useDiaryListStore } from "../../../store/diaryList";
 import { RootStackParamList } from "../../../constants/routing";
 import { API_STATUS } from "../../../constants/api";
 import { ApiError } from "../../../error/ApiError";
@@ -15,6 +14,7 @@ import Button from "../../../components/common/Button/Button";
 
 import * as S from "./WriteDoneButtonLayout.styled";
 import { AccountStatus } from "../../../types/account";
+import { useCreateDiary, useUpdateDiary } from "../../../hooks/server/diary";
 import { useAccountState } from "../../../hooks/account";
 
 export interface WriteDoneButtonLayout {
@@ -30,7 +30,8 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
 
     const [isWorking, setIsWorking] = useState<boolean>(false);
 
-    const { postDiary, updateDiary } = useDiaryListStore();
+    const { mutate: createDiary } = useCreateDiary();
+    const { mutate: updateDiary } = useUpdateDiary();
     const { selectedCharacter } = useSelectedCharacterStore();
 
     const { accountState } = useAccountState();
@@ -65,12 +66,13 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
             isFavorite: false,
             diaryDate: diaryDate,
             paintingImageUrls: [],
-            characterId: selectedCharacter.id
+            characterId: selectedCharacter.id,
+            diaryStatus: DiaryStatus.IN_PROGRESS
         }
 
         try {
             if (! currentDiaryId) {
-                await postDiary(diary);
+                await createDiary(diary);
             } else {
                 await updateDiary(diary);
             }
