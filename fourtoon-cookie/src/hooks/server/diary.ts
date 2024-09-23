@@ -128,29 +128,3 @@ export const useDeleteDiary = () => {
         }
     });
 }
-
-export const useDownloadDiaryImage = (diaryId: number | undefined) => {
-    const queryClient = useQueryClient();
-    const { accountState } = useAccountState();
-
-    return useQuery(
-        ["diary", diaryId, "download"],
-        () => {
-            if (!diaryId) throw new Error("Diary ID is undefined");
-            return getDiaryImage(diaryId);
-        },
-        {
-            enabled: accountState === AccountStatus.LOGINED && !!diaryId,
-            retry: false,
-            onError: (error: Error) => {
-                if (error instanceof JwtError) {
-                    queryClient.cancelQueries(["diary", diaryId, "download"], { exact: true });
-                    queryClient.removeQueries(["diary", diaryId, "download"], { exact: true });
-                } else {
-                    console.error("Error downloading diary image:", error);
-                }
-            },
-            initialData: () => queryClient.getQueryData(["diary", diaryId, "download"]),
-        }
-    );
-};

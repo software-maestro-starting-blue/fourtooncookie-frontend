@@ -5,9 +5,10 @@ import FAVORITE_INACTIVATE_ICON from "../../../../../assets/icon/favorite-inacti
 import DOWNLOAD_ICON from "../../../../../assets/icon/download.png";
 import UPLOAD_ICON from "../../../../../assets/icon/upload.png";
 import * as S from './Footer.styled';
-import { useUpdateDiaryFavorite, useDownloadDiaryImage } from "../../../../hooks/server/diary";
+import { useUpdateDiaryFavorite } from "../../../../hooks/server/diary";
 import Share from 'react-native-share';
 import * as FileSystem from 'expo-file-system';
+import { getDiaryImage, saveImageToGallery } from "../../../../apis/diary";
 
 export interface FooterProps {
     diaryId: number;
@@ -18,33 +19,31 @@ const DiaryActionsLayout = (props: FooterProps) => {
     const {diaryId, isFavorite, ...rest} = props;
 
     const { mutate: updateDiaryFavorite } = useUpdateDiaryFavorite(diaryId);
-    const { data: downloadData, isLoading, refetch: downloadDiaryImage } = useDownloadDiaryImage(diaryId);
-    
-    // 목데이터 설정
-    const mockDownloadData = 'https://via.placeholder.com/250'
-    const finalDownloadData = downloadData || mockDownloadData; 
 
     const handleToggleFavorite = async () => {
         updateDiaryFavorite(! isFavorite);
     }
 
     const handleDownload = async () => {
-        downloadDiaryImage();
+        try {
+            // 스프링 서버에서 이미지 다운
+            const fileUri = await getDiaryImage(diaryId);
+            // 갤러리에 이미지 저장
+            await saveImageToGallery(fileUri);
+        } catch (error) {
+            console.error('이미지 다운로드 또는 갤러리 저장 중 오류 발생:', error);
+        }
     };
-
 
     const handleShare = async () => {
         try {
-            const fileUri = finalDownloadData;
-            // 로컬에 있는 파일을 공유할 때 사용할 옵션 설정
+            const fileUri = finalDownloadData;  // 다운로드된 이미지 파일 경로를 넣음
             const shareOptions = {
                 title: '다이어리 이미지 공유',
-                url:Platform.OS === 'ios' ? `file://${fileUri}` : fileUri, // ios, android
+                url: Platform.OS === 'ios' ? `file://${fileUri}` : fileUri,
                 type: 'image/jpeg',
                 message: '다이어리 이미지를 공유합니다.',
             };
-    
-            // 파일 공유 실행
             const result = await Share.open(shareOptions);
             console.log(result);
         } catch (error) {
