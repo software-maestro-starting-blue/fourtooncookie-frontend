@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, TouchableOpacity, View, Platform } from "react-native";
+import { Image, TouchableOpacity, View, Platform, Alert } from "react-native";
 import FAVORITE_ACTIVATE_ICON from "../../../../../assets/icon/favorite-activate.png";
 import FAVORITE_INACTIVATE_ICON from "../../../../../assets/icon/favorite-inactivate.png";
 import DOWNLOAD_ICON from "../../../../../assets/icon/download.png";
@@ -7,7 +7,6 @@ import UPLOAD_ICON from "../../../../../assets/icon/upload.png";
 import * as S from './Footer.styled';
 import { useUpdateDiaryFavorite } from "../../../../hooks/server/diary";
 import Share from 'react-native-share';
-import * as FileSystem from 'expo-file-system';
 import { getDiaryImage, saveImageToGallery } from "../../../../apis/diary";
 
 export interface FooterProps {
@@ -30,24 +29,34 @@ const DiaryActionsLayout = (props: FooterProps) => {
             const fileUri = await getDiaryImage(diaryId);
             // 갤러리에 이미지 저장
             await saveImageToGallery(fileUri);
+            Alert.alert('이미지 저장 성공', '이미지를 갤러리에 저장했습니다.');
         } catch (error) {
+            Alert.alert('이미지 저장 실패', '이미지를 갤러리에 저장하지 못했습니다.');
             console.error('이미지 다운로드 또는 갤러리 저장 중 오류 발생:', error);
         }
     };
 
     const handleShare = async () => {
         try {
-            const fileUri = finalDownloadData;  // 다운로드된 이미지 파일 경로를 넣음
+            // 서버에서 이미지 다운로드
+            const fileUri = await getDiaryImage(diaryId);
+
+            // 공유 옵션 설정
             const shareOptions = {
                 title: '다이어리 이미지 공유',
                 url: Platform.OS === 'ios' ? `file://${fileUri}` : fileUri,
                 type: 'image/jpeg',
-                message: '다이어리 이미지를 공유합니다.',
             };
-            const result = await Share.open(shareOptions);
-            console.log(result);
-        } catch (error) {
-            console.error('Error sharing image:', error);
+
+            // 공유 실행
+            await Share.open(shareOptions);
+        } catch (error: any) {
+            // 유저가 공유박스를 열고 닫은 경우는 alert창을 뱉지 않기 위함
+            // 리액트네이티브가(android, ios)가 뱉는 에러 메시지가 'User did not share' 임.
+            if (error.message !== 'User did not share') {
+                console.error('이미지 공유 중 오류 발생:', error);
+                Alert.alert('공유 오류', '이미지 공유에 실패했습니다.');
+            }
         }
     };
 
