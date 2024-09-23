@@ -5,6 +5,10 @@ import { LocalDate } from "@js-joda/core";
 import { ApiError } from "../error/ApiError";
 import { API_METHOD_TYPE, API_STATUS } from "../constants/api";
 
+import * as FileSystem from 'expo-file-system';
+import * as MediaLibrary from 'expo-media-library';
+import { Alert, Platform } from 'react-native';
+
 export const getDiary = async (diaryId: number): Promise<Diary> => {
     const response = await requestApi(`/diary/${diaryId}`, API_METHOD_TYPE.GET);
 
@@ -86,4 +90,48 @@ export const patchDiaryFavorite = async (diaryId: number, isFavorite: boolean): 
     if (response.status != API_STATUS.SUCCESS) {
         throw new ApiError("일기 즐겨찾기 중 오류가 발생했습니다. 다시 시도해 주세요.", response.status);
     }
+};
+
+
+export const getDiaryImage = async (diaryId: number): Promise<void> => {
+    try {
+        const response = await requestApi(`/diary/${diaryId}/download`, API_METHOD_TYPE.GET);
+
+        if (response.status !== API_STATUS.SUCCESS) {
+            throw new ApiError("이미지 다운로드 요청 중 오류가 발생했습니다.", response.status);
+        }
+
+        const blob = await response.blob();
+        const base64Data = await blobToBase64(blob);
+
+        // // 파일 경로 설정
+        const fileUri = `${FileSystem.cacheDirectory}${diaryId}.jpg`;
+
+        // // 파일 저장
+        await FileSystem.writeAsStringAsync(fileUri, base64Data, { encoding: FileSystem.EncodingType.Base64 });
+        const { status } = await MediaLibrary.requestPermissionsAsync();
+
+        if (status !== 'granted') {
+            Alert.alert('권한 필요', '갤러리에 이미지를 저장하려면 권한이 필요합니다.');
+            return;
+        }
+
+        const asset = await MediaLibrary.createAssetAsync(fileUri);
+        await MediaLibrary.createAlbumAsync('DiaryImages', asset, false);
+
+    } catch (error) {
+        console.error('이미지 다운로드 또는 저장 중 오류 발생:', error);
+    }
+};
+
+const blobToBase64 = (blob: Blob): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            const base64data = reader.result as string;
+            resolve(base64data);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+    });
 };
