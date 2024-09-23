@@ -15,7 +15,6 @@ export const styles = StyleSheet.create({
         flex: 1,
     },
     actionButtons: {
-        flex: 3,
         flexDirection: 'row',
         justifyContent: 'flex-end',
     },
