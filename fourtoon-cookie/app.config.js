@@ -13,6 +13,10 @@ export default {
             "backgroundColor": "#FFFFFF"
         },
         android: {
+            permissions: [
+                "WRITE_EXTERNAL_STORAGE",
+                "READ_EXTERNAL_STORAGE"
+            ],
             "adaptiveIcon": {
                 "foregroundImage": "./assets/logo/logo-3.png",
                 "backgroundColor": "#ffffff"
@@ -28,7 +32,9 @@ export default {
                     {
                         "CFBundleURLSchemes": [
                             process.env.CF_BUNDLE_URL_SCHEMES
-                        ]
+                        ],
+                        "NSPhotoLibraryAddUsageDescription": "사진을 저장하기 위해 갤러리 접근 권한이 필요합니다.",
+                        "NSPhotoLibraryUsageDescription": "사진을 저장하기 위해 갤러리 접근 권한이 필요합니다.",
                     }
                 ]
             }
