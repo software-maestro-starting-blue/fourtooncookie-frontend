@@ -21,6 +21,7 @@ const DiaryTimelinePage = () => {
 
     const { data, refetch, hasNextPage, fetchNextPage } = useDiaries();
     const diaryList: Diary[] = data?.pages?.flatMap(page => page) ?? [];
+    const diaryListById: number[] = diaryList.map(diary => diary.diaryId);
 
     const { accountState } = useAccountState();
 
@@ -59,9 +60,9 @@ const DiaryTimelinePage = () => {
     return (
         <MainPageLayout footerState={FOOTER_STATE.HOME}>
             <FlatList
-                data={diaryList}
-                keyExtractor={(item) => item.diaryId.toString()}
-                renderItem={({item}) => <DiaryComponent diary={item}/>}
+                data={diaryListById}
+                keyExtractor={(item) => item.toString()}
+                renderItem={({item}) => <DiaryComponent diaryId={item}/>}
                 ListHeaderComponent={<Header/>}
                 onEndReached={handleEndReached}
                 onEndReachedThreshold={0.5}
