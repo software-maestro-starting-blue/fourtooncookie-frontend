@@ -101,7 +101,11 @@ export const getDiaryImage = async (diaryId: number): Promise<string> => {
     const blob = await response.blob();
 
     // Blob 데이터를 파일로 저장
-    const fileUri = `${FileSystem.documentDirectory}${diaryId}.jpg`;
+    // iOS와 Android에 따라 파일 경로 구분
+    const fileUri = Platform.OS === 'android' 
+        ? `${FileSystem.cacheDirectory}${diaryId}.png`  // Android의 경우 cacheDirectory 사용
+        : `${FileSystem.documentDirectory}${diaryId}.png`;  // iOS의 경우 documentDirectory 사용
+
 
     // 파일로 저장 후 URI 반환
     await FileSystem.writeAsStringAsync(fileUri, await blobToBase64(blob), {
