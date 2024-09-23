@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, TouchableOpacity, View, Platform, Alert } from "react-native";
+import { Image, TouchableOpacity, View, Platform, Alert, Linking } from "react-native";
 import FAVORITE_ACTIVATE_ICON from "../../../../../assets/icon/favorite-activate.png";
 import FAVORITE_INACTIVATE_ICON from "../../../../../assets/icon/favorite-inactivate.png";
 import DOWNLOAD_ICON from "../../../../../assets/icon/download.png";
@@ -8,6 +8,7 @@ import * as S from './Footer.styled';
 import { useUpdateDiaryFavorite } from "../../../../hooks/server/diary";
 import Share from 'react-native-share';
 import { getDiaryImage, saveImageToGallery } from "../../../../apis/diary";
+import * as MediaLibrary from 'expo-media-library';
 
 export interface FooterProps {
     diaryId: number;
@@ -25,6 +26,22 @@ const DiaryActionsLayout = (props: FooterProps) => {
 
     const handleDownload = async () => {
         try {
+              // 갤러리 접근 권한 요청
+            const { status } = await MediaLibrary.requestPermissionsAsync();
+
+            // 권한이 없을 경우, 알림을 띄우고 저장을 중단
+            if (status !== 'granted') {
+                Alert.alert(
+                    '권한 필요',
+                    '갤러리에 이미지를 저장하려면 권한을 허용해야 합니다.',
+                    [
+                        { text: '취소', style: 'cancel' },
+                        { text: '설정', onPress: () => Linking.openSettings() }
+                    ]
+                );
+                return;
+            }
+
             // 스프링 서버에서 이미지 다운
             const fileUri = await getDiaryImage(diaryId);
             // 갤러리에 이미지 저장
