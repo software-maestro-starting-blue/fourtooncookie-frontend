@@ -13,9 +13,9 @@ import { GlobalErrorInfoType } from "../../../types/error";
 import Button from "../../../components/common/Button/Button";
 
 import * as S from "./WriteDoneButtonLayout.styled";
-import { useAccountStore } from "../../../store/account";
 import { AccountStatus } from "../../../types/account";
 import { useCreateDiary, useUpdateDiary } from "../../../hooks/server/diary";
+import { useAccountState } from "../../../hooks/account";
 
 export interface WriteDoneButtonLayout {
     diaryDate: LocalDate;
@@ -33,14 +33,15 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
     const { mutate: createDiary } = useCreateDiary();
     const { mutate: updateDiary } = useUpdateDiary();
     const { selectedCharacter } = useSelectedCharacterStore();
-    const { getAccountStatus } = useAccountStore();
+
+    const { accountState } = useAccountState();
 
     const isNextButtonEnabled = content.length > 0 && ! isWorking;
 
     if (! selectedCharacter) return null;
 
     const handleWriteDoneButtonPress = async () => {
-        if (getAccountStatus() !== AccountStatus.LOGINED) {
+        if (accountState !== AccountStatus.LOGINED) {
             Alert.alert(
                 '로그인 필요 기능',
                 '로그인을 진행해야 일기 작성이 가능합니다.',

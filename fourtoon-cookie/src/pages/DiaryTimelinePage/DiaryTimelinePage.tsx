@@ -7,10 +7,10 @@ import DiaryComponent from "./DiaryComponent/DiaryComponent";
 import MainPageLayout from "../../components/layout/MainPageLayout/MainPageLayout";
 import handleError from "../../error/errorhandler";
 import { FOOTER_STATE } from "../../components/layout/MainPageLayout/Footer/Footer";
-import { useEffectWithAccountStatus } from "../../hooks/account";
-import { AccountStatus } from "../../types/account";
 import { useDiaries } from "../../hooks/server/diary";
 import { Diary } from "../../types/diary";
+import { AccountStatus } from "../../types/account";
+import { useAccountState } from "../../hooks/account";
 
 enum LIST_STATUS {
     NONE, REFRESH, END_REACHED
@@ -22,6 +22,7 @@ const DiaryTimelinePage = () => {
     const { data, refetch, hasNextPage, fetchNextPage } = useDiaries();
     const diaryList: Diary[] = data?.pages?.flatMap(page => page) ?? [];
 
+    const { accountState } = useAccountState();
 
     const handleEndReached = async () => {
         setListStatus(LIST_STATUS.END_REACHED);
@@ -31,7 +32,7 @@ const DiaryTimelinePage = () => {
         setListStatus(LIST_STATUS.REFRESH);
     };
 
-    useEffectWithAccountStatus((accountStatus: AccountStatus) => {
+    useEffect(() => {
         const fetchDiaries = async (listStatus: LIST_STATUS) => {
             switch (listStatus) {
                 case LIST_STATUS.NONE:
@@ -49,11 +50,11 @@ const DiaryTimelinePage = () => {
             setListStatus(LIST_STATUS.NONE);
         }
 
-        if (accountStatus !== AccountStatus.LOGINED) return;
+        if (accountState !== AccountStatus.LOGINED) return;
 
         fetchDiaries(listStatus);
 
-    }, [listStatus]);
+    }, [listStatus, accountState]);
 
     return (
         <MainPageLayout footerState={FOOTER_STATE.HOME}>
