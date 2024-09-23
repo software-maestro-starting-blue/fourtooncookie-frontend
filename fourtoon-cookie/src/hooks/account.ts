@@ -36,31 +36,34 @@ export const useAccountState = () => {
 
     }, [isLoading, member, token]);
     
-    const login = async (token: JWTToken) => {
-        setIsLoading(true);
+    const asyncWithLoading = <Args extends any[]>(func: (...args: Args) => Promise<void>) => {
+        return async (...args: Args) => {
+            setIsLoading(true);
+            try {
+                await func(...args);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+    };
+    
+    const login = asyncWithLoading(async (token: JWTToken) => {
         setToken(token);
         await refetch();
-        setIsLoading(false);
-    }
+    });
 
-    const signup = async (member: Member) => {
-        setIsLoading(true);
+    const signup = asyncWithLoading(async (member: Member) => {
         await createMember(member);
-        setIsLoading(false);
-    }
+    });
 
-    const logout = async () => {
-        setIsLoading(true);
+    const logout = asyncWithLoading(async () => {
         removeToken();
         await refetch();
-        setIsLoading(false);
-    }
+    });
 
-    const resign = async () => {
-        setIsLoading(true);
+    const resign = asyncWithLoading(async () => {
         await deleteMember();
-        setIsLoading(false);
-    }
+    });
 
     return {
         accountState,
