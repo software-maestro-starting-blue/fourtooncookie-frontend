@@ -1,16 +1,30 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "react-query"
 import { deleteDiary, getDiaries, getDiary, patchDiaryFavorite, postDiary, putDiary } from "../../apis/diary"
 import { Diary } from "../../types/diary";
+import { useAccountState } from "../account";
+import { AccountStatus } from "../../types/account";
+import { useEffect } from "react";
+import { JwtError } from "../../error/JwtError";
 
 
 export const useDiaries = () => {
     const queryClient = useQueryClient();
+    const { accountState } = useAccountState();
+
+    useEffect(() => {
+        if (accountState == AccountStatus.LOGINED) return;
+
+        queryClient.invalidateQueries("diaries");
+    }, [accountState, queryClient]);
+
 
     return useInfiniteQuery("diaries", 
-        ({ pageParam = 0 }) => {
-            return getDiaries(pageParam)
+        async ({ pageParam = 0 }) => {
+            return await getDiaries(pageParam);
         }, 
         {
+            enabled: accountState === AccountStatus.LOGINED,
+            retry: false,
             getNextPageParam: (lastPage, allPages) => {
                 if (lastPage.length < 10) {
                     return false
@@ -23,6 +37,12 @@ export const useDiaries = () => {
                         queryClient.setQueryData(["diary", diary.diaryId], diary)
                     })
                 });
+            },
+            onError: (error: Error) => {
+                if (error instanceof JwtError) {
+                    queryClient.cancelQueries("diaries");
+                    queryClient.removeQueries("diaries");
+                }
             }
         }
     );
@@ -30,12 +50,27 @@ export const useDiaries = () => {
 
 export const useDiaryById = (diaryId: number | undefined) => {
     const queryClient = useQueryClient();
+    const { accountState } = useAccountState();
+
+    useEffect(() => {
+        if (accountState == AccountStatus.LOGINED) return;
+
+        queryClient.invalidateQueries(["diary", diaryId], { exact: true });
+    }, [accountState, diaryId, queryClient]);
 
     return useQuery(["diary", diaryId], () => {
         if (!diaryId) return;
         return getDiary(diaryId);
     }, {
-        initialData: () => queryClient.getQueryData(["diary", diaryId])
+        initialData: () => queryClient.getQueryData(["diary", diaryId]),
+        enabled: accountState === AccountStatus.LOGINED,
+        retry: false,
+        onError: (error: Error) => {
+            if (error instanceof JwtError) {
+                queryClient.cancelQueries(["diary", diaryId], { exact: true });
+                queryClient.removeQueries(["diary", diaryId], { exact: true });
+            }
+        }
     });
 }
 
@@ -58,7 +93,7 @@ export const useUpdateDiary = () => {
         return putDiary(diary.characterId, diary.diaryId, diary.content);
     }, {
         onSuccess: (_, diary) => {
-            queryClient.removeQueries(["diary", diary.diaryId], { exact: true });
+            queryClient.invalidateQueries(["diary", diary.diaryId], { exact: true });
             queryClient.invalidateQueries("diaries");
         }
     });
