@@ -7,12 +7,12 @@ import handleError from '../../../error/errorhandler';
 import { GlobalErrorInfoType } from '../../../types/error';
 
 import * as S from './MenuLayout.styled';
-import { useAccountStore } from '../../../store/account';
 import { AccountStatus } from '../../../types/account';
+import { useAccountState } from '../../../hooks/account';
 
 const MenuLayout = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-    const { getAccountStatus, logoutMember, resignMember } = useAccountStore();
+    const { accountState, logout, resign } = useAccountState();
 
     const handleAppInfoButtonPress = () => {
         Linking.openURL(APP_INFO_URL).catch(err => 
@@ -24,13 +24,13 @@ const MenuLayout = () => {
     }
 
     const handleLogoutButtonPress = async () => {
-        logoutMember();
+        logout();
     }
 
     const handleResignButtonPress = async () => {
         const handleResign = () => {
             try {
-                resignMember();
+                resign();
             } catch (error) {
                 if (error instanceof Error) {
                     handleError(
@@ -65,7 +65,7 @@ const MenuLayout = () => {
         <View style={S.styles.menuContainer}>
             <MenuWideButton menuText='앱 정보' onPress={handleAppInfoButtonPress} />
             {
-                (getAccountStatus() === AccountStatus.LOGINED) ? 
+                (accountState === AccountStatus.LOGINED) ? 
                 (
                     <>
                     <MenuWideButton menuText='로그아웃' onPress={handleLogoutButtonPress} />
