@@ -6,8 +6,8 @@ import { ApiError } from "../error/ApiError";
 import { API_METHOD_TYPE, API_STATUS } from "../constants/api";
 
 import * as FileSystem from 'expo-file-system';
-import * as MediaLibrary from 'expo-media-library';
-import { Alert, Platform } from 'react-native';
+// import * as MediaLibrary from 'expo-media-library';
+import { Alert } from 'react-native';
 
 export const getDiary = async (diaryId: number): Promise<Diary> => {
     const response = await requestApi(`/diary/${diaryId}`, API_METHOD_TYPE.GET);
@@ -105,7 +105,7 @@ export const getDiaryImage = async (diaryId: number): Promise<void> => {
         const base64Data = await blobToBase64(blob);
 
         // // 파일 경로 설정
-        const fileUri = `${FileSystem.cacheDirectory}${diaryId}.jpg`;
+        const fileUri = `${FileSystem.cacheDirectory}${diaryId}.png`;
 
         // // 파일 저장
         await FileSystem.writeAsStringAsync(fileUri, base64Data, { encoding: FileSystem.EncodingType.Base64 });
@@ -118,7 +118,8 @@ export const getDiaryImage = async (diaryId: number): Promise<void> => {
 
         const asset = await MediaLibrary.createAssetAsync(fileUri);
         await MediaLibrary.createAlbumAsync('DiaryImages', asset, false);
-
+        
+        return fileUri;
     } catch (error) {
         console.error('이미지 다운로드 또는 저장 중 오류 발생:', error);
     }
