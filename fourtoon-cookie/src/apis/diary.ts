@@ -116,13 +116,6 @@ export const getDiaryImage = async (diaryId: number): Promise<string> => {
 
 export const saveImageToGallery = async (fileUri: string) => {
     try {
-        // 갤러리 접근 권한 요청
-        const { status } = await MediaLibrary.requestPermissionsAsync();
-
-        if (status !== 'granted') {
-            Alert.alert('권한 필요', '갤러리에 이미지를 저장하려면 권한이 필요합니다.');
-            return;
-        }
 
         // MediaLibrary에 파일 저장 (갤러리로 이동)
         const asset = await MediaLibrary.createAssetAsync(fileUri);
