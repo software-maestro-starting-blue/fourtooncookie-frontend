@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, Image, Text, View } from 'react-native';
 import type { Character } from '../../../types/character';
 import * as S from './CharacterItem.styled';
-import { useSelectedCharacterStore } from '../../../store/selectedCharacter';
+import { useSelectedCharacterStore } from '../../../hooks/store/selectedCharacter';
 
 export interface CharacterItemProps {
     character: Character;

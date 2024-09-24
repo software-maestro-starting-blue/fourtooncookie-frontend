@@ -13,7 +13,7 @@ import { LocalDate } from "@js-joda/core";
 
 import { RuntimeError } from "../../error/RuntimeError";
 import handleError from "../../error/errorhandler";
-import { useSelectedCharacterStore } from "../../store/selectedCharacter";
+import { useSelectedCharacterStore } from "../../hooks/store/selectedCharacter";
 import WriteDoneButtonLayout from "./WriteDoneButtonLayout/WriteDoneButtonLayout";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useDiaryById } from "../../hooks/server/diary";

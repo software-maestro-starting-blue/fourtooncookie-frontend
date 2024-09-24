@@ -7,7 +7,7 @@ import CharacterItem from "../../../components/character/CharacterItem/Character
 import { useContext } from "react";
 import { LocalDate } from "@js-joda/core";
 import CharacterIconButton from "./CharacterIconButton/CharacterIconButton";
-import { useSelectedCharacterStore } from "../../../store/selectedCharacter";
+import { useSelectedCharacterStore } from "../../../hooks/store/selectedCharacter";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../constants/routing";
 
