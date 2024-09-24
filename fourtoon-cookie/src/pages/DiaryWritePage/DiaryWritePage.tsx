@@ -11,7 +11,7 @@ import * as S from "./DiaryWritePage.styled";
 import { GlobalErrorInfoType } from "../../types/error";
 import { LocalDate } from "@js-joda/core";
 
-import { RuntimeError } from "../../error/RuntimeError";
+import { RuntimeError } from "../../types/error/RuntimeError";
 import handleError from "../../error/errorhandler";
 import { useSelectedCharacterStore } from "../../hooks/store/selectedCharacter";
 import WriteDoneButtonLayout from "./WriteDoneButtonLayout/WriteDoneButtonLayout";
