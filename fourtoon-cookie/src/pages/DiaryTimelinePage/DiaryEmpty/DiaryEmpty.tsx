@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import * as S from './DiaryEmpty.styled';
-import { RootStackParamList } from '../../../constants/routing';
+import { RootStackParamList } from '../../../types/routing';
 
 const DiaryEmpty = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();

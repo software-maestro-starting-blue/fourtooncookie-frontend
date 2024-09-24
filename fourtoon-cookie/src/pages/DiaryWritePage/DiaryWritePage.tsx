@@ -5,7 +5,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Header from "./Header/Header";
 import TextInputLayout from "./TextInputLayout/TextInputLayout";
 
-import { RootStackParamList } from "../../constants/routing";
+import { RootStackParamList } from "../../types/routing";
 
 import * as S from "./DiaryWritePage.styled";
 import { GlobalErrorInfoType } from "../../types/error";

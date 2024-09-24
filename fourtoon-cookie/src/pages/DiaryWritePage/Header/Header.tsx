@@ -9,7 +9,7 @@ import { LocalDate } from "@js-joda/core";
 import CharacterIconButton from "./CharacterIconButton/CharacterIconButton";
 import { useSelectedCharacterStore } from "../../../hooks/store/selectedCharacter";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../../../constants/routing";
+import { RootStackParamList } from "../../../types/routing";
 
 export interface HeaderProps {
     date: LocalDate;

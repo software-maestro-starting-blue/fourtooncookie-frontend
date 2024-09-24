@@ -1,7 +1,7 @@
 import { View, Image, Text } from "react-native";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { supabaseSignInAndSignUpWithIdToken } from "../../auth/supabase";
-import { RootStackParamList } from "../../constants/routing";
+import { RootStackParamList } from "../../types/routing";
 import { OAuthProvider } from "../../types/oauth";
 import type { JWTToken } from "../../types/jwt";
 
