@@ -1,6 +1,6 @@
 import { Alert } from "react-native";
 import { GlobalErrorInfoType } from "../types/error";
-import { useJwtStore } from "../store/jwt";
+import { useJwtStore } from "../hooks/store/jwt";
 
 
 const handleError = (error: Error, errorType: GlobalErrorInfoType, callback?: (error: Error) => void) => {

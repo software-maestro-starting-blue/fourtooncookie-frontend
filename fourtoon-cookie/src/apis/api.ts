@@ -1,7 +1,7 @@
 import { JwtError } from "../error/JwtError";
 import { JWTToken } from "../types/jwt";
 import { API_METHOD_TYPE, API_STATUS } from "../constants/api";
-import { useJwtStore } from "../store/jwt";
+import { useJwtStore } from "../hooks/store/jwt";
 
 
 export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: any): Promise<Response> => {
