@@ -7,7 +7,6 @@ import { useSelectedCharacterStore } from "../../../../store/selectedCharacter";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../../constants/routing";
 import handleError from "../../../../error/errorhandler";
-import { GlobalErrorInfoType } from "../../../../types/error";
 import { useDeleteDiary } from "../../../../hooks/server/diary";
 
 export interface HeaderProps {

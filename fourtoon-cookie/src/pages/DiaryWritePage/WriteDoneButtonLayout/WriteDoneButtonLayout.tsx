@@ -9,7 +9,6 @@ import { RootStackParamList } from "../../../constants/routing";
 import { API_STATUS } from "../../../constants/api";
 import { ApiError } from "../../../error/ApiError";
 import handleError from "../../../error/errorhandler";
-import { GlobalErrorInfoType } from "../../../types/error";
 import Button from "../../../components/common/Button/Button";
 
 import * as S from "./WriteDoneButtonLayout.styled";

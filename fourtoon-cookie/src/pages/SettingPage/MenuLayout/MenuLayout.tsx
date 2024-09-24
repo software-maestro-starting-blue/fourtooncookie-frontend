@@ -4,7 +4,6 @@ import MenuWideButton from '../../../components/common/MenuWideButton/MenuWideBu
 import { APP_INFO_URL } from '../../../constants/appinfo';
 import { RootStackParamList } from '../../../constants/routing';
 import handleError from '../../../error/errorhandler';
-import { GlobalErrorInfoType } from '../../../types/error';
 
 import * as S from './MenuLayout.styled';
 import { AccountStatus } from '../../../types/account';

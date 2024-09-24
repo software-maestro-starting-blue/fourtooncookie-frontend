@@ -8,7 +8,6 @@ import TextInputLayout from "./TextInputLayout/TextInputLayout";
 import { RootStackParamList } from "../../constants/routing";
 
 import * as S from "./DiaryWritePage.styled";
-import { GlobalErrorInfoType } from "../../types/error";
 import { LocalDate } from "@js-joda/core";
 
 import { RuntimeError } from "../../error/RuntimeError";
