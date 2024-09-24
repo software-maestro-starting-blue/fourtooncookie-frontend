@@ -17,7 +17,6 @@ export const useEffectWithErrorHandling = (effect: EffectCallback, deps?: Depend
         const cleanup = executeEffect();
 
         return () => {
-            setError(null);
             if (cleanup instanceof Function) cleanup();
         };
     }, deps);
