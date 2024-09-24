@@ -1,7 +1,7 @@
 import type { JWTToken } from "../types/jwt";
 import { createClient } from '@supabase/supabase-js';
 import { OAuthProvider } from "../types/oauth";
-import { JwtError } from "../error/JwtError";
+import { JwtError } from "../types/error/JwtError";
 
 const supabase = createClient(process.env.EXPO_PUBLIC_SUPABASE_API_URL!, process.env.EXPO_PUBLIC_SUPABASE_API_KEY!);
 
