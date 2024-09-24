@@ -12,8 +12,7 @@ const Header = () => {
 
     const handleBackButtonPressWhenCharacterNotSelected = () => {
         handleError(
-            new Error('캐릭터가 선택되지 않았습니다. 캐릭터를 선택해주세요.'),
-            GlobalErrorInfoType.ALERT
+            new Error('캐릭터가 선택되지 않았습니다. 캐릭터를 선택해주세요.')
         )
     }
 

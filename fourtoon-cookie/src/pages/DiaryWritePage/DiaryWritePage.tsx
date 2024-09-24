@@ -35,7 +35,6 @@ const DiaryWritePage = ({ route }: DiaryWritePageProp) => {
         if (! selectedCharacter) {
             handleError(
                 new RuntimeError("캐릭터가 선택되지 않았습니다."),
-                GlobalErrorInfoType.ALERT,
                 () => {
                     navigation.navigate('CharacterSelectPage');
                 }

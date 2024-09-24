@@ -85,8 +85,7 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
 
             if (error instanceof Error) {
                 handleError(
-                    error,
-                    GlobalErrorInfoType.ALERT
+                    error
                 );
             }
         } finally {

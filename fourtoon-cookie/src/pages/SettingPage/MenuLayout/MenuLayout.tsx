@@ -17,8 +17,7 @@ const MenuLayout = () => {
     const handleAppInfoButtonPress = () => {
         Linking.openURL(APP_INFO_URL).catch(err => 
             handleError(
-                new Error('앱 정보 페이지를 열 수 없습니다.'),
-                GlobalErrorInfoType.ALERT
+                new Error('앱 정보 페이지를 열 수 없습니다.')
             )
         );
     }
@@ -34,8 +33,7 @@ const MenuLayout = () => {
             } catch (error) {
                 if (error instanceof Error) {
                     handleError(
-                        error,
-                        GlobalErrorInfoType.ALERT
+                        error
                     );
                 }
             }
