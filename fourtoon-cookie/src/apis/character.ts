@@ -1,4 +1,4 @@
-import { API_METHOD_TYPE, API_STATUS } from "../constants/api";
+import { API_METHOD_TYPE, API_STATUS } from "../types/api";
 import { ApiError } from "../types/error/ApiError";
 import type { Character } from "../types/character";
 import { requestApi } from "./api";

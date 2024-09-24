@@ -6,7 +6,7 @@ import { OS } from "../../../types/os"
 import { Diary, DiaryStatus } from "../../../types/diary";
 import { useSelectedCharacterStore } from "../../../hooks/store/selectedCharacter";
 import { RootStackParamList } from "../../../constants/routing";
-import { API_STATUS } from "../../../constants/api";
+import { API_STATUS } from "../../../types/api";
 import { ApiError } from "../../../types/error/ApiError";
 import handleError from "../../../error/errorhandler";
 import { GlobalErrorInfoType } from "../../../types/error";

@@ -1,6 +1,6 @@
 import { JwtError } from "../types/error/JwtError";
 import { JWTToken } from "../types/jwt";
-import { API_METHOD_TYPE, API_STATUS } from "../constants/api";
+import { API_METHOD_TYPE, API_STATUS } from "../types/api";
 import { useJwtStore } from "../hooks/store/jwt";
 
 

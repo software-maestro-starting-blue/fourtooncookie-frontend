@@ -1,4 +1,4 @@
-import { API_STATUS } from "../../constants/api";
+import { API_STATUS } from "../api";
 
 export class ApiError extends Error {
     

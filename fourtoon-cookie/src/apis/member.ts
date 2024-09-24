@@ -2,7 +2,7 @@ import type { MemberSavedResponse, MemberSaveRequest } from "../types/dto/member
 import { requestApi } from "./api";
 import type { Member } from "../types/member";
 import { ApiError } from "../types/error/ApiError";
-import { API_METHOD_TYPE, API_STATUS } from "../constants/api";
+import { API_METHOD_TYPE, API_STATUS } from "../types/api";
 
 export const getMember = async (): Promise<Member> => {
     const response = await requestApi(`/member`, API_METHOD_TYPE.GET);
