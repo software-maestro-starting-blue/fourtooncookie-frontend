@@ -7,6 +7,7 @@ import { API_METHOD_TYPE, API_STATUS } from "../constants/api";
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 import { Platform, Alert } from 'react-native';
+import { saveImageToGallery, blobToBase64 } from '../system/image';
 
 export const getDiary = async (diaryId: number): Promise<Diary> => {
     const response = await requestApi(`/diary/${diaryId}`, API_METHOD_TYPE.GET);
@@ -91,10 +92,11 @@ export const patchDiaryFavorite = async (diaryId: number, isFavorite: boolean): 
     }
 };
 
+
 export const getDiaryImage = async (diaryId: number): Promise<string> => {
     const response = await requestApi(`/diary/${diaryId}/download`, API_METHOD_TYPE.GET);
     if (response.status != API_STATUS.SUCCESS) {
-        throw new Error('이미지 다운로드 요청 중 오류가 발생했습니다.');
+        throw new ApiError('이미지 다운로드 요청 중 오류가 발생했습니다.', response.status);
     }
 
     // 서버에서 Blob 형태로 데이터를 받음
@@ -112,37 +114,4 @@ export const getDiaryImage = async (diaryId: number): Promise<string> => {
         encoding: FileSystem.EncodingType.Base64,
     });
     return fileUri;
-};
-
-export const saveImageToGallery = async (fileUri: string) => {
-    try {
-
-        // MediaLibrary에 파일 저장 (갤러리로 이동)
-        const asset = await MediaLibrary.createAssetAsync(fileUri);
-        // 앨범이 이미 있는지 확인
-        const album = await MediaLibrary.getAlbumAsync('FourtoonCookie');
-                
-        if (album == null) {
-            // 앨범이 없으면 새로 생성
-            await MediaLibrary.createAlbumAsync('FourtoonCookie', asset, false);
-        } else {
-            // 앨범이 이미 있으면 기존 앨범에 추가
-            await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
-        }
-    } catch (error) {
-        console.error('갤러리에 저장하는 중 오류 발생:', error);
-    }
-};
-
-// Blob 데이터를 Base64 문자열로 변환
-const blobToBase64 = (blob: Blob): Promise<string> => {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            const base64data = reader.result as string;
-            resolve(base64data.split(',')[1]); // Data URL에서 Base64 부분만 추출
-        };
-        reader.onerror = (error) => reject(error);
-        reader.readAsDataURL(blob);  // Blob 데이터를 Data URL로 변환
-    });
 };

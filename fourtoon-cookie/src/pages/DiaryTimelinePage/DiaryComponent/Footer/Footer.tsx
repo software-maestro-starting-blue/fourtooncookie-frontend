@@ -7,9 +7,10 @@ import UPLOAD_ICON from "../../../../../assets/icon/upload.png";
 import * as S from './Footer.styled';
 import { useUpdateDiaryFavorite } from "../../../../hooks/server/diary";
 import Share from 'react-native-share';
-import { getDiaryImage, saveImageToGallery } from "../../../../apis/diary";
+import { getDiaryImage } from "../../../../apis/diary";
 import * as MediaLibrary from 'expo-media-library';
 import { OS } from "../../../../types/os";
+import { checkPhotoPermissions, downloadImageFile, shareImageFile } from "../../../../system/image";
 
 export interface FooterProps {
     diaryId: number;
@@ -27,26 +28,9 @@ const DiaryActionsLayout = (props: FooterProps) => {
 
     const handleDownload = async () => {
         try {
-              // 갤러리 접근 권한 요청
-            const { status } = await MediaLibrary.requestPermissionsAsync();
-
-            // 권한이 없을 경우, 알림을 띄우고 저장을 중단
-            if (status !== 'granted') {
-                Alert.alert(
-                    '권한 필요',
-                    '갤러리에 이미지를 저장하려면 권한을 허용해야 합니다.',
-                    [
-                        { text: '취소', style: 'cancel' },
-                        { text: '설정', onPress: () => Linking.openSettings() }
-                    ]
-                );
-                return;
-            }
-
-            // 스프링 서버에서 이미지 다운
+            if (!checkPhotoPermissions()) return;
             const fileUri = await getDiaryImage(diaryId);
-            // 갤러리에 이미지 저장
-            await saveImageToGallery(fileUri);
+            await downloadImageFile(fileUri);
             Alert.alert('이미지 저장 성공', '이미지를 갤러리에 저장했습니다.');
         } catch (error) {
             Alert.alert('이미지 저장 실패', '이미지를 갤러리에 저장하지 못했습니다.');
@@ -56,22 +40,12 @@ const DiaryActionsLayout = (props: FooterProps) => {
 
     const handleShare = async () => {
         try {
-            // 서버에서 이미지 다운로드
+            if (!checkPhotoPermissions()) return;
             const fileUri = await getDiaryImage(diaryId);
-
-            // 공유 옵션 설정
-            const shareOptions = {
-                title: '다이어리 이미지 공유',
-                url: Platform.OS === OS.IOS ? `file://${fileUri}` : fileUri,
-                type: 'image/jpeg',
-            };
-
-            // 공유 실행
-            await Share.open(shareOptions);
+           await shareImageFile(fileUri);
         } catch (error) {
-            // 유저가 공유박스를 열고 닫은 경우는 alert창을 뱉지 않기 위함
-            // 리액트네이티브가(android, ios)가 뱉는 에러 메시지가 'User did not share' 임.
             if (error instanceof Error) {
+                // 유저가 공유박스를 열고 닫은 경우는 alert창을 뱉지 않기 위함, 리액트네이티브가(android, ios)가 뱉는 에러 메시지가 'User did not share' 임.
                 if (error.message == 'User did not share' ) return;
                 console.error('이미지 공유 중 오류 발생:', error);
                 Alert.alert('공유 오류', '이미지 공유에 실패했습니다.');
