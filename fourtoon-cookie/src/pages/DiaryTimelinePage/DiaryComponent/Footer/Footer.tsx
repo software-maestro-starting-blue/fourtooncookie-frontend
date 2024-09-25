@@ -9,6 +9,7 @@ import { useUpdateDiaryFavorite } from "../../../../hooks/server/diary";
 import Share from 'react-native-share';
 import { getDiaryImage, saveImageToGallery } from "../../../../apis/diary";
 import * as MediaLibrary from 'expo-media-library';
+import { OS } from "../../../../types/os";
 
 export interface FooterProps {
     diaryId: number;
@@ -61,7 +62,7 @@ const DiaryActionsLayout = (props: FooterProps) => {
             // 공유 옵션 설정
             const shareOptions = {
                 title: '다이어리 이미지 공유',
-                url: Platform.OS === 'ios' ? `file://${fileUri}` : fileUri,
+                url: Platform.OS === OS.IOS ? `file://${fileUri}` : fileUri,
                 type: 'image/jpeg',
             };
 
