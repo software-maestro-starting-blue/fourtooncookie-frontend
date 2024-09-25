@@ -1,12 +1,12 @@
 import React from "react";
-import { Image, TouchableOpacity, View, Platform, Alert, Linking } from "react-native";
+import { Image, TouchableOpacity, View, Alert, Linking } from "react-native";
 import FAVORITE_ACTIVATE_ICON from "../../../../../assets/icon/favorite-activate.png";
 import FAVORITE_INACTIVATE_ICON from "../../../../../assets/icon/favorite-inactivate.png";
 import DOWNLOAD_ICON from "../../../../../assets/icon/download.png";
 import UPLOAD_ICON from "../../../../../assets/icon/upload.png";
 import * as S from './Footer.styled';
 import { useUpdateDiaryFavorite } from "../../../../hooks/server/diary";
-import { getDiaryFullImage } from "../../../../apis/diary";
+import { useDiaryFullImage } from "../../../../hooks/server/diary"; // React Query 훅 사용
 import { checkPhotoPermissions, saveBlobToFile, saveImageToGallery, shareImageFile } from "../../../../system/image";
 
 export interface FooterProps {
@@ -15,19 +15,21 @@ export interface FooterProps {
 }
 
 const DiaryActionsLayout = (props: FooterProps) => {
-    const {diaryId, isFavorite, ...rest} = props;
+    const { diaryId, isFavorite, ...rest } = props;
 
     const { mutate: updateDiaryFavorite } = useUpdateDiaryFavorite(diaryId);
+    
+    const { data: diaryImageBlob, isLoading } = useDiaryFullImage(diaryId);
 
     const handleToggleFavorite = async () => {
-        updateDiaryFavorite(! isFavorite);
-    }
+        updateDiaryFavorite(!isFavorite);
+    };
 
     const handleDownload = async () => {
         try {
             if (!checkPhotoPermissions()) return;
-            const blob = await getDiaryFullImage(diaryId);
-            const fileUri = await saveBlobToFile(blob, diaryId);
+            if (isLoading || !diaryImageBlob) return;
+            const fileUri = await saveBlobToFile(diaryImageBlob, diaryId);
             await saveImageToGallery(fileUri);
             Alert.alert('이미지 저장 성공', '이미지를 갤러리에 저장했습니다.');
         } catch (error) {
@@ -38,13 +40,13 @@ const DiaryActionsLayout = (props: FooterProps) => {
     const handleShare = async () => {
         try {
             if (!checkPhotoPermissions()) return;
-            const blob = await getDiaryFullImage(diaryId);
-            const fileUri = await saveBlobToFile(blob, diaryId);
-           await shareImageFile(fileUri);
+            if (isLoading || !diaryImageBlob) return;
+
+            const fileUri = await saveBlobToFile(diaryImageBlob, diaryId);
+            await shareImageFile(fileUri);
         } catch (error) {
             if (error instanceof Error) {
-                // 유저가 공유박스를 열고 닫은 경우는 alert창을 뱉지 않기 위함, 리액트네이티브가(android, ios)가 뱉는 에러 메시지가 'User did not share' 임.
-                if (error.message == 'User did not share' ) return;
+                if (error.message == 'User did not share') return;
                 console.error('이미지 공유 중 오류 발생:', error);
                 Alert.alert('공유 오류', '이미지 공유에 실패했습니다.');
             }
@@ -63,17 +65,13 @@ const DiaryActionsLayout = (props: FooterProps) => {
             </View>
 
             <View style={S.styles.actionButtons}>
-                <TouchableOpacity onPress={handleDownload}>
-                    <Image source={DOWNLOAD_ICON}
-                    style={S.styles.image} />
+                <TouchableOpacity onPress={handleDownload} disabled={isLoading}>
+                    <Image source={DOWNLOAD_ICON} style={S.styles.image} />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={handleShare}>
-                    <Image source={UPLOAD_ICON}
-                    style={S.styles.image} />
+                <TouchableOpacity onPress={handleShare} disabled={isLoading}>
+                    <Image source={UPLOAD_ICON} style={S.styles.image} />
                 </TouchableOpacity>
-            </View>
-            <View style={S.styles.actionButtons}>
             </View>
         </View>
     );

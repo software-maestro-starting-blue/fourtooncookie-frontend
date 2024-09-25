@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "react-query"
-import { deleteDiary, getDiaries, getDiary, getDiaryImage, patchDiaryFavorite, postDiary, putDiary } from "../../apis/diary"
+import { deleteDiary, getDiaries, getDiary, patchDiaryFavorite, postDiary, putDiary, getDiaryFullImage } from "../../apis/diary"
 import { Diary } from "../../types/diary";
 import { useAccountState } from "../account";
 import { AccountStatus } from "../../types/account";
@@ -128,3 +128,23 @@ export const useDeleteDiary = () => {
         }
     });
 }
+
+export const useDiaryFullImage = (diaryId: number) => {
+    const queryClient = useQueryClient();
+    const { accountState } = useAccountState();
+
+    return useQuery(
+        ["diaryFullImage", diaryId], 
+        () => getDiaryFullImage(diaryId), 
+        {
+            enabled: accountState === AccountStatus.LOGINED && !!diaryId,
+            retry: false,
+            onError: (error: Error) => {
+                if (error instanceof JwtError) {
+                    queryClient.cancelQueries(["diaryFullImage", diaryId]);
+                    queryClient.removeQueries(["diaryFullImage", diaryId]);
+                }
+            }
+        }
+    );
+};
