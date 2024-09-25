@@ -1,5 +1,5 @@
 import { DependencyList, EffectCallback, useEffect, useState } from "react"
-import { MutationOptions, QueryFunction, QueryKey, useMutation, useQuery, UseQueryOptions } from "react-query";
+import { MutationOptions, QueryFunction, QueryKey, useInfiniteQuery, UseInfiniteQueryOptions, useMutation, useQuery, UseQueryOptions } from "react-query";
 
 const useErrorThrower = () => {
     const [error, throwError] = useState<Error | null>(null);
@@ -58,8 +58,8 @@ export const useQueryWithErrorHandling = <TQueryFnData = unknown, TError = unkno
     return queryResult;
 }
 
-export const useInfiniteQueryWithErrorHandling = <TQueryFnData = unknown, TError = unknown, TData = TQueryFnData, TQueryKey extends QueryKey = QueryKey>(queryKey: TQueryKey, queryFn: QueryFunction<TQueryFnData, TQueryKey>, options?: Omit<UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>, 'queryKey' | 'queryFn'>) => {
-    const queryResult = useQuery(queryKey, queryFn, options);
+export const useInfiniteQueryWithErrorHandling = <TQueryFnData = unknown, TError = unknown, TData = TQueryFnData, TQueryKey extends QueryKey = QueryKey>(queryKey: TQueryKey, queryFn: QueryFunction<TQueryFnData, TQueryKey>, options?: Omit<UseInfiniteQueryOptions<TQueryFnData, TError, TData, TQueryFnData, TQueryKey>, 'queryKey' | 'queryFn'>) => {
+    const queryResult = useInfiniteQuery(queryKey, queryFn, options);
 
     if (queryResult.error) {
         throw queryResult.error;
