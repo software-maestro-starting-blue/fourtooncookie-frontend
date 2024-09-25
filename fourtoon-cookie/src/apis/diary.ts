@@ -7,7 +7,8 @@ import { API_METHOD_TYPE, API_STATUS } from "../constants/api";
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 import { Platform, Alert } from 'react-native';
-import { saveImageToGallery, blobToBase64 } from '../system/image';
+import { OS } from "../types/os";
+import { blobToBase64 } from '../system/image';
 
 export const getDiary = async (diaryId: number): Promise<Diary> => {
     const response = await requestApi(`/diary/${diaryId}`, API_METHOD_TYPE.GET);
@@ -92,26 +93,12 @@ export const patchDiaryFavorite = async (diaryId: number, isFavorite: boolean): 
     }
 };
 
-
-export const getDiaryImage = async (diaryId: number): Promise<string> => {
+export const getDiaryFullImage = async (diaryId: number): Promise<Blob> => {
     const response = await requestApi(`/diary/${diaryId}/download`, API_METHOD_TYPE.GET);
     if (response.status != API_STATUS.SUCCESS) {
         throw new ApiError('이미지 다운로드 요청 중 오류가 발생했습니다.', response.status);
     }
 
     // 서버에서 Blob 형태로 데이터를 받음
-    const blob = await response.blob();
-
-    // Blob 데이터를 파일로 저장
-    // iOS와 Android에 따라 파일 경로 구분
-    const fileUri = Platform.OS === 'android' 
-        ? `${FileSystem.cacheDirectory}${diaryId}.png`  // Android의 경우 cacheDirectory 사용
-        : `${FileSystem.documentDirectory}${diaryId}.png`;  // iOS의 경우 documentDirectory 사용
-
-
-    // 파일로 저장 후 URI 반환
-    await FileSystem.writeAsStringAsync(fileUri, await blobToBase64(blob), {
-        encoding: FileSystem.EncodingType.Base64,
-    });
-    return fileUri;
+    return await response.blob();;
 };

@@ -6,11 +6,8 @@ import DOWNLOAD_ICON from "../../../../../assets/icon/download.png";
 import UPLOAD_ICON from "../../../../../assets/icon/upload.png";
 import * as S from './Footer.styled';
 import { useUpdateDiaryFavorite } from "../../../../hooks/server/diary";
-import Share from 'react-native-share';
-import { getDiaryImage } from "../../../../apis/diary";
-import * as MediaLibrary from 'expo-media-library';
-import { OS } from "../../../../types/os";
-import { checkPhotoPermissions, downloadImageFile, shareImageFile } from "../../../../system/image";
+import { getDiaryFullImage } from "../../../../apis/diary";
+import { checkPhotoPermissions, saveBlobToFile, saveImageToGallery, shareImageFile } from "../../../../system/image";
 
 export interface FooterProps {
     diaryId: number;
@@ -29,11 +26,11 @@ const DiaryActionsLayout = (props: FooterProps) => {
     const handleDownload = async () => {
         try {
             if (!checkPhotoPermissions()) return;
-            const fileUri = await getDiaryImage(diaryId);
-            await downloadImageFile(fileUri);
+            const blob = await getDiaryFullImage(diaryId);
+            const fileUri = await saveBlobToFile(blob, diaryId);
+            await saveImageToGallery(fileUri);
             Alert.alert('이미지 저장 성공', '이미지를 갤러리에 저장했습니다.');
         } catch (error) {
-            Alert.alert('이미지 저장 실패', '이미지를 갤러리에 저장하지 못했습니다.');
             console.error('이미지 다운로드 또는 갤러리 저장 중 오류 발생:', error);
         }
     };
@@ -41,7 +38,8 @@ const DiaryActionsLayout = (props: FooterProps) => {
     const handleShare = async () => {
         try {
             if (!checkPhotoPermissions()) return;
-            const fileUri = await getDiaryImage(diaryId);
+            const blob = await getDiaryFullImage(diaryId);
+            const fileUri = await saveBlobToFile(blob, diaryId);
            await shareImageFile(fileUri);
         } catch (error) {
             if (error instanceof Error) {
