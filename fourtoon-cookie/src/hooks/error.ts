@@ -33,7 +33,7 @@ export const useEffectWithErrorHandling = (effect: EffectCallback, deps?: Depend
     }, deps);
 }
 
-export const useAsyncFunctionWithErrorHandling = async (func: (...args: any[]) => Promise<any>) => {
+export const asyncFunctionWithErrorHandling = async (func: (...args: any[]) => Promise<any>) => {
     const [throwError] = useErrorThrower();
 
     const execute = async (...args: any[]) => {
