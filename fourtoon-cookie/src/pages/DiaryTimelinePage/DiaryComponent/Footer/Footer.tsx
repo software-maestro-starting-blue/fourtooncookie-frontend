@@ -18,7 +18,7 @@ const DiaryActionsLayout = (props: FooterProps) => {
 
     const { mutate: updateDiaryFavorite } = useUpdateDiaryFavorite(diaryId);
 
-    const handleToggleFavorite = async () => {
+    const handleToggleFavorite = () => {
         updateDiaryFavorite(! isFavorite);
     }
 

@@ -9,6 +9,7 @@ import { useDiaries } from "../../hooks/server/diary";
 import { Diary } from "../../types/diary";
 import { AccountStatus } from "../../types/account";
 import { useAccountState } from "../../hooks/account";
+import { useEffectWithErrorHandling } from "../../hooks/error";
 
 enum LIST_STATUS {
     NONE, REFRESH, END_REACHED
@@ -23,15 +24,15 @@ const DiaryTimelinePage = () => {
 
     const { accountState } = useAccountState();
 
-    const handleEndReached = async () => {
+    const handleEndReached = () => {
         setListStatus(LIST_STATUS.END_REACHED);
     };
 
-    const handleRefresh = async () => {
+    const handleRefresh = () => {
         setListStatus(LIST_STATUS.REFRESH);
     };
 
-    useEffect(() => {
+    useEffectWithErrorHandling(() => {
         const fetchDiaries = async (listStatus: LIST_STATUS) => {
             switch (listStatus) {
                 case LIST_STATUS.NONE:

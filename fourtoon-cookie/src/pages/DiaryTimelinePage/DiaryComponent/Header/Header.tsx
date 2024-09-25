@@ -30,17 +30,9 @@ const Header = (props: HeaderProps) => {
         navigation.navigate("DiaryWritePage", { currentDiaryId: diaryId });
     };
 
-    const handleDeleteButtonClick = async () => {
-        const handleDelete = async () => {
-            try {
-                deleteDiaryById(diaryId);
-            } catch (error) {
-                if (error instanceof Error) {
-                    handleError(
-                        error
-                    );
-                }
-            }
+    const handleDeleteButtonClick = () => {
+        const handleDelete = () => {
+            deleteDiaryById(diaryId);
         }
 
         Alert.alert(
