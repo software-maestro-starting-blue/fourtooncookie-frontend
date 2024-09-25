@@ -3,6 +3,7 @@ import { View, Text, Pressable, Linking } from 'react-native';
 import * as S from "./AgreementInputLayout.style";
 import { MaterialIcons } from '@expo/vector-icons'; // 아이콘 사용
 import { APP_PRIVACY_URL, APP_TERMS_AGREEMENT_URL } from '../../../constants/appinfo';
+import { useEffectWithErrorHandling } from '../../../hooks/error';
 
 export interface AgreementInputLayoutProps {
     onAgreementChange: (isAgreed: boolean) => void;
@@ -13,7 +14,7 @@ const AgreementInputLayout = (props: AgreementInputLayoutProps) => {
     const [isTermsAndPrivacyAgreed, setIsTermsAndPrivacyAgreed] = useState(false);
     const [isAgeOver14, setIsAgeOver14] = useState(false);
 
-    useEffect(() => {
+    useEffectWithErrorHandling(() => {
         onAgreementChange(isTermsAndPrivacyAgreed && isAgeOver14);
     }, [isTermsAndPrivacyAgreed, isAgeOver14]);
 

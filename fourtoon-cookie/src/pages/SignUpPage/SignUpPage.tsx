@@ -76,21 +76,13 @@ const SignUpPage = () => {
             setSignUpProgress(signUpProgress + 1);
         } else {
             if (!gender || !isAgreed) return;
-
-            try {
-                signup({
-                    name,
-                    birth,
-                    gender,
-                });
-                navigation.navigate('DiaryTimelinePage');
-            } catch (error) {
-                if (error instanceof Error) {
-                    handleError(
-                        error
-                    );
-                }
-            }
+            
+            signup({
+                name,
+                birth,
+                gender,
+            });
+            navigation.navigate('DiaryTimelinePage');
         }
     };
 
