@@ -1,8 +1,8 @@
 import { View, Linking, Alert } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import MenuWideButton from '../../../components/common/MenuWideButton/MenuWideButton';
-import { APP_INFO_URL } from '../../../constants/appinfo';
-import { RootStackParamList } from '../../../constants/routing';
+import { APP_INFO_URL } from '../../../config/appinfo';
+import { RootStackParamList } from '../../../types/routing';
 import handleError from '../../../error/errorhandler';
 import { GlobalErrorInfoType } from '../../../types/error';
 

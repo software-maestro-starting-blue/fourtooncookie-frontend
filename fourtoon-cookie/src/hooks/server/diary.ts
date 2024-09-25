@@ -4,7 +4,7 @@ import { Diary } from "../../types/diary";
 import { useAccountState } from "../account";
 import { AccountStatus } from "../../types/account";
 import { useEffect } from "react";
-import { JwtError } from "../../error/JwtError";
+import { JwtError } from "../../types/error/JwtError";
 
 
 export const useDiaries = () => {

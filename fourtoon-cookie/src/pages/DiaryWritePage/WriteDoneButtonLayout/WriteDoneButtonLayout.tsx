@@ -4,10 +4,10 @@ import { useState } from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { OS } from "../../../types/os"
 import { Diary, DiaryStatus } from "../../../types/diary";
-import { useSelectedCharacterStore } from "../../../store/selectedCharacter";
-import { RootStackParamList } from "../../../constants/routing";
-import { API_STATUS } from "../../../constants/api";
-import { ApiError } from "../../../error/ApiError";
+import { useSelectedCharacterStore } from "../../../hooks/store/selectedCharacter";
+import { RootStackParamList } from "../../../types/routing";
+import { API_STATUS } from "../../../types/api";
+import { ApiError } from "../../../types/error/ApiError";
 import handleError from "../../../error/errorhandler";
 import { GlobalErrorInfoType } from "../../../types/error";
 import Button from "../../../components/common/Button/Button";

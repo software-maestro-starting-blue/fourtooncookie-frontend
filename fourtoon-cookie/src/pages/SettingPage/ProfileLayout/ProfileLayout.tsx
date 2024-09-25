@@ -1,7 +1,7 @@
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from '../../../constants/routing';
-import { useSelectedCharacterStore } from '../../../store/selectedCharacter';
+import { RootStackParamList } from '../../../types/routing';
+import { useSelectedCharacterStore } from '../../../hooks/store/selectedCharacter';
 
 import * as S from "./ProfileLayout.styled";
 import { useMember } from '../../../hooks/server/member';

@@ -1,8 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { JWTToken } from "../types/jwt";
-import { supabaseRefreshToken } from "../auth/supabase";
+import { JWTToken } from "../../types/jwt";
+import { supabaseRefreshToken } from "../../auth/supabase";
 
 interface JwtState {
     token: JWTToken | null;

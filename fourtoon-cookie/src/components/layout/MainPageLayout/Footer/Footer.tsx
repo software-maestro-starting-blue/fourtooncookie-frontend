@@ -7,7 +7,7 @@ import DrawIcon from '../../../../../assets/icon/draw.png';
 import PersonInactivateIcon from '../../../../../assets/icon/person-inactivate.png';
 import PersonActivateIcon from '../../../../../assets/icon/person-activate.png';
 
-import { RootStackParamList } from "../../../../constants/routing";
+import { RootStackParamList } from "../../../../types/routing";
 
 import * as S from './Footer.styled';
 

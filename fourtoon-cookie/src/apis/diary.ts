@@ -2,8 +2,8 @@ import type { Diary } from "../types/diary";
 import type { DiaryCreatedResponse, DiaryPatchFavoriteRequest, DiarySaveRequest, DiarySavedResponse, DiaryUpdateRequest } from "../types/dto/diary";
 import { requestApi } from "./api";
 import { LocalDate } from "@js-joda/core";
-import { ApiError } from "../error/ApiError";
-import { API_METHOD_TYPE, API_STATUS } from "../constants/api";
+import { ApiError } from "../types/error/ApiError";
+import { API_METHOD_TYPE, API_STATUS } from "../types/api";
 
 export const getDiary = async (diaryId: number): Promise<Diary> => {
     const response = await requestApi(`/diary/${diaryId}`, API_METHOD_TYPE.GET);
