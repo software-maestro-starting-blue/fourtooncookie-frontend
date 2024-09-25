@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text, View } from "react-native";
 import * as S from "./DiaryContentsLayout.styled";
 import Button from "../../../../components/common/Button/Button";
-import { diaryContentPreviewLines, diaryContentPreviewWordCount } from "../../../../constants/diary";
+import { diaryContentPreviewLines, diaryContentPreviewWordCount } from "../../../../config/diary";
 
 
 export interface DiaryContentsLayoutProps {

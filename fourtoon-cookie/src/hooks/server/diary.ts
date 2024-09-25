@@ -3,8 +3,8 @@ import { deleteDiary, getDiaries, getDiary, patchDiaryFavorite, postDiary, putDi
 import { Diary } from "../../types/diary";
 import { useAccountState } from "../account";
 import { AccountStatus } from "../../types/account";
-import { JwtError } from "../../error/JwtError";
 import { useEffectWithErrorHandling, useInfiniteQueryWithErrorHandling, useMutationWithErrorHandling, useQueryWithErrorHandling } from "../error";
+import { JwtError } from "../../types/error/JwtError";
 
 
 export const useDiaries = () => {

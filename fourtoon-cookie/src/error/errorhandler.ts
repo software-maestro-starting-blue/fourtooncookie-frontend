@@ -1,5 +1,5 @@
 import { ErrorInfo } from "react";
-import { useJwtStore } from "../store/jwt";
+import { useJwtStore } from "../hooks/store/jwt";
 
 
 const handleError = (error: Error, info: ErrorInfo): boolean => {

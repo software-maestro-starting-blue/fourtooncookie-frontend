@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, Linking } from 'react-native';
 import * as S from "./AgreementInputLayout.style";
 import { MaterialIcons } from '@expo/vector-icons'; // 아이콘 사용
-import { APP_PRIVACY_URL, APP_TERMS_AGREEMENT_URL } from '../../../constants/appinfo';
 import { useEffectWithErrorHandling } from '../../../hooks/error';
+import { APP_PRIVACY_URL, APP_TERMS_AGREEMENT_URL } from '../../../config/appinfo';
 
 export interface AgreementInputLayoutProps {
     onAgreementChange: (isAgreed: boolean) => void;

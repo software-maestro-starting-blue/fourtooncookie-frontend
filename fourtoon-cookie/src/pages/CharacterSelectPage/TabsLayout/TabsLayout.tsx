@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { FREE_KOR, PAID_KOR } from '../../../constants/character';
+import { FREE_KOR, PAID_KOR } from '../../../config/character';
 import { CharacterPaymentType } from '../../../types/character';
 
 import * as S from './TabsLayout.styled';

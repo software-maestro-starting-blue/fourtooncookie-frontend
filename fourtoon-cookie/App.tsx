@@ -3,7 +3,7 @@ import { NavigationContainer, NavigationContainerRef } from '@react-navigation/n
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { StyleSheet } from 'react-native';
-import { RootStackParamList } from './src/constants/routing';
+import { RootStackParamList } from './src/types/routing';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import CharacterSelectPage from './src/pages/CharacterSelectPage/CharacterSelectPage';

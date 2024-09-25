@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { deleteMember, getMember, postMember } from "../../apis/member"
 import { Member } from "../../types/member";
-import { JwtError } from "../../error/JwtError";
-import { useJwtStore } from "../../store/jwt";
 import { useMutationWithErrorHandling, useQueryWithErrorHandling } from "../error";
+import { JwtError } from "../../types/error/JwtError";
+import { useJwtStore } from "../store/jwt";
 
 export const useMember = () => {
     const queryClient = useQueryClient();

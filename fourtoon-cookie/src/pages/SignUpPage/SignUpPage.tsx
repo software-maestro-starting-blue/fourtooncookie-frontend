@@ -9,7 +9,7 @@ import NameInputLayout from "./NameInputLayout/NameInputLayout";
 import BirthInputLayout from "./BirthInputLayout/BirthInputLayout";
 import GenderInputLayout from "./GenderInputLayout/GenderInputLayout";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../../constants/routing";
+import { RootStackParamList } from "../../types/routing";
 import { LocalDate } from "@js-joda/core";
 import handleError from "../../error/errorhandler";
 

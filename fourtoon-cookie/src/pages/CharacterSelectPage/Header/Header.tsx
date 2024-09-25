@@ -1,7 +1,6 @@
 import { Text, View } from "react-native";
 import BackButton from "../../../components/common/BackButton/BackButton";
-import handleError from "../../../error/errorhandler";
-import { useSelectedCharacterStore } from "../../../store/selectedCharacter";
+import { useSelectedCharacterStore } from "../../../hooks/store/selectedCharacter";
 
 import * as S from "./Header.styled";
 

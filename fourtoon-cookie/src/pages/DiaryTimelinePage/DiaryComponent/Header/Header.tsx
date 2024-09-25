@@ -3,9 +3,9 @@ import * as S from "./Header.styled";
 import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 import DOTS_ICON from "../../../../../assets/icon/dots.png";
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import { useSelectedCharacterStore } from "../../../../store/selectedCharacter";
+import { useSelectedCharacterStore } from "../../../../hooks/store/selectedCharacter";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../../../../constants/routing";
+import { RootStackParamList } from "../../../../types/routing";
 import handleError from "../../../../error/errorhandler";
 import { useDeleteDiary } from "../../../../hooks/server/diary";
 
