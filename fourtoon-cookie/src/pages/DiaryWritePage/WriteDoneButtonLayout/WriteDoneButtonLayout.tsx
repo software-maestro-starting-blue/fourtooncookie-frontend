@@ -15,6 +15,7 @@ import * as S from "./WriteDoneButtonLayout.styled";
 import { AccountStatus } from "../../../types/account";
 import { useCreateDiary, useUpdateDiary } from "../../../hooks/server/diary";
 import { useAccountState } from "../../../hooks/account";
+import { asyncFunctionWithErrorHandling } from "../../../hooks/error";
 
 export interface WriteDoneButtonLayout {
     diaryDate: LocalDate;
@@ -39,7 +40,7 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
 
     if (! selectedCharacter) return null;
 
-    const handleWriteDoneButtonPress = async () => {
+    const handleWriteDoneButtonPress = () => {
         if (accountState !== AccountStatus.LOGINED) {
             Alert.alert(
                 '로그인 필요 기능',
@@ -68,29 +69,17 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
             characterId: selectedCharacter.id,
             diaryStatus: DiaryStatus.IN_PROGRESS
         }
-
-        try {
-            if (! currentDiaryId) {
-                await createDiary(diary);
-            } else {
-                await updateDiary(diary);
-            }
-
-            navigation.navigate('DiaryTimelinePage');
-        } catch (error) {
-            if (error instanceof ApiError && error.getStatus() === API_STATUS.CONFLICT) {
-                error.message = "선택한 날짜에 이미 일기가 존재합니다. 다른 날을 선택해주세요.";
-            }
-
-            if (error instanceof Error) {
-                handleError(
-                    error
-                );
-            }
-        } finally {
-            setIsWorking(false);
+        
+        if (! currentDiaryId) {
+            createDiary(diary);
+        } else {
+            updateDiary(diary);
         }
-    }
+
+        navigation.navigate('DiaryTimelinePage');
+    
+        setIsWorking(false);
+    };
 
     return (
         <KeyboardAvoidingView 

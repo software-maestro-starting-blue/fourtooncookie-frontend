@@ -1,4 +1,4 @@
-import { SafeAreaView, View } from "react-native";
+import { Alert, SafeAreaView, View } from "react-native";
 import { useEffect, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
@@ -16,6 +16,7 @@ import { useSelectedCharacterStore } from "../../store/selectedCharacter";
 import WriteDoneButtonLayout from "./WriteDoneButtonLayout/WriteDoneButtonLayout";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useDiaryById } from "../../hooks/server/diary";
+import { useEffectWithErrorHandling } from "../../hooks/error";
 
 
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
@@ -30,15 +31,11 @@ const DiaryWritePage = ({ route }: DiaryWritePageProp) => {
     const [diaryDate, setDiaryDate] = useState<LocalDate>(currentDiary ? currentDiary.diaryDate : LocalDate.now());
     const [content, setContent] = useState<string>(currentDiary ? currentDiary.content : "");
     
-    useEffect(() => {
+    useEffectWithErrorHandling(() => {
         if (! selectedCharacter) {
-            handleError(
-                new RuntimeError("캐릭터가 선택되지 않았습니다."),
-                () => {
-                    navigation.navigate('CharacterSelectPage');
-                }
-            );
-        }
+            Alert.alert("캐릭터가 선택되지 않았습니다.", "캐릭터를 선택해주세요.");
+            navigation.navigate('CharacterSelectPage');
+        };
     }, [selectedCharacter]);
 
     const handleDiaryDateChange = (newDate: LocalDate) => {
