@@ -1,5 +1,6 @@
 import { use } from "@js-joda/core";
 import { DependencyList, EffectCallback, useEffect, useState } from "react"
+import { MutationOptions, QueryFunction, QueryKey, useMutation, useQuery, UseQueryOptions } from "react-query";
 
 const useErrorThrower = () => {
     const [error, throwError] = useState<Error | null>(null);
@@ -46,4 +47,24 @@ export const asyncFunctionWithErrorHandling = async (func: (...args: any[]) => P
     }
 
     return execute;
+}
+
+export const useQueryWithErrorHandling = <TQueryFnData = unknown, TError = unknown, TData = TQueryFnData, TQueryKey extends QueryKey = QueryKey>(queryKey: TQueryKey, queryFn: QueryFunction<TQueryFnData, TQueryKey>, options?: Omit<UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>, 'queryKey' | 'queryFn'>) => {
+    const queryResult = useQuery(queryKey, queryFn, options);
+
+    if (queryResult.error) {
+        throw queryResult.error;
+    }
+
+    return queryResult;
+}
+
+export const useMutationWithErrorHandling = <TData = unknown, TError = unknown, TVariables = unknown, TContext = unknown>(mutationFn: (variables: TVariables) => Promise<TData>, options?: MutationOptions<TData, TError, TVariables, TContext>) => {
+    const mutationResult = useMutation(mutationFn, options);
+
+    if (mutationResult.error) {
+        throw mutationResult.error;
+    }
+    
+    return mutationResult;
 }
