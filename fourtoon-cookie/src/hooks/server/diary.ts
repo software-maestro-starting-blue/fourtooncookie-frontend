@@ -1,24 +1,24 @@
-import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "react-query"
+import { useQueryClient } from "react-query"
 import { deleteDiary, getDiaries, getDiary, patchDiaryFavorite, postDiary, putDiary } from "../../apis/diary"
 import { Diary } from "../../types/diary";
 import { useAccountState } from "../account";
 import { AccountStatus } from "../../types/account";
-import { useEffect } from "react";
 import { JwtError } from "../../error/JwtError";
+import { useEffectWithErrorHandling, useInfiniteQueryWithErrorHandling, useMutationWithErrorHandling, useQueryWithErrorHandling } from "../error";
 
 
 export const useDiaries = () => {
     const queryClient = useQueryClient();
     const { accountState } = useAccountState();
 
-    useEffect(() => {
+    useEffectWithErrorHandling(() => {
         if (accountState == AccountStatus.LOGINED) return;
 
         queryClient.invalidateQueries("diaries");
     }, [accountState, queryClient]);
 
 
-    return useInfiniteQuery("diaries", 
+    return useInfiniteQueryWithErrorHandling("diaries", 
         async ({ pageParam = 0 }) => {
             return await getDiaries(pageParam);
         }, 
@@ -52,13 +52,13 @@ export const useDiaryById = (diaryId: number | undefined) => {
     const queryClient = useQueryClient();
     const { accountState } = useAccountState();
 
-    useEffect(() => {
+    useEffectWithErrorHandling(() => {
         if (accountState == AccountStatus.LOGINED) return;
 
         queryClient.invalidateQueries(["diary", diaryId], { exact: true });
     }, [accountState, diaryId, queryClient]);
 
-    return useQuery(["diary", diaryId], () => {
+    return useQueryWithErrorHandling(["diary", diaryId], () => {
         if (!diaryId) return;
         return getDiary(diaryId);
     }, {
@@ -77,7 +77,7 @@ export const useDiaryById = (diaryId: number | undefined) => {
 export const useCreateDiary = () => {
     const queryClient = useQueryClient();
 
-    return useMutation((diary: Diary) => {
+    return useMutationWithErrorHandling((diary: Diary) => {
         return postDiary(diary.characterId, diary.diaryDate, diary.content);
     }, {
         onSuccess: () => {
@@ -89,7 +89,7 @@ export const useCreateDiary = () => {
 export const useUpdateDiary = () => {
     const queryClient = useQueryClient();
 
-    return useMutation((diary: Diary) => {
+    return useMutationWithErrorHandling((diary: Diary) => {
         return putDiary(diary.characterId, diary.diaryId, diary.content);
     }, {
         onSuccess: (_, diary) => {
@@ -102,7 +102,7 @@ export const useUpdateDiary = () => {
 export const useUpdateDiaryFavorite = (diaryId: number) => {
     const queryClient = useQueryClient();
 
-    return useMutation((isFavorite: boolean) => {
+    return useMutationWithErrorHandling((isFavorite: boolean) => {
         return patchDiaryFavorite(diaryId, isFavorite);
     }, {
         onSuccess: (_, isFavorite: boolean) => {
@@ -119,7 +119,7 @@ export const useUpdateDiaryFavorite = (diaryId: number) => {
 export const useDeleteDiary = () => {
     const queryClient = useQueryClient();
 
-    return useMutation((diaryId: number) => {
+    return useMutationWithErrorHandling((diaryId: number) => {
         return deleteDiary(diaryId);
     }, {
         onSuccess: (_, diaryId) => {
