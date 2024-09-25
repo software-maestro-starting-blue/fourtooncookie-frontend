@@ -58,6 +58,16 @@ export const useQueryWithErrorHandling = <TQueryFnData = unknown, TError = unkno
     return queryResult;
 }
 
+export const useInfiniteQueryWithErrorHandling = <TQueryFnData = unknown, TError = unknown, TData = TQueryFnData, TQueryKey extends QueryKey = QueryKey>(queryKey: TQueryKey, queryFn: QueryFunction<TQueryFnData, TQueryKey>, options?: Omit<UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>, 'queryKey' | 'queryFn'>) => {
+    const queryResult = useQuery(queryKey, queryFn, options);
+
+    if (queryResult.error) {
+        throw queryResult.error;
+    }
+
+    return queryResult;
+}
+
 export const useMutationWithErrorHandling = <TData = unknown, TError = unknown, TVariables = unknown, TContext = unknown>(mutationFn: (variables: TVariables) => Promise<TData>, options?: MutationOptions<TData, TError, TVariables, TContext>) => {
     const mutationResult = useMutation(mutationFn, options);
 
