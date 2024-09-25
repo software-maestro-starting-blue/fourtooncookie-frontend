@@ -8,35 +8,24 @@ import handleError from '../../../error/errorhandler';
 import * as S from './MenuLayout.styled';
 import { AccountStatus } from '../../../types/account';
 import { useAccountState } from '../../../hooks/account';
+import { asyncFunctionWithErrorHandling } from '../../../hooks/error';
 
 const MenuLayout = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const { accountState, logout, resign } = useAccountState();
 
-    const handleAppInfoButtonPress = () => {
-        Linking.openURL(APP_INFO_URL).catch(err => 
-            handleError(
-                new Error('앱 정보 페이지를 열 수 없습니다.')
-            )
-        );
-    }
+    const handleAppInfoButtonPress = asyncFunctionWithErrorHandling(async () => {
+        Linking.openURL(APP_INFO_URL);
+    });
 
-    const handleLogoutButtonPress = async () => {
-        logout();
-    }
+    const handleLogoutButtonPress = asyncFunctionWithErrorHandling(async () => {
+        await logout();
+    });
 
-    const handleResignButtonPress = async () => {
-        const handleResign = () => {
-            try {
-                resign();
-            } catch (error) {
-                if (error instanceof Error) {
-                    handleError(
-                        error
-                    );
-                }
-            }
-        }
+    const handleResignButtonPress = () => {
+        const handleResign = asyncFunctionWithErrorHandling(async () => {
+            await resign();
+        });
 
         Alert.alert(
             '정말 탈퇴하시겠습니까?',
