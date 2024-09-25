@@ -67,10 +67,10 @@ const DiaryActionsLayout = (props: FooterProps) => {
 
             // 공유 실행
             await Share.open(shareOptions);
-        } catch (error: any) {
+        } catch (error) {
             // 유저가 공유박스를 열고 닫은 경우는 alert창을 뱉지 않기 위함
             // 리액트네이티브가(android, ios)가 뱉는 에러 메시지가 'User did not share' 임.
-            if (error.message !== 'User did not share') {
+            if (error instanceof Error && error.message !== 'User did not share') {
                 console.error('이미지 공유 중 오류 발생:', error);
                 Alert.alert('공유 오류', '이미지 공유에 실패했습니다.');
             }
