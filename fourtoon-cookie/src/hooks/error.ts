@@ -33,10 +33,10 @@ export const useEffectWithErrorHandling = (effect: EffectCallback, deps?: Depend
     }, deps);
 }
 
-export const asyncFunctionWithErrorHandling = async (func: (...args: any[]) => Promise<any>) => {
+export const asyncFunctionWithErrorHandling = <T extends (...args: any[]) => Promise<any>>(func: T) => {
     const [throwError] = useErrorThrower();
 
-    const execute = async (...args: any[]) => {
+    const execute = async (...args: Parameters<T>): Promise<ReturnType<T> | void> => {
         try {
             return await func(...args);
         } catch (error) {
@@ -64,6 +64,6 @@ export const useMutationWithErrorHandling = <TData = unknown, TError = unknown, 
     if (mutationResult.error) {
         throw mutationResult.error;
     }
-    
+
     return mutationResult;
 }
