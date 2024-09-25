@@ -11,13 +11,14 @@ import * as S from './IntroPage.styled';
 import { useEffect } from "react";
 import { AccountStatus } from "../../types/account";
 import { useAccountState } from "../../hooks/account";
+import { asyncFunctionWithErrorHandling, useEffectWithErrorHandling } from "../../hooks/error";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     const { accountState, login } = useAccountState();
 
-    useEffect(() => {
+    useEffectWithErrorHandling(() => {
         const navigateByMemberStatus = async () => {
 			if (accountState === AccountStatus.UNAUTHORIZED) {
 				return;
@@ -34,10 +35,10 @@ const IntroPage = () => {
 		navigateByMemberStatus();
     }, [accountState]);
 
-    const handleSignUpAndSignInSuccess = async (oauthProvider: OAuthProvider, idToken: string, nonce?: string) => {
+    const handleSignUpAndSignInSuccess = asyncFunctionWithErrorHandling(async (oauthProvider: OAuthProvider, idToken: string, nonce?: string) => {
         const token: JWTToken = await supabaseSignInAndSignUpWithIdToken(oauthProvider, idToken, nonce);
         await login(token);
-    }
+    });
 
     return (
         <View style={S.styles.container}>
