@@ -129,22 +129,12 @@ export const useDeleteDiary = () => {
     });
 }
 
-export const useDiaryFullImage = (diaryId: number) => {
-    const queryClient = useQueryClient();
-    const { accountState } = useAccountState();
-
+export const useDiaryFullImage = (diaryId: number, enabled: boolean = true) => {
     return useQuery(
-        ["diaryFullImage", diaryId], 
+        ["diary", diaryId, "image", "full"], 
         () => getDiaryFullImage(diaryId), 
         {
-            enabled: accountState === AccountStatus.LOGINED && !!diaryId,
-            retry: false,
-            onError: (error: Error) => {
-                if (error instanceof JwtError) {
-                    queryClient.cancelQueries(["diaryFullImage", diaryId]);
-                    queryClient.removeQueries(["diaryFullImage", diaryId]);
-                }
-            }
+            enabled: enabled
         }
     );
 };

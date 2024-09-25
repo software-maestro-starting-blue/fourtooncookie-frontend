@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image, TouchableOpacity, View, Alert, Linking } from "react-native";
 import FAVORITE_ACTIVATE_ICON from "../../../../../assets/icon/favorite-activate.png";
 import FAVORITE_INACTIVATE_ICON from "../../../../../assets/icon/favorite-inactivate.png";
@@ -14,44 +14,54 @@ export interface FooterProps {
     isFavorite: boolean;
 }
 
+enum ImageActionState {
+    NONE, DOWNLOAD, SHARE
+}
+
 const DiaryActionsLayout = (props: FooterProps) => {
     const { diaryId, isFavorite, ...rest } = props;
 
     const { mutate: updateDiaryFavorite } = useUpdateDiaryFavorite(diaryId);
-    
-    const { data: diaryImageBlob, isLoading } = useDiaryFullImage(diaryId);
+
+    const [ imageActionState, setImageActionState ] = useState<ImageActionState>(ImageActionState.NONE);
+    const { data: diaryImageBlob } = useDiaryFullImage(diaryId, imageActionState != ImageActionState.NONE);
 
     const handleToggleFavorite = async () => {
         updateDiaryFavorite(!isFavorite);
     };
 
-    const handleDownload = async () => {
-        try {
-            if (!checkPhotoPermissions()) return;
-            if (isLoading || !diaryImageBlob) return;
-            const fileUri = await saveBlobToFile(diaryImageBlob, diaryId);
-            await saveImageToGallery(fileUri);
-            Alert.alert('이미지 저장 성공', '이미지를 갤러리에 저장했습니다.');
-        } catch (error) {
-            console.error('이미지 다운로드 또는 갤러리 저장 중 오류 발생:', error);
-        }
-    };
+    useEffect(() => {
+        if (imageActionState == ImageActionState.NONE) return;
+        if (! diaryImageBlob) return;
 
-    const handleShare = async () => {
-        try {
-            if (!checkPhotoPermissions()) return;
-            if (isLoading || !diaryImageBlob) return;
+        const handleImageAction = async (imageActionState: ImageActionState) => {
+            try {
+                if (! await checkPhotoPermissions()) return;
+                const fileUri = await saveBlobToFile(diaryImageBlob, diaryId);
 
-            const fileUri = await saveBlobToFile(diaryImageBlob, diaryId);
-            await shareImageFile(fileUri);
-        } catch (error) {
-            if (error instanceof Error) {
-                if (error.message == 'User did not share') return;
-                console.error('이미지 공유 중 오류 발생:', error);
-                Alert.alert('공유 오류', '이미지 공유에 실패했습니다.');
+                if (imageActionState == ImageActionState.DOWNLOAD) {
+                    await saveImageToGallery(fileUri);
+                    Alert.alert('이미지 저장 성공', '이미지를 갤러리에 저장했습니다.');
+                }
+
+                if (imageActionState == ImageActionState.SHARE) {
+                    await shareImageFile(fileUri);
+                }
+            } catch (error) {
+                if ( error instanceof Error && error.message == 'User did not share' ) return;
+
+                throw error;
             }
-        }
-    };
+        };
+
+        handleImageAction(imageActionState);
+
+        setImageActionState(ImageActionState.NONE);
+    }, [imageActionState, diaryImageBlob]);
+
+    const handleDownload = () => setImageActionState(ImageActionState.DOWNLOAD);
+
+    const handleShare = () => setImageActionState(ImageActionState.SHARE);
 
     return (
         <View style={S.styles.footer}>
@@ -65,11 +75,11 @@ const DiaryActionsLayout = (props: FooterProps) => {
             </View>
 
             <View style={S.styles.actionButtons}>
-                <TouchableOpacity onPress={handleDownload} disabled={isLoading}>
+                <TouchableOpacity onPress={handleDownload}>
                     <Image source={DOWNLOAD_ICON} style={S.styles.image} />
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={handleShare} disabled={isLoading}>
+                <TouchableOpacity onPress={handleShare}>
                     <Image source={UPLOAD_ICON} style={S.styles.image} />
                 </TouchableOpacity>
             </View>

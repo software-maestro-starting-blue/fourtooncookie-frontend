@@ -69,22 +69,19 @@ export const blobToBase64 = (blob: Blob): Promise<string> => {
 
 // 이미지를 갤러리에 저장하는 함수
 export const saveImageToGallery = async (fileUri: string) => {
-    try {
-        // MediaLibrary에 파일 저장 (갤러리로 이동)
-        const asset = await MediaLibrary.createAssetAsync(fileUri);
-        // 앨범이 이미 있는지 확인
-        const album = await MediaLibrary.getAlbumAsync('FourtoonCookie');
-                
-        if (album == null) {
-            // 앨범이 없으면 새로 생성
-            await MediaLibrary.createAlbumAsync('FourtoonCookie', asset, false);
-        } else {
-            // 앨범이 이미 있으면 기존 앨범에 추가
-            await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
-        }
-    } catch (error) {
-        console.error('갤러리에 저장하는 중 오류 발생:', error);
+    // MediaLibrary에 파일 저장 (갤러리로 이동)
+    const asset = await MediaLibrary.createAssetAsync(fileUri);
+    // 앨범이 이미 있는지 확인
+    const album = await MediaLibrary.getAlbumAsync('FourtoonCookie');
+            
+    if (album == null) {
+        // 앨범이 없으면 새로 생성
+        await MediaLibrary.createAlbumAsync('FourtoonCookie', asset, false);
+    } else {
+        // 앨범이 이미 있으면 기존 앨범에 추가
+        await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
     }
+
 };
 
 // 이미지 파일을 공유하는 함수
