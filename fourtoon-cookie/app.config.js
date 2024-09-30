@@ -1,9 +1,9 @@
 export default {
     expo: {
         owner: "startingblue",
-        "name": process.env.PROJECT_NAME,
-        "slug": process.env.SLUG,
-        "version": "1.0.0",
+        "name": "포툰쿠키",
+        "slug": "fourtooncookie",
+        "version": "1.1.0",
         "orientation": "portrait",
         "icon": "./assets/logo/logo-3.png",
         "userInterfaceStyle": "automatic",
@@ -15,18 +15,19 @@ export default {
         android: {
             permissions: [
                 "WRITE_EXTERNAL_STORAGE",
-                "READ_EXTERNAL_STORAGE"
             ],
             "adaptiveIcon": {
                 "foregroundImage": "./assets/logo/logo-3.png",
                 "backgroundColor": "#ffffff"
             },
-            package: process.env.ANDROID_PACKAGE,
+            "versionCode": 5,
+            package: "com.startingblue.fourtooncookie",
         },
         ios: {
+            "buildNumber": "5",
             "supportsTablet": true,
             "usesAppleSignIn": true,
-            "bundleIdentifier": process.env.BUNDLE_IDENTIFIER,
+            "bundleIdentifier": "com.startingblue.fourtooncookie",
             "infoPlist": {
                 "CFBundleURLTypes": [
                     {
