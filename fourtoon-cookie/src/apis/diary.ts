@@ -100,6 +100,5 @@ export const getDiaryFullImage = async (diaryId: number): Promise<Blob> => {
         throw new ApiError('이미지 다운로드 요청 중 오류가 발생했습니다.', response.status);
     }
 
-    // 서버에서 Blob 형태로 데이터를 받음
     return await response.blob();;
 };
