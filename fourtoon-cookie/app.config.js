@@ -14,7 +14,6 @@ export default {
         },
         android: {
             permissions: [
-                "WRITE_EXTERNAL_STORAGE",
             ],
             "adaptiveIcon": {
                 "foregroundImage": "./assets/logo/logo-3.png",
