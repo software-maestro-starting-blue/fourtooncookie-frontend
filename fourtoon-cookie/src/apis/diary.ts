@@ -94,7 +94,7 @@ export const patchDiaryFavorite = async (diaryId: number, isFavorite: boolean): 
 };
 
 export const getDiaryFullImage = async (diaryId: number): Promise<Blob> => {
-    const response = await requestApi(`/diary/${diaryId}/download`, API_METHOD_TYPE.GET);
+    const response = await requestApi(`/diary/${diaryId}/image/full`, API_METHOD_TYPE.GET);
     
     if (response.status != API_STATUS.SUCCESS) {
         throw new ApiError('이미지 다운로드 요청 중 오류가 발생했습니다.', response.status);
