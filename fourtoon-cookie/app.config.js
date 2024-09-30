@@ -12,19 +12,8 @@ export default {
             "resizeMode": "contain",
             "backgroundColor": "#FFFFFF"
         },
-        "plugins": [
-            [
-                "expo-media-library",
-                {
-                    "photosPermission": "사진을 저장하기 위해 권한이 필요합니다.",
-                    "savePhotosPermission": "사진을 저장하기 위해 권한이 필요합니다.",
-                    "isAccessMediaLocationEnabled": false
-                }
-            ]
-        ],
         android: {
             permissions: [
-                "READ_MEDIA_IMAGES"
             ],
             "adaptiveIcon": {
                 "foregroundImage": "./assets/logo/logo-3.png",

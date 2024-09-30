@@ -4,17 +4,16 @@ import * as FileSystem from 'expo-file-system';
 import Share from 'react-native-share';
 import { OS } from '../types/os';
 import { Alert, Linking } from 'react-native';
-import {MediaType} from "expo-media-library";
 
 export const checkPhotoPermissions = async (): Promise<boolean> => {
     try {
-        const { status } = await MediaLibrary.getPermissionsAsync(true, [MediaType.photo]);
+        const { status } = await MediaLibrary.getPermissionsAsync();
 
         if (status === 'granted') {
             return true;
         }
 
-        const { status: newStatus } = await MediaLibrary.requestPermissionsAsync(true, [MediaType.photo]);
+        const { status: newStatus } = await MediaLibrary.requestPermissionsAsync();
 
         if (newStatus === 'granted') {
             return true;
