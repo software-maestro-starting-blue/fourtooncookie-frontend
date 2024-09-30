@@ -4,11 +4,6 @@ import { requestApi } from "./api";
 import { LocalDate } from "@js-joda/core";
 import { ApiError } from "../error/ApiError";
 import { API_METHOD_TYPE, API_STATUS } from "../constants/api";
-import * as FileSystem from 'expo-file-system';
-import * as MediaLibrary from 'expo-media-library';
-import { Platform, Alert } from 'react-native';
-import { OS } from "../types/os";
-import { blobToBase64 } from '../system/image';
 
 export const getDiary = async (diaryId: number): Promise<Diary> => {
     const response = await requestApi(`/diary/${diaryId}`, API_METHOD_TYPE.GET);
