@@ -8,6 +8,7 @@ import * as S from './Footer.styled';
 import { useUpdateDiaryFavorite } from "../../../../hooks/server/diary";
 import { useDiaryFullImage } from "../../../../hooks/server/diary"; // React Query 훅 사용
 import { checkPhotoPermissions, saveBlobToFile, saveImageToGallery, shareImageFile } from "../../../../system/image";
+import { asyncFunctionWithErrorHandling } from "../../../../hooks/error";
 
 export interface FooterProps {
     diaryId: number;
@@ -30,31 +31,31 @@ const DiaryActionsLayout = (props: FooterProps) => {
         updateDiaryFavorite(!isFavorite);
     };
 
+    const handleImageAction = asyncFunctionWithErrorHandling(async (imageActionState: ImageActionState, diaryImageBlob: Blob) => {
+        try {
+            if (! await checkPhotoPermissions()) return;
+            const fileUri = await saveBlobToFile(diaryImageBlob, diaryId);
+
+            if (imageActionState == ImageActionState.DOWNLOAD) {
+                await saveImageToGallery(fileUri);
+                Alert.alert('이미지 저장 성공', '이미지를 갤러리에 저장했습니다.');
+            }
+
+            if (imageActionState == ImageActionState.SHARE) {
+                await shareImageFile(fileUri);
+            }
+        } catch (error) {
+            if ( error instanceof Error && error.message == 'User did not share' ) return;
+
+            throw error;
+        }
+    });
+
     useEffect(() => {
         if (imageActionState == ImageActionState.NONE) return;
         if (! diaryImageBlob) return;
 
-        const handleImageAction = async (imageActionState: ImageActionState) => {
-            try {
-                if (! await checkPhotoPermissions()) return;
-                const fileUri = await saveBlobToFile(diaryImageBlob, diaryId);
-
-                if (imageActionState == ImageActionState.DOWNLOAD) {
-                    await saveImageToGallery(fileUri);
-                    Alert.alert('이미지 저장 성공', '이미지를 갤러리에 저장했습니다.');
-                }
-
-                if (imageActionState == ImageActionState.SHARE) {
-                    await shareImageFile(fileUri);
-                }
-            } catch (error) {
-                if ( error instanceof Error && error.message == 'User did not share' ) return;
-
-                throw error;
-            }
-        };
-
-        handleImageAction(imageActionState);
+        handleImageAction(imageActionState, diaryImageBlob);
 
         setImageActionState(ImageActionState.NONE);
     }, [imageActionState, diaryImageBlob]);
