@@ -5,6 +5,7 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { StyleSheet } from 'react-native';
 import { RootStackParamList } from './src/types/routing';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { init } from '@amplitude/analytics-react-native';
 
 import CharacterSelectPage from './src/pages/CharacterSelectPage/CharacterSelectPage';
 import DiaryWritePage from './src/pages/DiaryWritePage/DiaryWritePage';
@@ -18,6 +19,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const queryClient = new QueryClient();
 
 export default function App() {
+	init(process.env.EXPO_PUBLIC_AMPLITUDE_KEY)
 
 	return (
 		<QueryClientProvider client={queryClient}>
