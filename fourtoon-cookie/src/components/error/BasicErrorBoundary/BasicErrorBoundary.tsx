@@ -7,16 +7,22 @@ import { ApiError } from "../../../types/error/ApiError"
 import { Alert } from "react-native"
 
 export interface BasicErrorBoundaryProps {
+    handleErrorBeforeHandling?: (error: Error, info: ErrorInfo) => boolean,
+    handleErrorAfterHandling?: (error: Error, info: ErrorInfo) => boolean,
     children: ReactNode
 }
 
 const BasicErrorBoundary = (props: BasicErrorBoundaryProps) => {
-    const { children } = props;
+    const { handleErrorBeforeHandling, handleErrorAfterHandling, children } = props;
     const [ isHandled, setIsHandled ] = useState<boolean>(false);
 
     const { logout } = useAccountState();
 
     const handleError = (error: Error, info: ErrorInfo) => {
+        if (handleErrorBeforeHandling && handleErrorBeforeHandling(error, info)) {
+            return true;
+        }
+
         if (error instanceof JwtError) {
             logout();
             return true;
@@ -38,6 +44,10 @@ const BasicErrorBoundary = (props: BasicErrorBoundaryProps) => {
                 Alert.alert("서버에서 문제가 발생하였습니다. 문제가 지속되면 관리자에게 알려주세요.", error.message);
                 return true;
             }
+        }
+
+        if (handleErrorAfterHandling && handleErrorAfterHandling(error, info)) {
+            return true;
         }
 
         return false;
