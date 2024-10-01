@@ -1,9 +1,9 @@
 export default {
     expo: {
         owner: "startingblue",
-        "name": process.env.PROJECT_NAME,
-        "slug": process.env.SLUG,
-        "version": "1.0.0",
+        "name": "포툰쿠키",
+        "slug": "fourtooncookie",
+        "version": "1.1.0",
         "orientation": "portrait",
         "icon": "./assets/logo/logo-3.png",
         "userInterfaceStyle": "automatic",
@@ -13,22 +13,28 @@ export default {
             "backgroundColor": "#FFFFFF"
         },
         android: {
+            permissions: [
+            ],
             "adaptiveIcon": {
                 "foregroundImage": "./assets/logo/logo-3.png",
                 "backgroundColor": "#ffffff"
             },
-            package: process.env.ANDROID_PACKAGE,
+            "versionCode": 5,
+            package: "com.startingblue.fourtooncookie",
         },
         ios: {
+            "buildNumber": "5",
             "supportsTablet": true,
             "usesAppleSignIn": true,
-            "bundleIdentifier": process.env.BUNDLE_IDENTIFIER,
+            "bundleIdentifier": "com.startingblue.fourtooncookie",
             "infoPlist": {
                 "CFBundleURLTypes": [
                     {
                         "CFBundleURLSchemes": [
                             process.env.CF_BUNDLE_URL_SCHEMES
-                        ]
+                        ],
+                        "NSPhotoLibraryAddUsageDescription": "사진을 저장하기 위해 갤러리 접근 권한이 필요합니다.",
+                        "NSPhotoLibraryUsageDescription": "사진을 저장하기 위해 갤러리 접근 권한이 필요합니다.",
                     }
                 ]
             }

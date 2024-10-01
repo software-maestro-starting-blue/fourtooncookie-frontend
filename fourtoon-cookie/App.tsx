@@ -5,6 +5,8 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { StyleSheet } from 'react-native';
 import { RootStackParamList } from './src/types/routing';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { init } from '@amplitude/analytics-react-native';
+import * as Sentry from "@sentry/react-native";
 
 import CharacterSelectPage from './src/pages/CharacterSelectPage/CharacterSelectPage';
 import DiaryWritePage from './src/pages/DiaryWritePage/DiaryWritePage';
@@ -19,7 +21,16 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const queryClient = new QueryClient();
 
-export default function App() {
+init(process.env.EXPO_PUBLIC_AMPLITUDE_KEY)
+Sentry.init({
+	dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
+	tracesSampleRate: 1.0,
+	_experiments: {
+		profilesSampleRate: 1.0,
+	},
+});
+
+function App() {
 
 	return (
 		<BasicErrorBoundary >
@@ -40,6 +51,8 @@ export default function App() {
 		</ErrorBoundary>
 	);
 }
+
+export default Sentry.wrap(App);
 
 const styles = StyleSheet.create({
 container: {

@@ -1,5 +1,5 @@
-import { useQueryClient } from "react-query"
-import { deleteDiary, getDiaries, getDiary, patchDiaryFavorite, postDiary, putDiary } from "../../apis/diary"
+import { useQuery, useQueryClient } from "react-query"
+import { deleteDiary, getDiaries, getDiary, patchDiaryFavorite, postDiary, putDiary, getDiaryFullImage } from "../../apis/diary"
 import { Diary } from "../../types/diary";
 import { useAccountState } from "../account";
 import { AccountStatus } from "../../types/account";
@@ -128,3 +128,13 @@ export const useDeleteDiary = () => {
         }
     });
 }
+
+export const useDiaryFullImage = (diaryId: number, enabled: boolean = true) => {
+    return useQuery(
+        ["diary", diaryId, "image", "full"], 
+        () => getDiaryFullImage(diaryId), 
+        {
+            enabled: enabled
+        }
+    );
+};

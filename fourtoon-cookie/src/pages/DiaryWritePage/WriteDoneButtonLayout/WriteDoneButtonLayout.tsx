@@ -12,6 +12,7 @@ import * as S from "./WriteDoneButtonLayout.styled";
 import { AccountStatus } from "../../../types/account";
 import { useCreateDiary, useUpdateDiary } from "../../../hooks/server/diary";
 import { useAccountState } from "../../../hooks/account";
+import buttonTrack from "../../../system/amplitude";
 
 export interface WriteDoneButtonLayout {
     diaryDate: LocalDate;
@@ -65,12 +66,14 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
             characterId: selectedCharacter.id,
             diaryStatus: DiaryStatus.IN_PROGRESS
         }
-        
+
         if (! currentDiaryId) {
             createDiary(diary);
         } else {
             updateDiary(diary);
         }
+
+        buttonTrack('캐릭터 ID: ' + diary.characterId + '로 생성')
 
         navigation.navigate('DiaryTimelinePage');
     

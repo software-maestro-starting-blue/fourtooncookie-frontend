@@ -87,3 +87,13 @@ export const patchDiaryFavorite = async (diaryId: number, isFavorite: boolean): 
         throw new ApiError("일기 즐겨찾기 중 오류가 발생했습니다. 다시 시도해 주세요.", response.status);
     }
 };
+
+export const getDiaryFullImage = async (diaryId: number): Promise<Blob> => {
+    const response = await requestApi(`/diary/${diaryId}/image/full`, API_METHOD_TYPE.GET);
+    
+    if (response.status != API_STATUS.SUCCESS) {
+        throw new ApiError('이미지 다운로드 요청 중 오류가 발생했습니다.', response.status);
+    }
+
+    return await response.blob();;
+};
