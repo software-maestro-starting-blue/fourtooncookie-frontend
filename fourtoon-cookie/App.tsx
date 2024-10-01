@@ -48,7 +48,7 @@ function App() {
 					</ActionSheetProvider>
 				</NavigationContainer>
 			</QueryClientProvider>
-		</ErrorBoundary>
+		</BasicErrorBoundary>
 	);
 }
 
