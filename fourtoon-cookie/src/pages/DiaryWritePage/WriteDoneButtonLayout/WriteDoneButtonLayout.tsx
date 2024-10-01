@@ -6,16 +6,12 @@ import { OS } from "../../../types/os"
 import { Diary, DiaryStatus } from "../../../types/diary";
 import { useSelectedCharacterStore } from "../../../hooks/store/selectedCharacter";
 import { RootStackParamList } from "../../../types/routing";
-import { API_STATUS } from "../../../types/api";
-import { ApiError } from "../../../types/error/ApiError";
-import handleError from "../../../error/errorhandler";
 import Button from "../../../components/common/Button/Button";
 
 import * as S from "./WriteDoneButtonLayout.styled";
 import { AccountStatus } from "../../../types/account";
 import { useCreateDiary, useUpdateDiary } from "../../../hooks/server/diary";
 import { useAccountState } from "../../../hooks/account";
-import { asyncFunctionWithErrorHandling } from "../../../hooks/error";
 
 export interface WriteDoneButtonLayout {
     diaryDate: LocalDate;

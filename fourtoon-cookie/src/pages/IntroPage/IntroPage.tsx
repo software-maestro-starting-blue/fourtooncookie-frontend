@@ -8,7 +8,6 @@ import type { JWTToken } from "../../types/jwt";
 import AppleSignInAndSignUpButton from "./AppleSignInAndSignUpButton/AppleSignInAndSignUpButton";
 import GoogleSignInAndSignUpButton from "./GoogleSignInAndSignUpButton/GoogleSignInAndSignUpButton";
 import * as S from './IntroPage.styled';
-import { useEffect } from "react";
 import { AccountStatus } from "../../types/account";
 import { useAccountState } from "../../hooks/account";
 import { asyncFunctionWithErrorHandling, useEffectWithErrorHandling } from "../../hooks/error";
