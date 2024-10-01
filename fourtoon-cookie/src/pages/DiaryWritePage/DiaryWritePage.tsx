@@ -10,8 +10,6 @@ import { RootStackParamList } from "../../types/routing";
 import * as S from "./DiaryWritePage.styled";
 import { LocalDate } from "@js-joda/core";
 
-import { RuntimeError } from "../../types/error/RuntimeError";
-import handleError from "../../error/errorhandler";
 import { useSelectedCharacterStore } from "../../hooks/store/selectedCharacter";
 import WriteDoneButtonLayout from "./WriteDoneButtonLayout/WriteDoneButtonLayout";
 import { NavigationProp, useNavigation } from "@react-navigation/native";

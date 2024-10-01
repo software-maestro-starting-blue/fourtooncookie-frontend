@@ -11,7 +11,6 @@ import GenderInputLayout from "./GenderInputLayout/GenderInputLayout";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/routing";
 import { LocalDate } from "@js-joda/core";
-import handleError from "../../error/errorhandler";
 
 import AgreementInputLayout from "./AgreementInputLayout/AgreementInputLayout";
 import { useAccountState } from "../../hooks/account";

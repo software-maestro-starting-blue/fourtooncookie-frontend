@@ -6,7 +6,6 @@ import { useActionSheet } from "@expo/react-native-action-sheet";
 import { useSelectedCharacterStore } from "../../../../hooks/store/selectedCharacter";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../../types/routing";
-import handleError from "../../../../error/errorhandler";
 import { useDeleteDiary } from "../../../../hooks/server/diary";
 
 export interface HeaderProps {

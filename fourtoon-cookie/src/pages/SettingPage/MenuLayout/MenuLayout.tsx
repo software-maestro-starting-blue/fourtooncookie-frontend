@@ -3,7 +3,6 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import MenuWideButton from '../../../components/common/MenuWideButton/MenuWideButton';
 import { APP_INFO_URL } from '../../../config/appinfo';
 import { RootStackParamList } from '../../../types/routing';
-import handleError from '../../../error/errorhandler';
 
 import * as S from './MenuLayout.styled';
 import { AccountStatus } from '../../../types/account';
