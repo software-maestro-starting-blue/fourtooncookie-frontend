@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { StyleSheet } from 'react-native';
@@ -14,7 +14,6 @@ import DiaryTimelinePage from './src/pages/DiaryTimelinePage/DiaryTimelinePage';
 import SignUpPage from './src/pages/SignUpPage/SignUpPage';
 import IntroPage from './src/pages/IntroPage/IntroPage';
 import SettingPage from './src/pages/SettingPage/SettingPage';
-import { ErrorBoundary } from 'react-error-boundary';
 import BasicErrorBoundary from './src/components/error/BasicErrorBoundary/BasicErrorBoundary';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
