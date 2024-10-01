@@ -2,7 +2,6 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
-import { StyleSheet } from 'react-native';
 import { RootStackParamList } from './src/types/routing';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { init } from '@amplitude/analytics-react-native';
@@ -52,12 +51,3 @@ function App() {
 }
 
 export default Sentry.wrap(App);
-
-const styles = StyleSheet.create({
-container: {
-	flex: 1,
-	backgroundColor: '#fff',
-	alignItems: 'center',
-	justifyContent: 'center',
-},
-});
