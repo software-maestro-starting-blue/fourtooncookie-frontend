@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "react-query"
+import { useQueryClient } from "react-query"
 import { deleteDiary, getDiaries, getDiary, patchDiaryFavorite, postDiary, putDiary, getDiaryFullImage } from "../../apis/diary"
 import { Diary } from "../../types/diary";
 import { useAccountState } from "../account";
@@ -130,7 +130,7 @@ export const useDeleteDiary = () => {
 }
 
 export const useDiaryFullImage = (diaryId: number, enabled: boolean = true) => {
-    return useQuery(
+    return useQueryWithErrorHandling(
         ["diary", diaryId, "image", "full"], 
         () => getDiaryFullImage(diaryId), 
         {
