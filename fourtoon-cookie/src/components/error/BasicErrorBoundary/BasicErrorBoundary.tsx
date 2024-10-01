@@ -1,25 +1,24 @@
 import { ErrorBoundary, FallbackProps } from "react-error-boundary"
 import ErrorComponent from "../ErrorComponent/ErrorComponent"
-import { ErrorInfo, ReactNode, useState } from "react"
+import { ReactNode } from "react"
 import { useAccountState } from "../../../hooks/account"
 import { JwtError } from "../../../types/error/JwtError"
 import { ApiError } from "../../../types/error/ApiError"
 import { Alert } from "react-native"
 
 export interface BasicErrorBoundaryProps {
-    handleErrorBeforeHandling?: (error: Error, info: ErrorInfo) => boolean,
-    handleErrorAfterHandling?: (error: Error, info: ErrorInfo) => boolean,
+    handleErrorBeforeHandling?: (error: Error) => boolean,
+    handleErrorAfterHandling?: (error: Error) => boolean,
     children: ReactNode
 }
 
 const BasicErrorBoundary = (props: BasicErrorBoundaryProps) => {
     const { handleErrorBeforeHandling, handleErrorAfterHandling, children } = props;
-    const [ isHandled, setIsHandled ] = useState<boolean>(false);
 
     const { logout } = useAccountState();
 
-    const handleError = (error: Error, info: ErrorInfo) => {
-        if (handleErrorBeforeHandling && handleErrorBeforeHandling(error, info)) {
+    const handleError = (error: Error) => {
+        if (handleErrorBeforeHandling && handleErrorBeforeHandling(error)) {
             return true;
         }
 
@@ -46,21 +45,26 @@ const BasicErrorBoundary = (props: BasicErrorBoundaryProps) => {
             }
         }
 
-        if (handleErrorAfterHandling && handleErrorAfterHandling(error, info)) {
+        if (handleErrorAfterHandling && handleErrorAfterHandling(error)) {
             return true;
         }
 
         return false;
     }
 
-    const handleErrorOnErrorBoundary = (error: Error, info: ErrorInfo) => {
-        setIsHandled(handleError(error, info));
+    const ErrorComponentWithIsHandled = (props: FallbackProps) => {
+        const isHandled = handleError(props.error);
+
+        if (isHandled) {
+            props.resetErrorBoundary();
+            return null;
+        }
+
+        return <ErrorComponent {...props} />
     }
 
-    const ErrorComponentWithIsHandled = (props: FallbackProps) => !isHandled && <ErrorComponent {...props} />
-
     return (
-        <ErrorBoundary onError={handleErrorOnErrorBoundary} FallbackComponent={ErrorComponentWithIsHandled} >
+        <ErrorBoundary FallbackComponent={ErrorComponentWithIsHandled} >
             {children}
         </ErrorBoundary>
     );
