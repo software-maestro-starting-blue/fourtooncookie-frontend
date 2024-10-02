@@ -2,6 +2,7 @@ import { View } from "react-native";
 import * as S from "./BirthInputLayout.styled";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { LocalDate } from "@js-joda/core";
+import { useFunctionWithErrorHandling } from "../../../hooks/error";
 
 export interface BirthInputLayoutProps {
     birth: LocalDate;
@@ -11,14 +12,16 @@ export interface BirthInputLayoutProps {
 const BirthInputLayout = (props: BirthInputLayoutProps) => {
     const { birth, onBirthChange, ...rest } = props;
 
-    const handleDateChange = (event: DateTimePickerEvent, date?: Date | undefined) => {
+    const { functionWithErrorHandling } = useFunctionWithErrorHandling();
+
+    const handleDateChange = functionWithErrorHandling((event: DateTimePickerEvent, date?: Date | undefined) => {
         if (! date) {
             onBirthChange(LocalDate.now());
         } else {
             const localDate: LocalDate = LocalDate.of(date.getFullYear(), date.getMonth() + 1, date.getDate());
             onBirthChange(localDate);
         }
-    }
+    })
 
     return (
         <View style={S.styles.container}>

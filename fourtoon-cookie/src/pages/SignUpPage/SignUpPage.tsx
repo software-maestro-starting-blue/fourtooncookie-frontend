@@ -14,6 +14,7 @@ import { LocalDate } from "@js-joda/core";
 
 import AgreementInputLayout from "./AgreementInputLayout/AgreementInputLayout";
 import { useAccountState } from "../../hooks/account";
+import { useFunctionWithErrorHandling } from "../../hooks/error";
 
 enum SignUpProgres {
     NAME = 1,
@@ -34,41 +35,43 @@ const SignUpPage = () => {
 
     const { logout, signup } = useAccountState();
 
+    const { functionWithErrorHandling } = useFunctionWithErrorHandling();
+
     const isNextButtonAvailabe: boolean = 
         (signUpProgress == SignUpProgres.NAME && name.length > 0)
         || (signUpProgress == SignUpProgres.BIRTH && birth != null && ! birth.isAfter(LocalDate.now()))
         || (signUpProgress == SignUpProgres.GENDER && gender != null)
         || (signUpProgress == SignUpProgres.AGREEMENT && isAgreed);
 
-    const handleNameChange = (name: string) => {
+    const handleNameChange = functionWithErrorHandling((name: string) => {
         if (signUpProgress != SignUpProgres.NAME) return;
         setName(name);
-    };
+    });
 
-    const handleBirthChange = (birth: LocalDate) => {
+    const handleBirthChange = functionWithErrorHandling((birth: LocalDate) => {
         if (signUpProgress != SignUpProgres.BIRTH) return;
         setBirth(birth);
-    };
+    });
 
-    const handleGenderChange = (gender: Gender) => {
+    const handleGenderChange = functionWithErrorHandling((gender: Gender) => {
         if (signUpProgress != SignUpProgres.GENDER) return;
         setGender(gender);
-    };
+    });
 
-    const handleAgreementChange = (isAgreed: boolean) => {
+    const handleAgreementChange = functionWithErrorHandling((isAgreed: boolean) => {
         setIsAgreed(isAgreed);
-    };
+    });
 
-    const handleBackButtonPress = () => {
+    const handleBackButtonPress = functionWithErrorHandling(() => {
         if (signUpProgress == SignUpProgres.NAME) {
             logout();
             return;
         }
 
         setSignUpProgress(signUpProgress - 1);
-    }
+    })
 
-    const handleNextButtonClick = () => {
+    const handleNextButtonClick = functionWithErrorHandling(() => {
         if (!isNextButtonAvailabe) return;
 
         if (signUpProgress < SignUpProgres.AGREEMENT) {
@@ -83,7 +86,7 @@ const SignUpPage = () => {
             });
             navigation.navigate('DiaryTimelinePage');
         }
-    };
+    });
 
     return (
         <SafeAreaView style={S.styles.safeArea}>
