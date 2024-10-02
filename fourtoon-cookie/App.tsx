@@ -31,9 +31,9 @@ Sentry.init({
 function App() {
 
 	return (
-		<BasicErrorBoundary >
-			<QueryClientProvider client={queryClient}>
-				<NavigationContainer>
+		<QueryClientProvider client={queryClient}>
+			<NavigationContainer>
+				<BasicErrorBoundary >
 					<ActionSheetProvider>
 						<Stack.Navigator initialRouteName="DiaryTimelinePage" screenOptions={{ headerShown: false }}>
 							<Stack.Screen name="IntroPage" component={IntroPage} />
@@ -44,9 +44,9 @@ function App() {
 							<Stack.Screen name="SettingPage" component={SettingPage} options={{ animation: "none" }} />
 						</Stack.Navigator>
 					</ActionSheetProvider>
-				</NavigationContainer>
-			</QueryClientProvider>
-		</BasicErrorBoundary>
+				</BasicErrorBoundary>
+			</NavigationContainer>
+		</QueryClientProvider>
 	);
 }
 
