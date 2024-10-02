@@ -15,6 +15,7 @@ import WriteDoneButtonLayout from "./WriteDoneButtonLayout/WriteDoneButtonLayout
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useDiaryById } from "../../hooks/server/diary";
 import { useEffectWithErrorHandling } from "../../hooks/error";
+import { SelectedCharacterNotExistError } from "../../types/error/character/SelectedCharacterNotExistError";
 
 
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
@@ -31,9 +32,9 @@ const DiaryWritePage = ({ route }: DiaryWritePageProp) => {
     
     useEffectWithErrorHandling(() => {
         if (! selectedCharacter) {
-            Alert.alert("캐릭터가 선택되지 않았습니다.", "캐릭터를 선택해주세요.");
             navigation.navigate('CharacterSelectPage');
-        };
+            throw new SelectedCharacterNotExistError('캐릭터가 선택되지 않았습니다. 캐릭터를 선택해주세요.');
+        }
     }, [selectedCharacter]);
 
     const handleDiaryDateChange = (newDate: LocalDate) => {
