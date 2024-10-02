@@ -18,7 +18,7 @@ const TextInputLayout = (props: TextInputLayoutProps) => {
                 placeholderTextColor="#CCCCCC"
                 value={text}
                 multiline={true}
-                scrollEnabled={false}
+                scrollEnabled={true}
                 onChangeText={onTextChange}
             />
         </View>
