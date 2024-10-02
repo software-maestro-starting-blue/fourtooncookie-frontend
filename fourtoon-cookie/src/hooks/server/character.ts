@@ -8,9 +8,9 @@ export const useCharacters = () => {
 }
 
 export const useCharacterById = (characterId: number) => {
-    return useQueryWithErrorHandling(["character", characterId], async () => {
-        const { data: characters } = useCharacters();
+    const { data: characters } = useCharacters();
 
+    return useQueryWithErrorHandling(["character", characterId], async () => {
         return characters?.find(character => character.id === characterId);
     });
 }
