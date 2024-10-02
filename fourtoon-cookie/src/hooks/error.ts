@@ -33,6 +33,21 @@ export const useEffectWithErrorHandling = (effect: EffectCallback, deps?: Depend
     }, deps);
 }
 
+export const functionWithErrorHandling = <T extends (...args: any[]) => any>(func: T) => {
+    const [throwError] = useErrorThrower();
+
+    const execute = (...args: Parameters<T>): ReturnType<T> | void => {
+        try {
+            return func(...args);
+        } catch (error) {
+            if (! (error instanceof Error)) return;
+            throwError(error);
+        }
+    }
+
+    return execute;
+}
+
 export const asyncFunctionWithErrorHandling = <T extends (...args: any[]) => Promise<any>>(func: T) => {
     const [throwError] = useErrorThrower();
 
