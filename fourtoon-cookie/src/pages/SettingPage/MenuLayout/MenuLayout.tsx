@@ -7,11 +7,13 @@ import { RootStackParamList } from '../../../types/routing';
 import * as S from './MenuLayout.styled';
 import { AccountStatus } from '../../../types/account';
 import { useAccountState } from '../../../hooks/account';
-import { asyncFunctionWithErrorHandling } from '../../../hooks/error';
+import { useFunctionWithErrorHandling } from '../../../hooks/error';
 
 const MenuLayout = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const { accountState, logout, resign } = useAccountState();
+
+    const { asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
 
     const handleAppInfoButtonPress = asyncFunctionWithErrorHandling(async () => {
         Linking.openURL(APP_INFO_URL);

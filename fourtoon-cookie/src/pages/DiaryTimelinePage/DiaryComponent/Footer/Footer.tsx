@@ -8,7 +8,7 @@ import * as S from './Footer.styled';
 import { useUpdateDiaryFavorite } from "../../../../hooks/server/diary";
 import { useDiaryFullImage } from "../../../../hooks/server/diary"; // React Query 훅 사용
 import { checkPhotoPermissions, saveBlobToFile, saveImageToGallery, shareImageFile } from "../../../../system/image";
-import { asyncFunctionWithErrorHandling } from "../../../../hooks/error";
+import { useFunctionWithErrorHandling } from "../../../../hooks/error";
 
 export interface FooterProps {
     diaryId: number;
@@ -26,6 +26,8 @@ const DiaryActionsLayout = (props: FooterProps) => {
 
     const [ imageActionState, setImageActionState ] = useState<ImageActionState>(ImageActionState.NONE);
     const { data: diaryImageBlob } = useDiaryFullImage(diaryId, imageActionState != ImageActionState.NONE);
+
+    const { asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
 
     const handleToggleFavorite = () => {
         updateDiaryFavorite(!isFavorite);

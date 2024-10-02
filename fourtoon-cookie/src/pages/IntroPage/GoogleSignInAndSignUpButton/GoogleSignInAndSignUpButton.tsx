@@ -4,7 +4,7 @@ import { getGoogleIdTokenWithNativeLogin } from "../../../auth/googleOAuth";
 import { OAuthProvider } from "../../../types/oauth";
 
 import * as S from './GoogleSignInAndSignUpButton.styled';
-import { asyncFunctionWithErrorHandling } from '../../../hooks/error';
+import { useFunctionWithErrorHandling } from '../../../hooks/error';
 
 export interface GoogleSignInAndSignUpButtonProps {
     onSuccess: (oauthProvider: OAuthProvider, idToken: string) => void;
@@ -18,6 +18,8 @@ const GoogleSignInAndSignUpButton = (props: GoogleSignInAndSignUpButtonProps) =>
         webClientId: process.env.EXPO_PUBLIC_GOOGLE_OAUTH_CLIENT_ID,
         iosClientId: process.env.EXPO_PUBLIC_GOOGLE_OAUTH_IOS_CLIENT_ID
     });
+
+    const { asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
 
     const handlePress = asyncFunctionWithErrorHandling(async () => {
         const idToken = await getGoogleIdTokenWithNativeLogin();

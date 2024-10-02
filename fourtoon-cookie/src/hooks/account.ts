@@ -3,13 +3,15 @@ import { AccountStatus } from "../types/account";
 import { JWTToken } from "../types/jwt";
 import { Member } from "../types/member";
 import { useCreateMember, useDeleteMember, useMember } from "./server/member";
-import { asyncFunctionWithErrorHandling } from "./error";
+import { useFunctionWithErrorHandling } from "./error";
 import { useJwtStore } from "./store/jwt";
 
 
 export const useAccountState = () => {
     const [ accountState, setAccountState ] = useState<AccountStatus>(AccountStatus.UNAUTHORIZED);
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
+
+    const { asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
 
     const { token, setToken, removeToken } = useJwtStore();
 

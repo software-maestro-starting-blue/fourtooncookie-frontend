@@ -9,7 +9,7 @@ import { useDiaries } from "../../hooks/server/diary";
 import { Diary } from "../../types/diary";
 import { AccountStatus } from "../../types/account";
 import { useAccountState } from "../../hooks/account";
-import { useEffectWithErrorHandling } from "../../hooks/error";
+import { functionWithErrorHandling, useEffectWithErrorHandling } from "../../hooks/error";
 
 enum LIST_STATUS {
     NONE, REFRESH, END_REACHED
@@ -24,9 +24,9 @@ const DiaryTimelinePage = () => {
 
     const { accountState } = useAccountState();
 
-    const handleEndReached = () => {
+    const handleEndReached = functionWithErrorHandling(() => {
         setListStatus(LIST_STATUS.END_REACHED);
-    };
+    });
 
     const handleRefresh = () => {
         setListStatus(LIST_STATUS.REFRESH);

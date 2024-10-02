@@ -8,11 +8,13 @@ import TabsLayout from './TabsLayout/TabsLayout';
 import ArtworkList from './ArtworkList/ArtworkList';
 
 import * as S from './CharacterSelectPage.styled';
-import { functionWithErrorHandling } from '../../hooks/error';
+import { useFunctionWithErrorHandling } from '../../hooks/error';
 
 
 const CharacterSelectPage = () => {
     const [ selectedPaymentType, setSelectedPaymentType ] = useState<CharacterPaymentType>(CharacterPaymentType.FREE);
+
+    const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
     const handleSelectedPaymentTypeChange = functionWithErrorHandling((characterPaymentType: CharacterPaymentType) => {
         setSelectedPaymentType(characterPaymentType);

@@ -4,11 +4,13 @@ import { useSelectedCharacterStore } from "../../../hooks/store/selectedCharacte
 
 import * as S from "./Header.styled";
 import { SelectedCharacterNotExistError } from "../../../types/error/character/SelectedCharacterNotExistError";
-import { functionWithErrorHandling } from "../../../hooks/error";
+import { useFunctionWithErrorHandling } from "../../../hooks/error";
 
 const Header = () => {
 
     const { selectedCharacter } = useSelectedCharacterStore();
+
+    const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
     const handleBackButtonPressWhenCharacterNotSelected = functionWithErrorHandling(() => {
         throw new SelectedCharacterNotExistError('캐릭터가 선택되지 않았습니다. 캐릭터를 선택해주세요.')

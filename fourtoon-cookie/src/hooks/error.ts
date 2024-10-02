@@ -33,34 +33,33 @@ export const useEffectWithErrorHandling = (effect: EffectCallback, deps?: Depend
     }, deps);
 }
 
-export const functionWithErrorHandling = <T extends (...args: any[]) => any>(func: T) => {
+export const useFunctionWithErrorHandling = () => {
     const [throwError] = useErrorThrower();
 
-    const execute = (...args: Parameters<T>): ReturnType<T> | void => {
-        try {
-            return func(...args);
-        } catch (error) {
-            if (! (error instanceof Error)) return;
-            throwError(error);
+    const functionWithErrorHandling = <T extends (...args: any[]) => any>(func: T) => {
+        return (...args: Parameters<T>): ReturnType<T> | void => {
+            try {
+                return func(...args);
+            } catch (error) {
+                if (! (error instanceof Error)) return;
+                throwError(error);
+            }
         }
     }
 
-    return execute;
-}
-
-export const asyncFunctionWithErrorHandling = <T extends (...args: any[]) => Promise<any>>(func: T) => {
-    const [throwError] = useErrorThrower();
-
-    const execute = async (...args: Parameters<T>): Promise<ReturnType<T> | void> => {
-        try {
-            return await func(...args);
-        } catch (error) {
-            if (! (error instanceof Error)) return;
-            throwError(error);
+    const asyncFunctionWithErrorHandling = <T extends (...args: any[]) => Promise<any>>(func: T) => {
+        return async (...args: Parameters<T>): Promise<ReturnType<T> | void> => {
+            try {
+                return await func(...args);
+            } catch (error) {
+                if (! (error instanceof Error)) return;
+                throwError(error);
+            }
         }
     }
 
-    return execute;
+    return { functionWithErrorHandling, asyncFunctionWithErrorHandling };
+    
 }
 
 export const useQueryWithErrorHandling = <TQueryFnData = unknown, TError = unknown, TData = TQueryFnData, TQueryKey extends QueryKey = QueryKey>(queryKey: TQueryKey, queryFn: QueryFunction<TQueryFnData, TQueryKey>, options?: Omit<UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>, 'queryKey' | 'queryFn'>) => {

@@ -10,12 +10,14 @@ import GoogleSignInAndSignUpButton from "./GoogleSignInAndSignUpButton/GoogleSig
 import * as S from './IntroPage.styled';
 import { AccountStatus } from "../../types/account";
 import { useAccountState } from "../../hooks/account";
-import { asyncFunctionWithErrorHandling, useEffectWithErrorHandling } from "../../hooks/error";
+import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from "../../hooks/error";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     const { accountState, login } = useAccountState();
+
+    const { asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
 
     useEffectWithErrorHandling(() => {
         const navigateByMemberStatus = async () => {
