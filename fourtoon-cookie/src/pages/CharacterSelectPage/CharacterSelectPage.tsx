@@ -8,14 +8,15 @@ import TabsLayout from './TabsLayout/TabsLayout';
 import ArtworkList from './ArtworkList/ArtworkList';
 
 import * as S from './CharacterSelectPage.styled';
+import { functionWithErrorHandling } from '../../hooks/error';
 
 
 const CharacterSelectPage = () => {
     const [ selectedPaymentType, setSelectedPaymentType ] = useState<CharacterPaymentType>(CharacterPaymentType.FREE);
 
-    const handleSelectedPaymentTypeChange = (characterPaymentType: CharacterPaymentType) => {
+    const handleSelectedPaymentTypeChange = functionWithErrorHandling((characterPaymentType: CharacterPaymentType) => {
         setSelectedPaymentType(characterPaymentType);
-    }
+    });
 
     return (
         <SafeAreaView style={S.styles.container}>

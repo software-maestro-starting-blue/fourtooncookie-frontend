@@ -10,7 +10,7 @@ const Header = () => {
 
     const { selectedCharacter } = useSelectedCharacterStore();
 
-    const handleBackButtonPressWhenCharacterNotSelected = () => {
+    const handleBackButtonPressWhenCharacterNotSelected = functionWithErrorHandling(() => {
         throw new SelectedCharacterNotExistError('캐릭터가 선택되지 않았습니다. 캐릭터를 선택해주세요.')
     });
 
