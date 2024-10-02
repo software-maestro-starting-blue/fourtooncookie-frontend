@@ -24,18 +24,18 @@ const DiaryTimelinePage = () => {
 
     const { accountState } = useAccountState();
 
-    const { functionWithErrorHandling } = useFunctionWithErrorHandling();
+    const { functionWithErrorHandling, asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
 
     const handleEndReached = functionWithErrorHandling(() => {
         setListStatus(LIST_STATUS.END_REACHED);
     });
 
-    const handleRefresh = () => {
+    const handleRefresh = functionWithErrorHandling(() => {
         setListStatus(LIST_STATUS.REFRESH);
-    };
+    });
 
     useEffectWithErrorHandling(() => {
-        const fetchDiaries = async (listStatus: LIST_STATUS) => {
+        const fetchDiaries = asyncFunctionWithErrorHandling(async (listStatus: LIST_STATUS) => {
             switch (listStatus) {
                 case LIST_STATUS.NONE:
                     return;
@@ -50,7 +50,7 @@ const DiaryTimelinePage = () => {
             }
 
             setListStatus(LIST_STATUS.NONE);
-        }
+        });
 
         if (accountState !== AccountStatus.LOGINED) return;
 

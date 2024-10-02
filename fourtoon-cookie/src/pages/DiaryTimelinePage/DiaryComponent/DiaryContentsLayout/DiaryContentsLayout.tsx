@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import * as S from "./DiaryContentsLayout.styled";
 import Button from "../../../../components/common/Button/Button";
 import { diaryContentPreviewLines, diaryContentPreviewWordCount } from "../../../../config/diary";
+import { useFunctionWithErrorHandling } from "../../../../hooks/error";
 
 
 export interface DiaryContentsLayoutProps {
@@ -13,11 +14,13 @@ const DiaryContentsLayout = (props: DiaryContentsLayoutProps) => {
     const { content, ...rest } = props;
     const [isExpanded, setIsExpanded] = useState(false);
 
+    const { functionWithErrorHandling } = useFunctionWithErrorHandling();
+
     const shouldShowReadMore = content.length > diaryContentPreviewWordCount || content.split("\n").length > diaryContentPreviewLines;
 
-    const handleToggleExpand = () => {
+    const handleToggleExpand = functionWithErrorHandling(() => {
         setIsExpanded(!isExpanded);
-    };
+    });
 
     return (
         <View style={S.styles.layout}>

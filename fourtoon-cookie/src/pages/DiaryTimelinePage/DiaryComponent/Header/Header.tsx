@@ -7,6 +7,7 @@ import { useSelectedCharacterStore } from "../../../../hooks/store/selectedChara
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../../types/routing";
 import { useDeleteDiary } from "../../../../hooks/server/diary";
+import { useFunctionWithErrorHandling } from "../../../../hooks/error";
 
 export interface HeaderProps {
     diaryId: number;
@@ -25,14 +26,16 @@ const Header = (props: HeaderProps) => {
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const handleEditButtonClick = () => {
-        navigation.navigate("DiaryWritePage", { currentDiaryId: diaryId });
-    };
+    const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
-    const handleDeleteButtonClick = () => {
-        const handleDelete = () => {
+    const handleEditButtonClick = functionWithErrorHandling(() => {
+        navigation.navigate("DiaryWritePage", { currentDiaryId: diaryId });
+    });
+
+    const handleDeleteButtonClick = functionWithErrorHandling(() => {
+        const handleDelete = functionWithErrorHandling(() => {
             deleteDiaryById(diaryId);
-        }
+        });
 
         Alert.alert(
             '정말 삭제하겠습니까?',
@@ -48,9 +51,9 @@ const Header = (props: HeaderProps) => {
                 }
             ]
         );
-    }
+    });
 
-    const handleDotIconPress = () => {
+    const handleDotIconPress = functionWithErrorHandling(() => {
         const options = ["취소", "수정하기", "삭제하기"];
         const cancelButtonIndex = 0;
 
@@ -63,7 +66,7 @@ const Header = (props: HeaderProps) => {
             else if (buttonIndex == 2)
                 handleDeleteButtonClick();
         });
-    }
+    });
 
     return (
         <View style={S.styles.header}>

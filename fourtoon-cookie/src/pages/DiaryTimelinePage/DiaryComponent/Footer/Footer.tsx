@@ -8,7 +8,7 @@ import * as S from './Footer.styled';
 import { useUpdateDiaryFavorite } from "../../../../hooks/server/diary";
 import { useDiaryFullImage } from "../../../../hooks/server/diary"; // React Query 훅 사용
 import { checkPhotoPermissions, saveBlobToFile, saveImageToGallery, shareImageFile } from "../../../../system/image";
-import { useFunctionWithErrorHandling } from "../../../../hooks/error";
+import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from "../../../../hooks/error";
 
 export interface FooterProps {
     diaryId: number;
@@ -27,11 +27,11 @@ const DiaryActionsLayout = (props: FooterProps) => {
     const [ imageActionState, setImageActionState ] = useState<ImageActionState>(ImageActionState.NONE);
     const { data: diaryImageBlob } = useDiaryFullImage(diaryId, imageActionState != ImageActionState.NONE);
 
-    const { asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
+    const { functionWithErrorHandling, asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
 
-    const handleToggleFavorite = () => {
+    const handleToggleFavorite = functionWithErrorHandling(() => {
         updateDiaryFavorite(!isFavorite);
-    };
+    });
 
     const handleImageAction = asyncFunctionWithErrorHandling(async (imageActionState: ImageActionState, diaryImageBlob: Blob) => {
         try {
@@ -53,7 +53,7 @@ const DiaryActionsLayout = (props: FooterProps) => {
         }
     });
 
-    useEffect(() => {
+    useEffectWithErrorHandling(() => {
         if (imageActionState == ImageActionState.NONE) return;
         if (! diaryImageBlob) return;
 
@@ -62,9 +62,9 @@ const DiaryActionsLayout = (props: FooterProps) => {
         setImageActionState(ImageActionState.NONE);
     }, [imageActionState, diaryImageBlob]);
 
-    const handleDownload = () => setImageActionState(ImageActionState.DOWNLOAD);
+    const handleDownload = functionWithErrorHandling(() => setImageActionState(ImageActionState.DOWNLOAD));
 
-    const handleShare = () => setImageActionState(ImageActionState.SHARE);
+    const handleShare = functionWithErrorHandling(() => setImageActionState(ImageActionState.SHARE));
 
     return (
         <View style={S.styles.footer}>
