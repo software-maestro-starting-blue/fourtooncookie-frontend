@@ -9,7 +9,7 @@ import { useDiaries } from "../../hooks/server/diary";
 import { Diary } from "../../types/diary";
 import { AccountStatus } from "../../types/account";
 import { useAccountState } from "../../hooks/account";
-import { functionWithErrorHandling, useEffectWithErrorHandling } from "../../hooks/error";
+import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from "../../hooks/error";
 
 enum LIST_STATUS {
     NONE, REFRESH, END_REACHED
@@ -23,6 +23,8 @@ const DiaryTimelinePage = () => {
     const diaryListById: number[] = diaryList.map(diary => diary.diaryId);
 
     const { accountState } = useAccountState();
+
+    const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
     const handleEndReached = functionWithErrorHandling(() => {
         setListStatus(LIST_STATUS.END_REACHED);
