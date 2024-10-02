@@ -5,6 +5,7 @@ import { useAccountState } from "../../../hooks/account"
 import { JwtError } from "../../../types/error/JwtError"
 import { ApiError } from "../../../types/error/ApiError"
 import { Alert } from "react-native"
+import { RuntimeError } from "../../../types/error/RuntimeError"
 
 export interface BasicErrorBoundaryProps {
     handleErrorBeforeHandling?: (error: Error) => boolean,
@@ -43,6 +44,11 @@ const BasicErrorBoundary = (props: BasicErrorBoundaryProps) => {
                 Alert.alert("서버에서 문제가 발생하였습니다. 문제가 지속되면 관리자에게 알려주세요.", error.message);
                 return true;
             }
+        }
+
+        if (error instanceof RuntimeError) {
+            Alert.alert(error.message);
+            return true;
         }
 
         if (handleErrorAfterHandling && handleErrorAfterHandling(error)) {
