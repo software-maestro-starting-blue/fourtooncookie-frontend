@@ -10,6 +10,7 @@ import CharacterIconButton from "./CharacterIconButton/CharacterIconButton";
 import { useSelectedCharacterStore } from "../../../hooks/store/selectedCharacter";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../types/routing";
+import { useFunctionWithErrorHandling } from "../../../hooks/error";
 
 export interface HeaderProps {
     date: LocalDate;
@@ -24,9 +25,11 @@ const Header = (props: HeaderProps) => {
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const handleCharacterChoosePress = () => {
+    const { functionWithErrorHandling } = useFunctionWithErrorHandling();
+
+    const handleCharacterChoosePress = functionWithErrorHandling(() => {
         navigation.navigate("CharacterSelectPage");
-    }
+    });
 
     return (
         <View style={S.styles.header}>

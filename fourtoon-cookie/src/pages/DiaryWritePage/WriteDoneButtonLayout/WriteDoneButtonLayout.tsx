@@ -13,6 +13,7 @@ import { AccountStatus } from "../../../types/account";
 import { useCreateDiary, useUpdateDiary } from "../../../hooks/server/diary";
 import { useAccountState } from "../../../hooks/account";
 import buttonTrack from "../../../system/amplitude";
+import { useFunctionWithErrorHandling } from "../../../hooks/error";
 
 export interface WriteDoneButtonLayout {
     diaryDate: LocalDate;
@@ -33,11 +34,13 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
 
     const { accountState } = useAccountState();
 
+    const { functionWithErrorHandling } = useFunctionWithErrorHandling();
+
     const isNextButtonEnabled = content.length > 0 && ! isWorking;
 
     if (! selectedCharacter) return null;
 
-    const handleWriteDoneButtonPress = () => {
+    const handleWriteDoneButtonPress = functionWithErrorHandling(() => {
         if (accountState !== AccountStatus.LOGINED) {
             Alert.alert(
                 '로그인 필요 기능',
@@ -78,7 +81,7 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
         navigation.navigate('DiaryTimelinePage');
     
         setIsWorking(false);
-    };
+    });
 
     return (
         <KeyboardAvoidingView 

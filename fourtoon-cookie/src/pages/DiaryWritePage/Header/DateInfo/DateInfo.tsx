@@ -5,6 +5,7 @@ import DOWN_ARROW from '../../../../../assets/icon/down-arrow.png';
 
 import * as S from "./DateInfo.styled";
 import { LocalDate } from '@js-joda/core';
+import { useFunctionWithErrorHandling } from '../../../../hooks/error';
 
 export interface DateInfoProps {
     date: LocalDate;
@@ -20,22 +21,24 @@ const DateInfo = (props: DateInfoProps) => {
 
     const [isDatePickerVisible, setDatePickerVisible] = useState<boolean>(false);
 
+    const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
-    const handleDatePress = () => {
+
+    const handleDatePress = functionWithErrorHandling(() => {
         if (! isChangeable) return;
         setDatePickerVisible(true);
-    }
+    });
 
-    const handleCancel = () => {
+    const handleCancel = functionWithErrorHandling(() => {
         setDatePickerVisible(false);
-    }
+    })
 
-    const handleConfirm = (date: Date) => {
+    const handleConfirm = functionWithErrorHandling((date: Date) => {
         if (date.getTime() > Date.now()) return;
         const localDate: LocalDate = LocalDate.of(date.getFullYear(), date.getMonth() + 1, date.getDate());
         onDateChange(localDate);
         setDatePickerVisible(false);
-    }
+    })
 
 
     return (

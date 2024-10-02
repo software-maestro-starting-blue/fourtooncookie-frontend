@@ -14,7 +14,7 @@ import { useSelectedCharacterStore } from "../../hooks/store/selectedCharacter";
 import WriteDoneButtonLayout from "./WriteDoneButtonLayout/WriteDoneButtonLayout";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useDiaryById } from "../../hooks/server/diary";
-import { useEffectWithErrorHandling } from "../../hooks/error";
+import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from "../../hooks/error";
 import { SelectedCharacterNotExistError } from "../../types/error/character/SelectedCharacterNotExistError";
 
 
@@ -29,6 +29,8 @@ const DiaryWritePage = ({ route }: DiaryWritePageProp) => {
     
     const [diaryDate, setDiaryDate] = useState<LocalDate>(currentDiary ? currentDiary.diaryDate : LocalDate.now());
     const [content, setContent] = useState<string>(currentDiary ? currentDiary.content : "");
+
+    const { functionWithErrorHandling } = useFunctionWithErrorHandling();
     
     useEffectWithErrorHandling(() => {
         if (! selectedCharacter) {
@@ -37,13 +39,13 @@ const DiaryWritePage = ({ route }: DiaryWritePageProp) => {
         }
     }, [selectedCharacter]);
 
-    const handleDiaryDateChange = (newDate: LocalDate) => {
+    const handleDiaryDateChange = functionWithErrorHandling((newDate: LocalDate) => {
         setDiaryDate(newDate);
-    }
+    })
 
-    const handleInputTextChange = (text: string) => {
+    const handleInputTextChange = functionWithErrorHandling((text: string) => {
         setContent(text);
-    }
+    })
 
     return (
         <SafeAreaView style={S.styles.safeArea}>
