@@ -13,7 +13,7 @@ const MenuLayout = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const { accountState, logout, resign } = useAccountState();
 
-    const { asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
+    const { functionWithErrorHandling, asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
 
     const handleAppInfoButtonPress = asyncFunctionWithErrorHandling(async () => {
         Linking.openURL(APP_INFO_URL);
@@ -23,7 +23,7 @@ const MenuLayout = () => {
         await logout();
     });
 
-    const handleResignButtonPress = () => {
+    const handleResignButtonPress = functionWithErrorHandling(() => {
         const handleResign = asyncFunctionWithErrorHandling(async () => {
             await resign();
         });
@@ -42,11 +42,11 @@ const MenuLayout = () => {
                 }
             ]
         );
-    }
+    })
 
-    const handleLoginButtonPress = () => {
+    const handleLoginButtonPress = functionWithErrorHandling(() => {
         navigation.navigate('IntroPage');
-    }
+    })
     
     return (
         <View style={S.styles.menuContainer}>
