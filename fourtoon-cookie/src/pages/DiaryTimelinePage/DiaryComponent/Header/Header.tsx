@@ -8,6 +8,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../../types/routing";
 import { useDeleteDiary } from "../../../../hooks/server/diary";
 import { useFunctionWithErrorHandling } from "../../../../hooks/error";
+import { useCharacterById } from "../../../../hooks/server/character";
 
 export interface HeaderProps {
     diaryId: number;
@@ -20,7 +21,7 @@ const Header = (props: HeaderProps) => {
 
     const { mutate: deleteDiaryById } = useDeleteDiary();
 
-    const { selectedCharacter } = useSelectedCharacterStore();
+    const { data: character } = useCharacterById(characterId);
 
     const { showActionSheetWithOptions } = useActionSheet();
 
@@ -71,9 +72,9 @@ const Header = (props: HeaderProps) => {
     return (
         <View style={S.styles.header}>
             <View style={S.styles.profile}>
-                <Image style={S.styles.profileImage} source={{uri: selectedCharacter?.selectionThumbnailUrl}} />
+                <Image style={S.styles.profileImage} source={{uri: character?.selectionThumbnailUrl}} />
                 <View style={S.styles.profileText}>
-                    <Text style={S.styles.profileName}>{selectedCharacter?.name}</Text>
+                    <Text style={S.styles.profileName}>{character?.name}</Text>
                     <Text style={S.styles.profileDate}>{date.toString()}</Text>
                 </View>
             </View>
