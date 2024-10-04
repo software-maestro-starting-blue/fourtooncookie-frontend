@@ -6,9 +6,9 @@ import { useActionSheet } from "@expo/react-native-action-sheet";
 import { useSelectedCharacterStore } from "../../../../hooks/store/selectedCharacter";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../../types/routing";
-import handleError from "../../../../error/errorhandler";
-import { GlobalErrorInfoType } from "../../../../types/error";
 import { useDeleteDiary } from "../../../../hooks/server/diary";
+import { useFunctionWithErrorHandling } from "../../../../hooks/error";
+import { useCharacterById } from "../../../../hooks/server/character";
 
 export interface HeaderProps {
     diaryId: number;
@@ -21,29 +21,22 @@ const Header = (props: HeaderProps) => {
 
     const { mutate: deleteDiaryById } = useDeleteDiary();
 
-    const { selectedCharacter } = useSelectedCharacterStore();
+    const { data: character } = useCharacterById(characterId);
 
     const { showActionSheetWithOptions } = useActionSheet();
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const handleEditButtonClick = () => {
-        navigation.navigate("DiaryWritePage", { currentDiaryId: diaryId });
-    };
+    const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
-    const handleDeleteButtonClick = async () => {
-        const handleDelete = async () => {
-            try {
-                deleteDiaryById(diaryId);
-            } catch (error) {
-                if (error instanceof Error) {
-                    handleError(
-                        error,
-                        GlobalErrorInfoType.ALERT
-                    );
-                }
-            }
-        }
+    const handleEditButtonClick = functionWithErrorHandling(() => {
+        navigation.navigate("DiaryWritePage", { currentDiaryId: diaryId });
+    });
+
+    const handleDeleteButtonClick = functionWithErrorHandling(() => {
+        const handleDelete = functionWithErrorHandling(() => {
+            deleteDiaryById(diaryId);
+        });
 
         Alert.alert(
             '정말 삭제하겠습니까?',
@@ -59,9 +52,9 @@ const Header = (props: HeaderProps) => {
                 }
             ]
         );
-    }
+    });
 
-    const handleDotIconPress = () => {
+    const handleDotIconPress = functionWithErrorHandling(() => {
         const options = ["취소", "수정하기", "삭제하기"];
         const cancelButtonIndex = 0;
 
@@ -74,14 +67,14 @@ const Header = (props: HeaderProps) => {
             else if (buttonIndex == 2)
                 handleDeleteButtonClick();
         });
-    }
+    });
 
     return (
         <View style={S.styles.header}>
             <View style={S.styles.profile}>
-                <Image style={S.styles.profileImage} source={{uri: selectedCharacter?.selectionThumbnailUrl}} />
+                <Image style={S.styles.profileImage} source={{uri: character?.selectionThumbnailUrl}} />
                 <View style={S.styles.profileText}>
-                    <Text style={S.styles.profileName}>{selectedCharacter?.name}</Text>
+                    <Text style={S.styles.profileName}>{character?.name}</Text>
                     <Text style={S.styles.profileDate}>{date.toString()}</Text>
                 </View>
             </View>

@@ -1,16 +1,16 @@
-import { useQuery } from "react-query"
 import { getCharacters } from "../../apis/character"
 import { Character } from "../../types/character";
+import { useQueryWithErrorHandling } from "../error";
 
 
 export const useCharacters = () => {
-    return useQuery<Character[], Error>("characters", getCharacters);
+    return useQueryWithErrorHandling<Character[], Error>("characters", getCharacters);
 }
 
 export const useCharacterById = (characterId: number) => {
-    return useQuery(["character", characterId], async () => {
-        const { data: characters } = useCharacters();
+    const { data: characters } = useCharacters();
 
-        return characters?.find(character => character.id === characterId);
-    });
+    return {
+        data: characters?.find(character => character.id === characterId)
+    };
 }

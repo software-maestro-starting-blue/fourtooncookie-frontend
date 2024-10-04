@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { View, Modal, Image, TouchableOpacity, Text } from "react-native";
 
 import * as S from './DiaryPaintingImagesLayout.styled';
+import { useFunctionWithErrorHandling } from "../../../../hooks/error";
 
 export interface DiaryPaintingImagesLayoutProps {
     imageUrls: string[];
@@ -12,15 +13,17 @@ const DiaryPaintingImagesLayout = (props: DiaryPaintingImagesLayoutProps) => {
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-    const handleImagePress = (imageUrl: string) => {
+    const { functionWithErrorHandling } = useFunctionWithErrorHandling();
+
+    const handleImagePress = functionWithErrorHandling((imageUrl: string) => {
         setSelectedImage(imageUrl);
         setModalVisible(true);
-    };
+    });
 
-    const handleCloseModal = () => {
+    const handleCloseModal = functionWithErrorHandling(() => {
         setModalVisible(false);
         setSelectedImage(null);
-    };
+    });
 
     return (
         <View>

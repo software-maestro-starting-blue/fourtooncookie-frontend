@@ -6,6 +6,7 @@ import { OAuthProvider } from "../../../types/oauth";
 import { OS } from "../../../types/os";
 
 import * as S from "./AppleSignInAndSignUpButton.styled";
+import { useFunctionWithErrorHandling } from '../../../hooks/error';
 
 export interface AppleSignInAndSignUpButtonProps {
     onSuccess: (oauthProvider: OAuthProvider, idToken: string, nonce?: string) => void;
@@ -14,11 +15,13 @@ export interface AppleSignInAndSignUpButtonProps {
 const AppleSignInAndSignUpButton = (props: AppleSignInAndSignUpButtonProps) => {
     const {onSuccess, ...rest} = props;
 
-    const handlePress = async () => {
+    const { asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
+
+    const handlePress = asyncFunctionWithErrorHandling(async () => {
         const [idToken, nonce] = await getAppleIdToken();
         if (!idToken) return;
         onSuccess(OAuthProvider.APPLE, idToken, nonce);
-    }
+    });
 
     return (Platform.OS === OS.IOS || appleAuthAndroid.isSupported) && (
         <TouchableOpacity style={S.styles.appleButton} onPress={handlePress}>

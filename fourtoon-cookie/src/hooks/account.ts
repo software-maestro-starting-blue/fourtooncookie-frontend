@@ -3,12 +3,15 @@ import { AccountStatus } from "../types/account";
 import { JWTToken } from "../types/jwt";
 import { Member } from "../types/member";
 import { useCreateMember, useDeleteMember, useMember } from "./server/member";
+import { useFunctionWithErrorHandling } from "./error";
 import { useJwtStore } from "./store/jwt";
 
 
 export const useAccountState = () => {
     const [ accountState, setAccountState ] = useState<AccountStatus>(AccountStatus.UNAUTHORIZED);
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
+
+    const { asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
 
     const { token, setToken, removeToken } = useJwtStore();
 
@@ -47,23 +50,23 @@ export const useAccountState = () => {
         };
     };
     
-    const login = asyncWithLoading(async (token: JWTToken) => {
+    const login = asyncFunctionWithErrorHandling(asyncWithLoading(async (token: JWTToken) => {
         setToken(token);
         await refetch();
-    });
+    }));
 
-    const signup = asyncWithLoading(async (member: Member) => {
+    const signup = asyncFunctionWithErrorHandling(asyncWithLoading(async (member: Member) => {
         await createMember(member);
-    });
+    }));
 
-    const logout = asyncWithLoading(async () => {
+    const logout = asyncFunctionWithErrorHandling(asyncWithLoading(async () => {
         removeToken();
         await refetch();
-    });
+    }));
 
-    const resign = asyncWithLoading(async () => {
+    const resign = asyncFunctionWithErrorHandling(asyncWithLoading(async () => {
         await deleteMember();
-    });
+    }));
 
     return {
         accountState,

@@ -4,6 +4,7 @@ import { getGoogleIdTokenWithNativeLogin } from "../../../auth/googleOAuth";
 import { OAuthProvider } from "../../../types/oauth";
 
 import * as S from './GoogleSignInAndSignUpButton.styled';
+import { useFunctionWithErrorHandling } from '../../../hooks/error';
 
 export interface GoogleSignInAndSignUpButtonProps {
     onSuccess: (oauthProvider: OAuthProvider, idToken: string) => void;
@@ -18,11 +19,13 @@ const GoogleSignInAndSignUpButton = (props: GoogleSignInAndSignUpButtonProps) =>
         iosClientId: process.env.EXPO_PUBLIC_GOOGLE_OAUTH_IOS_CLIENT_ID
     });
 
-    const handlePress = async () => {
+    const { asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
+
+    const handlePress = asyncFunctionWithErrorHandling(async () => {
         const idToken = await getGoogleIdTokenWithNativeLogin();
         if (!idToken) return;
         onSuccess(OAuthProvider.GOOGLE, idToken);
-    }
+    });
 
     return (
         <TouchableOpacity style={S.styles.googleButton} onPress={handlePress}>

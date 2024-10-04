@@ -2,15 +2,14 @@ import React, {useState, useEffect} from "react";
 import {FlatList} from "react-native";
 import Header from "./Header/Header";
 import DiaryEmpty from "./DiaryEmpty/DiaryEmpty";
-import {GlobalErrorInfoType} from "../../types/error";
 import DiaryComponent from "./DiaryComponent/DiaryComponent";
 import MainPageLayout from "../../components/layout/MainPageLayout/MainPageLayout";
-import handleError from "../../error/errorhandler";
 import { FOOTER_STATE } from "../../components/layout/MainPageLayout/Footer/Footer";
 import { useDiaries } from "../../hooks/server/diary";
 import { Diary } from "../../types/diary";
 import { AccountStatus } from "../../types/account";
 import { useAccountState } from "../../hooks/account";
+import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from "../../hooks/error";
 
 enum LIST_STATUS {
     NONE, REFRESH, END_REACHED
@@ -25,16 +24,18 @@ const DiaryTimelinePage = () => {
 
     const { accountState } = useAccountState();
 
-    const handleEndReached = async () => {
+    const { functionWithErrorHandling, asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
+
+    const handleEndReached = functionWithErrorHandling(() => {
         setListStatus(LIST_STATUS.END_REACHED);
-    };
+    });
 
-    const handleRefresh = async () => {
+    const handleRefresh = functionWithErrorHandling(() => {
         setListStatus(LIST_STATUS.REFRESH);
-    };
+    });
 
-    useEffect(() => {
-        const fetchDiaries = async (listStatus: LIST_STATUS) => {
+    useEffectWithErrorHandling(() => {
+        const fetchDiaries = asyncFunctionWithErrorHandling(async (listStatus: LIST_STATUS) => {
             switch (listStatus) {
                 case LIST_STATUS.NONE:
                     return;
@@ -49,7 +50,7 @@ const DiaryTimelinePage = () => {
             }
 
             setListStatus(LIST_STATUS.NONE);
-        }
+        });
 
         if (accountState !== AccountStatus.LOGINED) return;
 

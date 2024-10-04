@@ -3,43 +3,30 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import MenuWideButton from '../../../components/common/MenuWideButton/MenuWideButton';
 import { APP_INFO_URL } from '../../../config/appinfo';
 import { RootStackParamList } from '../../../types/routing';
-import handleError from '../../../error/errorhandler';
-import { GlobalErrorInfoType } from '../../../types/error';
 
 import * as S from './MenuLayout.styled';
 import { AccountStatus } from '../../../types/account';
 import { useAccountState } from '../../../hooks/account';
+import { useFunctionWithErrorHandling } from '../../../hooks/error';
 
 const MenuLayout = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const { accountState, logout, resign } = useAccountState();
 
-    const handleAppInfoButtonPress = () => {
-        Linking.openURL(APP_INFO_URL).catch(err => 
-            handleError(
-                new Error('앱 정보 페이지를 열 수 없습니다.'),
-                GlobalErrorInfoType.ALERT
-            )
-        );
-    }
+    const { functionWithErrorHandling, asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
 
-    const handleLogoutButtonPress = async () => {
-        logout();
-    }
+    const handleAppInfoButtonPress = asyncFunctionWithErrorHandling(async () => {
+        Linking.openURL(APP_INFO_URL);
+    });
 
-    const handleResignButtonPress = async () => {
-        const handleResign = () => {
-            try {
-                resign();
-            } catch (error) {
-                if (error instanceof Error) {
-                    handleError(
-                        error,
-                        GlobalErrorInfoType.ALERT
-                    );
-                }
-            }
-        }
+    const handleLogoutButtonPress = asyncFunctionWithErrorHandling(async () => {
+        await logout();
+    });
+
+    const handleResignButtonPress = functionWithErrorHandling(() => {
+        const handleResign = asyncFunctionWithErrorHandling(async () => {
+            await resign();
+        });
 
         Alert.alert(
             '정말 탈퇴하시겠습니까?',
@@ -55,11 +42,11 @@ const MenuLayout = () => {
                 }
             ]
         );
-    }
+    })
 
-    const handleLoginButtonPress = () => {
+    const handleLoginButtonPress = functionWithErrorHandling(() => {
         navigation.navigate('IntroPage');
-    }
+    })
     
     return (
         <View style={S.styles.menuContainer}>

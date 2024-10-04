@@ -8,16 +8,18 @@ import type { JWTToken } from "../../types/jwt";
 import AppleSignInAndSignUpButton from "./AppleSignInAndSignUpButton/AppleSignInAndSignUpButton";
 import GoogleSignInAndSignUpButton from "./GoogleSignInAndSignUpButton/GoogleSignInAndSignUpButton";
 import * as S from './IntroPage.styled';
-import { useEffect } from "react";
 import { AccountStatus } from "../../types/account";
 import { useAccountState } from "../../hooks/account";
+import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from "../../hooks/error";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     const { accountState, login } = useAccountState();
 
-    useEffect(() => {
+    const { asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
+
+    useEffectWithErrorHandling(() => {
         const navigateByMemberStatus = async () => {
 			if (accountState === AccountStatus.UNAUTHORIZED) {
 				return;
@@ -34,10 +36,10 @@ const IntroPage = () => {
 		navigateByMemberStatus();
     }, [accountState]);
 
-    const handleSignUpAndSignInSuccess = async (oauthProvider: OAuthProvider, idToken: string, nonce?: string) => {
+    const handleSignUpAndSignInSuccess = asyncFunctionWithErrorHandling(async (oauthProvider: OAuthProvider, idToken: string, nonce?: string) => {
         const token: JWTToken = await supabaseSignInAndSignUpWithIdToken(oauthProvider, idToken, nonce);
         await login(token);
-    }
+    });
 
     return (
         <View style={S.styles.container}>

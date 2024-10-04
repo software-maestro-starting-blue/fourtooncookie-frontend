@@ -1,4 +1,4 @@
-import { SafeAreaView, View } from "react-native";
+import { Alert, SafeAreaView, View } from "react-native";
 import { useEffect, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
@@ -8,15 +8,14 @@ import TextInputLayout from "./TextInputLayout/TextInputLayout";
 import { RootStackParamList } from "../../types/routing";
 
 import * as S from "./DiaryWritePage.styled";
-import { GlobalErrorInfoType } from "../../types/error";
 import { LocalDate } from "@js-joda/core";
 
-import { RuntimeError } from "../../types/error/RuntimeError";
-import handleError from "../../error/errorhandler";
 import { useSelectedCharacterStore } from "../../hooks/store/selectedCharacter";
 import WriteDoneButtonLayout from "./WriteDoneButtonLayout/WriteDoneButtonLayout";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useDiaryById } from "../../hooks/server/diary";
+import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from "../../hooks/error";
+import { SelectedCharacterNotExistError } from "../../types/error/character/SelectedCharacterNotExistError";
 
 
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
@@ -30,26 +29,23 @@ const DiaryWritePage = ({ route }: DiaryWritePageProp) => {
     
     const [diaryDate, setDiaryDate] = useState<LocalDate>(currentDiary ? currentDiary.diaryDate : LocalDate.now());
     const [content, setContent] = useState<string>(currentDiary ? currentDiary.content : "");
+
+    const { functionWithErrorHandling } = useFunctionWithErrorHandling();
     
-    useEffect(() => {
+    useEffectWithErrorHandling(() => {
         if (! selectedCharacter) {
-            handleError(
-                new RuntimeError("캐릭터가 선택되지 않았습니다."),
-                GlobalErrorInfoType.ALERT,
-                () => {
-                    navigation.navigate('CharacterSelectPage');
-                }
-            );
+            navigation.navigate('CharacterSelectPage');
+            throw new SelectedCharacterNotExistError('캐릭터가 선택되지 않았습니다. 캐릭터를 선택해주세요.');
         }
     }, [selectedCharacter]);
 
-    const handleDiaryDateChange = (newDate: LocalDate) => {
+    const handleDiaryDateChange = functionWithErrorHandling((newDate: LocalDate) => {
         setDiaryDate(newDate);
-    }
+    })
 
-    const handleInputTextChange = (text: string) => {
+    const handleInputTextChange = functionWithErrorHandling((text: string) => {
         setContent(text);
-    }
+    })
 
     return (
         <SafeAreaView style={S.styles.safeArea}>

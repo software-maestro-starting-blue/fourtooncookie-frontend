@@ -8,6 +8,7 @@ import * as S from './Footer.styled';
 import { useUpdateDiaryFavorite } from "../../../../hooks/server/diary";
 import { useDiaryFullImage } from "../../../../hooks/server/diary"; // React Query 훅 사용
 import { checkPhotoPermissions, saveBlobToFile, saveImageToGallery, shareImageFile } from "../../../../system/image";
+import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from "../../../../hooks/error";
 
 export interface FooterProps {
     diaryId: number;
@@ -26,42 +27,44 @@ const DiaryActionsLayout = (props: FooterProps) => {
     const [ imageActionState, setImageActionState ] = useState<ImageActionState>(ImageActionState.NONE);
     const { data: diaryImageBlob } = useDiaryFullImage(diaryId, imageActionState != ImageActionState.NONE);
 
-    const handleToggleFavorite = async () => {
-        updateDiaryFavorite(!isFavorite);
-    };
+    const { functionWithErrorHandling, asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
 
-    useEffect(() => {
+    const handleToggleFavorite = functionWithErrorHandling(() => {
+        updateDiaryFavorite(!isFavorite);
+    });
+
+    const handleImageAction = asyncFunctionWithErrorHandling(async (imageActionState: ImageActionState, diaryImageBlob: Blob) => {
+        try {
+            if (! await checkPhotoPermissions()) return;
+            const fileUri = await saveBlobToFile(diaryImageBlob, diaryId);
+
+            if (imageActionState == ImageActionState.DOWNLOAD) {
+                await saveImageToGallery(fileUri);
+                Alert.alert('이미지 저장 성공', '이미지를 갤러리에 저장했습니다.');
+            }
+
+            if (imageActionState == ImageActionState.SHARE) {
+                await shareImageFile(fileUri);
+            }
+        } catch (error) {
+            if ( error instanceof Error && error.message == 'User did not share' ) return;
+
+            throw error;
+        }
+    });
+
+    useEffectWithErrorHandling(() => {
         if (imageActionState == ImageActionState.NONE) return;
         if (! diaryImageBlob) return;
 
-        const handleImageAction = async (imageActionState: ImageActionState) => {
-            try {
-                if (! await checkPhotoPermissions()) return;
-                const fileUri = await saveBlobToFile(diaryImageBlob, diaryId);
-
-                if (imageActionState == ImageActionState.DOWNLOAD) {
-                    await saveImageToGallery(fileUri);
-                    Alert.alert('이미지 저장 성공', '이미지를 갤러리에 저장했습니다.');
-                }
-
-                if (imageActionState == ImageActionState.SHARE) {
-                    await shareImageFile(fileUri);
-                }
-            } catch (error) {
-                if ( error instanceof Error && error.message == 'User did not share' ) return;
-
-                throw error;
-            }
-        };
-
-        handleImageAction(imageActionState);
+        handleImageAction(imageActionState, diaryImageBlob);
 
         setImageActionState(ImageActionState.NONE);
     }, [imageActionState, diaryImageBlob]);
 
-    const handleDownload = () => setImageActionState(ImageActionState.DOWNLOAD);
+    const handleDownload = functionWithErrorHandling(() => setImageActionState(ImageActionState.DOWNLOAD));
 
-    const handleShare = () => setImageActionState(ImageActionState.SHARE);
+    const handleShare = functionWithErrorHandling(() => setImageActionState(ImageActionState.SHARE));
 
     return (
         <View style={S.styles.footer}>

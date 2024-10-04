@@ -5,6 +5,7 @@ import { useSelectedCharacterStore } from '../../../hooks/store/selectedCharacte
 
 import * as S from "./ProfileLayout.styled";
 import { useMember } from '../../../hooks/server/member';
+import { useFunctionWithErrorHandling } from '../../../hooks/error';
 
 const ProfileLayout = () => {
 
@@ -13,9 +14,11 @@ const ProfileLayout = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const { selectedCharacter } = useSelectedCharacterStore();
 
-    const handleCharacterChangeButtonPress = () => {
+    const { functionWithErrorHandling } = useFunctionWithErrorHandling();
+
+    const handleCharacterChangeButtonPress = functionWithErrorHandling(() => {
         navigation.navigate('CharacterSelectPage');
-    }
+    })
 
     return (
         <View style={S.styles.profileContainer}>
