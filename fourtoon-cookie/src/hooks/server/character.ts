@@ -10,7 +10,7 @@ export const useCharacters = () => {
 export const useCharacterById = (characterId: number) => {
     const { data: characters } = useCharacters();
 
-    return useQueryWithErrorHandling(["character", characterId], async () => {
-        return characters?.find(character => character.id === characterId);
-    });
+    return {
+        data: characters?.find(character => character.id === characterId)
+    };
 }
