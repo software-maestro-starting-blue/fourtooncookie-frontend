@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Image, TouchableOpacity } from "react-native";
 import * as S from "./CharacterIconButton.styled";
-import { useSelectedCharacterStore } from "../../../../store/selectedCharacter";
+import { useSelectedCharacterStore } from "../../../../hooks/store/selectedCharacter";
 
 export interface CharacterIconButtonProps {
     onCharacterChoosePress: () => void;

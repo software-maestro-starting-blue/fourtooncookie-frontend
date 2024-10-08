@@ -1,12 +1,14 @@
-import { JwtError } from "../error/JwtError";
+import { JwtError } from "../types/error/JwtError";
 import { JWTToken } from "../types/jwt";
-import { API_METHOD_TYPE, API_STATUS } from "../constants/api";
-import { useAccountStore } from "../store/account";
+import { API_METHOD_TYPE, API_STATUS } from "../types/api";
+import { useJwtStore } from "../hooks/store/jwt";
 
 
-export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: any, jwtToken?: JWTToken): Promise<Response> => {
-    let token: JWTToken | null = jwtToken ? jwtToken : useAccountStore.getState().jwt;
+export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: any): Promise<Response> => {
     
+
+    let token: JWTToken | null = useJwtStore.getState().token;
+
     let leftTryCount: number = 2;
 
     while (leftTryCount > 0) {
@@ -26,8 +28,8 @@ export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: an
         }
 
         if (leftTryCount > 0) {
-            await useAccountStore.getState().refreshJWT();
-            token = useAccountStore.getState().jwt;
+            await useJwtStore.getState().refreshToken();
+            token = useJwtStore.getState().token;
         }
     }
 

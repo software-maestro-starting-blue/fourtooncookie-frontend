@@ -1,30 +1,29 @@
 import { View, Image, Text } from "react-native";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { supabaseSignInAndSignUpWithIdToken } from "../../auth/supabase";
-import { RootStackParamList } from "../../constants/routing";
+import { RootStackParamList } from "../../types/routing";
 import { OAuthProvider } from "../../types/oauth";
 import type { JWTToken } from "../../types/jwt";
 
 import AppleSignInAndSignUpButton from "./AppleSignInAndSignUpButton/AppleSignInAndSignUpButton";
 import GoogleSignInAndSignUpButton from "./GoogleSignInAndSignUpButton/GoogleSignInAndSignUpButton";
 import * as S from './IntroPage.styled';
-import { useAccountStore } from "../../store/account";
 import { useEffect } from "react";
 import { AccountStatus } from "../../types/account";
-import { useEffectWithAccountStatus } from "../../hooks/account";
+import { useAccountState } from "../../hooks/account";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const { loginMember } = useAccountStore();
+    const { accountState, login } = useAccountState();
 
-    useEffectWithAccountStatus((accountStatus: AccountStatus) => {
+    useEffect(() => {
         const navigateByMemberStatus = async () => {
-			if (accountStatus === AccountStatus.UNAUTHORIZED) {
+			if (accountState === AccountStatus.UNAUTHORIZED) {
 				return;
 			}
 	
-			if (accountStatus == AccountStatus.UNSIGNEDUP){
+			if (accountState == AccountStatus.UNSIGNEDUP){
 				navigation.navigate('SignUpPage');
 				return;
 			}
@@ -33,11 +32,11 @@ const IntroPage = () => {
 		}
 		
 		navigateByMemberStatus();
-    }, []);
+    }, [accountState]);
 
     const handleSignUpAndSignInSuccess = async (oauthProvider: OAuthProvider, idToken: string, nonce?: string) => {
         const token: JWTToken = await supabaseSignInAndSignUpWithIdToken(oauthProvider, idToken, nonce);
-        await loginMember(token);
+        await login(token);
     }
 
     return (

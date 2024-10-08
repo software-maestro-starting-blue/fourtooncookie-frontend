@@ -3,19 +3,20 @@ import { LocalDate } from "@js-joda/core";
 import { useState } from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { OS } from "../../../types/os"
-import { Diary } from "../../../types/diary";
-import { useSelectedCharacterStore } from "../../../store/selectedCharacter";
-import { useDiaryListStore } from "../../../store/diaryList";
-import { RootStackParamList } from "../../../constants/routing";
-import { API_STATUS } from "../../../constants/api";
-import { ApiError } from "../../../error/ApiError";
+import { Diary, DiaryStatus } from "../../../types/diary";
+import { useSelectedCharacterStore } from "../../../hooks/store/selectedCharacter";
+import { RootStackParamList } from "../../../types/routing";
+import { API_STATUS } from "../../../types/api";
+import { ApiError } from "../../../types/error/ApiError";
 import handleError from "../../../error/errorhandler";
 import { GlobalErrorInfoType } from "../../../types/error";
 import Button from "../../../components/common/Button/Button";
 
 import * as S from "./WriteDoneButtonLayout.styled";
-import { useAccountStore } from "../../../store/account";
 import { AccountStatus } from "../../../types/account";
+import { useCreateDiary, useUpdateDiary } from "../../../hooks/server/diary";
+import { useAccountState } from "../../../hooks/account";
+import buttonTrack from "../../../system/amplitude";
 
 export interface WriteDoneButtonLayout {
     diaryDate: LocalDate;
@@ -30,16 +31,18 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
 
     const [isWorking, setIsWorking] = useState<boolean>(false);
 
-    const { postDiary, updateDiary } = useDiaryListStore();
+    const { mutate: createDiary } = useCreateDiary();
+    const { mutate: updateDiary } = useUpdateDiary();
     const { selectedCharacter } = useSelectedCharacterStore();
-    const { getAccountStatus } = useAccountStore();
+
+    const { accountState } = useAccountState();
 
     const isNextButtonEnabled = content.length > 0 && ! isWorking;
 
     if (! selectedCharacter) return null;
 
     const handleWriteDoneButtonPress = async () => {
-        if (getAccountStatus() !== AccountStatus.LOGINED) {
+        if (accountState !== AccountStatus.LOGINED) {
             Alert.alert(
                 '로그인 필요 기능',
                 '로그인을 진행해야 일기 작성이 가능합니다.',
@@ -64,15 +67,18 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
             isFavorite: false,
             diaryDate: diaryDate,
             paintingImageUrls: [],
-            characterId: selectedCharacter.id
+            characterId: selectedCharacter.id,
+            diaryStatus: DiaryStatus.IN_PROGRESS
         }
 
         try {
             if (! currentDiaryId) {
-                await postDiary(diary);
+                await createDiary(diary);
             } else {
                 await updateDiary(diary);
             }
+
+            buttonTrack('캐릭터 ID: ' + diary.characterId + '로 생성')
 
             navigation.navigate('DiaryTimelinePage');
         } catch (error) {

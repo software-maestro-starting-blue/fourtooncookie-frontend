@@ -2,8 +2,8 @@ import type { Diary } from "../types/diary";
 import type { DiaryCreatedResponse, DiaryPatchFavoriteRequest, DiarySaveRequest, DiarySavedResponse, DiaryUpdateRequest } from "../types/dto/diary";
 import { requestApi } from "./api";
 import { LocalDate } from "@js-joda/core";
-import { ApiError } from "../error/ApiError";
-import { API_METHOD_TYPE, API_STATUS } from "../constants/api";
+import { ApiError } from "../types/error/ApiError";
+import { API_METHOD_TYPE, API_STATUS } from "../types/api";
 
 export const getDiary = async (diaryId: number): Promise<Diary> => {
     const response = await requestApi(`/diary/${diaryId}`, API_METHOD_TYPE.GET);
@@ -86,4 +86,14 @@ export const patchDiaryFavorite = async (diaryId: number, isFavorite: boolean): 
     if (response.status != API_STATUS.SUCCESS) {
         throw new ApiError("일기 즐겨찾기 중 오류가 발생했습니다. 다시 시도해 주세요.", response.status);
     }
+};
+
+export const getDiaryFullImage = async (diaryId: number): Promise<Blob> => {
+    const response = await requestApi(`/diary/${diaryId}/image/full`, API_METHOD_TYPE.GET);
+    
+    if (response.status != API_STATUS.SUCCESS) {
+        throw new ApiError('이미지 다운로드 요청 중 오류가 발생했습니다.', response.status);
+    }
+
+    return await response.blob();;
 };

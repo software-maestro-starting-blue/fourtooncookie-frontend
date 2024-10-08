@@ -8,14 +8,19 @@ import Footer from "./Footer/Footer";
 import Header from "./Header/Header";
 import DiaryPaintingImageLoadingLayout from "./DiaryPaintingImageLoadingLayout/DiaryPaintingImageLoadingLayout";
 import DiaryPaintingImageFailedLayout from "./DiaryPaintingImageFailedLayout/DiaryPaintingImageFailedLayout";
+import { useDiaryById } from "../../../hooks/server/diary";
 
 export interface DiaryProps {
-    diary: Diary,
+    diaryId: number,
 }
 
 const DiaryComponent = (props: DiaryProps) => {
-    const { diary, ...rest } = props;
-    const { diaryId, content, isFavorite, diaryDate, paintingImageUrls, characterId, diaryStatus } = diary;
+    const { diaryId, ...rest } = props;
+    const { data: diary } = useDiaryById(diaryId);
+
+    if (!diary) return null;
+    
+    const { content, isFavorite, diaryDate, paintingImageUrls, characterId, diaryStatus } = diary;
 
     return (
         <View style={S.styles.container}>

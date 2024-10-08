@@ -9,13 +9,13 @@ import NameInputLayout from "./NameInputLayout/NameInputLayout";
 import BirthInputLayout from "./BirthInputLayout/BirthInputLayout";
 import GenderInputLayout from "./GenderInputLayout/GenderInputLayout";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../../constants/routing";
+import { RootStackParamList } from "../../types/routing";
 import { LocalDate } from "@js-joda/core";
 import { GlobalErrorInfoType } from "../../types/error";
 import handleError from "../../error/errorhandler";
 
 import AgreementInputLayout from "./AgreementInputLayout/AgreementInputLayout";
-import { useAccountStore } from "../../store/account";
+import { useAccountState } from "../../hooks/account";
 
 enum SignUpProgres {
     NAME = 1,
@@ -34,7 +34,7 @@ const SignUpPage = () => {
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const { logoutMember, signupMember } = useAccountStore();
+    const { logout, signup } = useAccountState();
 
     const isNextButtonAvailabe: boolean = 
         (signUpProgress == SignUpProgres.NAME && name.length > 0)
@@ -63,7 +63,7 @@ const SignUpPage = () => {
 
     const handleBackButtonPress = () => {
         if (signUpProgress == SignUpProgres.NAME) {
-            logoutMember();
+            logout();
             return;
         }
 
@@ -79,7 +79,7 @@ const SignUpPage = () => {
             if (!gender || !isAgreed) return;
 
             try {
-                signupMember({
+                signup({
                     name,
                     birth,
                     gender,
