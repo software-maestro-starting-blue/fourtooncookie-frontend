@@ -8,7 +8,7 @@ const ErrorComponent = (props: FallbackProps) => {
     const { error, resetErrorBoundary } = props;
 
     return (
-        <SafeAreaView style={S.styles.area}>
+        <SafeAreaView style={S.styles.safeArea}>
             <TouchableOpacity onPress={() => resetErrorBoundary()}>
                 <View>
                     <Text>
