@@ -6,7 +6,8 @@
         "remove": "삭제",
         "done": "완료",
         "appInfo": "앱 정보",
-        "next": "다음"
+        "next": "다음",
+        "setting": "설정"
     },
     "login": {
         "loginRequired": "로그인 필요",
@@ -25,7 +26,11 @@
         "characterNotSelected": "캐릭터가 선택되지 않았습니다. 캐릭터를 선택해주세요."
     },
     "system": {
-
+        "image": {
+            "permissionRequired": "이미지 저장 권한이 필요합니다.",
+            "permissionRequiredDetail": "이미지를 저장하려면 저장 권한을 허용해주세요.",
+            "shareTitle": "이미지 공유"
+        }
     },
     "components": {
         "alertModal": {
