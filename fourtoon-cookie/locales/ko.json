@@ -5,12 +5,14 @@
         "edit": "수정",
         "remove": "삭제",
         "done": "완료",
-        "appInfo": "앱 정보"
+        "appInfo": "앱 정보",
+        "next": "다음"
     },
     "login": {
         "loginRequired": "로그인 필요",
         "loginRequiredDetail": "로그인이 필요한 서비스입니다. 로그인을 해주세요.",
         "login": "로그인",
+        "signUp": "회원가입",
         "logout": "로그아웃",
         "resign": "회원탈퇴",
         "resignAskTitle": "회원 탈퇴하시겠습니까?",
@@ -93,6 +95,25 @@
         "settingPage": {
             "profileLayout": {
                 "characterChange": "캐릭터 변경"
+            }
+        },
+        "signUpPage": {
+            "nameInputLayout": {
+                "title": "당신의 닉네임을 입력해주세요",
+                "placeholder": "닉네임을 입력해주세요"
+            },
+            "birthInputLayout": {
+                "title": "당신의 생년월일을 입력해주세요"
+            },
+            "genderInputLayout": {
+                "title": "당신의 성별을 선택해주세요"
+            },
+            "agreementInputLayout": {
+                "title": "서비스 약관 및 정책",
+                "doYouAgree": "약관에 동의하십니까? ",
+                "termsOfService": "서비스 약관",
+                "privacyPolicy": "개인정보 처리방침",
+                "ageOver14": "만 14세 이상입니다."
             }
         }
     }

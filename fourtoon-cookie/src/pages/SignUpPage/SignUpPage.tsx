@@ -10,11 +10,12 @@ import BirthInputLayout from "./BirthInputLayout/BirthInputLayout";
 import GenderInputLayout from "./GenderInputLayout/GenderInputLayout";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/routing";
-import { LocalDate } from "@js-joda/core";
+import { LocalDate, use } from "@js-joda/core";
 
 import AgreementInputLayout from "./AgreementInputLayout/AgreementInputLayout";
 import { useAccountState } from "../../hooks/account";
 import { useFunctionWithErrorHandling } from "../../hooks/error";
+import { useTranslationWithParentName } from "../../hooks/locale";
 
 enum SignUpProgres {
     NAME = 1,
@@ -36,6 +37,9 @@ const SignUpPage = () => {
     const { logout, signup } = useAccountState();
 
     const { functionWithErrorHandling } = useFunctionWithErrorHandling();
+
+    const t = useTranslationWithParentName('pages.signUpPage');
+    const commonT = useTranslationWithParentName('common');
 
     const isNextButtonAvailabe: boolean = 
         (signUpProgress == SignUpProgres.NAME && name.length > 0)
@@ -94,7 +98,7 @@ const SignUpPage = () => {
                 <Header onBackButtonPress={handleBackButtonPress}/>
                 {
                     signUpProgress == SignUpProgres.NAME && 
-                    <Container title="당신의 닉네임을 알려주세요">
+                    <Container title={t("nameInputLayout.title")}>
                         <NameInputLayout 
                             name={name} 
                             onNameChange={handleNameChange} 
@@ -103,7 +107,7 @@ const SignUpPage = () => {
                 }
                 {
                     signUpProgress == SignUpProgres.BIRTH && 
-                    <Container title="생년월일을 알려주세요">
+                    <Container title={t("birthInputLayout.title")}>
                         <BirthInputLayout 
                             birth={birth} 
                             onBirthChange={handleBirthChange} 
@@ -112,8 +116,8 @@ const SignUpPage = () => {
                 }
                 {
                     signUpProgress == SignUpProgres.GENDER && 
-                    <Container title="당신의 성별을 알려주세요">
-                        <GenderInputLayout 
+                    <Container title={t("genderInputLayout.title")}>
+                        <GenderInputLayout
                             gender={gender} 
                             onGenderChange={handleGenderChange} 
                         />
@@ -121,7 +125,7 @@ const SignUpPage = () => {
                 }
                 {
                     signUpProgress == SignUpProgres.AGREEMENT && 
-                    <Container title="서비스 약관 및 정책">
+                    <Container title={t("agreementInputLayout.title")}>
                         <AgreementInputLayout 
                             onAgreementChange={handleAgreementChange} 
                         />
@@ -141,7 +145,7 @@ const SignUpPage = () => {
                         />
                     </View>
                     <Button
-                        title="다음"
+                        title={commonT('next')}
                         onPress={handleNextButtonClick}
                         style={{
                             ...S.styles.nextButton, 

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, Linking } from 'react-native';
 import * as S from "./AgreementInputLayout.style";
-import { MaterialIcons } from '@expo/vector-icons'; // 아이콘 사용
+import { MaterialIcons } from '@expo/vector-icons';
 import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from '../../../hooks/error';
 import { APP_PRIVACY_URL, APP_TERMS_AGREEMENT_URL } from '../../../config/appinfo';
+import { useTranslationWithParentName } from '../../../hooks/locale';
 
 export interface AgreementInputLayoutProps {
     onAgreementChange: (isAgreed: boolean) => void;
@@ -15,6 +16,8 @@ const AgreementInputLayout = (props: AgreementInputLayoutProps) => {
     const [isAgeOver14, setIsAgeOver14] = useState(false);
 
     const { functionWithErrorHandling } = useFunctionWithErrorHandling();
+
+    const t = useTranslationWithParentName('pages.signUpPage.agreementInputLayout');
 
     useEffectWithErrorHandling(() => {
         onAgreementChange(isTermsAndPrivacyAgreed && isAgeOver14);
@@ -40,14 +43,14 @@ const AgreementInputLayout = (props: AgreementInputLayoutProps) => {
         <View style={S.styles.agreementContainer}>
             <View style={S.styles.textWithCheckboxContainer}>
                 <Text style={S.styles.agreementText}>
-                    서비스{" "}
+                    {t("doYouAgree")}
                     <Text style={S.styles.linkText} onPress={handleTermsPress}>
-                        약관
+                        {t("termsOfService")}
                     </Text>
-                    {" "}및{" "}
+                    ,
                     <Text style={S.styles.linkText} onPress={handlePrivacyPress}>
-                        개인정보처리동의서
-                    </Text>에 동의하십니까?
+                        {t("privacyPolicy")}
+                    </Text>
                 </Text>
                 <Pressable onPress={handleTermsAndPrivacyCheckboxChange} style={S.styles.checkbox}>
                     <MaterialIcons 
@@ -59,7 +62,7 @@ const AgreementInputLayout = (props: AgreementInputLayoutProps) => {
             </View>
             <View style={S.styles.textWithCheckboxContainer}>
                 <Text style={S.styles.agreementText}>
-                    만 14세 이상입니다.
+                    {t("ageOver14")}
                 </Text>
                 <Pressable onPress={handleAgeOver14CheckboxChange} style={S.styles.checkbox}>
                     <MaterialIcons 
