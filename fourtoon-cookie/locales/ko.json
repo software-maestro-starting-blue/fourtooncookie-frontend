@@ -4,11 +4,17 @@
         "cancel": "취소",
         "edit": "수정",
         "remove": "삭제",
-        "done": "완료"
+        "done": "완료",
+        "appInfo": "앱 정보"
     },
     "login": {
-        "loginRequired": "로그인이 필요",
-        "loginRequiredDetail": "로그인이 필요한 서비스입니다. 로그인을 해주세요."
+        "loginRequired": "로그인 필요",
+        "loginRequiredDetail": "로그인이 필요한 서비스입니다. 로그인을 해주세요.",
+        "login": "로그인",
+        "logout": "로그아웃",
+        "resign": "회원탈퇴",
+        "resignAskTitle": "회원 탈퇴하시겠습니까?",
+        "resignAskDetail": "회원탈퇴 시 모든 데이터가 삭제됩니다. 정말 탈퇴하시겠습니까?",
     },
     "error": {
         "default": "오류가 발생했습니다.",
@@ -82,6 +88,11 @@
             "login": {
                 "apple": "Apple로 시작하기",
                 "google": "Google로 시작하기"
+            }
+        },
+        "settingPage": {
+            "profileLayout": {
+                "characterChange": "캐릭터 변경"
             }
         }
     }
