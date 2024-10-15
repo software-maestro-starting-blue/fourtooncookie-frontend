@@ -6,9 +6,10 @@ import DOWNLOAD_ICON from "../../../../../assets/icon/download.png";
 import UPLOAD_ICON from "../../../../../assets/icon/upload.png";
 import * as S from './Footer.styled';
 import { useUpdateDiaryFavorite } from "../../../../hooks/server/diary";
-import { useDiaryFullImage } from "../../../../hooks/server/diary"; // React Query 훅 사용
+import { useDiaryFullImage } from "../../../../hooks/server/diary";
 import { checkPhotoPermissions, saveBlobToFile, saveImageToGallery, shareImageFile } from "../../../../system/image";
 import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from "../../../../hooks/error";
+import { useTranslationWithParentName } from "../../../../hooks/locale";
 
 export interface FooterProps {
     diaryId: number;
@@ -29,6 +30,8 @@ const DiaryActionsLayout = (props: FooterProps) => {
 
     const { functionWithErrorHandling, asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
 
+    const t = useTranslationWithParentName("diaryTimelinePage.diaryComponent.footer");
+
     const handleToggleFavorite = functionWithErrorHandling(() => {
         updateDiaryFavorite(!isFavorite);
     });
@@ -40,7 +43,7 @@ const DiaryActionsLayout = (props: FooterProps) => {
 
             if (imageActionState == ImageActionState.DOWNLOAD) {
                 await saveImageToGallery(fileUri);
-                Alert.alert('이미지 저장 성공', '이미지를 갤러리에 저장했습니다.');
+                Alert.alert(t("imageDownloadSuccess"), t("imageDownloadSuccessDetail"));
             }
 
             if (imageActionState == ImageActionState.SHARE) {

@@ -34,6 +34,33 @@
                 "free": "무료",
                 "paid": "유료"
             }
+        },
+        "diaryTimelinePage": {
+            "diaryComponent": {
+                "diaryContetnsLayout": {
+                    "briefView": "간단히 보기",
+                    "readMore": "자세히 보기"
+                },
+                "diaryPaintingImageFailedLayout": {
+                    "title": "그림을 그리는데 실패했습니다.",
+                    "detail": "내용이 추상적이거나, 비윤리적인 등의 문제가 있는 것 같습니다. 삭제 후 다시 시도해주세요."
+                },
+                "diaryPaintingImageLoadingLayout": {
+                    "title": "{{name}}(이)가 그림을 그리고 있습니다!",
+                    "detail": "열심히 작업 중입니다. 조금만 기다려주세요!"
+                },
+                "footer": {
+                    "imageDownloadSuccess": "이미지가 다운로드 되었습니다.",
+                    "imageDownloadSuccessDetail": "이미지를 갤러리에 저장했습니다."
+                },
+                "header": {
+                    "removeAskTitle": "삭제하시겠습니까?",
+                    "removeAskDetail": "삭제된 일기는 복구할 수 없습니다. 정말 삭제하시겠습니까?",
+                }
+            },
+            "diaryEmpty": {
+                "writeDiary": "일기를 작성해보아요!"
+            }
         }
     }
 }
