@@ -13,7 +13,7 @@ const DiaryPaintingImageLoadingLayout = (props: DiaryPaintingImageLoadingLayoutP
 
     const { data: characterList } = useCharacters();
 
-    const t = useTranslationWithParentName("diaryTimelinePage.diaryComponent.diaryPaintingImageLoadingLayout");
+    const t = useTranslationWithParentName("pages.diaryTimelinePage.diaryComponent.diaryPaintingImageLoadingLayout");
 
     const selectedCharacter = characterList?.find(character => character.id === selectedCharacterId);
 

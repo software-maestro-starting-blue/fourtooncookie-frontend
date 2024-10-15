@@ -30,7 +30,7 @@ const DiaryActionsLayout = (props: FooterProps) => {
 
     const { functionWithErrorHandling, asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
 
-    const t = useTranslationWithParentName("diaryTimelinePage.diaryComponent.footer");
+    const t = useTranslationWithParentName("pages.diaryTimelinePage.diaryComponent.footer");
 
     const handleToggleFavorite = functionWithErrorHandling(() => {
         updateDiaryFavorite(!isFavorite);

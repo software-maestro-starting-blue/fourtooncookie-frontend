@@ -29,7 +29,7 @@ const Header = (props: HeaderProps) => {
 
     const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
-    const t = useTranslationWithParentName("diaryTimelinePage.diaryComponent.header");
+    const t = useTranslationWithParentName("pages.diaryTimelinePage.diaryComponent.header");
 
     const commonT = useTranslationWithParentName("common");
 

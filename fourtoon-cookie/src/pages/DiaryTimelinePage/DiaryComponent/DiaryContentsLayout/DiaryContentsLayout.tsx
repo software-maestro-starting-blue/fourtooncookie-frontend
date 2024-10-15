@@ -17,7 +17,7 @@ const DiaryContentsLayout = (props: DiaryContentsLayoutProps) => {
 
     const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
-    const t = useTranslationWithParentName("diaryTimelinePage.diaryComponent.diaryContentsLayout");
+    const t = useTranslationWithParentName("pages.diaryTimelinePage.diaryComponent.diaryContentsLayout");
 
     const shouldShowReadMore = content.length > diaryContentPreviewWordCount || content.split("\n").length > diaryContentPreviewLines;
 

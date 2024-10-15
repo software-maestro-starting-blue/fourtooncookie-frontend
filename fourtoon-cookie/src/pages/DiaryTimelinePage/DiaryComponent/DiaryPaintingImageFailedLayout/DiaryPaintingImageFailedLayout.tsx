@@ -7,7 +7,7 @@ import { useTranslationWithParentName } from "../../../../hooks/locale";
 
 const DiaryPaintingImageFailedLayout = () => {
 
-    const t = useTranslationWithParentName("diaryTimelinePage.diaryComponent.diaryPaintingImageFailedLayout");
+    const t = useTranslationWithParentName("pages.diaryTimelinePage.diaryComponent.diaryPaintingImageFailedLayout");
 
     return (
         <View style={S.styles.emptyContainer}>

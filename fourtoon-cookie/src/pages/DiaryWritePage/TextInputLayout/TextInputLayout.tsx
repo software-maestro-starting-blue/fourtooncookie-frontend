@@ -11,7 +11,7 @@ export interface TextInputLayoutProps {
 const TextInputLayout = (props: TextInputLayoutProps) => {
     const { text, onTextChange, ...rest } = props;
 
-    const t = useTranslationWithParentName("diaryWritePage.textInputLayout");
+    const t = useTranslationWithParentName("pages.diaryWritePage.textInputLayout");
     
     return (
         <View style={S.styles.content}>
