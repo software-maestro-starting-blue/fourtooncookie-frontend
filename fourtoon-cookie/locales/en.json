@@ -1,0 +1,158 @@
+{
+    "common": {
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "remove": "Delete",
+      "done": "Done",
+      "appInfo": "App Info",
+      "next": "Next",
+      "setting": "Settings"
+    },
+    "login": {
+      "loginRequired": "Login Required",
+      "loginRequiredDetail": "This service requires login. Please log in.",
+      "login": "Login",
+      "signUp": "Sign Up",
+      "logout": "Logout",
+      "resign": "Resign",
+      "resignAskTitle": "Do you want to resign?",
+      "resignAskDetail": "All data will be deleted upon resignation. Are you sure you want to resign?"
+    },
+    "error": {
+      "default": "An error has occurred.",
+      "user": "A problem has occurred. Please contact the administrator if the problem persists.",
+      "server": "A server error has occurred. Please contact the administrator if the problem persists.",
+      "characterNotSelected": "No character selected. Please select a character.",
+      "authFailed": "Authentication failed.",
+      "api": {
+        "character": "Failed to load character information.",
+        "diary": {
+          "get": "Failed to load diary.",
+          "post": "Failed to create diary.",
+          "delete": "Failed to delete diary.",
+          "put": "Failed to update diary.",
+          "patchFavorite": "Failed to favorite the diary.",
+          "getFullImage": "Failed to load the full image of the diary."
+        },
+        "member": {
+          "get": "Failed to retrieve member information.",
+          "post": "Failed to create member information.",
+          "put": "Failed to update member information.",
+          "delete": "Failed to delete member information."
+        }
+      },
+      "auth": {
+        "apple": {
+          "failedToGetCredential": "Failed to retrieve user credentials. Please try logging in again.",
+          "failedToFindAccount": "Unable to find user account. Please try logging in again.",
+          "unsupportedPlatform": "This platform is not supported. Please try using iOS or ANDROID."
+        },
+        "google": {
+          "failedToFindAccount": "Unable to find user account. Please try logging in again."
+        },
+        "supabase": {
+          "login": "An error occurred while logging in.",
+          "refresh": "An error occurred while refreshing login."
+        }
+      }
+    },
+    "system": {
+      "image": {
+        "permissionRequired": "Image storage permission required.",
+        "permissionRequiredDetail": "Please allow storage permission to save the image.",
+        "shareTitle": "Share Image"
+      }
+    },
+    "components": {
+      "alertModal": {
+        "close": "Close"
+      },
+      "errorComponent": {
+        "errorRetry": "An error occurred. Tap the screen to try again."
+      },
+      "footer": {
+        "home": "Home",
+        "write": "Write",
+        "setting": "My Page"
+      }
+    },
+    "pages": {
+      "characterSelectPage": {
+        "header": {
+          "characterSelect": "Select Character"
+        },
+        "tabsLayout": {
+          "free": "Free",
+          "paid": "Paid"
+        }
+      },
+      "diaryTimelinePage": {
+        "diaryComponent": {
+          "diaryContetnsLayout": {
+            "briefView": "Brief View",
+            "readMore": "Read More"
+          },
+          "diaryPaintingImageFailedLayout": {
+            "title": "Failed to create the painting.",
+            "detail": "It seems there was an issue with the content being too abstract or violating ethical standards. Please delete it and try again."
+          },
+          "diaryPaintingImageLoadingLayout": {
+            "title": "{{name}} is drawing the painting!",
+            "detail": "Working hard on it. Please wait a little longer!"
+          },
+          "footer": {
+            "imageDownloadSuccess": "Image downloaded successfully.",
+            "imageDownloadSuccessDetail": "The image has been saved to your gallery."
+          },
+          "header": {
+            "removeAskTitle": "Are you sure you want to delete?",
+            "removeAskDetail": "Deleted diaries cannot be recovered. Are you sure you want to delete?"
+          }
+        },
+        "diaryEmpty": {
+          "writeDiary": "Start writing a diary!"
+        }
+      },
+      "diaryWritePage": {
+        "textInputLayout": {
+          "placeholder": "Write about your day here."
+        },
+        "writeDoneButtonlayout": {
+  
+        }
+      },
+      "introPage": {
+        "subtitle": "Express your day in a painting",
+        "login": {
+          "apple": "Start with Apple",
+          "google": "Start with Google"
+        }
+      },
+      "settingPage": {
+        "profileLayout": {
+          "characterChange": "Change Character"
+        }
+      },
+      "signUpPage": {
+        "nameInputLayout": {
+          "title": "Please enter your nickname",
+          "placeholder": "Enter your nickname"
+        },
+        "birthInputLayout": {
+          "title": "Please enter your date of birth"
+        },
+        "genderInputLayout": {
+          "title": "Please select your gender"
+        },
+        "agreementInputLayout": {
+          "title": "Terms of Service and Policies",
+          "doYouAgree": "Do you agree to the terms?",
+          "termsOfService": "Terms of Service",
+          "privacyPolicy": "Privacy Policy",
+          "ageOver14": "I am over 14 years old."
+        }
+      }
+    }
+  }
+  
