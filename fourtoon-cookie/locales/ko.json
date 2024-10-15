@@ -24,4 +24,16 @@
             "setting": "마이"
         }
     },
+    "pages": {
+        "characterSelectPage": {
+            "header": {
+                "characterSelect": "캐릭터 선택",
+                "characterNotSelectedError": "캐릭터가 선택되지 않았습니다. 캐릭터를 선택해주세요."
+            },
+            "tabsLayout": {
+                "free": "무료",
+                "paid": "유료"
+            }
+        }
+    }
 }
