@@ -14,6 +14,7 @@ import { useCreateDiary, useUpdateDiary } from "../../../hooks/server/diary";
 import { useAccountState } from "../../../hooks/account";
 import buttonTrack from "../../../system/amplitude";
 import { useFunctionWithErrorHandling } from "../../../hooks/error";
+import { useTranslationWithParentName } from "../../../hooks/locale";
 
 export interface WriteDoneButtonLayout {
     diaryDate: LocalDate;
@@ -36,6 +37,10 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
 
     const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
+    const t = useTranslationWithParentName('diaryWritePage.writeDoneButtonLayout');
+    const commonT = useTranslationWithParentName('common');
+    const loginT = useTranslationWithParentName('login');
+
     const isNextButtonEnabled = content.length > 0 && ! isWorking;
 
     if (! selectedCharacter) return null;
@@ -43,11 +48,11 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
     const handleWriteDoneButtonPress = functionWithErrorHandling(() => {
         if (accountState !== AccountStatus.LOGINED) {
             Alert.alert(
-                '로그인 필요 기능',
-                '로그인을 진행해야 일기 작성이 가능합니다.',
+                loginT('loginRequired'),
+                loginT('loginRequiredDetail'),
                 [
                     {
-                        text: '확인',
+                        text: commonT('confirm'),
                         style: 'destructive'
                     }
                 ]
@@ -91,7 +96,7 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
             behavior={(Platform.OS == OS.IOS) ? 'padding' : 'height'}
         >
             <Button
-                title="완료"
+                title={t('done')}
                 onPress={handleWriteDoneButtonPress}
                 style={{
                     ...S.styles.nextButton, 
