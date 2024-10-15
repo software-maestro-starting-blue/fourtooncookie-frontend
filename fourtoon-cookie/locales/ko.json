@@ -8,7 +8,8 @@
     "error": {
         "default": "오류가 발생했습니다.",
         "user": "문제가 발생하였습니다. 문제가 지속되면 관리자에게 알려주세요.",
-        "server": "서버에서 오류가 발생했습니다. 문제가 지속되면 관리자에게 알려주세요."
+        "server": "서버에서 오류가 발생했습니다. 문제가 지속되면 관리자에게 알려주세요.",
+        "characterNotSelected": "캐릭터가 선택되지 않았습니다. 캐릭터를 선택해주세요."
     },
     "system": {
 
@@ -29,8 +30,7 @@
     "pages": {
         "characterSelectPage": {
             "header": {
-                "characterSelect": "캐릭터 선택",
-                "characterNotSelectedError": "캐릭터가 선택되지 않았습니다. 캐릭터를 선택해주세요."
+                "characterSelect": "캐릭터 선택"
             },
             "tabsLayout": {
                 "free": "무료",

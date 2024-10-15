@@ -15,8 +15,10 @@ const Header = () => {
 
     const t = useTranslationWithParentName('pages.characterSelectPage.header');
 
+    const errorT = useTranslationWithParentName('error');
+
     const handleBackButtonPressWhenCharacterNotSelected = functionWithErrorHandling(() => {
-        throw new SelectedCharacterNotExistError(t("characterNotSelectedError"))
+        throw new SelectedCharacterNotExistError(errorT("characterNotSelected"))
     });
 
     return (

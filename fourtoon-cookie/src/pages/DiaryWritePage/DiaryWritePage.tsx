@@ -16,6 +16,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useDiaryById } from "../../hooks/server/diary";
 import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from "../../hooks/error";
 import { SelectedCharacterNotExistError } from "../../types/error/character/SelectedCharacterNotExistError";
+import { useTranslationWithParentName } from "../../hooks/locale";
 
 
 export type DiaryWritePageProp = NativeStackScreenProps<RootStackParamList, 'DiaryWritePage'>;
@@ -31,11 +32,13 @@ const DiaryWritePage = ({ route }: DiaryWritePageProp) => {
     const [content, setContent] = useState<string>(currentDiary ? currentDiary.content : "");
 
     const { functionWithErrorHandling } = useFunctionWithErrorHandling();
+
+    const errorT = useTranslationWithParentName('error');
     
     useEffectWithErrorHandling(() => {
         if (! selectedCharacter) {
             navigation.navigate('CharacterSelectPage');
-            throw new SelectedCharacterNotExistError('캐릭터가 선택되지 않았습니다. 캐릭터를 선택해주세요.');
+            throw new SelectedCharacterNotExistError(errorT("characterNotSelected"));
         }
     }, [selectedCharacter]);
 
