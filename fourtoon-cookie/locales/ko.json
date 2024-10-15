@@ -76,6 +76,13 @@
             "writeDoneButtonlayout": {
 
             }
+        },
+        "introPage": {
+            "subtitle": "나의 하루를 그림으로 표현해보세요",
+            "login": {
+                "apple": "Apple로 시작하기",
+                "google": "Google로 시작하기"
+            }
         }
     }
 }

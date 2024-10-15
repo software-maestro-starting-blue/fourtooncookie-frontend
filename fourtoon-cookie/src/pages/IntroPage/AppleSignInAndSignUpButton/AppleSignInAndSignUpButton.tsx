@@ -7,6 +7,7 @@ import { OS } from "../../../types/os";
 
 import * as S from "./AppleSignInAndSignUpButton.styled";
 import { useFunctionWithErrorHandling } from '../../../hooks/error';
+import { useTranslationWithParentName } from '../../../hooks/locale';
 
 export interface AppleSignInAndSignUpButtonProps {
     onSuccess: (oauthProvider: OAuthProvider, idToken: string, nonce?: string) => void;
@@ -17,6 +18,8 @@ const AppleSignInAndSignUpButton = (props: AppleSignInAndSignUpButtonProps) => {
 
     const { asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
 
+    const t = useTranslationWithParentName('pages.introPage.login');
+
     const handlePress = asyncFunctionWithErrorHandling(async () => {
         const [idToken, nonce] = await getAppleIdToken();
         if (!idToken) return;
@@ -26,7 +29,7 @@ const AppleSignInAndSignUpButton = (props: AppleSignInAndSignUpButtonProps) => {
     return (Platform.OS === OS.IOS || appleAuthAndroid.isSupported) && (
         <TouchableOpacity style={S.styles.appleButton} onPress={handlePress}>
             <Image source={require('../../../../assets/icon/apple.png')} style={S.styles.appleLogo} />
-            <Text style={S.styles.appleButtonText}>Apple로 시작하기</Text>
+            <Text style={S.styles.appleButtonText}>{t("apple")}</Text>
         </TouchableOpacity>
             );
 }
