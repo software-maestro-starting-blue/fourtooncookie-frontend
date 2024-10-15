@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
         padding: 12,
         backgroundColor: '#212121',
         borderRadius: 20,
-        width: 96,
+        width: 'auto',
         height: 40,
       },
       changeCharacterText: {

@@ -38,7 +38,7 @@ const DiaryWritePage = ({ route }: DiaryWritePageProp) => {
     useEffectWithErrorHandling(() => {
         if (! selectedCharacter) {
             navigation.navigate('CharacterSelectPage');
-            throw new SelectedCharacterNotExistError(errorT("characterNotSelected"));
+            Alert.alert(errorT("characterNotSelected"));
         }
     }, [selectedCharacter]);
 

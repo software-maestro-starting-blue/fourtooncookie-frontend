@@ -9,7 +9,7 @@ import { useTranslationWithParentName } from '../../../hooks/locale';
 const DiaryEmpty = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const t = useTranslationWithParentName('diaryTimelinePage.diaryEmpty');
+    const t = useTranslationWithParentName('pages.diaryTimelinePage.diaryEmpty');
 
     return (
         <View style={S.styles.container}>

@@ -96,7 +96,7 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
             behavior={(Platform.OS == OS.IOS) ? 'padding' : 'height'}
         >
             <Button
-                title={t('done')}
+                title={commonT('done')}
                 onPress={handleWriteDoneButtonPress}
                 style={{
                     ...S.styles.nextButton, 

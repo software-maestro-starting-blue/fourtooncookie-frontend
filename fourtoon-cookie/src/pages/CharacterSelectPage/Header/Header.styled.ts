@@ -2,9 +2,9 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
     paddingLeft: 20,
     paddingRight: 20,
     position: 'relative',
@@ -19,10 +19,12 @@ export const styles = StyleSheet.create({
     position: 'relative'
   },
   textContainer: {
+    flex: 1, // flexbox의 남은 공간을 차지하도록 설정
     flexDirection: 'row',
-    alignItems: 'center',
-    position: 'absolute',
-    left: "45%",
+    justifyContent: 'center', // 가로 중앙 정렬
+    alignItems: 'center', // 세로 중앙 정렬
+    height: '100%', // 전체 높이를 차지하도록 설정
+
 },
   text: {
       fontFamily: 'Pretendard',

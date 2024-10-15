@@ -89,7 +89,7 @@
         },
         "diaryTimelinePage": {
             "diaryComponent": {
-                "diaryContetnsLayout": {
+                "diaryContentsLayout": {
                     "briefView": "간단히 보기",
                     "readMore": "자세히 보기"
                 },
