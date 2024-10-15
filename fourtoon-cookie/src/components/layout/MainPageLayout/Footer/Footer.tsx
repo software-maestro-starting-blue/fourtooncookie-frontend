@@ -10,6 +10,7 @@ import PersonActivateIcon from '../../../../../assets/icon/person-activate.png';
 import { RootStackParamList } from "../../../../types/routing";
 
 import * as S from './Footer.styled';
+import { useTranslationWithParentName } from "../../../../hooks/locale";
 
 export enum FOOTER_STATE {
     HOME, WRITE, SETTING
@@ -23,10 +24,12 @@ const Footer = (props: FooterProps) => {
     const { footerState, ...rest } = props;
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
+    const t = useTranslationWithParentName('components.footer');
+
     const items = useMemo(() => [
-        { source: footerState === FOOTER_STATE.HOME ? HomeActivateIcon : HomeInactivateIcon, pageName: 'DiaryTimelinePage', name: '홈' },
-        { source: DrawIcon, pageName: 'DiaryWritePage', name: '글쓰기' },
-        { source: footerState === FOOTER_STATE.SETTING ? PersonActivateIcon : PersonInactivateIcon, pageName: 'SettingPage', name: '마이' },
+        { source: footerState === FOOTER_STATE.HOME ? HomeActivateIcon : HomeInactivateIcon, pageName: 'DiaryTimelinePage', name: t("home") },
+        { source: DrawIcon, pageName: 'DiaryWritePage', name: t("write") },
+        { source: footerState === FOOTER_STATE.SETTING ? PersonActivateIcon : PersonInactivateIcon, pageName: 'SettingPage', name: t("setting") },
     ], [footerState]);
         
     return (

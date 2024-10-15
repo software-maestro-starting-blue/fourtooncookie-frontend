@@ -1,0 +1,27 @@
+{
+    "error": {
+        "default": "오류가 발생했습니다.",
+        "user": "문제가 발생하였습니다. 문제가 지속되면 관리자에게 알려주세요.",
+        "server": "서버에서 오류가 발생했습니다. 문제가 지속되면 관리자에게 알려주세요."
+    },
+    "system": {
+
+    },
+    "components": {
+        "alertModal": {
+            "close": "닫기"
+        },
+        "confirmationModal": {
+            "cancel": "취소",
+            "confirm": "확인"
+        },
+        "errorComponent": {
+            "errorRetry": "에러가 발생했습니다. 화면을 클릭하여 다시 시도해주세요."
+        },
+        "footer": {
+            "home": "홈",
+            "write": "글쓰기",
+            "setting": "마이"
+        }
+    },
+}

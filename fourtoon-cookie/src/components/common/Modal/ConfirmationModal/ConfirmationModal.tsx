@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, Button, Modal as RNModal, StyleSheet, Modal } from "react-native";
 import * as S from './ConfirmationModal.styled';
+import { useTranslationWithParentName } from "../../../../hooks/locale";
 
 
 export interface ConfirmationModalProps {
@@ -13,6 +14,8 @@ export interface ConfirmationModalProps {
 const ConfirmationModal = (props: ConfirmationModalProps) => {
     const { visible, onClose, onConfirm, message, ...rest} = props;
 
+    const t = useTranslationWithParentName('components.confirmationModal');
+
     return (
         <RNModal
             transparent={true}
@@ -24,8 +27,8 @@ const ConfirmationModal = (props: ConfirmationModalProps) => {
                 <View style={S.styles.modalContent}>
                     <Text style={S.styles.modalText}>{message}</Text>
                     <View style={S.styles.modalButtons}>
-                        <Button title="취소" onPress={onClose} />
-                        <Button title="확인" onPress={onConfirm} />
+                        <Button title={t("cancel")} onPress={onClose} />
+                        <Button title={t("confirm")} onPress={onConfirm} />
                     </View>
                 </View>
             </View>
