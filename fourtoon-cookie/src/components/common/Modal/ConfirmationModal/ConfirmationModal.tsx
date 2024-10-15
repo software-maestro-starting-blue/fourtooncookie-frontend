@@ -14,7 +14,7 @@ export interface ConfirmationModalProps {
 const ConfirmationModal = (props: ConfirmationModalProps) => {
     const { visible, onClose, onConfirm, message, ...rest} = props;
 
-    const t = useTranslationWithParentName('components.confirmationModal');
+    const t = useTranslationWithParentName('common');
 
     return (
         <RNModal

@@ -31,6 +31,8 @@ const Header = (props: HeaderProps) => {
 
     const t = useTranslationWithParentName("diaryTimelinePage.diaryComponent.header");
 
+    const commonT = useTranslationWithParentName("common");
+
     const handleEditButtonClick = functionWithErrorHandling(() => {
         navigation.navigate("DiaryWritePage", { currentDiaryId: diaryId });
     });
@@ -45,19 +47,19 @@ const Header = (props: HeaderProps) => {
             t("removeAskDetail"),
             [
                 {
-                    text: '확인',
+                    text: commonT("confirm"),
                     onPress: handleDelete,
                     style: 'destructive'
                 },
                 {
-                    text: '취소'
+                    text: commonT("cancel"),
                 }
             ]
         );
     });
 
     const handleDotIconPress = functionWithErrorHandling(() => {
-        const options = ["취소", "수정하기", "삭제하기"];
+        const options = [commonT("cancel"), commonT("edit"), commonT("remove")];
         const cancelButtonIndex = 0;
 
         showActionSheetWithOptions({
