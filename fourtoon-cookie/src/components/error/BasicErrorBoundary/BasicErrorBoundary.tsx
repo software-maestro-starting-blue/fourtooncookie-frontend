@@ -1,6 +1,6 @@
 import { ErrorBoundary, FallbackProps } from "react-error-boundary"
 import ErrorComponent from "../ErrorComponent/ErrorComponent"
-import { ReactNode } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import { useAccountState } from "../../../hooks/account"
 import { JwtError } from "../../../types/error/JwtError"
 import { ApiError } from "../../../types/error/ApiError"
@@ -16,7 +16,16 @@ export interface BasicErrorBoundaryProps {
 const BasicErrorBoundary = (props: BasicErrorBoundaryProps) => {
     const { handleErrorBeforeHandling, handleErrorAfterHandling, children } = props;
 
+    const [ effectHandler, setEffectHandler ] = useState<undefined | (() => void)>(undefined);
+
     const { logout } = useAccountState();
+
+    useEffect(() => {
+        if (effectHandler) {
+            effectHandler();
+            setEffectHandler(undefined);
+        }
+    }, [effectHandler]);
 
     const handleError = (error: Error) => {
         if (handleErrorBeforeHandling && handleErrorBeforeHandling(error)) {
