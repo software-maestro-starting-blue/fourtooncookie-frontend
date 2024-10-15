@@ -3,6 +3,7 @@ import {appleAuth, appleAuthAndroid} from "@invertase/react-native-apple-authent
 import 'react-native-get-random-values';
 import {v4 as uuid} from "uuid";
 import {OS} from "../types/os";
+import i18n from "../system/i18n";
 
 const getAppleIdTokenInIOS = async () => {
     const appleAuthRequestResponse = await appleAuth.performRequest({
@@ -16,7 +17,7 @@ const getAppleIdTokenInIOS = async () => {
         return [appleAuthRequestResponse.identityToken, appleAuthRequestResponse.nonce];
     }
 
-    throw new Error('사용자 정보를 가져오는 중 오류가 발생 했습니다. 다시 로그인해 주세요.');
+    throw new Error(i18n.t('error.auth.apple.failedToGetCredential'));
 }
 
 const getAppleIdTokenInANDROID = async () => {
@@ -39,12 +40,12 @@ const getAppleIdTokenInANDROID = async () => {
 
 export const getAppleIdToken = async (): Promise<[string, string | undefined]> => {
     if (Platform.OS != OS.IOS && Platform.OS != OS.ANDROID) {
-        throw new Error('해당 운영체제는 지원하지 않습니다. IOS 또는 ANDROID로 시도해 주세요.');
+        throw new Error(i18n.t('error.auth.apple.unsupportedPlatform'));
     }
 
     const [idToken, nonce] = (Platform.OS === OS.IOS) ? await getAppleIdTokenInIOS() : await getAppleIdTokenInANDROID();
     if (idToken) {
         return [idToken, nonce];
     }
-    throw new Error('사용자 애플 정보를 찾을 수 없습니다.');
+    throw new Error(i18n.t('error.auth.apple.failedToFindAccount'));
 }
