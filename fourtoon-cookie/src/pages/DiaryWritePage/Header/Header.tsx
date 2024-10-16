@@ -3,11 +3,8 @@ import DateInfo from "./DateInfo/DateInfo";
 import BackButton from "../../../components/common/BackButton/BackButton";
 
 import * as S from "./Header.styled";
-import CharacterItem from "../../../components/character/CharacterItem/CharacterItem";
-import { useContext } from "react";
 import { LocalDate } from "@js-joda/core";
 import CharacterIconButton from "./CharacterIconButton/CharacterIconButton";
-import { useSelectedCharacterStore } from "../../../hooks/store/selectedCharacter";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../types/routing";
 import { useFunctionWithErrorHandling } from "../../../hooks/error";
@@ -21,8 +18,6 @@ export interface HeaderProps {
 const Header = (props: HeaderProps) => {
     const { date, isDateChangeable, onDateChange, ...rest } = props;
 
-    const { selectedCharacter } = useSelectedCharacterStore();
-
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     const { functionWithErrorHandling } = useFunctionWithErrorHandling();
@@ -35,7 +30,7 @@ const Header = (props: HeaderProps) => {
         <View style={S.styles.header}>
             <BackButton style={S.styles.backButton} />
             <DateInfo date={date} isChangeable={isDateChangeable} onDateChange={onDateChange} />
-            {selectedCharacter && <CharacterIconButton onCharacterChoosePress={handleCharacterChoosePress} />}
+            <CharacterIconButton onCharacterChoosePress={handleCharacterChoosePress} />
         </View>
     );
 }

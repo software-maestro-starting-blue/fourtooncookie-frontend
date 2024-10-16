@@ -15,6 +15,7 @@ import { useAccountState } from "../../../hooks/account";
 import buttonTrack from "../../../system/amplitude";
 import { useFunctionWithErrorHandling } from "../../../hooks/error";
 import { useTranslationWithParentName } from "../../../hooks/locale";
+import { SelectedCharacterNotExistError } from "../../../types/error/character/SelectedCharacterNotExistError";
 
 export interface WriteDoneButtonLayout {
     diaryDate: LocalDate;
@@ -43,8 +44,6 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
 
     const isNextButtonEnabled = content.length > 0 && ! isWorking;
 
-    if (! selectedCharacter) return null;
-
     const handleWriteDoneButtonPress = functionWithErrorHandling(() => {
         if (accountState !== AccountStatus.LOGINED) {
             Alert.alert(
@@ -59,6 +58,10 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
             );
             navigation.navigate('IntroPage');
             return;
+        }
+
+        if (! selectedCharacter) {
+            throw new SelectedCharacterNotExistError("캐릭터를 선택해주세요.");
         }
 
         if (isWorking) return;

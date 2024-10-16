@@ -1,12 +1,15 @@
 import { ErrorBoundary, FallbackProps } from "react-error-boundary"
 import ErrorComponent from "../ErrorComponent/ErrorComponent"
-import { ReactNode } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import { useAccountState } from "../../../hooks/account"
 import { JwtError } from "../../../types/error/JwtError"
 import { ApiError } from "../../../types/error/ApiError"
 import { Alert } from "react-native"
 import { RuntimeError } from "../../../types/error/RuntimeError"
 import { useTranslationWithParentName } from "../../../hooks/locale"
+import { SelectedCharacterNotExistError } from "../../../types/error/character/SelectedCharacterNotExistError"
+import { NavigationProp, useNavigation } from "@react-navigation/native"
+import { RootStackParamList } from "../../../types/routing"
 
 export interface BasicErrorBoundaryProps {
     handleErrorBeforeHandling?: (error: Error) => boolean,
@@ -17,9 +20,19 @@ export interface BasicErrorBoundaryProps {
 const BasicErrorBoundary = (props: BasicErrorBoundaryProps) => {
     const { handleErrorBeforeHandling, handleErrorAfterHandling, children } = props;
 
+    const [ effectHandler, setEffectHandler ] = useState<undefined | (() => void)>(undefined);
+
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
     const { logout } = useAccountState();
 
     const t = useTranslationWithParentName('error');
+    useEffect(() => {
+        if (effectHandler) {
+            effectHandler();
+            setEffectHandler(undefined);
+        }
+    }, [effectHandler]);
 
     const handleError = (error: Error) => {
         if (handleErrorBeforeHandling && handleErrorBeforeHandling(error)) {
@@ -47,6 +60,14 @@ const BasicErrorBoundary = (props: BasicErrorBoundaryProps) => {
                 Alert.alert(t("server"), error.message);
                 return true;
             }
+        }
+
+        if (error instanceof SelectedCharacterNotExistError) {
+            setEffectHandler(() => {
+                Alert.alert("선택된 캐릭터가 존재하지 않습니다. 캐릭터 선택 화면으로 이동합니다.");
+                navigation.navigate("CharacterSelectPage");
+            });
+            return true;
         }
 
         if (error instanceof RuntimeError) {
