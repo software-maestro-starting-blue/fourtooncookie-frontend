@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from "react";
 import {FlatList} from "react-native";
-import Header from "./Header/Header";
-import DiaryEmpty from "./DiaryEmpty/DiaryEmpty";
+import Header from "./Header";
+import DiaryEmpty from "./DiaryEmpty";
 import DiaryComponent from "./DiaryComponent/DiaryComponent";
-import MainPageLayout from "../../components/layout/MainPageLayout/MainPageLayout";
-import { FOOTER_STATE } from "../../components/layout/MainPageLayout/Footer/Footer";
+import MainPageLayout from "../../components/layout/MainPageLayout";
+import { FOOTER_STATE } from "../../components/layout/MainPageLayout";
 import { useDiaries } from "../../hooks/server/diary";
 import { Diary } from "../../types/diary";
 import { AccountStatus } from "../../types/account";

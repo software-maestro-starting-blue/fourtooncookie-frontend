@@ -1,18 +1,17 @@
 import { ReactNode, useEffect, useState } from "react";
 import { Gender } from "../../types/gender";
-import ProgressBar from "../../components/common/ProgressBar/ProgressBar";
-import { Keyboard, KeyboardAvoidingView, SafeAreaView, Text, View } from "react-native";
-import * as S from "./SignUpPage.styled";
-import Header from "./Header/Header";
-import Button from "../../components/common/Button/Button";
-import NameInputLayout from "./NameInputLayout/NameInputLayout";
-import BirthInputLayout from "./BirthInputLayout/BirthInputLayout";
-import GenderInputLayout from "./GenderInputLayout/GenderInputLayout";
+import ProgressBar from "../../components/common/ProgressBar";
+import { Keyboard, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import Header from "./Header";
+import Button from "../../components/common/Button";
+import NameInputLayout from "./NameInputLayout";
+import BirthInputLayout from "./BirthInputLayout";
+import GenderInputLayout from "./GenderInputLayout";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/routing";
 import { LocalDate, use } from "@js-joda/core";
 
-import AgreementInputLayout from "./AgreementInputLayout/AgreementInputLayout";
+import AgreementInputLayout from "./AgreementInputLayout";
 import { useAccountState } from "../../hooks/account";
 import { useFunctionWithErrorHandling } from "../../hooks/error";
 import { useTranslationWithParentName } from "../../hooks/locale";
@@ -93,51 +92,35 @@ const SignUpPage = () => {
     });
 
     return (
-        <SafeAreaView style={S.styles.safeArea}>
-            <View style={S.styles.container}>
+        <SafeAreaView style={styles.safeArea}>
+            <View style={styles.container}>
                 <Header onBackButtonPress={handleBackButtonPress}/>
-                {
-                    signUpProgress == SignUpProgres.NAME && 
-                    <Container title={t("nameInputLayout.title")}>
-                        <NameInputLayout 
-                            name={name} 
-                            onNameChange={handleNameChange} 
-                        />
-                    </Container>
-                }
-                {
-                    signUpProgress == SignUpProgres.BIRTH && 
-                    <Container title={t("birthInputLayout.title")}>
-                        <BirthInputLayout 
-                            birth={birth} 
-                            onBirthChange={handleBirthChange} 
-                        />
-                    </Container>
-                }
-                {
-                    signUpProgress == SignUpProgres.GENDER && 
-                    <Container title={t("genderInputLayout.title")}>
-                        <GenderInputLayout
-                            gender={gender} 
-                            onGenderChange={handleGenderChange} 
-                        />
-                    </Container>
-                }
-                {
-                    signUpProgress == SignUpProgres.AGREEMENT && 
-                    <Container title={t("agreementInputLayout.title")}>
-                        <AgreementInputLayout 
-                            onAgreementChange={handleAgreementChange} 
-                        />
-                    </Container>
-                }
+                {signUpProgress == SignUpProgres.NAME && 
+                <NameInputLayout 
+                    name={name} 
+                    onNameChange={handleNameChange} 
+                />}
+                {signUpProgress == SignUpProgres.BIRTH && 
+                <BirthInputLayout 
+                    birth={birth} 
+                    onBirthChange={handleBirthChange} 
+                />}
+                {signUpProgress == SignUpProgres.GENDER && 
+                <GenderInputLayout
+                    gender={gender} 
+                    onGenderChange={handleGenderChange} 
+                />}
+                {signUpProgress == SignUpProgres.AGREEMENT && 
+                <AgreementInputLayout 
+                    onAgreementChange={handleAgreementChange} 
+                />}
                 <KeyboardAvoidingView 
-                    style={S.styles.bottomContainer} 
+                    style={styles.bottomContainer} 
                     enabled={true}
                     keyboardVerticalOffset={80}
                     behavior={'padding'}
                 >
-                    <View style={S.styles.progressContainer}>
+                    <View style={styles.progressContainer}>
                         <ProgressBar
                             progress={signUpProgress}
                             totalProgress={4}
@@ -148,10 +131,10 @@ const SignUpPage = () => {
                         title={commonT('next')}
                         onPress={handleNextButtonClick}
                         style={{
-                            ...S.styles.nextButton, 
+                            ...styles.nextButton, 
                             backgroundColor: isNextButtonAvailabe ? '#FFC426' : '#DDDDDD'
                         }}
-                        textStyle={S.styles.nextButtonText}
+                        textStyle={styles.nextButtonText}
                     />
                 </KeyboardAvoidingView>
             </View>
@@ -162,20 +145,34 @@ const SignUpPage = () => {
 export default SignUpPage;
 
 
-interface ContainerProps {
-    title: string;
-    children: ReactNode;
-}
-
-const Container = (props: ContainerProps) => {
-    const { title, children, ...rest } = props;
-
-    return (
-        <View>
-            <Text style={S.styles.title}>{title}</Text>
-            <View style={S.styles.inputContainer}>
-                {children}
-            </View>
-        </View>
-    );
-}
+const styles = StyleSheet.create({
+    safeArea: {
+      flex: 1,
+      backgroundColor: '#FFFFFF',
+    },
+    container: {
+      flex: 1,
+      padding: 23,
+      position: 'relative'
+    },
+    bottomContainer: {
+      position: 'absolute',
+      bottom: 20,
+      left: 20,
+      right: 20,
+    },
+    progressContainer: {
+      marginBottom: 20,
+    },
+    nextButton: {
+      width: '100%',
+      height: 60,
+      borderRadius: 16,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    nextButtonText: {
+      fontSize: 17,
+      fontWeight: '600'
+    }
+});
