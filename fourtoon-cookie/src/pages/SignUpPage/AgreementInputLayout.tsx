@@ -5,22 +5,21 @@ import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from '../../
 import { APP_PRIVACY_URL, APP_TERMS_AGREEMENT_URL } from '../../config/appinfo';
 import { useTranslationWithParentName } from '../../hooks/locale';
 import Container from './Container';
+import { useSignUpPageContext } from './SignUpPageProvider';
 
-export interface AgreementInputLayoutProps {
-    onAgreementChange: (isAgreed: boolean) => void;
-}
 
-const AgreementInputLayout = (props: AgreementInputLayoutProps) => {
-    const { onAgreementChange, ...rest } = props;
-    const [isTermsAndPrivacyAgreed, setIsTermsAndPrivacyAgreed] = useState(false);
-    const [isAgeOver14, setIsAgeOver14] = useState(false);
+const AgreementInputLayout = () => {
+    const { setIsAgreed } = useSignUpPageContext();
 
     const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
     const t = useTranslationWithParentName('pages.signUpPage.agreementInputLayout');
 
+    const [isTermsAndPrivacyAgreed, setIsTermsAndPrivacyAgreed] = useState(false);
+    const [isAgeOver14, setIsAgeOver14] = useState(false);
+
     useEffectWithErrorHandling(() => {
-        onAgreementChange(isTermsAndPrivacyAgreed && isAgeOver14);
+        setIsAgreed(isTermsAndPrivacyAgreed && isAgeOver14);
     }, [isTermsAndPrivacyAgreed, isAgeOver14]);
 
     const handleTermsPress = functionWithErrorHandling(() => {

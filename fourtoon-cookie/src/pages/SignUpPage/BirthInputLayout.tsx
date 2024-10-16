@@ -4,14 +4,10 @@ import { LocalDate } from "@js-joda/core";
 import { useFunctionWithErrorHandling } from "../../hooks/error";
 import Container from "./Container";
 import { useTranslationWithParentName } from "../../hooks/locale";
+import { useSignUpPageContext } from "./SignUpPageProvider";
 
-export interface BirthInputLayoutProps {
-    birth: LocalDate;
-    onBirthChange: (birth: LocalDate) => void;
-}
-
-const BirthInputLayout = (props: BirthInputLayoutProps) => {
-    const { birth, onBirthChange, ...rest } = props;
+const BirthInputLayout = () => {
+    const { birth, setBirth } = useSignUpPageContext();
 
     const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
@@ -19,10 +15,10 @@ const BirthInputLayout = (props: BirthInputLayoutProps) => {
 
     const handleDateChange = functionWithErrorHandling((event: DateTimePickerEvent, date?: Date | undefined) => {
         if (! date) {
-            onBirthChange(LocalDate.now());
+            setBirth(LocalDate.now());
         } else {
             const localDate: LocalDate = LocalDate.of(date.getFullYear(), date.getMonth() + 1, date.getDate());
-            onBirthChange(localDate);
+            setBirth(localDate);
         }
     })
 
