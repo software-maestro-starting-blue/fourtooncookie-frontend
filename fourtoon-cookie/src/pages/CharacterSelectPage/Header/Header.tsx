@@ -5,6 +5,7 @@ import { useSelectedCharacterStore } from "../../../hooks/store/selectedCharacte
 import * as S from "./Header.styled";
 import { SelectedCharacterNotExistError } from "../../../types/error/character/SelectedCharacterNotExistError";
 import { useFunctionWithErrorHandling } from "../../../hooks/error";
+import { useTranslationWithParentName } from "../../../hooks/locale";
 
 const Header = () => {
 
@@ -12,15 +13,19 @@ const Header = () => {
 
     const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
+    const t = useTranslationWithParentName('pages.characterSelectPage.header');
+
+    const errorT = useTranslationWithParentName('error');
+
     const handleBackButtonPressWhenCharacterNotSelected = functionWithErrorHandling(() => {
-        throw new SelectedCharacterNotExistError('캐릭터가 선택되지 않았습니다. 캐릭터를 선택해주세요.')
+        throw new SelectedCharacterNotExistError(errorT("characterNotSelected"))
     });
 
     return (
         <View style={S.styles.header}>
             <BackButton style={S.styles.backButton} onPress={selectedCharacter ? undefined : handleBackButtonPressWhenCharacterNotSelected} />
             <View style={S.styles.textContainer}>
-                    <Text style={S.styles.text}>캐릭터 선택</Text>
+                    <Text style={S.styles.text}>{t("characterSelect")}</Text>
             </View>
         </View>
     );

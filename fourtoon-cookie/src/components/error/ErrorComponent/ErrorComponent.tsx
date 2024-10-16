@@ -3,16 +3,19 @@ import { Text, TouchableOpacity, View } from "react-native";
 
 import * as S from "./ErrorComponent.styled";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useTranslationWithParentName } from "../../../hooks/locale";
 
 const ErrorComponent = (props: FallbackProps) => {
     const { error, resetErrorBoundary } = props;
+
+    const t = useTranslationWithParentName('components.errorComponent');
 
     return (
         <SafeAreaView style={S.styles.safeArea}>
             <TouchableOpacity onPress={() => resetErrorBoundary()}>
                 <View>
                     <Text>
-                        에러가 발생했습니다. 화면을 클릭하여 다시 시도해주세요.
+                        {t("errorRetry")}
                     </Text>
                 </View>
             </TouchableOpacity>

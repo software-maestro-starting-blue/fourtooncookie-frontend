@@ -6,6 +6,7 @@ import { useSelectedCharacterStore } from '../../../hooks/store/selectedCharacte
 import * as S from "./ProfileLayout.styled";
 import { useMember } from '../../../hooks/server/member';
 import { useFunctionWithErrorHandling } from '../../../hooks/error';
+import { useTranslationWithParentName } from '../../../hooks/locale';
 
 const ProfileLayout = () => {
 
@@ -16,6 +17,9 @@ const ProfileLayout = () => {
 
     const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
+    const t = useTranslationWithParentName('pages.settingPage.profileLayout');
+    const loginT = useTranslationWithParentName('login');
+
     const handleCharacterChangeButtonPress = functionWithErrorHandling(() => {
         navigation.navigate('CharacterSelectPage');
     })
@@ -24,9 +28,9 @@ const ProfileLayout = () => {
         <View style={S.styles.profileContainer}>
             <Image source={{uri: selectedCharacter?.selectionThumbnailUrl}} style={S.styles.profileImage} />
             <Text style={S.styles.name}>{member?.name}</Text>
-            <Text style={S.styles.email}>{member ? null : "로그인 해주세요."}</Text>
+            <Text style={S.styles.email}>{member ? null : loginT("loginRequired")}</Text>
             <TouchableOpacity style={S.styles.changeCharacterButton} onPress={handleCharacterChangeButtonPress}>
-                <Text style={S.styles.changeCharacterText}>캐릭터 변경</Text>
+                <Text style={S.styles.changeCharacterText}>{t("characterChange")}</Text>
             </TouchableOpacity>
       </View>
     )

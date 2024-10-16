@@ -4,6 +4,7 @@ import * as S from "./DiaryContentsLayout.styled";
 import Button from "../../../../components/common/Button/Button";
 import { diaryContentPreviewLines, diaryContentPreviewWordCount } from "../../../../config/diary";
 import { useFunctionWithErrorHandling } from "../../../../hooks/error";
+import { useTranslationWithParentName } from "../../../../hooks/locale";
 
 
 export interface DiaryContentsLayoutProps {
@@ -15,6 +16,8 @@ const DiaryContentsLayout = (props: DiaryContentsLayoutProps) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const { functionWithErrorHandling } = useFunctionWithErrorHandling();
+
+    const t = useTranslationWithParentName("pages.diaryTimelinePage.diaryComponent.diaryContentsLayout");
 
     const shouldShowReadMore = content.length > diaryContentPreviewWordCount || content.split("\n").length > diaryContentPreviewLines;
 
@@ -31,7 +34,7 @@ const DiaryContentsLayout = (props: DiaryContentsLayoutProps) => {
                 </Text>
                 {shouldShowReadMore && (
                     <Button
-                        title={isExpanded ? "간단히 보기" : "더보기"}
+                        title={isExpanded ? t("briefView") : t("readMore")}
                         onPress={handleToggleExpand}
                         style={S.styles.more}
                         textStyle={S.styles.moreText}

@@ -4,6 +4,7 @@ import * as FileSystem from 'expo-file-system';
 import Share from 'react-native-share';
 import { OS } from '../types/os';
 import { Alert, Linking } from 'react-native';
+import i18n from './i18n';
 
 export const checkPhotoPermissions = async (): Promise<boolean> => {
     try {
@@ -20,16 +21,16 @@ export const checkPhotoPermissions = async (): Promise<boolean> => {
         }
 
         Alert.alert(
-            '권한 필요',
-            '갤러리에 접근하려면 권한을 허용해야 합니다.',
+            i18n.t('system.image.permissionRequired'),
+            i18n.t('system.image.permissionRequiredDetail'),
             [
-                { text: '취소', style: 'cancel' },
-                { text: '설정', onPress: () => Linking.openSettings() }
+                { text: i18n.t("common.cancel"), style: 'cancel' },
+                { text: i18n.t("common.setting"), onPress: () => Linking.openSettings() }
             ]
         );
         return false;
     } catch (error) {
-        console.error('권한 확인 중 오류 발생:', error);
+        console.error('error with permission checking:', error);
         return false;
     }
 };
@@ -72,7 +73,7 @@ export const saveImageToGallery = async (fileUri: string) => {
 
 export const shareImageFile = async (fileUri: string) => {
     const shareOptions = {
-        title: '다이어리 이미지 공유',
+        title: i18n.t('system.image.shareTitle'),
         url: Platform.OS === OS.IOS ? `file://${fileUri}` : fileUri,
         type: 'image/jpeg',
     };

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
-import { FREE_KOR, PAID_KOR } from '../../../config/character';
 import { CharacterPaymentType } from '../../../types/character';
 
 import * as S from './TabsLayout.styled';
+import { useTranslationWithParentName } from '../../../hooks/locale';
 
 export interface TabsLayoutProps {
     selectedPaymentType: CharacterPaymentType;
@@ -12,13 +12,15 @@ export interface TabsLayoutProps {
 
 const TabsLayout = (props: TabsLayoutProps) => {
     const { selectedPaymentType, onSelectedPaymentTypeChange, ...rest } = props;
+
+    const t = useTranslationWithParentName('pages.characterSelectPage.tabsLayout');
     
     return (
         <View style={S.styles.headersContainer}>
             {
                 [
-                    { type: CharacterPaymentType.FREE, label: FREE_KOR},
-                    //{ type: CharacterPaymentType.PAID, label: PAID_KOR}
+                    { type: CharacterPaymentType.FREE, label: t("free")},
+                    //{ type: CharacterPaymentType.PAID, label: t("paid") },
                 ].map((item) => (
                     <Tab
                         isActive={selectedPaymentType === item.type}

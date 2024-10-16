@@ -8,12 +8,16 @@ import * as S from './MenuLayout.styled';
 import { AccountStatus } from '../../../types/account';
 import { useAccountState } from '../../../hooks/account';
 import { useFunctionWithErrorHandling } from '../../../hooks/error';
+import { useTranslationWithParentName } from '../../../hooks/locale';
 
 const MenuLayout = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const { accountState, logout, resign } = useAccountState();
 
     const { functionWithErrorHandling, asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
+
+    const commonT = useTranslationWithParentName('common');
+    const loginT = useTranslationWithParentName('login');
 
     const handleAppInfoButtonPress = asyncFunctionWithErrorHandling(async () => {
         Linking.openURL(APP_INFO_URL);
@@ -29,16 +33,16 @@ const MenuLayout = () => {
         });
 
         Alert.alert(
-            '정말 탈퇴하시겠습니까?',
-            '탈퇴하시면 그동안의 기록이 전부 삭제됩니다.',
+            loginT('resignAskTitle'),
+            loginT('resignAskDetail'),
             [
                 {
-                    text: '확인',
+                    text: commonT('confirm'),
                     onPress: handleResign,
                     style: 'destructive'
                 },
                 {
-                    text: '취소'
+                    text: commonT('cancel'),
                 }
             ]
         );
@@ -50,17 +54,17 @@ const MenuLayout = () => {
     
     return (
         <View style={S.styles.menuContainer}>
-            <MenuWideButton menuText='앱 정보' onPress={handleAppInfoButtonPress} />
+            <MenuWideButton menuText={commonT("appInfo")} onPress={handleAppInfoButtonPress} />
             {
                 (accountState === AccountStatus.LOGINED) ? 
                 (
                     <>
-                    <MenuWideButton menuText='로그아웃' onPress={handleLogoutButtonPress} />
-                    <MenuWideButton menuText='탈퇴하기' onPress={handleResignButtonPress} textStyle={S.styles.deleteText} />
+                    <MenuWideButton menuText={loginT("logout")} onPress={handleLogoutButtonPress} />
+                    <MenuWideButton menuText={loginT("resign")} onPress={handleResignButtonPress} textStyle={S.styles.deleteText} />
                     </>
                 ) : 
                 (
-                    <MenuWideButton menuText='로그인' onPress={handleLoginButtonPress} />
+                    <MenuWideButton menuText={loginT("login")} onPress={handleLoginButtonPress} />
                 )
             }
         </View>

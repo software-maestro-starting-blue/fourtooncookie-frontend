@@ -11,6 +11,7 @@ import * as S from './IntroPage.styled';
 import { AccountStatus } from "../../types/account";
 import { useAccountState } from "../../hooks/account";
 import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from "../../hooks/error";
+import { useTranslationWithParentName } from "../../hooks/locale";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -18,6 +19,8 @@ const IntroPage = () => {
     const { accountState, login } = useAccountState();
 
     const { asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
+
+    const t = useTranslationWithParentName('pages.introPage');
 
     useEffectWithErrorHandling(() => {
         const navigateByMemberStatus = async () => {
@@ -47,7 +50,7 @@ const IntroPage = () => {
                 <View style={S.styles.logoContainer}>
                     <Image source={require('../../../assets/logo/logo-5.png')} style={S.styles.logo} />
                 </View>
-                <Text style={S.styles.subtitle}>나의 하루를 그림일기로 표현해보세요</Text>
+                <Text style={S.styles.subtitle}>{t("subtitle")}</Text>
             </View>
             <View style={S.styles.buttonsContainer}>
                 <GoogleSignInAndSignUpButton onSuccess={handleSignUpAndSignInSuccess} />

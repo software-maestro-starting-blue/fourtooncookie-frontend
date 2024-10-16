@@ -6,6 +6,7 @@ import { RootStackParamList } from './src/types/routing';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { init } from '@amplitude/analytics-react-native';
 import * as Sentry from "@sentry/react-native";
+import './src/system/i18n';
 
 import CharacterSelectPage from './src/pages/CharacterSelectPage/CharacterSelectPage';
 import DiaryWritePage from './src/pages/DiaryWritePage/DiaryWritePage';

@@ -6,6 +6,7 @@ import { JwtError } from "../../../types/error/JwtError"
 import { ApiError } from "../../../types/error/ApiError"
 import { Alert } from "react-native"
 import { RuntimeError } from "../../../types/error/RuntimeError"
+import { useTranslationWithParentName } from "../../../hooks/locale"
 import { SelectedCharacterNotExistError } from "../../../types/error/character/SelectedCharacterNotExistError"
 import { NavigationProp, useNavigation } from "@react-navigation/native"
 import { RootStackParamList } from "../../../types/routing"
@@ -25,6 +26,7 @@ const BasicErrorBoundary = (props: BasicErrorBoundaryProps) => {
 
     const { logout } = useAccountState();
 
+    const t = useTranslationWithParentName('error');
     useEffect(() => {
         if (effectHandler) {
             effectHandler();
@@ -45,24 +47,24 @@ const BasicErrorBoundary = (props: BasicErrorBoundaryProps) => {
         if (error instanceof ApiError) {
             const status = error.getStatus();
             if (status === null) {
-                Alert.alert("에러가 발생하였습니다. 문제가 지속되면 관리자에게 알려주세요.", error.message);
+                Alert.alert(t("default"), error.message);
                 return true;
             }
 
             if (400 <= status && status <= 499) {
-                Alert.alert("문제가 발생하였습니다. 문제가 지속되면 관리자에게 알려주세요.", error.message);
+                Alert.alert(t("user"), error.message);
                 return true;
             }
 
             if (500 <= status && status <= 599) {
-                Alert.alert("서버에서 문제가 발생하였습니다. 문제가 지속되면 관리자에게 알려주세요.", error.message);
+                Alert.alert(t("server"), error.message);
                 return true;
             }
         }
 
         if (error instanceof SelectedCharacterNotExistError) {
             setEffectHandler(() => {
-                Alert.alert("선택된 캐릭터가 존재하지 않습니다. 캐릭터 선택 화면으로 이동합니다.");
+                Alert.alert(t("characterNotSelected"));
                 navigation.navigate("CharacterSelectPage");
             });
             return true;

@@ -1,6 +1,7 @@
 import { TextInput, View } from "react-native";
 
 import * as S from "./TextInputLayout.styled";
+import { useTranslationWithParentName } from "../../../hooks/locale";
 
 export interface TextInputLayoutProps {
     text: string,
@@ -9,12 +10,14 @@ export interface TextInputLayoutProps {
 
 const TextInputLayout = (props: TextInputLayoutProps) => {
     const { text, onTextChange, ...rest } = props;
+
+    const t = useTranslationWithParentName("pages.diaryWritePage.textInputLayout");
     
     return (
         <View style={S.styles.content}>
             <TextInput
                 style={S.styles.diaryInput}
-                placeholder="일기를 작성하세요"
+                placeholder={t("placeholder")}
                 placeholderTextColor="#CCCCCC"
                 value={text}
                 multiline={true}

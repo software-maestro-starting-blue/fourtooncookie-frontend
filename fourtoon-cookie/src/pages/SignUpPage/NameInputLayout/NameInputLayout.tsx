@@ -1,5 +1,6 @@
 import { TextInput } from "react-native";
 import * as S from "./NameInputLayout.styled";
+import { useTranslationWithParentName } from "../../../hooks/locale";
 
 export interface NameInputLayoutProps {
     name: string;
@@ -9,10 +10,12 @@ export interface NameInputLayoutProps {
 const NameInputLayout = (props: NameInputLayoutProps) => {
     const { name, onNameChange, ...rest } = props;
 
+    const t = useTranslationWithParentName('pages.signUpPage.nameInputLayout');
+
     return (
         <TextInput
             style={S.styles.input}
-            placeholder="닉네임을 입력해주세요"
+            placeholder={t("placeholder")}
             placeholderTextColor="#CCCCCC"
             value={name}
             onChangeText={onNameChange}

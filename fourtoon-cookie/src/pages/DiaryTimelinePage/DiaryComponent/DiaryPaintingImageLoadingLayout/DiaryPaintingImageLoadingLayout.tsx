@@ -2,6 +2,7 @@ import { Image, Text, View } from "react-native";
 
 import * as S from "./DiaryPaintingImageLoadingLayout.styled";
 import { useCharacters } from "../../../../hooks/server/character";
+import { useTranslationWithParentName } from "../../../../hooks/locale";
 
 export interface DiaryPaintingImageLoadingLayoutProps {
     selectedCharacterId: number;
@@ -11,6 +12,8 @@ const DiaryPaintingImageLoadingLayout = (props: DiaryPaintingImageLoadingLayoutP
     const { selectedCharacterId, ...rest } = props;
 
     const { data: characterList } = useCharacters();
+
+    const t = useTranslationWithParentName("pages.diaryTimelinePage.diaryComponent.diaryPaintingImageLoadingLayout");
 
     const selectedCharacter = characterList?.find(character => character.id === selectedCharacterId);
 
@@ -23,9 +26,9 @@ const DiaryPaintingImageLoadingLayout = (props: DiaryPaintingImageLoadingLayoutP
                 style={S.styles.characterIcon}
             />
             <Text style={S.styles.characterText}>
-                {selectedCharacter?.name || '캐릭터'}가 그림을 그리고 있습니다!
+                {t("title", [], { name: selectedCharacter?.name})}
             </Text>
-            <Text style={S.styles.estimatedTimeText}>열심히 작업 중입니다. 조금만 기다려주세요!</Text>
+            <Text style={S.styles.estimatedTimeText}>{t("detail")}</Text>
         </View>
     );
 }

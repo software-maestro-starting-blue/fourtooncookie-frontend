@@ -3,12 +3,12 @@ import * as S from "./Header.styled";
 import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 import DOTS_ICON from "../../../../../assets/icon/dots.png";
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import { useSelectedCharacterStore } from "../../../../hooks/store/selectedCharacter";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../../types/routing";
 import { useDeleteDiary } from "../../../../hooks/server/diary";
 import { useFunctionWithErrorHandling } from "../../../../hooks/error";
 import { useCharacterById } from "../../../../hooks/server/character";
+import { useTranslationWithParentName } from "../../../../hooks/locale";
 
 export interface HeaderProps {
     diaryId: number;
@@ -29,6 +29,10 @@ const Header = (props: HeaderProps) => {
 
     const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
+    const t = useTranslationWithParentName("pages.diaryTimelinePage.diaryComponent.header");
+
+    const commonT = useTranslationWithParentName("common");
+
     const handleEditButtonClick = functionWithErrorHandling(() => {
         navigation.navigate("DiaryWritePage", { currentDiaryId: diaryId });
     });
@@ -39,23 +43,23 @@ const Header = (props: HeaderProps) => {
         });
 
         Alert.alert(
-            '정말 삭제하겠습니까?',
-            '삭제하시면 기록이 완전 삭제됩니다.',
+            t("removeAskTitle"),
+            t("removeAskDetail"),
             [
                 {
-                    text: '확인',
+                    text: commonT("confirm"),
                     onPress: handleDelete,
                     style: 'destructive'
                 },
                 {
-                    text: '취소'
+                    text: commonT("cancel"),
                 }
             ]
         );
     });
 
     const handleDotIconPress = functionWithErrorHandling(() => {
-        const options = ["취소", "수정하기", "삭제하기"];
+        const options = [commonT("cancel"), commonT("edit"), commonT("remove")];
         const cancelButtonIndex = 0;
 
         showActionSheetWithOptions({
