@@ -22,7 +22,6 @@
     "@sentry/react-native": "^5.33.1",
     "@supabase/supabase-js": "^2.44.4",
     "expo": "^51.0.34",
-    "expo-apple-authentication": "^6.4.2",
     "expo-dev-client": "~4.0.27",
     "expo-localization": "^15.0.3",
     "expo-media-library": "~16.0.5",
