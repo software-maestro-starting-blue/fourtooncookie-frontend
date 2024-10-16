@@ -64,7 +64,7 @@ const BasicErrorBoundary = (props: BasicErrorBoundaryProps) => {
 
         if (error instanceof SelectedCharacterNotExistError) {
             setEffectHandler(() => {
-                Alert.alert("선택된 캐릭터가 존재하지 않습니다. 캐릭터 선택 화면으로 이동합니다.");
+                Alert.alert(t("characterNotSelected"));
                 navigation.navigate("CharacterSelectPage");
             });
             return true;

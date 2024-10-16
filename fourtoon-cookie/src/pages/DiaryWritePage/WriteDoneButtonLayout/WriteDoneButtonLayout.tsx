@@ -61,7 +61,7 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
         }
 
         if (! selectedCharacter) {
-            throw new SelectedCharacterNotExistError("캐릭터를 선택해주세요.");
+            throw new SelectedCharacterNotExistError(t("pleaseSelectCharacter"));
         }
 
         if (isWorking) return;
