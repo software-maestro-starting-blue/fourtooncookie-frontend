@@ -31,7 +31,7 @@ const GoogleSignInAndSignUpButton = (props: GoogleSignInAndSignUpButtonProps) =>
 
     return (
         <TouchableOpacity style={styles.googleButton} onPress={handlePress}>
-            <Image source={require('../../../../assets/icon/google.png')} style={styles.googleLogo} />
+            <Image source={require('../../../assets/icon/google.png')} style={styles.googleLogo} />
             <Text style={styles.googleButtonText}>{t("google")}</Text>
         </TouchableOpacity>
     )

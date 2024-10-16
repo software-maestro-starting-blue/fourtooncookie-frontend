@@ -27,7 +27,7 @@ const AppleSignInAndSignUpButton = (props: AppleSignInAndSignUpButtonProps) => {
 
     return (Platform.OS === OS.IOS || appleAuthAndroid.isSupported) && (
         <TouchableOpacity style={styles.appleButton} onPress={handlePress}>
-            <Image source={require('../../../../assets/icon/apple.png')} style={styles.appleLogo} />
+            <Image source={require('../../../assets/icon/apple.png')} style={styles.appleLogo} />
             <Text style={styles.appleButtonText}>{t("apple")}</Text>
         </TouchableOpacity>
             );
