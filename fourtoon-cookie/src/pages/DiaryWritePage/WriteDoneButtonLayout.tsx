@@ -37,7 +37,7 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
 
     const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
-    const t = useTranslationWithParentName('diaryWritePage.writeDoneButtonLayout');
+    const t = useTranslationWithParentName('pages.diaryWritePage.writeDoneButtonLayout');
     const commonT = useTranslationWithParentName('common');
     const loginT = useTranslationWithParentName('login');
 
