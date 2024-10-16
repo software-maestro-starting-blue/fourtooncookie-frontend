@@ -118,7 +118,7 @@
         "textInputLayout": {
           "placeholder": "Write about your day here."
         },
-        "writeDoneButtonlayout": {
+        "writeDoneButtonLayout": {
           "pleaseSelectCharacter": "Please select a character."
         }
       },
