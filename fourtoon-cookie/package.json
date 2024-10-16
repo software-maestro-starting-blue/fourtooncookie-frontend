@@ -25,7 +25,6 @@
     "expo-apple-authentication": "^6.4.2",
     "expo-dev-client": "~4.0.27",
     "expo-localization": "^15.0.3",
-    "expo-location": "~17.0.1",
     "expo-media-library": "~16.0.5",
     "expo-status-bar": "~1.12.1",
     "expo-updates": "~0.25.25",
