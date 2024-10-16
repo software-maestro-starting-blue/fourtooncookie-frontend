@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Button from "../../../components/common/Button/Button";
+import Button from "../../../components/common/Button";
 import { diaryContentPreviewLines, diaryContentPreviewWordCount } from "../../../config/diary";
 import { useFunctionWithErrorHandling } from "../../../hooks/error";
 import { useTranslationWithParentName } from "../../../hooks/locale";

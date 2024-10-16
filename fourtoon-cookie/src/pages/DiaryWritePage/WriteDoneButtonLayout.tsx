@@ -6,7 +6,7 @@ import { OS } from "../../types/os"
 import { Diary, DiaryStatus } from "../../types/diary";
 import { useSelectedCharacterStore } from "../../hooks/store/selectedCharacter";
 import { RootStackParamList } from "../../types/routing";
-import Button from "../../components/common/Button/Button";
+import Button from "../../components/common/Button";
 
 import { AccountStatus } from "../../types/account";
 import { useCreateDiary, useUpdateDiary } from "../../hooks/server/diary";

@@ -3,7 +3,7 @@ import { Gender } from "../../types/gender";
 import ProgressBar from "../../components/common/ProgressBar/ProgressBar";
 import { Keyboard, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import Header from "./Header";
-import Button from "../../components/common/Button/Button";
+import Button from "../../components/common/Button";
 import NameInputLayout from "./NameInputLayout";
 import BirthInputLayout from "./BirthInputLayout";
 import GenderInputLayout from "./GenderInputLayout";
