@@ -1,21 +1,20 @@
-import { Alert, KeyboardAvoidingView, Platform } from "react-native"
+import { Alert, KeyboardAvoidingView, Platform, StyleSheet } from "react-native"
 import { LocalDate } from "@js-joda/core";
 import { useState } from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { OS } from "../../../types/os"
-import { Diary, DiaryStatus } from "../../../types/diary";
-import { useSelectedCharacterStore } from "../../../hooks/store/selectedCharacter";
-import { RootStackParamList } from "../../../types/routing";
-import Button from "../../../components/common/Button/Button";
+import { OS } from "../../types/os"
+import { Diary, DiaryStatus } from "../../types/diary";
+import { useSelectedCharacterStore } from "../../hooks/store/selectedCharacter";
+import { RootStackParamList } from "../../types/routing";
+import Button from "../../components/common/Button/Button";
 
-import * as S from "./WriteDoneButtonLayout.styled";
-import { AccountStatus } from "../../../types/account";
-import { useCreateDiary, useUpdateDiary } from "../../../hooks/server/diary";
-import { useAccountState } from "../../../hooks/account";
-import buttonTrack from "../../../system/amplitude";
-import { useFunctionWithErrorHandling } from "../../../hooks/error";
-import { useTranslationWithParentName } from "../../../hooks/locale";
-import { SelectedCharacterNotExistError } from "../../../types/error/character/SelectedCharacterNotExistError";
+import { AccountStatus } from "../../types/account";
+import { useCreateDiary, useUpdateDiary } from "../../hooks/server/diary";
+import { useAccountState } from "../../hooks/account";
+import buttonTrack from "../../system/amplitude";
+import { useFunctionWithErrorHandling } from "../../hooks/error";
+import { useTranslationWithParentName } from "../../hooks/locale";
+import { SelectedCharacterNotExistError } from "../../types/error/character/SelectedCharacterNotExistError";
 
 export interface WriteDoneButtonLayout {
     diaryDate: LocalDate;
@@ -93,7 +92,7 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
 
     return (
         <KeyboardAvoidingView 
-            style={S.styles.bottomContainer} 
+            style={styles.bottomContainer} 
             enabled={true}
             keyboardVerticalOffset={80}
             behavior={(Platform.OS == OS.IOS) ? 'padding' : 'height'}
@@ -102,13 +101,33 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
                 title={commonT('done')}
                 onPress={handleWriteDoneButtonPress}
                 style={{
-                    ...S.styles.nextButton, 
+                    ...styles.nextButton, 
                     backgroundColor: isNextButtonEnabled ? '#FFC426' : '#DDDDDD'
                 }}
-                textStyle={S.styles.nextButtonText}
+                textStyle={styles.nextButtonText}
             />
         </KeyboardAvoidingView>
     )
 }
 
 export default WriteDoneButtonLayout;
+
+const styles = StyleSheet.create({
+    bottomContainer: {
+        position: 'absolute',
+        bottom: 20,
+        left: 20,
+        right: 20,
+      },
+    nextButton: {
+        width: '100%',
+        height: 60,
+        borderRadius: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      nextButtonText: {
+        fontSize: 17,
+        fontWeight: '600'
+      }
+});

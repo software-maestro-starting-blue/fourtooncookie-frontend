@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import DOWN_ARROW from '../../../../../assets/icon/down-arrow.png';
+import DOWN_ARROW from '../../../assets/icon/down-arrow.png';
 
-import * as S from "./DateInfo.styled";
 import { LocalDate } from '@js-joda/core';
-import { useFunctionWithErrorHandling } from '../../../../hooks/error';
+import { useFunctionWithErrorHandling } from '../../hooks/error';
 
 export interface DateInfoProps {
     date: LocalDate;
@@ -42,10 +41,10 @@ const DateInfo = (props: DateInfoProps) => {
 
 
     return (
-        <View style={S.styles.container}>
-            <TouchableOpacity onPress={handleDatePress} style={S.styles.view}>
-                <Text style={S.styles.date}>{dateString}</Text>
-                <Image source={DOWN_ARROW} style={S.styles.downArrow} />
+        <View style={styles.container}>
+            <TouchableOpacity onPress={handleDatePress} style={styles.view}>
+                <Text style={styles.date}>{dateString}</Text>
+                <Image source={DOWN_ARROW} style={styles.downArrow} />
             </TouchableOpacity>
             <DateTimePickerModal 
                 isVisible={isDatePickerVisible}
@@ -53,10 +52,39 @@ const DateInfo = (props: DateInfoProps) => {
                 date={new Date(date.year(), date.monthValue() - 1, date.dayOfMonth())}
                 onConfirm={handleConfirm}
                 onCancel={handleCancel}
-                style={S.styles.dateModal}
+                style={styles.dateModal}
             />
         </View>
     );
 };
 
 export default DateInfo;
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    view: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    date: {
+        fontFamily: 'Pretendard',
+        fontWeight: '600',
+        fontSize: 17,
+        lineHeight: 24,
+        display: 'flex',
+        alignItems: 'center',
+        letterSpacing: -0.5,
+        color: '#212121',
+    },
+    downArrow: {
+        width: 24,
+        height: 24,
+        marginLeft: 10,
+    },
+    dateModal: {
+        position: "absolute"
+    }
+});
