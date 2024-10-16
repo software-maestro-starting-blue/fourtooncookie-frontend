@@ -30,6 +30,7 @@ const IntroPage = () => {
 			}
 	
 			if (accountState == AccountStatus.UNSIGNEDUP){
+        showInfoToast(loginT('signupRequired'));
 				navigation.navigate('SignUpPage');
 				return;
 			}
