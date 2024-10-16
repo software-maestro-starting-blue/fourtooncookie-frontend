@@ -26,7 +26,6 @@
     "expo-dev-client": "~4.0.27",
     "expo-localization": "^15.0.3",
     "expo-media-library": "~16.0.5",
-    "expo-status-bar": "~1.12.1",
     "expo-updates": "~0.25.25",
     "i18next": "^23.16.0",
     "react": "18.2.0",
