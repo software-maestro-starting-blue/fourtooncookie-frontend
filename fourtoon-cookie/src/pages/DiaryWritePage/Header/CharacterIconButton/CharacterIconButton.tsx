@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { Image, TouchableOpacity } from "react-native";
 import * as S from "./CharacterIconButton.styled";
 import { useSelectedCharacterStore } from "../../../../hooks/store/selectedCharacter";
@@ -12,14 +11,10 @@ const CharacterIconButton = (props: CharacterIconButtonProps) => {
 
     const { selectedCharacter } = useSelectedCharacterStore();
 
-    if (! selectedCharacter){
-        return null;
-    }
-
     return (
         <TouchableOpacity onPress={onCharacterChoosePress} style={S.styles.container}>
             <Image 
-                source={{ uri: selectedCharacter.selectionThumbnailUrl }} 
+                source={{ uri: selectedCharacter?.selectionThumbnailUrl }} 
                 style={S.styles.image} 
             />
         </TouchableOpacity>
