@@ -1,6 +1,6 @@
 import { View, Linking, Alert, StyleSheet } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import MenuWideButton from '../../components/common/MenuWideButton/MenuWideButton';
+import MenuWideButton from '../../components/common/MenuWideButton';
 import { APP_INFO_URL } from '../../config/appinfo';
 import { RootStackParamList } from '../../types/routing';
 
