@@ -1,7 +1,7 @@
-import { useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { deleteMember, getMember, postMember } from "../../apis/member"
 import { Member } from "../../types/member";
-import { useMutationWithErrorHandling, useQueryWithErrorHandling } from "../error";
+import { useMutationWithErrorHandling } from "../error";
 import { JwtError } from "../../types/error/JwtError";
 import { useJwtStore } from "../store/jwt";
 
@@ -9,7 +9,7 @@ export const useMember = () => {
     const queryClient = useQueryClient();
     const { token, removeToken } = useJwtStore();
 
-    return useQueryWithErrorHandling<Member, Error>('member', getMember, {
+    return useQuery<Member, Error>('member', getMember, { //TODO 추후에 error handling 관련하여 논의 필요
         enabled: !!token,
         retry: false,
         onError: (error) => {
