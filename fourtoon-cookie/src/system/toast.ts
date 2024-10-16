@@ -6,7 +6,7 @@ export const showSuccessToast = (message: string, detail?: string) => {
         type: 'success',
         text1: message,
         text2: detail,
-        position: 'bottom',
+        position: 'top',
     });
 }
 
@@ -15,7 +15,7 @@ export const showErrorToast = (message: string, detail?: string) => {
         type: 'error',
         text1: message,
         text2: detail,
-        position: 'bottom',
+        position: 'top',
     });
 }
 
@@ -24,6 +24,6 @@ export const showInfoToast = (message: string, detail?: string) => {
         type: 'info',
         text1: message,
         text2: detail,
-        position: 'bottom',
+        position: 'top',
     });
 }
