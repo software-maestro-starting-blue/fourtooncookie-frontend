@@ -10,7 +10,7 @@ import { checkPhotoPermissions, saveBlobToFile, saveImageToGallery, shareImageFi
 import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from "../../../hooks/error";
 import { useTranslationWithParentName } from "../../../hooks/locale";
 
-export interface FooterProps {
+export interface DiaryActionsLayoutProps {
     diaryId: number;
     isFavorite: boolean;
 }
@@ -19,7 +19,7 @@ enum ImageActionState {
     NONE, DOWNLOAD, SHARE
 }
 
-const DiaryActionsLayout = (props: FooterProps) => {
+const DiaryActionsLayout = (props: DiaryActionsLayoutProps) => {
     const { diaryId, isFavorite, ...rest } = props;
 
     const { mutate: updateDiaryFavorite } = useUpdateDiaryFavorite(diaryId);

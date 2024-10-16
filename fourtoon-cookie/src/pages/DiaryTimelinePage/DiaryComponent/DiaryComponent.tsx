@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Diary, DiaryStatus } from "../../../types/diary";
 import DiaryContentsLayout from "./DiaryContentsLayout";
 import DiaryPaintingImagesLayout from "./DiaryPaintingImagesLayout";
-import Footer from "./Footer";
+import DiaryActionsLayout from "./DiaryActionsLayout";
 import Header from "./Header";
 import DiaryPaintingImageLoadingLayout from "./DiaryPaintingImageLoadingLayout";
 import DiaryPaintingImageFailedLayout from "./DiaryPaintingImageFailedLayout";
@@ -36,7 +36,7 @@ const DiaryComponent = (props: DiaryProps) => {
             <DiaryContentsLayout
                 content={content}
             />
-            <Footer
+            <DiaryActionsLayout
                 diaryId={diaryId}
                 isFavorite={isFavorite}
             />
