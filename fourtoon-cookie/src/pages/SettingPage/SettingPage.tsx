@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import MainPageLayout from '../../components/layout/MainPageLayout/MainPageLayout';
-import { FOOTER_STATE } from '../../components/layout/MainPageLayout/Footer/Footer';
+import MainPageLayout from '../../components/layout/MainPageLayout';
+import { FOOTER_STATE } from '../../components/layout/MainPageLayout';
 
 import ProfileLayout from './ProfileLayout';
 import MenuLayout from './MenuLayout';
