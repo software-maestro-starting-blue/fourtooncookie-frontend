@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Image, TouchableOpacity, View, Alert, Linking } from "react-native";
-import FAVORITE_ACTIVATE_ICON from "../../../../../assets/icon/favorite-activate.png";
-import FAVORITE_INACTIVATE_ICON from "../../../../../assets/icon/favorite-inactivate.png";
-import DOWNLOAD_ICON from "../../../../../assets/icon/download.png";
-import UPLOAD_ICON from "../../../../../assets/icon/upload.png";
-import * as S from './Footer.styled';
-import { useUpdateDiaryFavorite } from "../../../../hooks/server/diary";
-import { useDiaryFullImage } from "../../../../hooks/server/diary";
-import { checkPhotoPermissions, saveBlobToFile, saveImageToGallery, shareImageFile } from "../../../../system/image";
-import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from "../../../../hooks/error";
-import { useTranslationWithParentName } from "../../../../hooks/locale";
+import { Image, TouchableOpacity, View, Alert, Linking, StyleSheet } from "react-native";
+import FAVORITE_ACTIVATE_ICON from "../../../../assets/icon/favorite-activate.png";
+import FAVORITE_INACTIVATE_ICON from "../../../../assets/icon/favorite-inactivate.png";
+import DOWNLOAD_ICON from "../../../../assets/icon/download.png";
+import UPLOAD_ICON from "../../../../assets/icon/upload.png";
+import { useUpdateDiaryFavorite } from "../../../hooks/server/diary";
+import { useDiaryFullImage } from "../../../hooks/server/diary";
+import { checkPhotoPermissions, saveBlobToFile, saveImageToGallery, shareImageFile } from "../../../system/image";
+import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from "../../../hooks/error";
+import { useTranslationWithParentName } from "../../../hooks/locale";
 
 export interface FooterProps {
     diaryId: number;
@@ -70,23 +69,23 @@ const DiaryActionsLayout = (props: FooterProps) => {
     const handleShare = functionWithErrorHandling(() => setImageActionState(ImageActionState.SHARE));
 
     return (
-        <View style={S.styles.footer}>
-            <View style={S.styles.favoriteButton}>
+        <View style={styles.footer}>
+            <View style={styles.favoriteButton}>
                 <TouchableOpacity onPress={handleToggleFavorite}>
                     <Image
                         source={isFavorite ? FAVORITE_ACTIVATE_ICON : FAVORITE_INACTIVATE_ICON}
-                        style={S.styles.image}
+                        style={styles.image}
                     />
                 </TouchableOpacity>
             </View>
 
-            <View style={S.styles.actionButtons}>
+            <View style={styles.actionButtons}>
                 <TouchableOpacity onPress={handleDownload}>
-                    <Image source={DOWNLOAD_ICON} style={S.styles.image} />
+                    <Image source={DOWNLOAD_ICON} style={styles.image} />
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={handleShare}>
-                    <Image source={UPLOAD_ICON} style={S.styles.image} />
+                    <Image source={UPLOAD_ICON} style={styles.image} />
                 </TouchableOpacity>
             </View>
         </View>
@@ -94,3 +93,30 @@ const DiaryActionsLayout = (props: FooterProps) => {
 };
 
 export default DiaryActionsLayout;
+
+const styles = StyleSheet.create({
+    footer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    favoriteImage: {
+        width: 30,
+        height: 30,
+    },
+    favoriteButton: {
+        flex: 1,
+    },
+    actionButtons: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+    },
+    image: {
+        width: 40,
+        height: 40,
+        marginLeft: 10,
+        marginRight: 10,
+        resizeMode: 'contain',
+    },
+});
