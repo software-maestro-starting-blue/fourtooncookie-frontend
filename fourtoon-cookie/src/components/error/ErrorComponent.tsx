@@ -1,9 +1,8 @@
 import { FallbackProps } from "react-error-boundary";
-import { Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import * as S from "./ErrorComponent.styled";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useTranslationWithParentName } from "../../../hooks/locale";
+import { useTranslationWithParentName } from "../../hooks/locale";
 
 const ErrorComponent = (props: FallbackProps) => {
     const { error, resetErrorBoundary } = props;
@@ -11,7 +10,7 @@ const ErrorComponent = (props: FallbackProps) => {
     const t = useTranslationWithParentName('components.errorComponent');
 
     return (
-        <SafeAreaView style={S.styles.safeArea}>
+        <SafeAreaView style={styles.safeArea}>
             <TouchableOpacity onPress={() => resetErrorBoundary()}>
                 <View>
                     <Text>
@@ -24,3 +23,10 @@ const ErrorComponent = (props: FallbackProps) => {
 }
 
 export default ErrorComponent;
+
+const styles = StyleSheet.create({
+    safeArea: {
+      flex: 1,
+      backgroundColor: '#FFFFFF',
+    },
+});

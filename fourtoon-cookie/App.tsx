@@ -14,7 +14,7 @@ import DiaryTimelinePage from './src/pages/DiaryTimelinePage/DiaryTimelinePage';
 import SignUpPage from './src/pages/SignUpPage/SignUpPage';
 import IntroPage from './src/pages/IntroPage/IntroPage';
 import SettingPage from './src/pages/SettingPage/SettingPage';
-import BasicErrorBoundary from './src/components/error/BasicErrorBoundary/BasicErrorBoundary';
+import BasicErrorBoundary from './src/components/error/BasicErrorBoundary';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

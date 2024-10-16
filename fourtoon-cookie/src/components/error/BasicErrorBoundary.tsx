@@ -1,15 +1,15 @@
 import { ErrorBoundary, FallbackProps } from "react-error-boundary"
-import ErrorComponent from "../ErrorComponent/ErrorComponent"
+import ErrorComponent from "./ErrorComponent"
 import { ReactNode, useEffect, useState } from "react"
-import { useAccountState } from "../../../hooks/account"
-import { JwtError } from "../../../types/error/JwtError"
-import { ApiError } from "../../../types/error/ApiError"
+import { useAccountState } from "../../hooks/account"
+import { JwtError } from "../../types/error/JwtError"
+import { ApiError } from "../../types/error/ApiError"
 import { Alert } from "react-native"
-import { RuntimeError } from "../../../types/error/RuntimeError"
-import { useTranslationWithParentName } from "../../../hooks/locale"
-import { SelectedCharacterNotExistError } from "../../../types/error/character/SelectedCharacterNotExistError"
+import { RuntimeError } from "../../types/error/RuntimeError"
+import { useTranslationWithParentName } from "../../hooks/locale"
+import { SelectedCharacterNotExistError } from "../../types/error/character/SelectedCharacterNotExistError"
 import { NavigationProp, useNavigation } from "@react-navigation/native"
-import { RootStackParamList } from "../../../types/routing"
+import { RootStackParamList } from "../../types/routing"
 
 export interface BasicErrorBoundaryProps {
     handleErrorBeforeHandling?: (error: Error) => boolean,
