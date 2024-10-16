@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
 import { Gender } from "../../types/gender";
-import ProgressBar from "../../components/common/ProgressBar/ProgressBar";
+import ProgressBar from "../../components/common/ProgressBar";
 import { Keyboard, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import Header from "./Header";
 import Button from "../../components/common/Button";
