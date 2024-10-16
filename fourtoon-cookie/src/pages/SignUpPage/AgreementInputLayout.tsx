@@ -4,6 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from '../../hooks/error';
 import { APP_PRIVACY_URL, APP_TERMS_AGREEMENT_URL } from '../../config/appinfo';
 import { useTranslationWithParentName } from '../../hooks/locale';
+import Container from './Container';
 
 export interface AgreementInputLayoutProps {
     onAgreementChange: (isAgreed: boolean) => void;
@@ -39,39 +40,41 @@ const AgreementInputLayout = (props: AgreementInputLayoutProps) => {
     )
 
     return (
-        <View style={styles.agreementContainer}>
-            <View style={styles.textWithCheckboxContainer}>
-                <Text style={styles.agreementText}>
-                    {t("doYouAgree")}
-                    <Text style={styles.linkText} onPress={handleTermsPress}>
-                        {t("termsOfService")}
+        <Container title={t("title")}>
+            <View style={styles.agreementContainer}>
+                <View style={styles.textWithCheckboxContainer}>
+                    <Text style={styles.agreementText}>
+                        {t("doYouAgree")}
+                        <Text style={styles.linkText} onPress={handleTermsPress}>
+                            {t("termsOfService")}
+                        </Text>
+                        ,
+                        <Text style={styles.linkText} onPress={handlePrivacyPress}>
+                            {t("privacyPolicy")}
+                        </Text>
                     </Text>
-                    ,
-                    <Text style={styles.linkText} onPress={handlePrivacyPress}>
-                        {t("privacyPolicy")}
+                    <Pressable onPress={handleTermsAndPrivacyCheckboxChange} style={styles.checkbox}>
+                        <MaterialIcons 
+                            name={isTermsAndPrivacyAgreed ? "check-box" : "check-box-outline-blank"} 
+                            size={24} 
+                            color={isTermsAndPrivacyAgreed ? "#FFC426" : "#DDDDDD"} 
+                        />
+                    </Pressable>
+                </View>
+                <View style={styles.textWithCheckboxContainer}>
+                    <Text style={styles.agreementText}>
+                        {t("ageOver14")}
                     </Text>
-                </Text>
-                <Pressable onPress={handleTermsAndPrivacyCheckboxChange} style={styles.checkbox}>
-                    <MaterialIcons 
-                        name={isTermsAndPrivacyAgreed ? "check-box" : "check-box-outline-blank"} 
-                        size={24} 
-                        color={isTermsAndPrivacyAgreed ? "#FFC426" : "#DDDDDD"} 
-                    />
-                </Pressable>
+                    <Pressable onPress={handleAgeOver14CheckboxChange} style={styles.checkbox}>
+                        <MaterialIcons 
+                            name={isAgeOver14 ? "check-box" : "check-box-outline-blank"} 
+                            size={24} 
+                            color={isAgeOver14 ? "#FFC426" : "#DDDDDD"} 
+                        />
+                    </Pressable>
+                </View>
             </View>
-            <View style={styles.textWithCheckboxContainer}>
-                <Text style={styles.agreementText}>
-                    {t("ageOver14")}
-                </Text>
-                <Pressable onPress={handleAgeOver14CheckboxChange} style={styles.checkbox}>
-                    <MaterialIcons 
-                        name={isAgeOver14 ? "check-box" : "check-box-outline-blank"} 
-                        size={24} 
-                        color={isAgeOver14 ? "#FFC426" : "#DDDDDD"} 
-                    />
-                </Pressable>
-            </View>
-        </View>
+        </Container>
     );
 };
 

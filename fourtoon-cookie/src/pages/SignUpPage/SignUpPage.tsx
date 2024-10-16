@@ -95,41 +95,25 @@ const SignUpPage = () => {
         <SafeAreaView style={styles.safeArea}>
             <View style={styles.container}>
                 <Header onBackButtonPress={handleBackButtonPress}/>
-                {
-                    signUpProgress == SignUpProgres.NAME && 
-                    <Container title={t("nameInputLayout.title")}>
-                        <NameInputLayout 
-                            name={name} 
-                            onNameChange={handleNameChange} 
-                        />
-                    </Container>
-                }
-                {
-                    signUpProgress == SignUpProgres.BIRTH && 
-                    <Container title={t("birthInputLayout.title")}>
-                        <BirthInputLayout 
-                            birth={birth} 
-                            onBirthChange={handleBirthChange} 
-                        />
-                    </Container>
-                }
-                {
-                    signUpProgress == SignUpProgres.GENDER && 
-                    <Container title={t("genderInputLayout.title")}>
-                        <GenderInputLayout
-                            gender={gender} 
-                            onGenderChange={handleGenderChange} 
-                        />
-                    </Container>
-                }
-                {
-                    signUpProgress == SignUpProgres.AGREEMENT && 
-                    <Container title={t("agreementInputLayout.title")}>
-                        <AgreementInputLayout 
-                            onAgreementChange={handleAgreementChange} 
-                        />
-                    </Container>
-                }
+                {signUpProgress == SignUpProgres.NAME && 
+                <NameInputLayout 
+                    name={name} 
+                    onNameChange={handleNameChange} 
+                />}
+                {signUpProgress == SignUpProgres.BIRTH && 
+                <BirthInputLayout 
+                    birth={birth} 
+                    onBirthChange={handleBirthChange} 
+                />}
+                {signUpProgress == SignUpProgres.GENDER && 
+                <GenderInputLayout
+                    gender={gender} 
+                    onGenderChange={handleGenderChange} 
+                />}
+                {signUpProgress == SignUpProgres.AGREEMENT && 
+                <AgreementInputLayout 
+                    onAgreementChange={handleAgreementChange} 
+                />}
                 <KeyboardAvoidingView 
                     style={styles.bottomContainer} 
                     enabled={true}
@@ -161,24 +145,6 @@ const SignUpPage = () => {
 export default SignUpPage;
 
 
-interface ContainerProps {
-    title: string;
-    children: ReactNode;
-}
-
-const Container = (props: ContainerProps) => {
-    const { title, children, ...rest } = props;
-
-    return (
-        <View>
-            <Text style={styles.title}>{title}</Text>
-            <View style={styles.inputContainer}>
-                {children}
-            </View>
-        </View>
-    );
-}
-
 const styles = StyleSheet.create({
     safeArea: {
       flex: 1,
@@ -188,17 +154,6 @@ const styles = StyleSheet.create({
       flex: 1,
       padding: 23,
       position: 'relative'
-    },
-    title: {
-      fontSize: 28,
-      fontWeight: '700',
-      color: '#212121'
-    },
-    inputContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      marginTop: 50,
-      marginBottom: 20,
     },
     bottomContainer: {
       position: 'absolute',

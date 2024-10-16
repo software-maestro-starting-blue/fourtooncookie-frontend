@@ -2,6 +2,8 @@ import { Image, StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View, 
 import { Gender } from "../../types/gender";
 import MALE_ICON from "../../../assets/icon/man.png";
 import FEMALE_ICON from "../../../assets/icon/woman.png";
+import Container from "./Container";
+import { useTranslationWithParentName } from "../../hooks/locale";
 
 export interface GenderInputLayoutProps {
     gender: Gender | null;
@@ -11,15 +13,21 @@ export interface GenderInputLayoutProps {
 const GenderInputLayout = (props: GenderInputLayoutProps) => {
     const { gender, onGenderChange, ...rest } = props;
 
-    return [Gender.MALE, Gender.FEMALE].map(genderItem => 
-            <View key={genderItem} >
-                <GenderComponent
-                    gender={genderItem}
-                    isSelected={gender == genderItem}
-                    onPress={() => onGenderChange(genderItem)}
-                />
-            </View>
-        );
+    const t = useTranslationWithParentName('pages.signUpPage.genderInputLayout');
+
+    return (
+        <Container title={t("title")} >
+            {[Gender.MALE, Gender.FEMALE].map(genderItem => 
+                <View key={genderItem} >
+                    <GenderComponent
+                        gender={genderItem}
+                        isSelected={gender == genderItem}
+                        onPress={() => onGenderChange(genderItem)}
+                    />
+                </View>
+            )}
+        </Container>
+    );
 }
 
 interface GenderComponentProps {
