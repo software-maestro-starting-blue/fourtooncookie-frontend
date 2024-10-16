@@ -14,6 +14,7 @@
       "loginRequiredDetail": "This service requires login. Please log in.",
       "loginSuccess": "Success to login 🎉",
       "signupRequired": "Sign up required",
+      "signupSuccess": "Success to sign up 🎉",
       "login": "Login",
       "signUp": "Sign Up",
       "logout": "Logout",

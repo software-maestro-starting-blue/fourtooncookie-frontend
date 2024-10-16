@@ -15,6 +15,7 @@ import AgreementInputLayout from "./AgreementInputLayout";
 import { useAccountState } from "../../hooks/account";
 import { useFunctionWithErrorHandling } from "../../hooks/error";
 import { useTranslationWithParentName } from "../../hooks/locale";
+import { showSuccessToast } from "../../system/toast";
 
 enum SignUpProgres {
     NAME = 1,
@@ -87,6 +88,8 @@ const SignUpPage = () => {
                 birth,
                 gender,
             });
+
+            showSuccessToast(t('signupSuccess'));
             navigation.navigate('DiaryTimelinePage');
         }
     });
