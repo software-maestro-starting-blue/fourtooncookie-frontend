@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Pressable, Linking } from 'react-native';
-import * as S from "./AgreementInputLayout.style";
+import { View, Text, Pressable, Linking, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from '../../../hooks/error';
-import { APP_PRIVACY_URL, APP_TERMS_AGREEMENT_URL } from '../../../config/appinfo';
-import { useTranslationWithParentName } from '../../../hooks/locale';
+import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from '../../hooks/error';
+import { APP_PRIVACY_URL, APP_TERMS_AGREEMENT_URL } from '../../config/appinfo';
+import { useTranslationWithParentName } from '../../hooks/locale';
 
 export interface AgreementInputLayoutProps {
     onAgreementChange: (isAgreed: boolean) => void;
@@ -40,19 +39,19 @@ const AgreementInputLayout = (props: AgreementInputLayoutProps) => {
     )
 
     return (
-        <View style={S.styles.agreementContainer}>
-            <View style={S.styles.textWithCheckboxContainer}>
-                <Text style={S.styles.agreementText}>
+        <View style={styles.agreementContainer}>
+            <View style={styles.textWithCheckboxContainer}>
+                <Text style={styles.agreementText}>
                     {t("doYouAgree")}
-                    <Text style={S.styles.linkText} onPress={handleTermsPress}>
+                    <Text style={styles.linkText} onPress={handleTermsPress}>
                         {t("termsOfService")}
                     </Text>
                     ,
-                    <Text style={S.styles.linkText} onPress={handlePrivacyPress}>
+                    <Text style={styles.linkText} onPress={handlePrivacyPress}>
                         {t("privacyPolicy")}
                     </Text>
                 </Text>
-                <Pressable onPress={handleTermsAndPrivacyCheckboxChange} style={S.styles.checkbox}>
+                <Pressable onPress={handleTermsAndPrivacyCheckboxChange} style={styles.checkbox}>
                     <MaterialIcons 
                         name={isTermsAndPrivacyAgreed ? "check-box" : "check-box-outline-blank"} 
                         size={24} 
@@ -60,11 +59,11 @@ const AgreementInputLayout = (props: AgreementInputLayoutProps) => {
                     />
                 </Pressable>
             </View>
-            <View style={S.styles.textWithCheckboxContainer}>
-                <Text style={S.styles.agreementText}>
+            <View style={styles.textWithCheckboxContainer}>
+                <Text style={styles.agreementText}>
                     {t("ageOver14")}
                 </Text>
-                <Pressable onPress={handleAgeOver14CheckboxChange} style={S.styles.checkbox}>
+                <Pressable onPress={handleAgeOver14CheckboxChange} style={styles.checkbox}>
                     <MaterialIcons 
                         name={isAgeOver14 ? "check-box" : "check-box-outline-blank"} 
                         size={24} 
@@ -77,3 +76,28 @@ const AgreementInputLayout = (props: AgreementInputLayoutProps) => {
 };
 
 export default AgreementInputLayout;
+
+const styles = StyleSheet.create({
+    agreementContainer: {
+
+        alignItems: 'center',
+    },
+    textWithCheckboxContainer: {
+        flexDirection: 'row', // 텍스트와 체크박스를 한 줄에 배치
+        alignItems: 'center', // 체크박스를 텍스트와 수평 정렬
+    },
+    agreementText: {
+        fontSize: 16,
+        marginRight: 10, // 체크박스와 텍스트 사이의 여백
+    },
+    linkText: {
+        color: '#1E90FF', // 링크 색상
+        textDecorationLine: 'underline', // 링크 밑줄
+    },
+    checkbox: {
+        marginLeft: 8, // 텍스트와 체크박스 사이에 약간의 여백 추가
+    },
+    checkboxText: {
+        fontSize: 16,
+    },
+});

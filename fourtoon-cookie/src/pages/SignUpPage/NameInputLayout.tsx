@@ -1,6 +1,5 @@
-import { TextInput } from "react-native";
-import * as S from "./NameInputLayout.styled";
-import { useTranslationWithParentName } from "../../../hooks/locale";
+import { StyleSheet, TextInput } from "react-native";
+import { useTranslationWithParentName } from "../../hooks/locale";
 
 export interface NameInputLayoutProps {
     name: string;
@@ -14,7 +13,7 @@ const NameInputLayout = (props: NameInputLayoutProps) => {
 
     return (
         <TextInput
-            style={S.styles.input}
+            style={styles.input}
             placeholder={t("placeholder")}
             placeholderTextColor="#CCCCCC"
             value={name}
@@ -25,3 +24,13 @@ const NameInputLayout = (props: NameInputLayoutProps) => {
 }
 
 export default NameInputLayout;
+
+const styles = StyleSheet.create({
+    input: {
+      borderBottomWidth: 1,
+      borderBottomColor: '#212121',
+      fontSize: 24,
+      width: '100%',
+      paddingVertical: 5,
+    },
+  });

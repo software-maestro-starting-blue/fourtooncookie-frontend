@@ -1,8 +1,7 @@
-import { Image, StyleProp, Text, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native";
-import { Gender } from "../../../types/gender";
-import MALE_ICON from "../../../../assets/icon/man.png";
-import FEMALE_ICON from "../../../../assets/icon/woman.png";
-import * as S from "./GenderInputLayout.styled"
+import { Image, StyleProp, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from "react-native";
+import { Gender } from "../../types/gender";
+import MALE_ICON from "../../../assets/icon/man.png";
+import FEMALE_ICON from "../../../assets/icon/woman.png";
 
 export interface GenderInputLayoutProps {
     gender: Gender | null;
@@ -34,17 +33,45 @@ const GenderComponent = (props: GenderComponentProps) => {
 
     return (
         <TouchableOpacity 
-            style={[S.styles.genderOption, isSelected && S.styles.selectedOption]}
+            style={[styles.genderOption, isSelected && styles.selectedOption]}
             onPress={onPress}
         >
             <Image 
-                style={S.styles.genderImage}
+                style={styles.genderImage}
                 source={(gender == Gender.MALE) ? MALE_ICON : FEMALE_ICON}
             />
-            <Text style={S.styles.genderText}>{gender}</Text>
+            <Text style={styles.genderText}>{gender}</Text>
         </TouchableOpacity>
     )
 
 }
 
 export default GenderInputLayout;
+
+const styles = StyleSheet.create({
+    genderOption: {
+      marginTop: '60%',
+      width: 147,
+      height: 138,
+      padding: 10,
+      borderColor: '#EEEEEE',
+      borderWidth: 1,
+      borderRadius: 16,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    selectedOption: {
+      borderColor: '#FFC426',
+    },
+    genderImage: {
+      width: 60,
+      height: 60,
+      marginBottom: 10,
+    },
+    genderText: {
+      fontSize: 17,
+      fontWeight: '600',
+      color: '#212121',
+      marginTop: 10,
+    },
+  });

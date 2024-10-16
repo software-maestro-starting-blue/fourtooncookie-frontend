@@ -1,8 +1,7 @@
-import { View } from "react-native";
-import * as S from "./BirthInputLayout.styled";
+import { StyleSheet, View } from "react-native";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { LocalDate } from "@js-joda/core";
-import { useFunctionWithErrorHandling } from "../../../hooks/error";
+import { useFunctionWithErrorHandling } from "../../hooks/error";
 
 export interface BirthInputLayoutProps {
     birth: LocalDate;
@@ -24,7 +23,7 @@ const BirthInputLayout = (props: BirthInputLayoutProps) => {
     })
 
     return (
-        <View style={S.styles.container}>
+        <View style={styles.container}>
             <DateTimePicker
                 value={new Date(birth.year(), birth.monthValue() - 1, birth.dayOfMonth())}
                 mode="date"
@@ -38,3 +37,16 @@ const BirthInputLayout = (props: BirthInputLayoutProps) => {
 }
 
 export default BirthInputLayout;
+
+const styles = StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      alignContent: 'center',
+      backgroundColor: '#f7f7f7',
+      borderRadius: 12,
+      width: 350,
+      height: 280,
+    },
+    });
+    
