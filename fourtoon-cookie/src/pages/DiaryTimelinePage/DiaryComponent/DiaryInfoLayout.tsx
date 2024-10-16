@@ -9,13 +9,13 @@ import { useFunctionWithErrorHandling } from "../../../hooks/error";
 import { useCharacterById } from "../../../hooks/server/character";
 import { useTranslationWithParentName } from "../../../hooks/locale";
 
-export interface HeaderProps {
+export interface DiaryInfoLayoutProps {
     diaryId: number;
     characterId: number;
     date: LocalDate;
 }
 
-const Header = (props: HeaderProps) => {
+const DiaryInfoLayout = (props: DiaryInfoLayoutProps) => {
     const { diaryId, characterId, date, ...rest } = props;
 
     const { mutate: deleteDiaryById } = useDeleteDiary();
@@ -88,7 +88,7 @@ const Header = (props: HeaderProps) => {
     );
 }
 
-export default Header;
+export default DiaryInfoLayout;
 
 const styles = StyleSheet.create({
     header: {

@@ -4,7 +4,7 @@ import { Diary, DiaryStatus } from "../../../types/diary";
 import DiaryContentsLayout from "./DiaryContentsLayout";
 import DiaryPaintingImagesLayout from "./DiaryPaintingImagesLayout";
 import DiaryActionsLayout from "./DiaryActionsLayout";
-import Header from "./Header";
+import DiaryInfoLayout from "./DiaryInfoLayout";
 import DiaryPaintingImageLoadingLayout from "./DiaryPaintingImageLoadingLayout";
 import DiaryPaintingImageFailedLayout from "./DiaryPaintingImageFailedLayout";
 import { useDiaryById } from "../../../hooks/server/diary";
@@ -23,7 +23,7 @@ const DiaryComponent = (props: DiaryProps) => {
 
     return (
         <View style={styles.container}>
-            <Header
+            <DiaryInfoLayout
                 diaryId={diaryId}
                 characterId={diary.characterId}
                 date={diaryDate}
