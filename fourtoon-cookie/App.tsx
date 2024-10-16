@@ -15,6 +15,7 @@ import SignUpPage from './src/pages/SignUpPage/SignUpPage';
 import IntroPage from './src/pages/IntroPage/IntroPage';
 import SettingPage from './src/pages/SettingPage/SettingPage';
 import BasicErrorBoundary from './src/components/error/BasicErrorBoundary';
+import Toast from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -47,6 +48,7 @@ function App() {
 					</ActionSheetProvider>
 				</BasicErrorBoundary>
 			</NavigationContainer>
+			<Toast />
 		</QueryClientProvider>
 	);
 }
