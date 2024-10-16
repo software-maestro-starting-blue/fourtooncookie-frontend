@@ -119,7 +119,8 @@
           "placeholder": "Write about your day here."
         },
         "writeDoneButtonlayout": {
-          "pleaseSelectCharacter": "Please select a character."
+          "pleaseSelectCharacter": "Please select a character.",
+          "diaryCreated": "Diary created 🎉"
         }
       },
       "introPage": {

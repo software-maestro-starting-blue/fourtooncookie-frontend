@@ -119,7 +119,8 @@
                 "placeholder": "오늘의 일상을 작성해주세요."
             },
             "writeDoneButtonlayout": {
-                "pleaseSelectCharacter": "캐릭터를 선택해주세요."
+                "pleaseSelectCharacter": "캐릭터를 선택해주세요.",
+                "diaryCreated": "일기 작성 완료 🎉"
             }
         },
         "introPage": {
