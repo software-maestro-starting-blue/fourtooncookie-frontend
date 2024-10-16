@@ -3,14 +3,10 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { CharacterPaymentType } from '../../types/character';
 
 import { useTranslationWithParentName } from '../../hooks/locale';
+import { useCharacterSelectPageContext } from './CharacterSelectPageProvider';
 
-export interface TabsLayoutProps {
-    selectedPaymentType: CharacterPaymentType;
-    onSelectedPaymentTypeChange: (characterPaymentType: CharacterPaymentType) => void;
-}
-
-const TabsLayout = (props: TabsLayoutProps) => {
-    const { selectedPaymentType, onSelectedPaymentTypeChange, ...rest } = props;
+const TabsLayout = () => {
+    const { selectedPaymentType, setSelectedPaymentType } = useCharacterSelectPageContext();
 
     const t = useTranslationWithParentName('pages.characterSelectPage.tabsLayout');
     
@@ -24,7 +20,7 @@ const TabsLayout = (props: TabsLayoutProps) => {
                     <Tab
                         isActive={selectedPaymentType === item.type}
                         label={item.label}
-                        onPress={() => onSelectedPaymentTypeChange(item.type)}
+                        onPress={() => setSelectedPaymentType(item.type)}
                     />
                 ))
             }

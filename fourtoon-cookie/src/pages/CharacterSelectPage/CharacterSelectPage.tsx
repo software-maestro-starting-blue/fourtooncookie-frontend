@@ -1,38 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { CharacterPaymentType } from '../../types/character';
 
 import Header from './Header';
 import TabsLayout from './TabsLayout';
 import ArtworkList from './ArtworkList';
+import CharacterSelectPageProvider from './CharacterSelectPageProvider';
 
-import { useFunctionWithErrorHandling } from '../../hooks/error';
 
-
-const CharacterSelectPage = () => {
-    const [ selectedPaymentType, setSelectedPaymentType ] = useState<CharacterPaymentType>(CharacterPaymentType.FREE);
-
-    const { functionWithErrorHandling } = useFunctionWithErrorHandling();
-
-    const handleSelectedPaymentTypeChange = functionWithErrorHandling((characterPaymentType: CharacterPaymentType) => {
-        setSelectedPaymentType(characterPaymentType);
-    });
-
+const CharacterSelectPageContent = () => {
     return (
         <SafeAreaView style={styles.container}>
             <Header />
-            <TabsLayout
-                selectedPaymentType={selectedPaymentType}
-                onSelectedPaymentTypeChange={handleSelectedPaymentTypeChange}
-            />
+            <TabsLayout />
             <View style={styles.separator} />
-            <ArtworkList
-                paymentType={selectedPaymentType}
-            />
+            <ArtworkList />
         </SafeAreaView>
     );
 };
+
+const CharacterSelectPage = () => {
+    return (
+        <CharacterSelectPageProvider>
+            <CharacterSelectPageContent />
+        </CharacterSelectPageProvider>
+    );
+}
 
 export default CharacterSelectPage;
 
