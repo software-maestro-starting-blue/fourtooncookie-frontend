@@ -1,14 +1,13 @@
-import { View, Linking, Alert } from 'react-native';
+import { View, Linking, Alert, StyleSheet } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import MenuWideButton from '../../../components/common/MenuWideButton/MenuWideButton';
-import { APP_INFO_URL } from '../../../config/appinfo';
-import { RootStackParamList } from '../../../types/routing';
+import MenuWideButton from '../../components/common/MenuWideButton/MenuWideButton';
+import { APP_INFO_URL } from '../../config/appinfo';
+import { RootStackParamList } from '../../types/routing';
 
-import * as S from './MenuLayout.styled';
-import { AccountStatus } from '../../../types/account';
-import { useAccountState } from '../../../hooks/account';
-import { useFunctionWithErrorHandling } from '../../../hooks/error';
-import { useTranslationWithParentName } from '../../../hooks/locale';
+import { AccountStatus } from '../../types/account';
+import { useAccountState } from '../../hooks/account';
+import { useFunctionWithErrorHandling } from '../../hooks/error';
+import { useTranslationWithParentName } from '../../hooks/locale';
 
 const MenuLayout = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -53,14 +52,14 @@ const MenuLayout = () => {
     })
     
     return (
-        <View style={S.styles.menuContainer}>
+        <View style={styles.menuContainer}>
             <MenuWideButton menuText={commonT("appInfo")} onPress={handleAppInfoButtonPress} />
             {
                 (accountState === AccountStatus.LOGINED) ? 
                 (
                     <>
                     <MenuWideButton menuText={loginT("logout")} onPress={handleLogoutButtonPress} />
-                    <MenuWideButton menuText={loginT("resign")} onPress={handleResignButtonPress} textStyle={S.styles.deleteText} />
+                    <MenuWideButton menuText={loginT("resign")} onPress={handleResignButtonPress} textStyle={styles.deleteText} />
                     </>
                 ) : 
                 (
@@ -72,3 +71,15 @@ const MenuLayout = () => {
 }
 
 export default MenuLayout;
+
+const styles = StyleSheet.create({
+    menuContainer: {
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      gap: 20,
+      width: 350,
+    },
+    deleteText: {
+      color: '#F60D0D',
+  },
+  });
