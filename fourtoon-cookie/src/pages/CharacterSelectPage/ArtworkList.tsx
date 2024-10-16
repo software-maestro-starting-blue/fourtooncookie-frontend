@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Text, View, FlatList } from 'react-native';
-import CharacterList from '../../components/character/CharacterList/CharacterList';
+import CharacterList from '../../components/character/CharacterList';
 import type { Character, CharacterPaymentType } from '../../types/character';
 
 import { useCharacters } from '../../hooks/server/character';
