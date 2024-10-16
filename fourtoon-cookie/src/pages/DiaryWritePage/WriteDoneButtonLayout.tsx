@@ -15,15 +15,11 @@ import buttonTrack from "../../system/amplitude";
 import { useFunctionWithErrorHandling } from "../../hooks/error";
 import { useTranslationWithParentName } from "../../hooks/locale";
 import { SelectedCharacterNotExistError } from "../../types/error/character/SelectedCharacterNotExistError";
+import { useDiaryWritePageContext } from "./DiaryWritePageProvider";
 
-export interface WriteDoneButtonLayout {
-    diaryDate: LocalDate;
-    content: string;
-    currentDiaryId?: number;
-}
 
-const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
-    const { diaryDate, content, currentDiaryId, ...rest } = props;
+const WriteDoneButtonLayout = () => {
+    const { diaryDate, content, currentDiaryId } = useDiaryWritePageContext();
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
