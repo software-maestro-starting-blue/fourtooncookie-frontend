@@ -11,7 +11,7 @@ import { LocalDate } from "@js-joda/core";
 import WriteDoneButtonLayout from "./WriteDoneButtonLayout";
 import { useDiaryById } from "../../hooks/server/diary";
 import { useFunctionWithErrorHandling } from "../../hooks/error";
-import BackButton from "../../components/common/BackButton/BackButton";
+import BackButton from "../../components/common/BackButton";
 import DateInfo from "./DateInfo";
 import CharacterIconButton from "./CharacterIconButton";
 import { NavigationProp, useNavigation } from "@react-navigation/native";

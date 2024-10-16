@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import BackButton from "../../components/common/BackButton/BackButton";
+import BackButton from "../../components/common/BackButton";
 import { useSelectedCharacterStore } from "../../hooks/store/selectedCharacter";
 
 import { SelectedCharacterNotExistError } from "../../types/error/character/SelectedCharacterNotExistError";
