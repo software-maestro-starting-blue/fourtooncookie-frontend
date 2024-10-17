@@ -15,6 +15,7 @@ import AgreementInputLayout from "./AgreementInputLayout";
 import { useAccountState } from "../../hooks/account";
 import { useFunctionWithErrorHandling } from "../../hooks/error";
 import { useTranslationWithParentName } from "../../hooks/locale";
+import { showSuccessToast } from "../../system/toast";
 import SignUpPageProvider, { SignUpProgres, useSignUpPageContext } from "./SignUpPageProvider";
 
 
@@ -43,6 +44,8 @@ const SignUpPageContent = () => {
                 birth,
                 gender,
             });
+
+            showSuccessToast(t('signupSuccess'));
             navigation.navigate('DiaryTimelinePage');
         }
     });

@@ -15,6 +15,7 @@ import buttonTrack from "../../system/amplitude";
 import { useFunctionWithErrorHandling } from "../../hooks/error";
 import { useTranslationWithParentName } from "../../hooks/locale";
 import { SelectedCharacterNotExistError } from "../../types/error/character/SelectedCharacterNotExistError";
+import { showSuccessToast } from "../../system/toast";
 import { useDiaryWritePageContext } from "./DiaryWritePageProvider";
 
 
@@ -80,6 +81,8 @@ const WriteDoneButtonLayout = () => {
         }
 
         buttonTrack('캐릭터 ID: ' + diary.characterId + '로 생성')
+
+        showSuccessToast(t('diaryCreated'));
 
         navigation.navigate('DiaryTimelinePage');
     

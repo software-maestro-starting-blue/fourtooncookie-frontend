@@ -11,6 +11,7 @@ import { AccountStatus } from "../../types/account";
 import { useAccountState } from "../../hooks/account";
 import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from "../../hooks/error";
 import { useTranslationWithParentName } from "../../hooks/locale";
+import { showInfoToast, showSuccessToast } from "../../system/toast";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -20,6 +21,7 @@ const IntroPage = () => {
     const { asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
 
     const t = useTranslationWithParentName('pages.introPage');
+    const loginT = useTranslationWithParentName('login');
 
     useEffectWithErrorHandling(() => {
         const navigateByMemberStatus = async () => {
@@ -28,10 +30,12 @@ const IntroPage = () => {
 			}
 	
 			if (accountState == AccountStatus.UNSIGNEDUP){
+        showInfoToast(loginT('signupRequired'));
 				navigation.navigate('SignUpPage');
 				return;
 			}
-	
+
+      showSuccessToast(loginT('loginSuccess'));
 			navigation.navigate('DiaryTimelinePage');
 		}
 		

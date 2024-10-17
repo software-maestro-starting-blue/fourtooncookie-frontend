@@ -12,6 +12,9 @@
     "login": {
         "loginRequired": "로그인 필요",
         "loginRequiredDetail": "로그인이 필요한 서비스입니다. 로그인을 해주세요.",
+        "loginSuccess": "로그인에 성공했습니다 🎉",
+        "signupRequired": "회원가입이 필요합니다",
+        "signupSuccess": "회원가입에 성공했습니다 🎉",
         "login": "로그인",
         "signUp": "회원가입",
         "logout": "로그아웃",
@@ -118,8 +121,9 @@
             "textInputLayout": {
                 "placeholder": "오늘의 일상을 작성해주세요."
             },
-            "writeDoneButtonLayout": {
-                "pleaseSelectCharacter": "캐릭터를 선택해주세요."
+            "writeDoneButtonlayout": {
+                "pleaseSelectCharacter": "캐릭터를 선택해주세요.",
+                "diaryCreated": "일기 작성 완료 🎉"
             }
         },
         "introPage": {

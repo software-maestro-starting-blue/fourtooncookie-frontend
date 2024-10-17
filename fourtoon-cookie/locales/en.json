@@ -12,6 +12,9 @@
     "login": {
       "loginRequired": "Login Required",
       "loginRequiredDetail": "This service requires login. Please log in.",
+      "loginSuccess": "Success to login 🎉",
+      "signupRequired": "Sign up required",
+      "signupSuccess": "Success to sign up 🎉",
       "login": "Login",
       "signUp": "Sign Up",
       "logout": "Logout",
@@ -118,8 +121,9 @@
         "textInputLayout": {
           "placeholder": "Write about your day here."
         },
-        "writeDoneButtonLayout": {
-          "pleaseSelectCharacter": "Please select a character."
+        "writeDoneButtonlayout": {
+          "pleaseSelectCharacter": "Please select a character.",
+          "diaryCreated": "Diary created 🎉"
         }
       },
       "introPage": {

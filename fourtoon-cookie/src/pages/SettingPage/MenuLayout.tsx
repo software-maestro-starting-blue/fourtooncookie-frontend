@@ -8,6 +8,7 @@ import { AccountStatus } from '../../types/account';
 import { useAccountState } from '../../hooks/account';
 import { useFunctionWithErrorHandling } from '../../hooks/error';
 import { useTranslationWithParentName } from '../../hooks/locale';
+import { showInfoToast } from '../../system/toast';
 
 const MenuLayout = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -24,11 +25,13 @@ const MenuLayout = () => {
 
     const handleLogoutButtonPress = asyncFunctionWithErrorHandling(async () => {
         await logout();
+        showInfoToast(commonT('done'));
     });
 
     const handleResignButtonPress = functionWithErrorHandling(() => {
         const handleResign = asyncFunctionWithErrorHandling(async () => {
             await resign();
+            showInfoToast(commonT('done'));
         });
 
         Alert.alert(
