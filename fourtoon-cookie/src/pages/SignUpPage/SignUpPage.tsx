@@ -28,6 +28,7 @@ const SignUpPageContent = () => {
 
     const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
+    const loginT = useTranslationWithParentName('login');
     const commonT = useTranslationWithParentName('common');
 
 
@@ -45,7 +46,7 @@ const SignUpPageContent = () => {
                 gender,
             });
 
-            showSuccessToast(t('signupSuccess'));
+            showSuccessToast(loginT('signupSuccess'));
             navigation.navigate('DiaryTimelinePage');
         }
     });
