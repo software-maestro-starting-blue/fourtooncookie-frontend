@@ -1,14 +1,10 @@
 import { StyleSheet, TextInput } from "react-native";
 import { useTranslationWithParentName } from "../../hooks/locale";
 import Container from "./Container";
+import { useSignUpPageContext } from "./SignUpPageProvider";
 
-export interface NameInputLayoutProps {
-    name: string;
-    onNameChange: (name: string) => void;
-}
-
-const NameInputLayout = (props: NameInputLayoutProps) => {
-    const { name, onNameChange, ...rest } = props;
+const NameInputLayout = () => {
+    const { name, setName } = useSignUpPageContext();
 
     const t = useTranslationWithParentName('pages.signUpPage.nameInputLayout');
 
@@ -19,7 +15,7 @@ const NameInputLayout = (props: NameInputLayoutProps) => {
                 placeholder={t("placeholder")}
                 placeholderTextColor="#CCCCCC"
                 value={name}
-                onChangeText={onNameChange}
+                onChangeText={setName}
             />
         </Container>
     )

@@ -4,14 +4,10 @@ import MALE_ICON from "../../../assets/icon/man.png";
 import FEMALE_ICON from "../../../assets/icon/woman.png";
 import Container from "./Container";
 import { useTranslationWithParentName } from "../../hooks/locale";
+import { useSignUpPageContext } from "./SignUpPageProvider";
 
-export interface GenderInputLayoutProps {
-    gender: Gender | null;
-    onGenderChange: (gender: Gender) => void;
-}
-
-const GenderInputLayout = (props: GenderInputLayoutProps) => {
-    const { gender, onGenderChange, ...rest } = props;
+const GenderInputLayout = () => {
+    const { gender, setGender } = useSignUpPageContext();
 
     const t = useTranslationWithParentName('pages.signUpPage.genderInputLayout');
 
@@ -22,7 +18,7 @@ const GenderInputLayout = (props: GenderInputLayoutProps) => {
                     <GenderComponent
                         gender={genderItem}
                         isSelected={gender == genderItem}
-                        onPress={() => onGenderChange(genderItem)}
+                        onPress={() => setGender(genderItem)}
                     />
                 </View>
             )}
