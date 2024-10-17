@@ -89,7 +89,7 @@
       },
       "diaryTimelinePage": {
         "diaryComponent": {
-          "diaryContetnsLayout": {
+          "diaryContentsLayout": {
             "briefView": "Brief View",
             "readMore": "Read More"
           },
@@ -118,7 +118,7 @@
         "textInputLayout": {
           "placeholder": "Write about your day here."
         },
-        "writeDoneButtonlayout": {
+        "writeDoneButtonLayout": {
           "pleaseSelectCharacter": "Please select a character."
         }
       },
