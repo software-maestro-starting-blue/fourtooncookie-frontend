@@ -6,13 +6,10 @@ import type { Character, CharacterPaymentType } from '../../types/character';
 import { useCharacters } from '../../hooks/server/character';
 
 import { StyleSheet } from 'react-native';
+import { useCharacterSelectPageContext } from './CharacterSelectPageProvider';
 
-export interface ArtworkListProps {
-	paymentType: CharacterPaymentType
-}
-
-const ArtworkList = (props: ArtworkListProps) => {
-	const { paymentType, ...rest } = props;
+const ArtworkList = () => {
+	const { selectedPaymentType } = useCharacterSelectPageContext();
 
 	const { data: characterList } = useCharacters();
 
@@ -33,7 +30,7 @@ const ArtworkList = (props: ArtworkListProps) => {
 		};
 
 		const charactersGroupedByArtworkTitle = groupByArtworkTitle(
-			characterList?.filter(character => character.paymentType === paymentType)
+			characterList?.filter(character => character.paymentType === selectedPaymentType)
 		)
 	
 		return (
@@ -49,7 +46,7 @@ const ArtworkList = (props: ArtworkListProps) => {
 			/>
 		);
 
-	}, [paymentType, characterList]);
+	}, [selectedPaymentType, characterList]);
 }
 
 interface ArtworkItemProps {

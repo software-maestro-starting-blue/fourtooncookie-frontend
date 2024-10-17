@@ -16,67 +16,23 @@ import { useAccountState } from "../../hooks/account";
 import { useFunctionWithErrorHandling } from "../../hooks/error";
 import { useTranslationWithParentName } from "../../hooks/locale";
 import { showSuccessToast } from "../../system/toast";
+import SignUpPageProvider, { SignUpProgres, useSignUpPageContext } from "./SignUpPageProvider";
 
-enum SignUpProgres {
-    NAME = 1,
-    BIRTH = 2,
-    GENDER = 3,
-    AGREEMENT = 4
-}
 
-const SignUpPage = () => {
-    const [name, setName] = useState<string>('');
-    const [birth, setBirth] = useState<LocalDate>(LocalDate.now());
-    const [gender, setGender] = useState<Gender | null>(null);
-    const [isAgreed, setIsAgreed] = useState<boolean>(false);
+const SignUpPageContent = () => {
+    const { name, birth, gender, isAgreed, signUpProgress, setSignUpProgress, isNextAvailabe } = useSignUpPageContext();
 
-    const [signUpProgress, setSignUpProgress] = useState<SignUpProgres>(SignUpProgres.NAME);
+    const { signup } = useAccountState();
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-    const { logout, signup } = useAccountState();
-
     const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
-    const t = useTranslationWithParentName('pages.signUpPage');
     const commonT = useTranslationWithParentName('common');
 
-    const isNextButtonAvailabe: boolean = 
-        (signUpProgress == SignUpProgres.NAME && name.length > 0)
-        || (signUpProgress == SignUpProgres.BIRTH && birth != null && ! birth.isAfter(LocalDate.now()))
-        || (signUpProgress == SignUpProgres.GENDER && gender != null)
-        || (signUpProgress == SignUpProgres.AGREEMENT && isAgreed);
-
-    const handleNameChange = functionWithErrorHandling((name: string) => {
-        if (signUpProgress != SignUpProgres.NAME) return;
-        setName(name);
-    });
-
-    const handleBirthChange = functionWithErrorHandling((birth: LocalDate) => {
-        if (signUpProgress != SignUpProgres.BIRTH) return;
-        setBirth(birth);
-    });
-
-    const handleGenderChange = functionWithErrorHandling((gender: Gender) => {
-        if (signUpProgress != SignUpProgres.GENDER) return;
-        setGender(gender);
-    });
-
-    const handleAgreementChange = functionWithErrorHandling((isAgreed: boolean) => {
-        setIsAgreed(isAgreed);
-    });
-
-    const handleBackButtonPress = functionWithErrorHandling(() => {
-        if (signUpProgress == SignUpProgres.NAME) {
-            logout();
-            return;
-        }
-
-        setSignUpProgress(signUpProgress - 1);
-    })
 
     const handleNextButtonClick = functionWithErrorHandling(() => {
-        if (!isNextButtonAvailabe) return;
+        if (!isNextAvailabe) return;
 
         if (signUpProgress < SignUpProgres.AGREEMENT) {
             setSignUpProgress(signUpProgress + 1);
@@ -94,29 +50,15 @@ const SignUpPage = () => {
         }
     });
 
+    
     return (
         <SafeAreaView style={styles.safeArea}>
             <View style={styles.container}>
-                <Header onBackButtonPress={handleBackButtonPress}/>
-                {signUpProgress == SignUpProgres.NAME && 
-                <NameInputLayout 
-                    name={name} 
-                    onNameChange={handleNameChange} 
-                />}
-                {signUpProgress == SignUpProgres.BIRTH && 
-                <BirthInputLayout 
-                    birth={birth} 
-                    onBirthChange={handleBirthChange} 
-                />}
-                {signUpProgress == SignUpProgres.GENDER && 
-                <GenderInputLayout
-                    gender={gender} 
-                    onGenderChange={handleGenderChange} 
-                />}
-                {signUpProgress == SignUpProgres.AGREEMENT && 
-                <AgreementInputLayout 
-                    onAgreementChange={handleAgreementChange} 
-                />}
+                <Header/>
+                {signUpProgress == SignUpProgres.NAME && <NameInputLayout/>}
+                {signUpProgress == SignUpProgres.BIRTH && <BirthInputLayout />}
+                {signUpProgress == SignUpProgres.GENDER && <GenderInputLayout/>}
+                {signUpProgress == SignUpProgres.AGREEMENT && <AgreementInputLayout />}
                 <KeyboardAvoidingView 
                     style={styles.bottomContainer} 
                     enabled={true}
@@ -135,7 +77,7 @@ const SignUpPage = () => {
                         onPress={handleNextButtonClick}
                         style={{
                             ...styles.nextButton, 
-                            backgroundColor: isNextButtonAvailabe ? '#FFC426' : '#DDDDDD'
+                            backgroundColor: isNextAvailabe ? '#FFC426' : '#DDDDDD'
                         }}
                         textStyle={styles.nextButtonText}
                     />
@@ -144,6 +86,14 @@ const SignUpPage = () => {
         </SafeAreaView>
     );
 };
+
+const SignUpPage = () => {
+    return (
+        <SignUpPageProvider>
+            <SignUpPageContent/>
+        </SignUpPageProvider>
+    );
+}
 
 export default SignUpPage;
 

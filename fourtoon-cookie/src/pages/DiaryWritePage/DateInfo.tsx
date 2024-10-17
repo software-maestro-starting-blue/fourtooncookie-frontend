@@ -5,23 +5,17 @@ import DOWN_ARROW from '../../../assets/icon/down-arrow.png';
 
 import { LocalDate } from '@js-joda/core';
 import { useFunctionWithErrorHandling } from '../../hooks/error';
+import { useDiaryWritePageContext } from './DiaryWritePageProvider';
 
-export interface DateInfoProps {
-    date: LocalDate;
-    isChangeable: boolean;
-    onDateChange: (date: LocalDate) => void;
-}
-
-const DateInfo = (props: DateInfoProps) => {
-    const { date, isChangeable, onDateChange, ...rest } = props;
-
-    const dateString: string = date.toString();
-
+const DateInfo = () => {
+    const { currentDiaryId, diaryDate, setDiaryDate } = useDiaryWritePageContext();
 
     const [isDatePickerVisible, setDatePickerVisible] = useState<boolean>(false);
 
     const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
+    const isChangeable: boolean = ! currentDiaryId;
+    const dateString: string = diaryDate.toString();
 
     const handleDatePress = functionWithErrorHandling(() => {
         if (! isChangeable) return;
@@ -35,7 +29,7 @@ const DateInfo = (props: DateInfoProps) => {
     const handleConfirm = functionWithErrorHandling((date: Date) => {
         if (date.getTime() > Date.now()) return;
         const localDate: LocalDate = LocalDate.of(date.getFullYear(), date.getMonth() + 1, date.getDate());
-        onDateChange(localDate);
+        setDiaryDate(localDate);
         setDatePickerVisible(false);
     })
 
@@ -49,7 +43,7 @@ const DateInfo = (props: DateInfoProps) => {
             <DateTimePickerModal 
                 isVisible={isDatePickerVisible}
                 mode="date"
-                date={new Date(date.year(), date.monthValue() - 1, date.dayOfMonth())}
+                date={new Date(diaryDate.year(), diaryDate.monthValue() - 1, diaryDate.dayOfMonth())}
                 onConfirm={handleConfirm}
                 onCancel={handleCancel}
                 style={styles.dateModal}

@@ -1,14 +1,10 @@
 import { StyleSheet, TextInput, View } from "react-native";
 
 import { useTranslationWithParentName } from "../../hooks/locale";
+import { useDiaryWritePageContext } from "./DiaryWritePageProvider";
 
-export interface TextInputLayoutProps {
-    text: string,
-    onTextChange: (value: string) => void,
-}
-
-const TextInputLayout = (props: TextInputLayoutProps) => {
-    const { text, onTextChange, ...rest } = props;
+const TextInputLayout = () => {
+    const { content, setContent } = useDiaryWritePageContext();
 
     const t = useTranslationWithParentName("pages.diaryWritePage.textInputLayout");
     
@@ -18,10 +14,10 @@ const TextInputLayout = (props: TextInputLayoutProps) => {
                 style={styles.diaryInput}
                 placeholder={t("placeholder")}
                 placeholderTextColor="#CCCCCC"
-                value={text}
+                value={content}
                 multiline={true}
                 scrollEnabled={true}
-                onChangeText={onTextChange}
+                onChangeText={setContent}
             />
         </View>
     );

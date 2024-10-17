@@ -16,15 +16,11 @@ import { useFunctionWithErrorHandling } from "../../hooks/error";
 import { useTranslationWithParentName } from "../../hooks/locale";
 import { SelectedCharacterNotExistError } from "../../types/error/character/SelectedCharacterNotExistError";
 import { showSuccessToast } from "../../system/toast";
+import { useDiaryWritePageContext } from "./DiaryWritePageProvider";
 
-export interface WriteDoneButtonLayout {
-    diaryDate: LocalDate;
-    content: string;
-    currentDiaryId?: number;
-}
 
-const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
-    const { diaryDate, content, currentDiaryId, ...rest } = props;
+const WriteDoneButtonLayout = () => {
+    const { diaryDate, content, currentDiaryId } = useDiaryWritePageContext();
 
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
@@ -38,7 +34,7 @@ const WriteDoneButtonLayout = (props: WriteDoneButtonLayout) => {
 
     const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
-    const t = useTranslationWithParentName('diaryWritePage.writeDoneButtonLayout');
+    const t = useTranslationWithParentName('pages.diaryWritePage.writeDoneButtonLayout');
     const commonT = useTranslationWithParentName('common');
     const loginT = useTranslationWithParentName('login');
 

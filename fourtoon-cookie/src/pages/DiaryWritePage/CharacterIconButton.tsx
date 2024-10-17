@@ -1,17 +1,23 @@
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useSelectedCharacterStore } from "../../hooks/store/selectedCharacter";
+import { useFunctionWithErrorHandling } from "../../hooks/error";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../../types/routing";
 
-export interface CharacterIconButtonProps {
-    onCharacterChoosePress: () => void;
-}
 
-const CharacterIconButton = (props: CharacterIconButtonProps) => {
-    const { onCharacterChoosePress, ...rest } = props;
-
+const CharacterIconButton = () => {
     const { selectedCharacter } = useSelectedCharacterStore();
 
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>()
+
+    const { functionWithErrorHandling } = useFunctionWithErrorHandling();
+
+    const handleCharacterChoosePress = functionWithErrorHandling(() => {
+        navigation.navigate("CharacterSelectPage");
+    });
+
     return (
-        <TouchableOpacity onPress={onCharacterChoosePress} style={styles.container}>
+        <TouchableOpacity onPress={handleCharacterChoosePress} style={styles.container}>
             <Image 
                 source={{ uri: selectedCharacter?.selectionThumbnailUrl }} 
                 style={styles.image} 
