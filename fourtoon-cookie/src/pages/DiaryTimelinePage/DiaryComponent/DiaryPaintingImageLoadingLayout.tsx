@@ -43,9 +43,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#f8f8f8',
     },
     characterIcon: {
-        width: 60,
-        height: 60,
+        width: 150,
+        height: 150,
         marginBottom: 10,
+        borderRadius: 75,
     },
     characterText: {
         fontSize: 16,
