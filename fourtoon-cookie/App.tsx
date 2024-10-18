@@ -1,12 +1,13 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ActionSheetProvider } from "@expo/react-native-action-sheet";
-import { RootStackParamList } from './src/types/routing';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { init } from '@amplitude/analytics-react-native';
+import React, {useEffect} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {ActionSheetProvider} from "@expo/react-native-action-sheet";
+import {RootStackParamList} from './src/types/routing';
+import {QueryClient, QueryClientProvider} from 'react-query';
+import {init} from '@amplitude/analytics-react-native';
 import * as Sentry from "@sentry/react-native";
 import './src/system/i18n';
+import * as Notifications from 'expo-notifications';
 
 import CharacterSelectPage from './src/pages/CharacterSelectPage/CharacterSelectPage';
 import DiaryWritePage from './src/pages/DiaryWritePage/DiaryWritePage';
@@ -16,6 +17,9 @@ import IntroPage from './src/pages/IntroPage/IntroPage';
 import SettingPage from './src/pages/SettingPage/SettingPage';
 import BasicErrorBoundary from './src/components/error/BasicErrorBoundary';
 import Toast from 'react-native-toast-message';
+import {assignPushNotificationToken, unassignPushNotificationToken} from "./src/apis/notification";
+import {useAccountState} from "./src/hooks/account";
+import {AccountStatus} from "./src/types/account";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -30,7 +34,26 @@ Sentry.init({
 	},
 });
 
+Notifications.setNotificationHandler({
+	handleNotification: async () => {
+		return {
+			shouldShowAlert: false,
+			shouldPlaySound: false,
+			shouldSetBadge: false,
+		}
+	}
+});
+
 function App() {
+	const { accountState } = useAccountState();
+
+	useEffect(() => {
+		if (accountState == AccountStatus.LOGINED) {
+			assignPushNotificationToken();
+		} else {
+			unassignPushNotificationToken();
+		}
+	}, [accountState]);
 
 	return (
 		<QueryClientProvider client={queryClient}>
