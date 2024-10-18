@@ -12,7 +12,7 @@ import { AccountStatus } from "../../types/account";
 import { useCreateDiary, useUpdateDiary } from "../../hooks/server/diary";
 import { useAccountState } from "../../hooks/account";
 import buttonTrack from "../../system/amplitude";
-import { useFunctionWithErrorHandling } from "../../hooks/error";
+import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from "../../hooks/error";
 import { useTranslationWithParentName } from "../../hooks/locale";
 import { SelectedCharacterNotExistError } from "../../types/error/character/SelectedCharacterNotExistError";
 import { showSuccessToast } from "../../system/toast";
@@ -26,8 +26,9 @@ const WriteDoneButtonLayout = () => {
 
     const [isWorking, setIsWorking] = useState<boolean>(false);
 
-    const { mutate: createDiary } = useCreateDiary();
-    const { mutate: updateDiary } = useUpdateDiary();
+    const { mutate: createDiary, isLoading: isCreateMutateLoading, isSuccess: isCreateMutationSuccess } = useCreateDiary();
+    const { mutate: updateDiary, isLoading: isUpdateMutateLoading, isSuccess: isUpdateMutationSuccess } = useUpdateDiary();
+
     const { selectedCharacter } = useSelectedCharacterStore();
 
     const { accountState } = useAccountState();
@@ -38,7 +39,21 @@ const WriteDoneButtonLayout = () => {
     const commonT = useTranslationWithParentName('common');
     const loginT = useTranslationWithParentName('login');
 
+    const isMutateLoading: boolean = isCreateMutateLoading || isUpdateMutateLoading;
+    const isMutateSuccess: boolean = isCreateMutationSuccess || isUpdateMutationSuccess;
+
     const isNextButtonEnabled = content.length > 0 && ! isWorking;
+
+    useEffectWithErrorHandling(() => {
+        if (isWorking) return;
+
+        if (isMutateLoading) return;
+
+        if (! isMutateSuccess) return;
+
+        showSuccessToast(t('diaryCreated'));
+        navigation.navigate('DiaryTimelinePage');
+    }, [isWorking, isMutateLoading, isMutateSuccess]);
 
     const handleWriteDoneButtonPress = functionWithErrorHandling(() => {
         if (accountState !== AccountStatus.LOGINED) {
@@ -81,11 +96,6 @@ const WriteDoneButtonLayout = () => {
         }
 
         buttonTrack('캐릭터 ID: ' + diary.characterId + '로 생성')
-
-        showSuccessToast(t('diaryCreated'));
-
-        navigation.navigate('DiaryTimelinePage');
-    
         setIsWorking(false);
     });
 
