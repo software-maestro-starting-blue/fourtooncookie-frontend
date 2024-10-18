@@ -7,4 +7,5 @@ export type RootStackParamList = {
     IntroPage: undefined,
     SignUpPage: undefined,
     SettingPage: undefined,
+    TabScreens: undefined
 }
