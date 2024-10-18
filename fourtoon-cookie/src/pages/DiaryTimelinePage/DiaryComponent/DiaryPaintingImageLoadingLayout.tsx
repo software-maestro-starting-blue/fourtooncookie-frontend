@@ -3,6 +3,8 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import { useCharacters } from "../../../hooks/server/character";
 import { useTranslationWithParentName } from "../../../hooks/locale";
 
+import WORKING_ICON from "../../../../assets/icon/working.png";
+
 export interface DiaryPaintingImageLoadingLayoutProps {
     selectedCharacterId: number;
 }
@@ -16,12 +18,10 @@ const DiaryPaintingImageLoadingLayout = (props: DiaryPaintingImageLoadingLayoutP
 
     const selectedCharacter = characterList?.find(character => character.id === selectedCharacterId);
 
-    const defaultSelectCharacterImageUrl = require('../../../../assets/logo/logo-3.png');
-
     return (
         <View style={styles.emptyContainer}>
             <Image 
-                source={selectedCharacter ? { uri: selectedCharacter.selectionThumbnailUrl } : defaultSelectCharacterImageUrl}
+                source={WORKING_ICON}
                 style={styles.characterIcon}
             />
             <Text style={styles.characterText}>

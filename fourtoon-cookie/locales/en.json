@@ -102,7 +102,7 @@
           },
           "diaryPaintingImageLoadingLayout": {
             "title": "{{name}} is drawing the painting!",
-            "detail": "Working hard on it. Please wait a little longer!"
+            "detail": "Working hard on it. Please wait!"
           },
           "footer": {
             "imageDownloadSuccess": "Image downloaded successfully.",
