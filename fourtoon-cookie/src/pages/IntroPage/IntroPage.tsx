@@ -1,53 +1,61 @@
-import { View, Image, Text } from "react-native";
+import { View, Image, Text, StyleSheet } from "react-native";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { supabaseSignInAndSignUpWithIdToken } from "../../auth/supabase";
 import { RootStackParamList } from "../../types/routing";
 import { OAuthProvider } from "../../types/oauth";
 import type { JWTToken } from "../../types/jwt";
 
-import AppleSignInAndSignUpButton from "./AppleSignInAndSignUpButton/AppleSignInAndSignUpButton";
-import GoogleSignInAndSignUpButton from "./GoogleSignInAndSignUpButton/GoogleSignInAndSignUpButton";
-import * as S from './IntroPage.styled';
-import { useEffect } from "react";
+import AppleSignInAndSignUpButton from "./AppleSignInAndSignUpButton";
+import GoogleSignInAndSignUpButton from "./GoogleSignInAndSignUpButton";
 import { AccountStatus } from "../../types/account";
 import { useAccountState } from "../../hooks/account";
+import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from "../../hooks/error";
+import { useTranslationWithParentName } from "../../hooks/locale";
+import { showInfoToast, showSuccessToast } from "../../system/toast";
 
 const IntroPage = () => {
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
     const { accountState, login } = useAccountState();
 
-    useEffect(() => {
+    const { asyncFunctionWithErrorHandling } = useFunctionWithErrorHandling();
+
+    const t = useTranslationWithParentName('pages.introPage');
+    const loginT = useTranslationWithParentName('login');
+
+    useEffectWithErrorHandling(() => {
         const navigateByMemberStatus = async () => {
 			if (accountState === AccountStatus.UNAUTHORIZED) {
 				return;
 			}
 	
 			if (accountState == AccountStatus.UNSIGNEDUP){
+        showInfoToast(loginT('signupRequired'));
 				navigation.navigate('SignUpPage');
 				return;
 			}
-	
+
+      showSuccessToast(loginT('loginSuccess'));
 			navigation.navigate('DiaryTimelinePage');
 		}
 		
 		navigateByMemberStatus();
     }, [accountState]);
 
-    const handleSignUpAndSignInSuccess = async (oauthProvider: OAuthProvider, idToken: string, nonce?: string) => {
+    const handleSignUpAndSignInSuccess = asyncFunctionWithErrorHandling(async (oauthProvider: OAuthProvider, idToken: string, nonce?: string) => {
         const token: JWTToken = await supabaseSignInAndSignUpWithIdToken(oauthProvider, idToken, nonce);
         await login(token);
-    }
+    });
 
     return (
-        <View style={S.styles.container}>
-            <View style={S.styles.header}>
-                <View style={S.styles.logoContainer}>
-                    <Image source={require('../../../assets/logo/logo-5.png')} style={S.styles.logo} />
+        <View style={styles.container}>
+            <View style={styles.header}>
+                <View style={styles.logoContainer}>
+                    <Image source={require('../../../assets/logo/logo-5.png')} style={styles.logo} />
                 </View>
-                <Text style={S.styles.subtitle}>나의 하루를 그림일기로 표현해보세요</Text>
+                <Text style={styles.subtitle}>{t("subtitle")}</Text>
             </View>
-            <View style={S.styles.buttonsContainer}>
+            <View style={styles.buttonsContainer}>
                 <GoogleSignInAndSignUpButton onSuccess={handleSignUpAndSignInSuccess} />
                 <AppleSignInAndSignUpButton onSuccess={handleSignUpAndSignInSuccess} />
             </View>
@@ -56,3 +64,40 @@ const IntroPage = () => {
 }
 
 export default IntroPage;
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#FFFFFF',
+    },
+    header: {
+      flex: 0.9,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    logoContainer: {
+      width: 200,
+      height: 150,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    logo: {
+      width: '100%',
+      height: '100%',
+      resizeMode: 'contain',
+    },
+    subtitle: {
+      fontFamily: 'Pretendard',
+      fontWeight: '500',
+      fontSize: 14,
+      lineHeight: 20,
+      color: '#AAAAAA',
+      marginTop: 8,
+    },
+    buttonsContainer: {
+      position: 'absolute',
+      bottom: 60,
+      left: 20,
+      right: 20,
+    },
+    });

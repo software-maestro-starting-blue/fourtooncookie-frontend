@@ -1,17 +1,16 @@
 import React from 'react';
-import { View } from 'react-native';
-import MainPageLayout from '../../components/layout/MainPageLayout/MainPageLayout';
-import { FOOTER_STATE } from '../../components/layout/MainPageLayout/Footer/Footer';
+import { StyleSheet, View } from 'react-native';
+import MainPageLayout from '../../components/layout/MainPageLayout';
+import { FOOTER_STATE } from '../../components/layout/MainPageLayout';
 
-import ProfileLayout from './ProfileLayout/ProfileLayout';
-import MenuLayout from './MenuLayout/MenuLayout';
-import * as S from './SettingPage.styled';
+import ProfileLayout from './ProfileLayout';
+import MenuLayout from './MenuLayout';
 
 const SettingPage = () => {
 
 	return (
     	<MainPageLayout footerState={FOOTER_STATE.SETTING} >
-			<View style={S.styles.container}>
+			<View style={styles.container}>
 				<ProfileLayout />
 				<MenuLayout />
 			</View>
@@ -20,3 +19,11 @@ const SettingPage = () => {
 };
 
 export default SettingPage;
+
+const styles = StyleSheet.create({
+	container: {
+	  flex: 1,
+	  alignItems: 'center',
+	  padding: 20,
+	}
+	});

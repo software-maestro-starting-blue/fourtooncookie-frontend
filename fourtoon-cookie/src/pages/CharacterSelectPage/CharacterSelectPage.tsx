@@ -1,35 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { CharacterPaymentType } from '../../types/character';
 
-import Header from './Header/Header';
-import TabsLayout from './TabsLayout/TabsLayout';
-import ArtworkList from './ArtworkList/ArtworkList';
-
-import * as S from './CharacterSelectPage.styled';
+import Header from './Header';
+import TabsLayout from './TabsLayout';
+import ArtworkList from './ArtworkList';
+import CharacterSelectPageProvider from './CharacterSelectPageProvider';
 
 
-const CharacterSelectPage = () => {
-    const [ selectedPaymentType, setSelectedPaymentType ] = useState<CharacterPaymentType>(CharacterPaymentType.FREE);
-
-    const handleSelectedPaymentTypeChange = (characterPaymentType: CharacterPaymentType) => {
-        setSelectedPaymentType(characterPaymentType);
-    }
-
+const CharacterSelectPageContent = () => {
     return (
-        <SafeAreaView style={S.styles.container}>
+        <SafeAreaView style={styles.container}>
             <Header />
-            <TabsLayout
-                selectedPaymentType={selectedPaymentType}
-                onSelectedPaymentTypeChange={handleSelectedPaymentTypeChange}
-            />
-            <View style={S.styles.separator} />
-            <ArtworkList
-                paymentType={selectedPaymentType}
-            />
+            <TabsLayout />
+            <View style={styles.separator} />
+            <ArtworkList />
         </SafeAreaView>
     );
 };
 
+const CharacterSelectPage = () => {
+    return (
+        <CharacterSelectPageProvider>
+            <CharacterSelectPageContent />
+        </CharacterSelectPageProvider>
+    );
+}
+
 export default CharacterSelectPage;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingLeft: 20,
+        paddingRight: 20,
+        position: 'relative',
+        backgroundColor: '#FFFFFF',
+    },
+    separator: {
+        width: "100%",
+        height: 1,
+        backgroundColor: '#F7F7F7',
+        alignSelf: 'stretch',
+        flexGrow: 0,
+    }
+});

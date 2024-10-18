@@ -2,6 +2,7 @@ import { JwtError } from "../types/error/JwtError";
 import { JWTToken } from "../types/jwt";
 import { API_METHOD_TYPE, API_STATUS } from "../types/api";
 import { useJwtStore } from "../hooks/store/jwt";
+import i18n from "../system/i18n";
 
 
 export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: any): Promise<Response> => {
@@ -18,7 +19,8 @@ export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: an
             method: method,
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token?.accessToken}`
+                'Authorization': `Bearer ${token?.accessToken}`,
+                'Accept-Language': i18n.language,
             },
             body: body ? JSON.stringify(body) : undefined,
         });
@@ -33,5 +35,5 @@ export const requestApi = async (url: string, method: API_METHOD_TYPE, body?: an
         }
     }
 
-    throw new JwtError('인증에 실패했습니다.');
+    throw new JwtError(i18n.t("error.authFailed"));
 }
