@@ -97,8 +97,8 @@
             "readMore": "Read More"
           },
           "diaryPaintingImageFailedLayout": {
-            "title": "Failed to create the painting.",
-            "detail": "It seems there was an issue with the content being too abstract or violating ethical standards. Please delete it and try again."
+            "title": "Can't understand the content",
+            "detail": "It seems that your character did not understand the content. Please try again."
           },
           "diaryPaintingImageLoadingLayout": {
             "title": "{{name}} is drawing the painting!",
