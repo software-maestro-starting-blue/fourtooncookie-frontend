@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { RootStackParamList } from './src/types/routing';
@@ -18,6 +19,7 @@ import BasicErrorBoundary from './src/components/error/BasicErrorBoundary';
 import Toast from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+const Tab = createBottomTabNavigator<RootStackParamList>();
 
 const queryClient = new QueryClient();
 
@@ -30,6 +32,27 @@ Sentry.init({
 	},
 });
 
+const TabScreens = () => {
+	return (
+		<Tab.Navigator initialRouteName="DiaryTimelinePage" screenOptions={{ headerShown: false }}>
+			<Tab.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} options={{ tabBarStyle: { display: 'none' } }} />
+			<Tab.Screen name="SettingPage" component={SettingPage} options={{ tabBarStyle: { display: 'none' } }} />
+		</Tab.Navigator>
+	)
+}
+
+const StackScreens = () => {
+	return (
+		<Stack.Navigator initialRouteName="TabScreens" screenOptions={{ headerShown: false }}>
+			<Stack.Screen name="IntroPage" component={IntroPage} />
+			<Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
+			<Stack.Screen name="CharacterSelectPage" component={CharacterSelectPage} />
+			<Stack.Screen name="SignUpPage" component={SignUpPage} />
+			<Stack.Screen name="TabScreens" component={TabScreens} />
+		</Stack.Navigator>
+	)
+}
+
 function App() {
 
 	return (
@@ -37,14 +60,7 @@ function App() {
 			<NavigationContainer>
 				<BasicErrorBoundary >
 					<ActionSheetProvider>
-						<Stack.Navigator initialRouteName="DiaryTimelinePage" screenOptions={{ headerShown: false }}>
-							<Stack.Screen name="IntroPage" component={IntroPage} />
-							<Stack.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} options={{ animation: "none" }} />
-							<Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
-							<Stack.Screen name="CharacterSelectPage" component={CharacterSelectPage} />
-							<Stack.Screen name="SignUpPage" component={SignUpPage} />
-							<Stack.Screen name="SettingPage" component={SettingPage} options={{ animation: "none" }} />
-						</Stack.Navigator>
+						<StackScreens />
 					</ActionSheetProvider>
 				</BasicErrorBoundary>
 			</NavigationContainer>
