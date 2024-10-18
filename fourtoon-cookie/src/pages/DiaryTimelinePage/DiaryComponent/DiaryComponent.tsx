@@ -36,10 +36,11 @@ const DiaryComponent = (props: DiaryProps) => {
             <DiaryContentsLayout
                 content={content}
             />
+            {diaryStatus == DiaryStatus.COMPLETED &&
             <DiaryActionsLayout
                 diaryId={diaryId}
                 isFavorite={isFavorite}
-            />
+            />}
         </View>
     );
 };
