@@ -75,7 +75,7 @@ const WriteDoneButtonLayout = () => {
             throw new SelectedCharacterNotExistError(t("pleaseSelectCharacter"));
         }
 
-        if (isWorking) return;
+        if (! isNextButtonEnabled) return;
 
         setIsWorking(true);
 
