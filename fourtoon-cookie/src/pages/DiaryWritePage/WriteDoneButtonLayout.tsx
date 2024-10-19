@@ -26,8 +26,8 @@ const WriteDoneButtonLayout = () => {
 
     const [isWorking, setIsWorking] = useState<boolean>(false);
 
-    const { mutate: createDiary, isLoading: isCreateMutateLoading, isSuccess: isCreateMutationSuccess } = useCreateDiary();
-    const { mutate: updateDiary, isLoading: isUpdateMutateLoading, isSuccess: isUpdateMutationSuccess } = useUpdateDiary();
+    const { mutate: createDiary, isSuccess: isCreateMutationSuccess } = useCreateDiary();
+    const { mutate: updateDiary, isSuccess: isUpdateMutationSuccess } = useUpdateDiary();
 
     const { selectedCharacter } = useSelectedCharacterStore();
 
@@ -38,8 +38,6 @@ const WriteDoneButtonLayout = () => {
     const t = useTranslationWithParentName('pages.diaryWritePage.writeDoneButtonLayout');
     const commonT = useTranslationWithParentName('common');
     const loginT = useTranslationWithParentName('login');
-
-    const isMutateLoading: boolean = isCreateMutateLoading || isUpdateMutateLoading;
     const isMutateSuccess: boolean = isCreateMutationSuccess || isUpdateMutationSuccess;
 
     const isNextButtonEnabled = content.length > 0 && ! isWorking;
@@ -47,13 +45,11 @@ const WriteDoneButtonLayout = () => {
     useEffectWithErrorHandling(() => {
         if (isWorking) return;
 
-        if (isMutateLoading) return;
-
         if (! isMutateSuccess) return;
 
         showSuccessToast(t('diaryCreated'));
         navigation.navigate('DiaryTimelinePage');
-    }, [isWorking, isMutateLoading, isMutateSuccess]);
+    }, [isWorking, isMutateSuccess]);
 
     const handleWriteDoneButtonPress = functionWithErrorHandling(() => {
         if (accountState !== AccountStatus.LOGINED) {
