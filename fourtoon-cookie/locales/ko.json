@@ -157,5 +157,11 @@
                 "ageOver14": "만 14세 이상입니다."
             }
         }
+    },
+    "config": {
+        "appinfo": {
+            "termsAgreementUrl": "https://silicon-lavender-e7c.notion.site/8172e72ac66047c5b5be6cc9cd44decd",
+            "privacyPolicyUrl": "https://silicon-lavender-e7c.notion.site/fafdfbeafd724acaa97f006fa81dceb4"
+        }
     }
 }
