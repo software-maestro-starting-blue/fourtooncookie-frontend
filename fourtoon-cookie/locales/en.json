@@ -157,6 +157,12 @@
           "ageOver14": "I am over 14 years old."
         }
       }
+    },
+    "config": {
+        "appinfo": {
+            "termsAgreementUrl": "https://silicon-lavender-e7c.notion.site/Terms-of-Service-for-fourtooncookie-eb73c5e1a0a44f6f8360516058a4d4b7",
+            "privacyPolicyUrl": "https://silicon-lavender-e7c.notion.site/fourtooncookie-Privacy-Policy-Consent-Form-2cd0fadae91d4452b4c4966c867a732b"
+        }
     }
   }
   
