@@ -36,6 +36,7 @@
     "react-error-boundary": "^4.0.13",
     "react-i18next": "^15.0.3",
     "react-native": "0.74.5",
+    "react-native-calendars": "^1.1307.0",
     "react-native-get-random-values": "^1.11.0",
     "react-native-modal": "^13.0.1",
     "react-native-modal-datetime-picker": "^17.1.0",
