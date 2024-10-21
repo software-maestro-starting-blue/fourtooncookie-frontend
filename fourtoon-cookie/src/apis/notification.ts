@@ -13,12 +13,12 @@ export const assignPushNotificationToken = async (pushNotificationToken: string)
     const response = await requestApi(`/notification`, API_METHOD_TYPE.POST, requestBody);
 
     if (response.status != API_STATUS.SUCCESS) {
-        throw new ApiError(i18n.t("error.api.notification.put"), response.status);
+        throw new ApiError("Notification Delete Failed", response.status);
     }
 }
 
 export const unassignPushNotificationToken = async (pushNotificationToken: string) => {
-    
+
     const requestBody: NotificationTokenRequest = {
         notificationToken: pushNotificationToken,
     };
@@ -26,6 +26,6 @@ export const unassignPushNotificationToken = async (pushNotificationToken: strin
     const response = await requestApi(`/notification`, API_METHOD_TYPE.DELETE, requestBody);
 
     if (response.status != API_STATUS.SUCCESS) {
-        throw new ApiError(i18n.t("error.api.notification.put"), response.status);
+        throw new ApiError("Notification Delete Failed", response.status);
     }
 }
