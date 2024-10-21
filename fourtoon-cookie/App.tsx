@@ -20,6 +20,7 @@ import Toast from 'react-native-toast-message';
 import {assignPushNotificationToken, unassignPushNotificationToken} from "./src/apis/notification";
 import {useAccountState} from "./src/hooks/account";
 import {AccountStatus} from "./src/types/account";
+import {useDiaries} from "./src/hooks/server/diary";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -34,17 +35,20 @@ Sentry.init({
 	},
 });
 
-Notifications.setNotificationHandler({
-	handleNotification: async () => {
-		return {
-			shouldShowAlert: false,
-			shouldPlaySound: false,
-			shouldSetBadge: false,
-		}
-	}
-});
+function AppContent() {
+	const { refetch } = useDiaries();
 
-function App() {
+	Notifications.setNotificationHandler({
+		handleNotification: async () => {
+			refetch();
+			return {
+				shouldShowAlert: false,
+				shouldPlaySound: false,
+				shouldSetBadge: false,
+			}
+		}
+	});
+
 	const { accountState } = useAccountState();
 
 	useEffect(() => {
@@ -56,18 +60,24 @@ function App() {
 	}, [accountState]);
 
 	return (
+		<Stack.Navigator initialRouteName="DiaryTimelinePage" screenOptions={{ headerShown: false }}>
+			<Stack.Screen name="IntroPage" component={IntroPage} />
+			<Stack.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} options={{ animation: "none" }} />
+			<Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
+			<Stack.Screen name="CharacterSelectPage" component={CharacterSelectPage} />
+			<Stack.Screen name="SignUpPage" component={SignUpPage} />
+			<Stack.Screen name="SettingPage" component={SettingPage} options={{ animation: "none" }} />
+		</Stack.Navigator>
+	);
+}
+
+function App() {
+	return (
 		<QueryClientProvider client={queryClient}>
 			<NavigationContainer>
-				<BasicErrorBoundary >
+				<BasicErrorBoundary>
 					<ActionSheetProvider>
-						<Stack.Navigator initialRouteName="DiaryTimelinePage" screenOptions={{ headerShown: false }}>
-							<Stack.Screen name="IntroPage" component={IntroPage} />
-							<Stack.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} options={{ animation: "none" }} />
-							<Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
-							<Stack.Screen name="CharacterSelectPage" component={CharacterSelectPage} />
-							<Stack.Screen name="SignUpPage" component={SignUpPage} />
-							<Stack.Screen name="SettingPage" component={SettingPage} options={{ animation: "none" }} />
-						</Stack.Navigator>
+						<AppContent />
 					</ActionSheetProvider>
 				</BasicErrorBoundary>
 			</NavigationContainer>
