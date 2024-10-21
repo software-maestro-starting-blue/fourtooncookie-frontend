@@ -1,3 +1,3 @@
-export interface NotificationTokenAssignRequest {
+export interface NotificationTokenRequest {
     notificationToken: string;
 }

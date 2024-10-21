@@ -4,7 +4,7 @@ import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import {requestApi} from "./api";
 import {API_METHOD_TYPE, API_STATUS} from "../types/api";
-import type {NotificationTokenAssignRequest} from "../types/dto/notification";
+import type {NotificationTokenRequest} from "../types/dto/notification";
 import {ApiError} from "../types/error/ApiError";
 import i18n from "../system/i18n";
 import {OS} from "../types/os";
@@ -52,7 +52,7 @@ export const registerForPushNotificationsAsync = async () => {
 export const assignPushNotificationToken = async () => {
     const pushNotificationToken = await registerForPushNotificationsAsync();
 
-    const requestBody: NotificationTokenAssignRequest = {
+    const requestBody: NotificationTokenRequest = {
         notificationToken: pushNotificationToken,
     };
 
@@ -66,7 +66,7 @@ export const assignPushNotificationToken = async () => {
 export const unassignPushNotificationToken = async () => {
     const pushNotificationToken = await registerForPushNotificationsAsync();
 
-    const requestBody: NotificationTokenAssignRequest = {
+    const requestBody: NotificationTokenRequest = {
         notificationToken: pushNotificationToken,
     };
 
