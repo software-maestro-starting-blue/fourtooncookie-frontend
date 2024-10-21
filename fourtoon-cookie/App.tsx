@@ -22,6 +22,7 @@ import {assignPushNotificationToken, unassignPushNotificationToken} from "./src/
 import {useAccountState} from "./src/hooks/account";
 import {AccountStatus} from "./src/types/account";
 import {useDiaries} from "./src/hooks/server/diary";
+import { registerForPushNotificationsAsync } from './src/system/notification';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootStackParamList>();
@@ -62,11 +63,18 @@ const StackScreens = () => {
 	const { accountState } = useAccountState();
 
 	useEffect(() => {
-		if (accountState == AccountStatus.LOGINED) {
-			assignPushNotificationToken();
-		} else {
-			unassignPushNotificationToken();
+		const pushNotificationTokenProcess = async () => {
+			const pushToken: string = await registerForPushNotificationsAsync();
+			if (accountState == AccountStatus.LOGINED) {
+				assignPushNotificationToken(pushToken);
+				return;
+			} 
+			if (accountState == AccountStatus.UNSIGNEDUP) {
+				unassignPushNotificationToken(pushToken);
+			}
 		}
+		
+		pushNotificationTokenProcess();
 	}, [accountState]);
 
 	return (
