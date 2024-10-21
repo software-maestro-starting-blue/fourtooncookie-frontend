@@ -7,9 +7,10 @@ import {API_METHOD_TYPE, API_STATUS} from "../types/api";
 import type {NotificationTokenAssignRequest} from "../types/dto/notification";
 import {ApiError} from "../types/error/ApiError";
 import i18n from "../system/i18n";
+import {OS} from "../types/os";
 
 export const registerForPushNotificationsAsync = async () => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === OS.ANDROID) {
         await Notifications.setNotificationChannelAsync('default', {
             name: 'default',
             importance: Notifications.AndroidImportance.MAX,
