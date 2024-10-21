@@ -1,22 +1,21 @@
-import { Alert, KeyboardAvoidingView, Platform, StyleSheet } from "react-native"
-import { LocalDate } from "@js-joda/core";
+import { Alert } from "react-native"
 import { useState } from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { OS } from "../../types/os"
 import { Diary, DiaryStatus } from "../../types/diary";
 import { useSelectedCharacterStore } from "../../hooks/store/selectedCharacter";
 import { RootStackParamList } from "../../types/routing";
-import Button from "../../components/common/Button";
 
 import { AccountStatus } from "../../types/account";
 import { useCreateDiary, useUpdateDiary } from "../../hooks/server/diary";
 import { useAccountState } from "../../hooks/account";
 import buttonTrack from "../../system/amplitude";
-import { useFunctionWithErrorHandling } from "../../hooks/error";
+import { useEffectWithErrorHandling, useFunctionWithErrorHandling } from "../../hooks/error";
 import { useTranslationWithParentName } from "../../hooks/locale";
 import { SelectedCharacterNotExistError } from "../../types/error/character/SelectedCharacterNotExistError";
 import { showSuccessToast } from "../../system/toast";
 import { useDiaryWritePageContext } from "./DiaryWritePageProvider";
+import KeyboardAwareContainer from "../../components/common/KeyboardAwareContainer";
+import YellowWideButton from "../../components/common/YellowWideButton";
 
 
 const WriteDoneButtonLayout = () => {
@@ -26,8 +25,9 @@ const WriteDoneButtonLayout = () => {
 
     const [isWorking, setIsWorking] = useState<boolean>(false);
 
-    const { mutate: createDiary } = useCreateDiary();
-    const { mutate: updateDiary } = useUpdateDiary();
+    const { mutate: createDiary, isSuccess: isCreateMutationSuccess } = useCreateDiary();
+    const { mutate: updateDiary, isSuccess: isUpdateMutationSuccess } = useUpdateDiary();
+
     const { selectedCharacter } = useSelectedCharacterStore();
 
     const { accountState } = useAccountState();
@@ -37,8 +37,18 @@ const WriteDoneButtonLayout = () => {
     const t = useTranslationWithParentName('pages.diaryWritePage.writeDoneButtonLayout');
     const commonT = useTranslationWithParentName('common');
     const loginT = useTranslationWithParentName('login');
+    const isMutateSuccess: boolean = isCreateMutationSuccess || isUpdateMutationSuccess;
 
     const isNextButtonEnabled = content.length > 0 && ! isWorking;
+
+    useEffectWithErrorHandling(() => {
+        if (isWorking) return;
+
+        if (! isMutateSuccess) return;
+
+        showSuccessToast(t('diaryCreated'));
+        navigation.navigate('DiaryTimelinePage');
+    }, [isWorking, isMutateSuccess]);
 
     const handleWriteDoneButtonPress = functionWithErrorHandling(() => {
         if (accountState !== AccountStatus.LOGINED) {
@@ -60,7 +70,7 @@ const WriteDoneButtonLayout = () => {
             throw new SelectedCharacterNotExistError(t("pleaseSelectCharacter"));
         }
 
-        if (isWorking) return;
+        if (! isNextButtonEnabled) return;
 
         setIsWorking(true);
 
@@ -81,52 +91,17 @@ const WriteDoneButtonLayout = () => {
         }
 
         buttonTrack('캐릭터 ID: ' + diary.characterId + '로 생성')
-
-        showSuccessToast(t('diaryCreated'));
-
-        navigation.navigate('DiaryTimelinePage');
-    
         setIsWorking(false);
     });
 
     return (
-        <KeyboardAvoidingView 
-            style={styles.bottomContainer} 
-            enabled={true}
-            keyboardVerticalOffset={80}
-            behavior={(Platform.OS == OS.IOS) ? 'padding' : 'height'}
-        >
-            <Button
-                title={commonT('done')}
-                onPress={handleWriteDoneButtonPress}
-                style={{
-                    ...styles.nextButton, 
-                    backgroundColor: isNextButtonEnabled ? '#FFC426' : '#DDDDDD'
-                }}
-                textStyle={styles.nextButtonText}
+        <KeyboardAwareContainer>
+            <YellowWideButton
+                isNextAvailabe={isNextButtonEnabled}
+                onNextButtonClick={handleWriteDoneButtonPress}
             />
-        </KeyboardAvoidingView>
+        </KeyboardAwareContainer>
     )
 }
 
 export default WriteDoneButtonLayout;
-
-const styles = StyleSheet.create({
-    bottomContainer: {
-        position: 'absolute',
-        bottom: 20,
-        left: 20,
-        right: 20,
-      },
-    nextButton: {
-        width: '100%',
-        height: 60,
-        borderRadius: 16,
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
-      nextButtonText: {
-        fontSize: 17,
-        fontWeight: '600'
-      }
-});

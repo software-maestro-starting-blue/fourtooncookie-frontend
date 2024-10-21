@@ -1,15 +1,11 @@
-import { ReactNode, useEffect, useState } from "react";
-import { Gender } from "../../types/gender";
 import ProgressBar from "../../components/common/ProgressBar";
-import { Keyboard, KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 import Header from "./Header";
-import Button from "../../components/common/Button";
 import NameInputLayout from "./NameInputLayout";
 import BirthInputLayout from "./BirthInputLayout";
 import GenderInputLayout from "./GenderInputLayout";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/routing";
-import { LocalDate, use } from "@js-joda/core";
 
 import AgreementInputLayout from "./AgreementInputLayout";
 import { useAccountState } from "../../hooks/account";
@@ -17,6 +13,8 @@ import { useFunctionWithErrorHandling } from "../../hooks/error";
 import { useTranslationWithParentName } from "../../hooks/locale";
 import { showSuccessToast } from "../../system/toast";
 import SignUpPageProvider, { SignUpProgres, useSignUpPageContext } from "./SignUpPageProvider";
+import KeyboardAwareContainer from "../../components/common/KeyboardAwareContainer";
+import YellowWideButton from "../../components/common/YellowWideButton";
 
 
 const SignUpPageContent = () => {
@@ -28,6 +26,7 @@ const SignUpPageContent = () => {
 
     const { functionWithErrorHandling } = useFunctionWithErrorHandling();
 
+    const loginT = useTranslationWithParentName('login');
     const commonT = useTranslationWithParentName('common');
 
 
@@ -45,7 +44,7 @@ const SignUpPageContent = () => {
                 gender,
             });
 
-            showSuccessToast(t('signupSuccess'));
+            showSuccessToast(loginT('signupSuccess'));
             navigation.navigate('DiaryTimelinePage');
         }
     });
@@ -59,12 +58,7 @@ const SignUpPageContent = () => {
                 {signUpProgress == SignUpProgres.BIRTH && <BirthInputLayout />}
                 {signUpProgress == SignUpProgres.GENDER && <GenderInputLayout/>}
                 {signUpProgress == SignUpProgres.AGREEMENT && <AgreementInputLayout />}
-                <KeyboardAvoidingView 
-                    style={styles.bottomContainer} 
-                    enabled={true}
-                    keyboardVerticalOffset={80}
-                    behavior={'padding'}
-                >
+                <KeyboardAwareContainer>
                     <View style={styles.progressContainer}>
                         <ProgressBar
                             progress={signUpProgress}
@@ -72,16 +66,11 @@ const SignUpPageContent = () => {
                             isAnimated={true}
                         />
                     </View>
-                    <Button
-                        title={commonT('next')}
-                        onPress={handleNextButtonClick}
-                        style={{
-                            ...styles.nextButton, 
-                            backgroundColor: isNextAvailabe ? '#FFC426' : '#DDDDDD'
-                        }}
-                        textStyle={styles.nextButtonText}
+                    <YellowWideButton
+                        isNextAvailabe={isNextAvailabe}
+                        onNextButtonClick={handleNextButtonClick}
                     />
-                </KeyboardAvoidingView>
+                </KeyboardAwareContainer>
             </View>
         </SafeAreaView>
     );
@@ -108,24 +97,7 @@ const styles = StyleSheet.create({
       padding: 23,
       position: 'relative'
     },
-    bottomContainer: {
-      position: 'absolute',
-      bottom: 20,
-      left: 20,
-      right: 20,
-    },
     progressContainer: {
       marginBottom: 20,
     },
-    nextButton: {
-      width: '100%',
-      height: 60,
-      borderRadius: 16,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    nextButtonText: {
-      fontSize: 17,
-      fontWeight: '600'
-    }
 });

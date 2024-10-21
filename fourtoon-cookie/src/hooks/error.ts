@@ -1,5 +1,5 @@
 import { DependencyList, EffectCallback, useEffect, useState } from "react"
-import { MutationOptions, QueryFunction, QueryKey, useInfiniteQuery, UseInfiniteQueryOptions, useMutation, useQuery, UseQueryOptions } from "react-query";
+import { MutationOptions, QueryFunction, QueryKey, useInfiniteQuery, UseInfiniteQueryOptions, useMutation, useQuery, useQueryClient, UseQueryOptions } from "react-query";
 
 const useErrorThrower = () => {
     const [error, throwError] = useState<Error | null>(null);
@@ -62,10 +62,23 @@ export const useFunctionWithErrorHandling = () => {
     
 }
 
-export const useQueryWithErrorHandling = <TQueryFnData = unknown, TError = unknown, TData = TQueryFnData, TQueryKey extends QueryKey = QueryKey>(queryKey: TQueryKey, queryFn: QueryFunction<TQueryFnData, TQueryKey>, options?: Omit<UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>, 'queryKey' | 'queryFn'>) => {
-    const queryResult = useQuery(queryKey, queryFn, options);
+const cooldownSet = new Set();
 
-    if (queryResult.error) {
+export const useQueryWithErrorHandling = <TQueryFnData = unknown, TError = unknown, TData = TQueryFnData, TQueryKey extends QueryKey = QueryKey>(queryKey: TQueryKey, queryFn: QueryFunction<TQueryFnData, TQueryKey>, options?: Omit<UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>, 'queryKey' | 'queryFn'>) => {
+    const queryClient = useQueryClient();
+
+    const queryResult = useQuery(queryKey, queryFn, {...options,
+        enabled: !cooldownSet.has(JSON.stringify(queryKey)) && options?.enabled,
+    });
+
+    if (queryResult.error && !cooldownSet.has(JSON.stringify(queryKey))) {
+        cooldownSet.add(JSON.stringify(queryKey));
+
+        setTimeout(() => {
+            cooldownSet.delete(JSON.stringify(queryKey));
+            queryClient.invalidateQueries(queryKey);
+        }, 10000);
+
         throw queryResult.error;
     }
 
@@ -73,9 +86,20 @@ export const useQueryWithErrorHandling = <TQueryFnData = unknown, TError = unkno
 }
 
 export const useInfiniteQueryWithErrorHandling = <TQueryFnData = unknown, TError = unknown, TData = TQueryFnData, TQueryKey extends QueryKey = QueryKey>(queryKey: TQueryKey, queryFn: QueryFunction<TQueryFnData, TQueryKey>, options?: Omit<UseInfiniteQueryOptions<TQueryFnData, TError, TData, TQueryFnData, TQueryKey>, 'queryKey' | 'queryFn'>) => {
-    const queryResult = useInfiniteQuery(queryKey, queryFn, options);
+    const queryClient = useQueryClient();
 
-    if (queryResult.error) {
+    const queryResult = useInfiniteQuery(queryKey, queryFn, {...options,
+        enabled: !cooldownSet.has(JSON.stringify(queryKey)) && options?.enabled,
+    });
+
+    if (queryResult.error && !cooldownSet.has(JSON.stringify(queryKey))) {
+        cooldownSet.add(JSON.stringify(queryKey));
+
+        setTimeout(() => {
+            cooldownSet.delete(JSON.stringify(queryKey));
+            queryClient.invalidateQueries(queryKey);
+        }, 10000);
+
         throw queryResult.error;
     }
 

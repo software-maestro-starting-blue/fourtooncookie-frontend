@@ -5,6 +5,7 @@ import {ActionSheetProvider} from "@expo/react-native-action-sheet";
 import {RootStackParamList} from './src/types/routing';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import {init} from '@amplitude/analytics-react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as Sentry from "@sentry/react-native";
 import './src/system/i18n';
 import * as Notifications from 'expo-notifications';
@@ -23,6 +24,7 @@ import {AccountStatus} from "./src/types/account";
 import {useDiaries} from "./src/hooks/server/diary";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+const Tab = createBottomTabNavigator<RootStackParamList>();
 
 const queryClient = new QueryClient();
 
@@ -35,9 +37,17 @@ Sentry.init({
 	},
 });
 
-function AppContent() {
-	const { refetch } = useDiaries();
+const TabScreens = () => {
+	return (
+		<Tab.Navigator initialRouteName="DiaryTimelinePage" screenOptions={{ headerShown: false }}>
+			<Tab.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} options={{ tabBarStyle: { display: 'none' } }} />
+			<Tab.Screen name="SettingPage" component={SettingPage} options={{ tabBarStyle: { display: 'none' } }} />
+		</Tab.Navigator>
+	)
+}
 
+const StackScreens = () => {
+	const { refetch } = useDiaries();
 	Notifications.setNotificationHandler({
 		handleNotification: async () => {
 			refetch();
@@ -60,16 +70,16 @@ function AppContent() {
 	}, [accountState]);
 
 	return (
-		<Stack.Navigator initialRouteName="DiaryTimelinePage" screenOptions={{ headerShown: false }}>
+		<Stack.Navigator initialRouteName="TabScreens" screenOptions={{ headerShown: false }}>
 			<Stack.Screen name="IntroPage" component={IntroPage} />
-			<Stack.Screen name="DiaryTimelinePage" component={DiaryTimelinePage} options={{ animation: "none" }} />
 			<Stack.Screen name="DiaryWritePage" component={DiaryWritePage} />
 			<Stack.Screen name="CharacterSelectPage" component={CharacterSelectPage} />
 			<Stack.Screen name="SignUpPage" component={SignUpPage} />
-			<Stack.Screen name="SettingPage" component={SettingPage} options={{ animation: "none" }} />
+			<Stack.Screen name="TabScreens" component={TabScreens} />
 		</Stack.Navigator>
-	);
+	)
 }
+
 
 function App() {
 	return (
@@ -77,7 +87,7 @@ function App() {
 			<NavigationContainer>
 				<BasicErrorBoundary>
 					<ActionSheetProvider>
-						<AppContent />
+						<StackScreens />
 					</ActionSheetProvider>
 				</BasicErrorBoundary>
 			</NavigationContainer>

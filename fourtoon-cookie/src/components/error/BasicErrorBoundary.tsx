@@ -47,17 +47,17 @@ const BasicErrorBoundary = (props: BasicErrorBoundaryProps) => {
         if (error instanceof ApiError) {
             const status = error.getStatus();
             if (status === null) {
-                showErrorToast(t("default"), error.message);
+                setEffectHandler(() => showErrorToast(t("default"), error.message));
                 return true;
             }
 
             if (400 <= status && status <= 499) {
-                showErrorToast(t("user"), error.message);
+                setEffectHandler(() => showErrorToast(t("user"), error.message));
                 return true;
             }
 
             if (500 <= status && status <= 599) {
-                showErrorToast(t("server"), error.message);
+                setEffectHandler(() => showErrorToast(t("server"), error.message));
                 return true;
             }
         }
