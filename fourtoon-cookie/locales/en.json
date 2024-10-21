@@ -97,12 +97,12 @@
             "readMore": "Read More"
           },
           "diaryPaintingImageFailedLayout": {
-            "title": "Failed to create the painting.",
-            "detail": "It seems there was an issue with the content being too abstract or violating ethical standards. Please delete it and try again."
+            "title": "Can't understand the content",
+            "detail": "It seems that your character did not understand the content. Please try again."
           },
           "diaryPaintingImageLoadingLayout": {
             "title": "{{name}} is drawing the painting!",
-            "detail": "Working hard on it. Please wait a little longer!"
+            "detail": "Working hard on it. Please wait!"
           },
           "footer": {
             "imageDownloadSuccess": "Image downloaded successfully.",
@@ -157,6 +157,12 @@
           "ageOver14": "I am over 14 years old."
         }
       }
+    },
+    "config": {
+        "appinfo": {
+            "termsAgreementUrl": "https://silicon-lavender-e7c.notion.site/Terms-of-Service-for-fourtooncookie-eb73c5e1a0a44f6f8360516058a4d4b7",
+            "privacyPolicyUrl": "https://silicon-lavender-e7c.notion.site/fourtooncookie-Privacy-Policy-Consent-Form-2cd0fadae91d4452b4c4966c867a732b"
+        }
     }
   }
   
